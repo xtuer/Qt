@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ClassCourseTeacherWidget</class>
+ <widget class="QWidget" name="ClassCourseTeacherWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>571</width>
+    <height>407</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="ClassWidget" name="widget" native="true"/>
+   </item>
+   <item row="0" column="1">
+    <widget class="CourseWidget" name="widget_2" native="true"/>
+   </item>
+   <item row="0" column="2">
+    <widget class="TeacherWidget" name="widget_3" native="true"/>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ClassWidget</class>
+   <extends>QWidget</extends>
+   <header>ClassWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CourseWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">CourseWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>TeacherWidget</class>
+   <extends>QWidget</extends>
+   <header>TeacherWidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

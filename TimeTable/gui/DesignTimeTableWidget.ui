@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DesignTimeTableWidget</class>
+ <widget class="QWidget" name="DesignTimeTableWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>709</width>
+    <height>482</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>DesignTableWidget</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="2" column="4">
+    <widget class="QPushButton" name="writeButton">
+     <property name="text">
+      <string>保存</string>
+     </property>
+     <property name="class" stdset="0">
+      <string>button</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0" colspan="5">
+    <widget class="QWidget" name="timeTableWidget" native="true"/>
+   </item>
+   <item row="1" column="2">
+    <widget class="QPushButton" name="appendRestButton">
+     <property name="text">
+      <string>增加休息</string>
+     </property>
+     <property name="class" stdset="0">
+      <string>button</string>
+     </property>
+     <attribute name="buttonGroup">
+      <string notr="true">buttonGroup</string>
+     </attribute>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QPushButton" name="reduceColumnButton">
+     <property name="text">
+      <string>减少天数</string>
+     </property>
+     <property name="class" stdset="0">
+      <string>button</string>
+     </property>
+     <attribute name="buttonGroup">
+      <string notr="true">buttonGroup</string>
+     </attribute>
+    </widget>
+   </item>
+   <item row="1" column="4">
+    <widget class="QPushButton" name="readButton">
+     <property name="text">
+      <string>读取</string>
+     </property>
+     <property name="class" stdset="0">
+      <string>button</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="2">
+    <widget class="QPushButton" name="removeRestButton">
+     <property name="text">
+      <string>减少休息</string>
+     </property>
+     <property name="class" stdset="0">
+      <string>button</string>
+     </property>
+     <attribute name="buttonGroup">
+      <string notr="true">buttonGroup</string>
+     </attribute>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QPushButton" name="reduceRowButton">
+     <property name="text">
+      <string>减少课时</string>
+     </property>
+     <property name="class" stdset="0">
+      <string>button</string>
+     </property>
+     <attribute name="buttonGroup">
+      <string notr="true">buttonGroup</string>
+     </attribute>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QPushButton" name="addRowButton">
+     <property name="text">
+      <string>增加课时</string>
+     </property>
+     <property name="class" stdset="0">
+      <string>button</string>
+     </property>
+     <attribute name="buttonGroup">
+      <string notr="true">buttonGroup</string>
+     </attribute>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QPushButton" name="addColumnButton">
+     <property name="text">
+      <string>增加天数</string>
+     </property>
+     <property name="class" stdset="0">
+      <string>button</string>
+     </property>
+     <attribute name="buttonGroup">
+      <string notr="true">buttonGroup</string>
+     </attribute>
+    </widget>
+   </item>
+   <item row="1" column="3">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>100</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+ <buttongroups>
+  <buttongroup name="buttonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+ </buttongroups>
+</ui>

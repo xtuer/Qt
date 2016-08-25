@@ -1,0 +1,152 @@
+* {
+    font-family: arial;
+    font-size: 13px;
+}
+
+.button {
+    border: 1px solid rgb(150, 150, 150);
+    border-radius: 3px;
+    margin: 3px 7px 5px 7px;
+    padding: 3px 10px;
+    background: qlineargradient(spread:reflect,
+        x1:0.01, y1:0, x2:0, y2:1,
+        stop:0 rgba(245, 245, 245, 255),
+        stop:1 rgba(223, 223, 223, 255));
+}
+
+.button:hover {
+    background: lightgray;
+}
+
+.button:pressed, .button:checked {
+    color: white;
+    border-color: gray;
+    background: qlineargradient(spread:reflect,
+        x1:0.01, y1:0, x2:0, y2:1,
+        stop:0 rgba(67, 228, 255, 255),
+        stop:1 rgba(23, 164, 224, 255));
+}
+
+.button:disabled {
+    color: rgb(170, 170, 170);
+    border-color: rgb(170, 170, 170);
+}
+
+#timeTableWidget {
+    background: rgb(170, 170, 170);
+}
+
+#CentralWidget {
+    background: rgb(230, 230, 240);
+}
+
+.dayText {
+    background: white;
+    min-height: 30px;
+    max-height: 60px;
+    text-align: center;
+}
+
+.timeText {
+    background: white;
+    max-width: 180px;
+    text-align: center;
+}
+
+.rest {
+    background: white;
+    min-height: 25px;
+    text-align: center;
+}
+
+.timeTableItem {
+    background: white;
+}
+
+.timeTableItem[dragFocus=true] {
+    background: rgb(237, 243, 254);
+}
+
+.timeTableItem[conflict=true] {
+    /*background: red;*/
+    border: 1px solid red;
+}
+
+.course, .teacher {
+    background-color: white;
+    border: 1px solid rgb(170, 170, 170);
+}
+
+.SideBar {
+    background: rgb(230, 234, 240);
+    background: rgb(48, 54, 63);
+    border-right: 1px solid rgb(210, 210, 210);
+    min-width: 165px;
+}
+
+.SideBar .QPushButton {
+    border: none;
+    text-align: center;
+    padding: 5px 10px;
+    color: rgb(162, 164, 170);
+}
+
+.SideBar .QPushButton:hover {
+    background: qlineargradient(spread:reflect, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(87, 174, 227, 30), stop:1 rgba(40, 136, 211, 30));
+}
+
+.SideBar .QPushButton:checked {
+    color: white;
+    border-top: 1px solid rgb(72, 160, 220);
+    border-bottom: 1px solid rgb(29, 121, 205);
+
+    background: qlineargradient(spread:reflect, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(87, 174, 227, 255), stop:1 rgba(40, 136, 211, 255));
+}
+
+QHeaderView::section, QTableCornerButton::section {
+    height: 17px;
+    padding: 1px;
+    border: none;
+    border-bottom: 1px solid rgb(160, 160, 160);
+    border-right: 0px solid rgb(160, 160, 160);
+    border-bottom: 1px solid gray;
+    background-color: qlineargradient(spread:reflect,
+        x1:0, y1:0, x2:0, y2:1,
+        stop:0 rgba(245, 245, 245, 255),
+        stop:1 rgba(200, 200, 200, 255));
+
+    background: white;
+}
+
+.QScrollArea {
+    border: 0px solid white;
+}
+
+.frameWidget {
+    border: 1px solid rgb(170, 170, 170);
+}
+
+
+QGroupBox {
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #E0E0E0, stop: 1 #FFFFFF);
+    border: 1px solid rgb(170, 170, 170);
+    border-radius: 0px;
+    margin-top: 10px; /* leave space at the top for the title */
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top center; /* position at the top center */
+    padding: 4px 3px;
+}
+
+QTableView::item:alternate {
+     background: rgba(213, 236, 255, 255);
+ }
+
+QTableView::item:selected {
+    color: white;
+    background: rgb(56, 117, 215);
+
+}

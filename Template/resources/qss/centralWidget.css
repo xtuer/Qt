@@ -1,0 +1,19 @@
+.CentralWidget .sideBar {
+    background: gray;
+    min-width: 150px;
+}
+
+.CentralWidget .sideBar .QPushButton {
+    background: gray;
+    border: 1px solid transparent;
+    font-weight: bold;
+}
+
+.CentralWidget .sideBar .QPushButton:hover {
+    background: white;
+}
+
+.CentralWidget .sideBar .QPushButton:checked {
+    background: darkgray;
+}
+
