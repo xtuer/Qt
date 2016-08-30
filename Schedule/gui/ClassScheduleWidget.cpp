@@ -158,25 +158,21 @@ void ClassScheduleWidget::showSchedule(int classId) {
 void ClassScheduleWidget::showArrangedSchedule(int classId) {
     // 1. 加载课程表描述数据
     // 2. 查询班级预先分配的课程
-    // 3. 按顺序分配课程: 给每个课程坐标 (day, course)
+    // 3. 按顺序分配课程: 给每个课程坐标 (day, time)
     // 4. 显示课程表
 
     ScheduleDescription desc = ConfigUtil::readScheduleDescription();
     QList<ScheduleItem> scheduleItems = ScheduleDao::selectArrangedScheduleItemByClassId(classId);
 
     // 从左到右，从上到下按顺序分配课程
-    int day = 1;
-    int course = 1;
-
-    for (int i = 0; i < scheduleItems.size(); ++i) {
-        scheduleItems[i].day = day;
-        scheduleItems[i].time = course;
-
-        ++day;
-
-        if (day > desc.dayCountOfWeek) {
-            day = 1;
-            ++course;
+    int i = 0;
+    for (int time = 0; time <= desc.times; ++time) {
+        for (int day = 0; day <= desc.days; ++day) {
+            if (!desc.rests.contains(time) && time > 0 && day > 0 && i < scheduleItems.size()) {
+                scheduleItems[i].day = day;
+                scheduleItems[i].time = time;
+                ++i;
+            }
         }
     }
 

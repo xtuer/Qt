@@ -13,12 +13,16 @@ public:
     static void exportTeacherSchedule(int teacherId, const QString &fileNamePrefix = QString());
     static void exportAllTeacherSchedule();
 
-    static void exportSchedule(const QList<ScheduleItem> &items,
-                               const ScheduleDescription &desc,
-                               const QString &header,
-                               bool classVisible,
-                               bool teacherVisible,
-                               const QString &scheduleFileName);
+    static QString exportScheduleToHtml(const QList<ScheduleItem> &items,
+                                        const ScheduleDescription &desc,
+                                        const QString &info,
+                                        bool classVisible,
+                                        bool teacherVisible,
+                                        const QString &scheduleTemplate);
+
+    static QString readScheduleTemlate();
+    static void saveScheduleToHtml(const QString &scheduleHtml, const QString &fileName);
+    static void saveScheduleToPdf(const QString &scheduleHtml, const QString &fileName);
 };
 
 #endif // SCHEDULEEXPORTER_H

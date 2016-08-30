@@ -8,28 +8,14 @@ void Util::exchangeScheduleItemDayAndTime(ScheduleItem *item1, ScheduleItem *ite
     std::swap(item1->time, item2->time);
 }
 
-QList<ScheduleItem> Util::fullScheduleItemsForClass(const QList<ScheduleItem> &items,
-                                                    const ScheduleDescription &desc,
-                                                    int classId) {
-    QList<ScheduleItem> result;
-
-    for (int day = 1; day <= desc.dayCountOfWeek; ++day) {
-        for (int time = 1; time <= desc.courseCountOfDay; ++time) {
-            ScheduleItem r(day, time, classId);
-
-            // 查找课程，如果没有就用默认的
-            foreach (const ScheduleItem& item, items) {
-                if (item.day == day && item.time == time) {
-                    r = item;
-                    break;
-                }
-            }
-
-            result << r;
+ScheduleItem Util::findScheduleItemByDayAndTime(const QList<ScheduleItem> &items, int day, int time) {
+    foreach (const ScheduleItem &item, items) {
+        if (day == item.day && time == item.time) {
+            return item;
         }
     }
 
-    return result;
+    return ScheduleItem();
 }
 
 void Util::sortScheduleItems(QList<ScheduleItem> *items) {

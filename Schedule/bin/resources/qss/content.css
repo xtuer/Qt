@@ -24,14 +24,17 @@
     background: rgb(182,182,182);
 }
 
-#contentStackedWidget #scheduleWidget .DayLabel {
+#contentStackedWidget #scheduleWidget .DayLabel,
+#contentStackedWidget #scheduleWidget .RestLabel {
     background: white;
-    min-height: 25px;
-    max-height: 25px;
+    min-height: 30px;
+    max-height: 30px;
+    font-weight: bold;
 }
 
 #contentStackedWidget #scheduleWidget .TimeLabel {
     background: white;
+    font-weight: bold;
 }
 
 #contentStackedWidget #scheduleWidget .ScheduleItemWidget {
@@ -49,7 +52,7 @@
 }
 
 #contentStackedWidget #scheduleWidget .ScheduleItemWidget .QLabel {
-    padding-bottom: 4px;
+    padding-bottom: 2px;
 }
 
 #contentStackedWidget #scheduleWidget .ScheduleItemEditableLabel {
@@ -57,7 +60,7 @@
     min-height: 20px;
     max-width:  20px;
     max-height: 20px;
-    background: url(resources/images/1.png);
+    background: url(resources/img/1.png);
     background-repeat: no-repeat;
 }
 

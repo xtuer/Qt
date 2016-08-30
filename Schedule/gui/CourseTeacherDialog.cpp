@@ -21,6 +21,7 @@ CourseTeacherDialog::~CourseTeacherDialog() {
 }
 
 void CourseTeacherDialog::showEvent(QShowEvent *event) {
+    Q_UNUSED(event)
     loadCourses();
     loadTeachers();
 }
@@ -33,7 +34,7 @@ void CourseTeacherDialog::loadCourses() {
 
     for (int i = 0; i < courses.size(); ++i) {
         const Course &course = courses.at(i);
-        QWidget *courseLabel = new DragableCourseTeacherLabel(course.id, course.name, Constants::MIMETYPE_COURSE);
+        QWidget *courseLabel = new DragableCourseTeacherLabel(course.id, course.name, Constants::MIME_TYPE_COURSE);
         layout->addWidget(courseLabel, i/4, i%4); // 一行 4 个
     }
 
@@ -49,7 +50,7 @@ void CourseTeacherDialog::loadTeachers() {
 
     for (int i = 0; i < teachers.size(); ++i) {
         const Teacher &teacher = teachers.at(i);
-        QWidget *teacherLabel = new DragableCourseTeacherLabel(teacher.id, teacher.name, Constants::MIMETYPE_TEACHER);
+        QWidget *teacherLabel = new DragableCourseTeacherLabel(teacher.id, teacher.name, Constants::MIME_TYPE_TEACHER);
         layout->addWidget(teacherLabel, i/4, i%4); // 一行 4 个
     }
 

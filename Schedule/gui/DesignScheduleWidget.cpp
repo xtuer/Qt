@@ -21,8 +21,6 @@ DesignScheduleWidget::DesignScheduleWidget(QWidget *parent) : QWidget(parent), u
 
     // 读取并显示课程表
     scheduleDescription = new ScheduleDescription(ConfigUtil::readScheduleDescription());
-    ui->dayCountOfWeekSpinBox->setValue(scheduleDescription->dayCountOfWeek);
-    ui->courseCountOfDaySpinBox->setValue(scheduleDescription->courseCountOfDay);
     showSchedule();
 
     // 事件处理
@@ -46,18 +44,32 @@ bool DesignScheduleWidget::eventFilter(QObject *watched, QEvent *event) {
 }
 
 void DesignScheduleWidget::handleEvents() {
-    void (QSpinBox::*spinBoxValueChanged)(int) = &QSpinBox::valueChanged;
-
-    // 修改每周上课的天数
-    connect(ui->dayCountOfWeekSpinBox, spinBoxValueChanged, [this]() {
-        this->scheduleDescription->dayCountOfWeek = this->ui->dayCountOfWeekSpinBox->value();
-        showSchedule();
+    connect(ui->infoEdit, &QLineEdit::textChanged, [this]() {
+        this->scheduleDescription->info = this->ui->infoEdit->text();
+    });
+    connect(ui->increaseDayButton, &QPushButton::clicked, [this]() {
+        this->scheduleDescription->increaseDay();
+        this->showSchedule();
     });
 
-    // 修改每天上课的课程数
-    connect(ui->courseCountOfDaySpinBox, spinBoxValueChanged, [this]() {
-        this->scheduleDescription->courseCountOfDay = this->ui->courseCountOfDaySpinBox->value();
-        showSchedule();
+    connect(ui->decreaseDayButton, &QPushButton::clicked, [this]() {
+        this->scheduleDescription->decreaseDay();
+        this->showSchedule();
+    });
+
+    connect(ui->increaseTimeButton, &QPushButton::clicked, [this]() {
+        this->scheduleDescription->increaseTime();
+        this->showSchedule();
+    });
+
+    connect(ui->decreaseTimeButton, &QPushButton::clicked, [this]() {
+        this->scheduleDescription->decreaseTime();
+        this->showSchedule();
+    });
+
+    connect(ui->increaseRestButton, &QPushButton::clicked, [this]() {
+        this->scheduleDescription->increaseRest();
+        this->showSchedule();
     });
 
     // 保存课程表结构的数据
@@ -77,24 +89,25 @@ void DesignScheduleWidget::editDayOrTimeText(int x, int y) {
     if (NULL == label) { return; }
 
     // 取得 label 的行和列
+    QString className = label->property(Constants::QSS_CLASS).toString();
     int row = label->property(Constants::PROPERTY_ROW).toInt();
     int col = label->property(Constants::PROPERTY_COLUMN).toInt();
 
     if (row == 0 && col == 0) { return; } // 如果是左上角的 label，则不处理
 
-    // [2] 显示输入框，用户输入
-    QString type = (row > 0) ? "课程时间" : "星期";
-    QString originalText = label->text();
     bool ok;
-    QString text = QInputDialog::getText(this, tr(""), tr("请输入%1:").arg(type), QLineEdit::Normal, originalText, &ok);
+    QString text = QInputDialog::getText(this, "", "", QLineEdit::Normal, label->text(), &ok);
     if (!ok || text.isEmpty()) { return; } // 取消输入或者输入空字符串则返回
 
-    // [3] 保存编辑的数据到 scheduleDescription
-    // col > 0 则修改星期, row > 0 则修改时间
-    if (col > 0) {
+    if (Constants::QSS_CLASS_DAY_LABEL == className) {
+        // 星期
         scheduleDescription->setDayText(col, text);
-    } else {
+    } else if (Constants::QSS_CLASS_TIME_LABEL == className) {
+        // 时间
         scheduleDescription->setTimeText(row, text);
+    } else if (Constants::QSS_CLASS_REST_LABEL == className) {
+        // 休息
+        scheduleDescription->setRestText(row, text);
     }
 
     // [4] 使用 scheduleDescription 更新课程表
@@ -102,5 +115,6 @@ void DesignScheduleWidget::editDayOrTimeText(int x, int y) {
 }
 
 void DesignScheduleWidget::showSchedule() {
+    ui->infoEdit->setText(scheduleDescription->info);
     UiUtil::showSchedule(ui->scheduleWidget, *scheduleDescription, QList<ScheduleItem>(), false, false, 0);
 }

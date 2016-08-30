@@ -28,7 +28,7 @@ ScheduleItemWidget::ScheduleItemWidget(ScheduleItem scheduleItem, bool classVisi
     this->classVisible = classVisible;
     this->teacherVisible = teacherVisible;
 
-    setScheduleItem(scheduleItem);
+    setScheduleItem(scheduleItem, false);
 }
 
 ScheduleItemWidget::~ScheduleItemWidget() {
@@ -36,16 +36,19 @@ ScheduleItemWidget::~ScheduleItemWidget() {
 }
 
 
-void ScheduleItemWidget::setScheduleItem(const ScheduleItem &item) {
+void ScheduleItemWidget::setScheduleItem(const ScheduleItem &item, bool checkConflict) {
     scheduleItem = item;
-    scheduleItem.conflict = ScheduleDao::isScheduleItemConflict(scheduleItem);
     ui->classLabel->setVisible(classVisible);
     ui->teacherLabel->setVisible(teacherVisible);
     ui->classLabel->setText(scheduleItem.className);
     ui->courseLabel->setText(scheduleItem.courseName);
     ui->teacherLabel->setText(scheduleItem.teacherName);
 
-    updateConflict(scheduleItem.conflict);
+    if (checkConflict) {
+        scheduleItem.conflict = ScheduleDao::isScheduleItemConflict(scheduleItem);
+        updateConflict(scheduleItem.conflict);
+    }
+
     editableLabel->setVisible(!scheduleItem.editable); // 不可编辑时显示不可编辑的label
 }
 
@@ -88,9 +91,9 @@ void ScheduleItemWidget::dragEnterEvent(QDragEnterEvent *event) {
     const QMimeData *mimeData = event->mimeData();
 
     // 只接受指定类型拖拽的数据
-    if (mimeData->hasFormat(Constants::MIMETYPE_SCHEDULE_ITEM)
-        || mimeData->hasFormat(Constants::MIMETYPE_COURSE)
-        || mimeData->hasFormat(Constants::MIMETYPE_TEACHER)) {
+    if (mimeData->hasFormat(Constants::MIME_TYPE_SCHEDULE_ITEM)
+        || mimeData->hasFormat(Constants::MIME_TYPE_COURSE)
+        || mimeData->hasFormat(Constants::MIME_TYPE_TEACHER)) {
         event->accept();
         updateDragFocus(true);
     } else {
@@ -111,7 +114,7 @@ void ScheduleItemWidget::dropEvent(QDropEvent *event) {
 
     const QMimeData *mimeData = event->mimeData(); // 获得 drop 的数据
 
-    if (mimeData->hasFormat(Constants::MIMETYPE_SCHEDULE_ITEM)) {
+    if (mimeData->hasFormat(Constants::MIME_TYPE_SCHEDULE_ITEM)) {
         // 交换课表中的 2 个 ScheduleItemWidget
         ScheduleItemWidget *source = qobject_cast<ScheduleItemWidget*>(event->source());
         ScheduleItemWidget *target = this;
@@ -126,8 +129,8 @@ void ScheduleItemWidget::dropEvent(QDropEvent *event) {
 
         event->accept();
         updateDragFocus(false);
-    } else if (mimeData->hasFormat(Constants::MIMETYPE_COURSE)) {
-        QStringList data = QString::fromUtf8(mimeData->data(Constants::MIMETYPE_COURSE)).split(",");
+    } else if (mimeData->hasFormat(Constants::MIME_TYPE_COURSE)) {
+        QStringList data = QString::fromUtf8(mimeData->data(Constants::MIME_TYPE_COURSE)).split(",");
         int courseId = data.at(0).toInt();
         QString courseName = data.at(1);
 
@@ -138,8 +141,8 @@ void ScheduleItemWidget::dropEvent(QDropEvent *event) {
 
         event->accept();
         updateDragFocus(false);
-    } else if (mimeData->hasFormat(Constants::MIMETYPE_TEACHER)) {
-        QStringList data = QString::fromUtf8(mimeData->data(Constants::MIMETYPE_TEACHER)).split(",");
+    } else if (mimeData->hasFormat(Constants::MIME_TYPE_TEACHER)) {
+        QStringList data = QString::fromUtf8(mimeData->data(Constants::MIME_TYPE_TEACHER)).split(",");
         int teacherId = data.at(0).toInt();
         QString teacherName = data.at(1);
 
@@ -156,7 +159,7 @@ void ScheduleItemWidget::dropEvent(QDropEvent *event) {
 void ScheduleItemWidget::startDrag() {
     // 开始拖拽，设置 mima 类型和数据
     QMimeData *mimeData = new QMimeData;
-    mimeData->setData(Constants::MIMETYPE_SCHEDULE_ITEM, QByteArray());
+    mimeData->setData(Constants::MIME_TYPE_SCHEDULE_ITEM, QByteArray());
 
     QDrag *drag = new QDrag(this);
     drag->setMimeData(mimeData);

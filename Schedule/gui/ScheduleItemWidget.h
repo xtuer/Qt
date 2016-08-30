@@ -19,7 +19,7 @@ public:
     explicit ScheduleItemWidget(ScheduleItem scheduleItem, bool classVisible, bool teacherVisible, QWidget *parent = 0);
     ~ScheduleItemWidget();
 
-    void setScheduleItem(const ScheduleItem &item);
+    void setScheduleItem(const ScheduleItem &item, bool checkConflict = true);
     ScheduleItem getScheduleItem() const;
 
 protected:

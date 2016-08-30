@@ -29,7 +29,7 @@ void Test::testWriteScheduleDescription() {
     START_TEST(testWriteScheduleDescription);
 
     ScheduleDescription desc;
-    desc.dayCountOfWeek = 100;
+    desc.days = 100;
     desc.dayTexts << "无效时间";
 
     QFile file("test/schedule_description.data");
@@ -51,7 +51,7 @@ void Test::testReadScheduleDescription() {
     stream >> desc;
     file.close();
 
-    qDebug() << desc.dayCountOfWeek << desc.dayTexts;
+    qDebug() << desc.days << desc.dayTexts;
 
     END_TEST(testReadScheduleDescription);
 }

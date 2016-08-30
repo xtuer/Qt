@@ -13,7 +13,7 @@
 
 ConfigUtil::ConfigUtil() {
     config = new JsonReader("resources/config.json"); // 配置文件路径
-    guiSettings = new QSettings("gui.ini", QSettings::IniFormat);
+    guiSettings = new QSettings("data/gui.ini", QSettings::IniFormat);
     guiSettings->setIniCodec("UTF-8");
 }
 
@@ -95,7 +95,7 @@ int ConfigUtil::getLayoutSpacing() const {
 
 ScheduleDescription ConfigUtil::readScheduleDescription() {
     ScheduleDescription desc;
-    QFile file("schedule_descrption.data");
+    QFile file("data/schedule_descrption.data");
 
     if (!file.open(QIODevice::ReadOnly)) {
         qDebug() << "打开文件 schedule_descrption.data 失败";
@@ -118,7 +118,7 @@ ScheduleDescription ConfigUtil::readScheduleDescription() {
 }
 
 void ConfigUtil::writeScheduleDescription(const ScheduleDescription &desc) {
-    QFile file("schedule_descrption.data");
+    QFile file("data/schedule_descrption.data");
 
     if (!file.open(QIODevice::WriteOnly)) {
         qDebug() << "打开文件 schedule_descrption.data 失败";

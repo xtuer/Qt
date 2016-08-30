@@ -10,14 +10,18 @@
 #include <QPushButton>
 #include <QLineEdit>
 #include <QLabel>
+#include <QGraphicsScene>
+#include <QFont>
 
 Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
     ui->setupUi(this);
-    ui->widget->setAttribute(Qt::WA_TransparentForMouseEvents,true);
+//    ui->widget->setAttribute(Qt::WA_TransparentForMouseEvents,true);
 
-    connect(ui->pushButton, &QPushButton::clicked, []{
-        qDebug() << "clicked";
-    });
+    QGraphicsScene *scene = new QGraphicsScene();
+    QFont font("微软雅黑");
+    QString str = "中001过";
+    scene->addText(str, font);
+    ui->graphicsView->setScene(scene);
 }
 
 Widget::~Widget() {

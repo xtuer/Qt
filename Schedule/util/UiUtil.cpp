@@ -143,35 +143,70 @@ void UiUtil::showSchedule(QWidget *scheduleWidget,
     gridLayout->setContentsMargins(1, 1, 1, 1);
     gridLayout->setSpacing(1);
 
-    // [2] 显示星期
-    for (int day = 1; day <= desc.dayCountOfWeek; ++day) {
-        QLabel *label = new QLabel(desc.dayTexts.value(day));
-        label->setAlignment(Qt::AlignCenter);
-        label->setProperty(Constants::QSS_CLASS, Constants::QSS_CLASS_DAY_LABEL);
-        label->setProperty(Constants::PROPERTY_ROW, 0); // 存储在 layout 中的位置
-        label->setProperty(Constants::PROPERTY_COLUMN, day);
-        gridLayout->addWidget(label, 0, day);
-    }
+    // 创建空的课表
+    for (int time = 0; time <= desc.times; ++time) {
+        for (int day = 0; day <= desc.days; ++day) {
+            if (0 == time) {
+                // 第一行为星期
+                QLabel *dayLabel = new QLabel(desc.dayTexts.value(day));
+                dayLabel->setProperty(Constants::QSS_CLASS, Constants::QSS_CLASS_DAY_LABEL);
+                dayLabel->setProperty(Constants::PROPERTY_ROW, 0);
+                dayLabel->setProperty(Constants::PROPERTY_COLUMN, day);
+                dayLabel->setAlignment(Qt::AlignCenter);
 
-    // [3] 显示课程时间
-    for (int course = 0; course <= desc.courseCountOfDay; ++course) {
-        QLabel *label = new QLabel(desc.timeTexts.value(course));
-        label->setAlignment(Qt::AlignCenter);
-        label->setProperty(Constants::QSS_CLASS, Constants::QSS_CLASS_TIME_LABEL);
-        label->setProperty(Constants::PROPERTY_ROW, course); // 存储在 layout 中的位置
-        label->setProperty(Constants::PROPERTY_COLUMN, 0);
-        gridLayout->addWidget(label, course, 0);
-    }
+                gridLayout->addWidget(dayLabel, 0, day);
+            } else if (time > 0 && 0 == day) {
+                // 第一列为时间和 Rest
 
-    // [4] 显示课程信息: 先把课表排满，不存在的课用空的 ScheduleItem 表示，然后再显示出来
-    QList<ScheduleItem> finalItems = Util::fullScheduleItemsForClass(items, desc, classId);
+                if (desc.rests.contains(time)) {
+                    // 休息
+                    QLabel *restLabel = new QLabel(desc.timeTexts.value(time));
+                    restLabel->setProperty(Constants::QSS_CLASS, Constants::QSS_CLASS_REST_LABEL);
+                    restLabel->setProperty(Constants::PROPERTY_ROW, time); // 存储在 layout 中的位置
+                    restLabel->setProperty(Constants::PROPERTY_COLUMN, 0);
+                    restLabel->setAlignment(Qt::AlignCenter);
 
-    foreach (const ScheduleItem &item, finalItems) {
-        ScheduleItemWidget *w = new ScheduleItemWidget(item, classVisible, teacherVisible);
-        gridLayout->addWidget(w, item.time, item.day);
+                    gridLayout->addWidget(restLabel, time, 0, 1, desc.days + 1);
+                } else {
+                    // 时间
+                    QLabel *timeLabel = new QLabel(desc.timeTexts.value(time));
+                    timeLabel->setProperty(Constants::QSS_CLASS, Constants::QSS_CLASS_TIME_LABEL);
+                    timeLabel->setProperty(Constants::PROPERTY_ROW, time); // 存储在 layout 中的位置
+                    timeLabel->setProperty(Constants::PROPERTY_COLUMN, 0);
+                    timeLabel->setAlignment(Qt::AlignCenter);
+
+                    gridLayout->addWidget(timeLabel, time, 0);
+                }
+            } else if (time > 0 && day > 0 && !desc.rests.contains(time)) {
+                // 课程
+                ScheduleItem item(day, time, classId);
+                ScheduleItemWidget *w = new ScheduleItemWidget(item, classVisible, teacherVisible);
+                w->setProperty(Constants::PROPERTY_ROW, time); // 存储在 layout 中的位置
+                w->setProperty(Constants::PROPERTY_COLUMN, day);
+
+                gridLayout->addWidget(w, time, day);
+            }
+        }
     }
 
     scheduleWidget->setLayout(gridLayout);
+
+    // 填充有效课表项
+    QObjectList objs = scheduleWidget->children();
+    foreach (QObject *obj, objs) {
+        ScheduleItemWidget *w = qobject_cast<ScheduleItemWidget*>(obj);
+
+        if (NULL != w) {
+            int day = w->property(Constants::PROPERTY_COLUMN).toInt();
+            int time = w->property(Constants::PROPERTY_ROW).toInt();
+
+            ScheduleItem item = Util::findScheduleItemByDayAndTime(items, day, time);
+
+            if (0 != item.day && 0 != item.time) {
+                w->setScheduleItem(item);
+            }
+        }
+    }
 }
 
 void UiUtil::deleteChildrenAndLayout(QWidget *w) {

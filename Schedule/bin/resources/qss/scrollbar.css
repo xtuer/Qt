@@ -2,7 +2,7 @@
  垂直滚动条
 */
 QScrollBar:vertical {
-    background: url(resources/images/scrollbar-vertical-bg.png);
+    background: url(resources/img/scrollbar-vertical-bg.png);
     width: 9px;
     margin: 0px 0 0px 0;
 }
@@ -17,18 +17,18 @@ QScrollBar::handle:vertical {
         stop:0 rgba(164, 164, 164, 255),
         stop:0.5 rgba(120, 120, 120, 255),
         stop:1 rgba(164, 164, 164, 255));*/
-    /*border-image: url(images/scrollbar-vertical-thumb.png) 8px 0 8px 0 fixed;*/
+    /*border-image: url(img/scrollbar-vertical-thumb.png) 8px 0 8px 0 fixed;*/
 }
 
 QScrollBar::add-line:vertical {
-    background: url(resources/images/scrollbar-vertical-bg.png);
+    background: url(resources/img/scrollbar-vertical-bg.png);
     height: 0px;
     subcontrol-position: bottom;
     subcontrol-origin: margin;
 }
 
 QScrollBar::sub-line:vertical {
-    background: url(resources/images/scrollbar-vertical-bg.png);
+    background: url(resources/img/scrollbar-vertical-bg.png);
     height: 0px;
     subcontrol-position: top;
     subcontrol-origin: margin;
@@ -49,7 +49,7 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
  水平滚动条
 */
 QScrollBar:horizontal {
-    background: url(resources/images/scrollbar-horizontal-bg.png);
+    background: url(resources/img/scrollbar-horizontal-bg.png);
     height: 9px;
     margin: 0px 0 0px 0;
 }
