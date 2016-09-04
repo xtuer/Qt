@@ -25,6 +25,8 @@ MOC_DIR     = $$output/moc
 RCC_DIR     = $$output/rcc
 UI_DIR      = $$output/ui
 
+ICON        = AppIcon.icns
+
 SOURCES += main.cpp\
         widget.cpp \
     OxyWidget.cpp
