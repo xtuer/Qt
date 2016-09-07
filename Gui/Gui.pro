@@ -29,10 +29,12 @@ ICON        = AppIcon.icns
 
 SOURCES += main.cpp\
         widget.cpp \
-    OxyWidget.cpp
+    OxyWidget.cpp \
+    FramelessWidget.cpp
 
 HEADERS  += widget.h \
-    OxyWidget.h
+    OxyWidget.h \
+    FramelessWidget.h
 
 FORMS    += widget.ui \
     OxyWidget.ui

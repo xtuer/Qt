@@ -20,11 +20,11 @@ public:
 
 protected:
     void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
 
 private slots:
 
 private:
-    void accessUrl();
 
     Ui::Widget *ui;
     QNetworkAccessManager *manager;

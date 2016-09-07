@@ -12,6 +12,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QJsonParseError>
 
 MainWidget::MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::MainWidget) {
     ui->setupUi(this);
@@ -78,7 +79,10 @@ void MainWidget::readConfig() {
     QString config = file.readAll();
     file.close();
 
-    QJsonDocument doc = QJsonDocument::fromJson(config.toUtf8());
+    QJsonParseError error;
+    QJsonDocument doc = QJsonDocument::fromJson(config.toUtf8(), &error);
+    qDebug() << error.errorString();
+    qDebug() << error.offset;
     courses = doc.array();
 }
 

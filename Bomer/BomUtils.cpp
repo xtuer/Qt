@@ -8,6 +8,8 @@
 bool BomUtils::hasBom(const QString &path) {
     QByteArray bom = FileUtils::readFile(path, 3);
 
+    if (bom.size() != 3) { return false; }
+
     return (((quint8)bom[0] ^ 0xEF) == 0) &&
            (((quint8)bom[1] ^ 0xBB) == 0) &&
            (((quint8)bom[2] ^ 0xBF) == 0);

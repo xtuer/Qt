@@ -14,26 +14,21 @@
    <string>Widget</string>
   </property>
   <property name="styleSheet">
-   <string notr="true"/>
+   <string notr="true">#titleButton {
+	border: none;
+	background: rgb(126,186,246);
+	qproperty-icon: url(/Users/Biao/Downloads/icon/icons01.png);
+	text-align: left;
+	padding-left: 10px;
+	icon-size: 27px 20px;
+	spacing: 120px;
+}</string>
   </property>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>120</y>
-     <width>113</width>
-     <height>32</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>PushButton</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_2">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>200</y>
+     <x>170</x>
+     <y>140</y>
      <width>113</width>
      <height>32</height>
     </rect>
