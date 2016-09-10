@@ -2,6 +2,7 @@
 #define WIDGET_H
 
 #include <QWidget>
+#include <QList>
 
 class QNetworkReply;
 class QNetworkAccessManager;
@@ -29,6 +30,8 @@ private:
     Ui::Widget *ui;
     QNetworkAccessManager *manager;
     int count;
+
+    QList<double*> ns;
 };
 
 #endif // WIDGET_H

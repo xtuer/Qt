@@ -24,14 +24,14 @@
 
 Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
     ui->setupUi(this);
-//    setAttribute(Qt::WA_TranslucentBackground);
     setAttribute(Qt::WA_StyledBackground, true);
-    setObjectName("Widget");
 
-    connect(ui->pushButton, &QPushButton::clicked, [] {
-        foreach (QWidget *w, QApplication::topLevelWidgets()) {
-            qDebug() << w->objectName();
-        }
+    connect(ui->comboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), [this](int index) {
+        qDebug() << "activated ";
+    });
+
+    connect(ui->comboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this](int index) {
+        qDebug() << "currentIndexChanged";
     });
 }
 

@@ -14,28 +14,61 @@
    <string>Widget</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">#titleButton {
-	border: none;
-	background: rgb(126,186,246);
-	qproperty-icon: url(/Users/Biao/Downloads/icon/icons01.png);
-	text-align: left;
-	padding-left: 10px;
-	icon-size: 27px 20px;
-	spacing: 120px;
+   <string notr="true">.QLabel {
+	border: 1px solid blue;
+	min-width: 50px;
+	max-width: 50px;
+	min-height: 50px;
+	max-height: 50px;
+	padding: 50px;
+	margin: 50px;
 }</string>
   </property>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="allocateButton">
    <property name="geometry">
     <rect>
-     <x>170</x>
-     <y>140</y>
+     <x>280</x>
+     <y>230</y>
      <width>113</width>
      <height>32</height>
     </rect>
    </property>
    <property name="text">
-    <string>PushButton</string>
+    <string>分配</string>
    </property>
+  </widget>
+  <widget class="QPushButton" name="releaseButton">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>270</y>
+     <width>113</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>删除</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>60</y>
+     <width>104</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>one</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>two</string>
+    </property>
+   </item>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

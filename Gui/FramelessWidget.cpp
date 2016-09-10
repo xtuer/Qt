@@ -11,8 +11,8 @@ FramelessWidget::FramelessWidget(QWidget *centralWidget, QWidget *parent) : QWid
     shadowEffect->setOffset(0, 0);
     centralWidget->setGraphicsEffect(shadowEffect);
     centralWidget->setAttribute(Qt::WA_StyledBackground, true); // 启用 QSS
-    centralWidget->setObjectName("centralWidget");
-    centralWidget->setStyleSheet(centralWidget->styleSheet() + "#centralWidget {border-radius: 4px}"); // 设置圆角
+    centralWidget->setProperty("class", "RoundWidget");
+    centralWidget->setStyleSheet(centralWidget->styleSheet() + ".RoundWidget {border-radius: 4px}"); // 设置圆角
 
     QGridLayout *lo = new QGridLayout();
     lo->addWidget(centralWidget, 0, 0);
