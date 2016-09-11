@@ -102,32 +102,25 @@ void FramelessWindow::mouseReleaseEvent(QMouseEvent *e) {
 }
 
 void FramelessWindow::mouseMoveEvent(QMouseEvent *e) {
+    Q_UNUSED(e)
+
     if (isResizeMode()) {
         // 调整窗口大小的模式下移动鼠标时改变 rubberBand 的大小
-        QPoint delta = e->globalPos() - d->startResizePosition;
-        QRect r = d->rubberBandRectAsDrag;
-
-        int dx = delta.x();
-        int dy = delta.y();
-
-        int x = r.x();
-        int y = r.y();
-        int w = r.width();
-        int h = r.height();
+        QRect r(d->rubberBandRectAsDrag);
+        int x = QCursor::pos().x();
+        int y = QCursor::pos().y();
 
         if (d->left) {
-            x = r.x() + dx;      // 向左时 dx 为负数
-            w = r.width() - dx;
+            r.setLeft(x);
         } else if (d->top) {
-            y = r.y() + dy;      // 向上时 dy 为负数
-            h = r.height() - dy;
+            r.setTop(y);
         } else if (d->right) {
-            w = r.width() + dx;  // 向右时 dx 为正数
+            r.setRight(x);
         } else if (d->bottom) {
-            h = r.height() + dy; // 向下时 dx 为正数
+            r.setBottom(y);
         }
 
-        d->rubberBand->setGeometry(x, y, w, h);
+        d->rubberBand->setGeometry(r);
     } else {
         // 非调整窗口大小的模式下检查鼠标的位置并更新鼠标的样式
         calculateMousePosition();
