@@ -15,7 +15,7 @@
   </property>
   <property name="styleSheet">
    <string notr="true">#titleBarWidget {
-	background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(137, 137, 137, 255), stop:0.522167 rgba(183, 183, 183, 255), stop:1 rgba(154, 154, 154, 255));
+	background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(161, 161, 161, 255), stop:0.522167 rgba(183, 183, 183, 255), stop:1 rgba(178, 178, 178, 255));
 	border-top-left-radius: 4px;
 	border-top-right-radius: 4px;
 }

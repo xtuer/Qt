@@ -9,7 +9,9 @@
 #include <QApplication>
 
 struct FramelessWindowPrivate {
-    FramelessWindowPrivate(FramelessWindowCentralWidget *centralWidget) : centralWidget(centralWidget), rubberBand(new QRubberBand(QRubberBand::Rectangle)) {}
+    FramelessWindowPrivate(FramelessWindowCentralWidget *centralWidget)
+        : rubberBand(new QRubberBand(QRubberBand::Rectangle)), centralWidget(centralWidget) {
+    }
 
     ~FramelessWindowPrivate() {
         delete rubberBand;
@@ -20,15 +22,16 @@ struct FramelessWindowPrivate {
     bool top;    // 为 true 时鼠标在窗口的上边框
     bool bottom; // 为 true 时鼠标在窗口的下边框
 
-    QPoint mousePressedPosition; // 鼠标按下时的坐标
+    QPoint startResizePosition; // 开始调整窗口大小时鼠标被按下的位置
+    QRect rubberBandRectAsDrag; // 鼠标按下时 rubberBand 的矩形
     QRubberBand *rubberBand;
     FramelessWindowCentralWidget *centralWidget;
 };
 
 FramelessWindow::FramelessWindow(QWidget *contentWidget, QWidget *parent) : QWidget(parent) {
     setMouseTracking(true);
-    setWindowFlags(Qt::FramelessWindowHint);     // 去掉边框
-    setAttribute(Qt::WA_TranslucentBackground);  // 背景透明
+    setWindowFlags(Qt::FramelessWindowHint);    // 去掉边框
+    setAttribute(Qt::WA_TranslucentBackground); // 背景透明
 
     d = new FramelessWindowPrivate(new FramelessWindowCentralWidget(this, contentWidget));
     d->centralWidget->installEventFilter(this);
@@ -45,13 +48,15 @@ FramelessWindow::~FramelessWindow() {
 }
 
 // 设置最小化，最大化，关闭按钮是否可见，默认都是可见的
-void FramelessWindow::setButtonVisibles(bool minimizeButtonVisible, bool maximizeButtonVisible, bool closeButtonVisible) {
-    d->centralWidget->setButtonVisibles(minimizeButtonVisible, maximizeButtonVisible, closeButtonVisible);
+void FramelessWindow::setTitleBarButtonsVisible(bool minimizeButtonVisible,
+                                                bool maximizeButtonVisible,
+                                                bool closeButtonVisible) {
+    d->centralWidget->setTitleBarButtonsVisible(minimizeButtonVisible, maximizeButtonVisible, closeButtonVisible);
 }
 
 // 设置窗口的标题
-void FramelessWindow::setWindowTitle(const QString &title) {
-    d->centralWidget->setWindowTitle(title);
+void FramelessWindow::setTitle(const QString &title) {
+    d->centralWidget->setTitle(title);
 }
 
 // 设置是否显示标题栏
@@ -61,9 +66,13 @@ void FramelessWindow::setTitleBarVisible(bool visible) {
 
 void FramelessWindow::mousePressEvent(QMouseEvent *e) {
     if (isMouseAtEdge()) {
-        // 在窗口边框上按下鼠标时，记下鼠标的位置，并且显示 rubberBand
-        d->mousePressedPosition = e->globalPos();
-        d->rubberBand->setGeometry(getRubberBandRectAsDrag());
+        // 在窗口边框上按下鼠标时，记下鼠标的位置，并且显示 rubberBand，进入调整窗口大小的模式
+        // 只有鼠标在窗口的边上按下时才记录鼠标按下的位置
+        d->startResizePosition = e->globalPos();
+
+        // 鼠标按下时 rubberBand 的大小为 centralWidget 的大小(使用的是全局坐标)
+        d->rubberBandRectAsDrag = QRect(d->centralWidget->mapToGlobal(QPoint(0,0)), d->centralWidget->size());
+        d->rubberBand->setGeometry(d->rubberBandRectAsDrag);
         d->rubberBand->show();
 
         // 设置全局的鼠标样式
@@ -78,16 +87,12 @@ void FramelessWindow::mousePressEvent(QMouseEvent *e) {
 void FramelessWindow::mouseReleaseEvent(QMouseEvent *e) {
     Q_UNUSED(e)
 
-    if (isMousePressed()) {
-        // 松开鼠标时修改窗口的大小
-        QSize ds = this->size() - d->centralWidget->size();
+    if (isResizeMode()) {
+        // 调整窗口大小的模式下松开鼠标时修改窗口的大小
+        QSize ds = size() - d->rubberBandRectAsDrag.size(); // 开始调整窗口大小时窗口和 rubberBand 的大小差值
         int dw   = ds.width() / 2;
         int dh   = ds.height() / 2;
-
-        QPoint pos(d->rubberBand->frameGeometry().topLeft() - QPoint(dw, dh));
-        QSize  size(d->rubberBand->width() + dw + dw, d->rubberBand->height() + dh + dh);
-        move(pos);
-        resize(size);
+        setGeometry(QRect(d->rubberBand->pos() - QPoint(dw, dh), d->rubberBand->size() + QSize(dw+dw, dh+dh)));
 
         // 隐藏 rubberBand，恢复鼠标样式
         reset();
@@ -97,13 +102,10 @@ void FramelessWindow::mouseReleaseEvent(QMouseEvent *e) {
 }
 
 void FramelessWindow::mouseMoveEvent(QMouseEvent *e) {
-    if (!isMousePressed()) {
-        // 鼠标没有被按下时检查鼠标的位置
-        calculateMousePosition();
-    } else {
-        // 鼠标按下拖放时改变 rubberBand 的大小
-        QPoint delta = e->globalPos() - d->mousePressedPosition;
-        QRect r = getRubberBandRectAsDrag();
+    if (isResizeMode()) {
+        // 调整窗口大小的模式下移动鼠标时改变 rubberBand 的大小
+        QPoint delta = e->globalPos() - d->startResizePosition;
+        QRect r = d->rubberBandRectAsDrag;
 
         int dx = delta.x();
         int dy = delta.y();
@@ -126,24 +128,20 @@ void FramelessWindow::mouseMoveEvent(QMouseEvent *e) {
         }
 
         d->rubberBand->setGeometry(x, y, w, h);
+    } else {
+        // 非调整窗口大小的模式下检查鼠标的位置并更新鼠标的样式
+        calculateMousePosition();
+        updateCursor();
     }
-
-    updateCursor(); // 更行鼠标的样式
 }
 
 bool FramelessWindow::eventFilter(QObject *watched, QEvent *e) {
-    // 当鼠标离开 framelessWindow 进入 centralWidget，并且鼠标没有按下时恢复鼠标的样式和边框标记
-    if (watched == d->centralWidget && e->type() == QEvent::Enter && !isMousePressed()) {
+    // 当鼠标离开 framelessWindow 进入 centralWidget，并且不是调整窗口大小的模式时恢复鼠标的样式和边框标记等，否则鼠标的样式会显示异常
+    if (watched == d->centralWidget && e->type() == QEvent::Enter && !isResizeMode()) {
         reset();
     }
 
     return QWidget::eventFilter(watched, e);
-}
-
-// 取得鼠标按下时 rubberBand 的大小
-QRect FramelessWindow::getRubberBandRectAsDrag() const {
-    // 鼠标按下时 rubberBand 的大小为 centralWidget 的大小
-    return QRect(d->centralWidget->mapToGlobal(QPoint(0,0)), d->centralWidget->size());
 }
 
 // 计算鼠标在窗口的哪一个边框上
@@ -173,9 +171,9 @@ bool FramelessWindow::isMouseAtEdge() const {
     return d->left || d->right || d->top || d->bottom;
 }
 
-// 检查鼠标是否被按下
-bool FramelessWindow::isMousePressed() const {
-    return !d->mousePressedPosition.isNull();
+// 检查是否调整窗口大小的模式
+bool FramelessWindow::isResizeMode() const {
+    return !d->startResizePosition.isNull();
 }
 
 // 根据鼠标的位置更新鼠标的样式
@@ -196,5 +194,5 @@ void FramelessWindow::reset() {
     d->top    = false;
     d->bottom = false;
     setCursor(Qt::ArrowCursor);
-    d->mousePressedPosition = QPoint();
+    d->startResizePosition = QPoint();
 }

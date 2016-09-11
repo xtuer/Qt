@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QList>
+#include <functional>
 
 class QNetworkReply;
 class QNetworkAccessManager;
@@ -19,19 +20,9 @@ public:
     explicit Widget(QWidget *parent = 0);
     ~Widget();
 
-protected:
-    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
-    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
-
-private slots:
-
+    void foo(std::function<void (int)> handler);
 private:
-
     Ui::Widget *ui;
-    QNetworkAccessManager *manager;
-    int count;
-
-    QList<double*> ns;
 };
 
 #endif // WIDGET_H

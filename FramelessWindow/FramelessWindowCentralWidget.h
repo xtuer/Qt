@@ -24,13 +24,15 @@ public:
      * @param maximizeButtonVisible 为 true 则最大化按钮可见，否则不可见
      * @param closeButtonVisible    为 true 则关闭按钮可见，否则不可见
      */
-    void setButtonVisibles(bool minimizeButtonVisible = true, bool maximizeButtonVisible = true, bool closeButtonVisible = true);
+    void setTitleBarButtonsVisible(bool minimizeButtonVisible = true,
+                                   bool maximizeButtonVisible = true,
+                                   bool closeButtonVisible = true);
 
     /**
      * @brief 设置窗口的标题
      * @param title 标题
      */
-    void setWindowTitle(const QString &title);
+    void setTitle(const QString &title);
 
     /**
      * @brief 设置是否显示标题栏

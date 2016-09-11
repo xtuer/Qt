@@ -56,14 +56,16 @@ FramelessWindowCentralWidget::~FramelessWindowCentralWidget() {
 }
 
 // 设置最小化，最大化，关闭按钮是否可见，默认都是可见的
-void FramelessWindowCentralWidget::setButtonVisibles(bool minimizeButtonVisible, bool maximizeButtonVisible, bool closeButtonVisible) {
+void FramelessWindowCentralWidget::setTitleBarButtonsVisible(bool minimizeButtonVisible,
+                                                             bool maximizeButtonVisible,
+                                                             bool closeButtonVisible) {
     ui->closeButton->setVisible(closeButtonVisible);
     ui->minimizeButton->setVisible(minimizeButtonVisible);
     ui->maximizeButton->setVisible(maximizeButtonVisible);
 }
 
 // 设置窗口的标题
-void FramelessWindowCentralWidget::setWindowTitle(const QString &title) {
+void FramelessWindowCentralWidget::setTitle(const QString &title) {
     ui->titleLabel->setText(title);
 }
 
@@ -75,7 +77,7 @@ void FramelessWindowCentralWidget::setTitleBarVisible(bool visible) {
 void FramelessWindowCentralWidget::mousePressEvent(QMouseEvent *e) {
     e->accept();
     d->mousePressedPosition = e->globalPos();
-    d->framelessWindowPositionAsMousePressed = d->framelessWindow->frameGeometry().topLeft();
+    d->framelessWindowPositionAsMousePressed = d->framelessWindow->pos();
 }
 
 void FramelessWindowCentralWidget::mouseReleaseEvent(QMouseEvent *e) {

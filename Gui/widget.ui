@@ -24,52 +24,15 @@
 	margin: 50px;
 }</string>
   </property>
-  <widget class="QPushButton" name="allocateButton">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>230</y>
-     <width>113</width>
-     <height>32</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>分配</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="releaseButton">
-   <property name="geometry">
-    <rect>
-     <x>290</x>
-     <y>270</y>
-     <width>113</width>
-     <height>32</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>删除</string>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="comboBox">
-   <property name="geometry">
-    <rect>
-     <x>70</x>
-     <y>60</y>
-     <width>104</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <item>
-    <property name="text">
-     <string>one</string>
-    </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QPushButton" name="pushButton">
+     <property name="text">
+      <string>PushButton</string>
+     </property>
+    </widget>
    </item>
-   <item>
-    <property name="text">
-     <string>two</string>
-    </property>
-   </item>
-  </widget>
+  </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

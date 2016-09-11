@@ -19,18 +19,15 @@ int main(int argc, char *argv[]) {
 
     QWidget *contentWidget = new QWidget();
     contentWidget->setLayout(layout);
+
     contentWidget->setObjectName("contentWidget");
     contentWidget->setStyleSheet("#contentWidget {background: #EEE; border-bottom-left-radius: 4px;border-bottom-right-radius: 4px;}"
                                  ".QLabel{background: gray;}.QTextEdit{background: white;}");
 
-    QObject::connect(quitButton, &QPushButton::clicked, [&app] {
-        app.quit();
-    });
-
     // 创建无边框、圆角、有阴影、可拖动的窗口
     FramelessWindow *window = new FramelessWindow(contentWidget);
-    window->setButtonVisibles(true, false, true);
-//    window->setWindowTitle("客户就是上帝");
+    window->setTitleBarButtonsVisible(true, false, true);
+    window->setTitle("客户就是上帝");
 //    window->setTitleBarVisible(false);
     window->resize(300, 400);
     window->show();
