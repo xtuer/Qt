@@ -34,6 +34,12 @@ public:
      */
     void setTitleBarVisible(bool visible);
 
+    /**
+     * @brief 设置是否可以调整窗口的大小
+     * @param resizable
+     */
+    void setResizable(bool resizable);
+
 protected:
     void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
     void mouseReleaseEvent(QMouseEvent *e) Q_DECL_OVERRIDE;

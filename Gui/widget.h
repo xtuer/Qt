@@ -5,10 +5,6 @@
 #include <QList>
 #include <functional>
 
-class QNetworkReply;
-class QNetworkAccessManager;
-class QRubberBand;
-
 namespace Ui {
 class Widget;
 }
@@ -20,7 +16,6 @@ public:
     explicit Widget(QWidget *parent = 0);
     ~Widget();
 
-    void foo(std::function<void (int)> handler);
 private:
     Ui::Widget *ui;
 };

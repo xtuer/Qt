@@ -87,7 +87,10 @@ void FramelessWindowCentralWidget::mouseReleaseEvent(QMouseEvent *e) {
 
 void FramelessWindowCentralWidget::mouseMoveEvent(QMouseEvent *e) {
     e->accept();
-    QPoint delta = e->globalPos() - d->mousePressedPosition;
-    QPoint pos = d->framelessWindowPositionAsMousePressed + delta;
-    d->framelessWindow->move(pos);
+
+    if (!d->mousePressedPosition.isNull()) {
+        QPoint delta = e->globalPos() - d->mousePressedPosition;
+        QPoint pos = d->framelessWindowPositionAsMousePressed + delta;
+        d->framelessWindow->move(pos);
+    }
 }

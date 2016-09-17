@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>446</width>
+    <width>479</width>
     <height>318</height>
    </rect>
   </property>
@@ -14,15 +14,11 @@
    <string>Widget</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">.QLabel {
-	border: 1px solid blue;
-	min-width: 50px;
-	max-width: 50px;
-	min-height: 50px;
-	max-height: 50px;
-	padding: 50px;
-	margin: 50px;
-}</string>
+   <string notr="true">.QPushButton {
+	border: 1px solid gray;
+	background: white;
+}
+</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">

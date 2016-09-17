@@ -30,6 +30,7 @@ int main(int argc, char *argv[]) {
     window->setTitle("客户就是上帝");
 //    window->setTitleBarVisible(false);
     window->resize(300, 400);
+//    window->setResizable(false);
     window->show();
 
     return app.exec();

@@ -10,7 +10,7 @@
 
 struct FramelessWindowPrivate {
     FramelessWindowPrivate(FramelessWindowCentralWidget *centralWidget)
-        : rubberBand(new QRubberBand(QRubberBand::Rectangle)), centralWidget(centralWidget) {
+        : resizable(true), rubberBand(new QRubberBand(QRubberBand::Rectangle)), centralWidget(centralWidget) {
     }
 
     ~FramelessWindowPrivate() {
@@ -21,6 +21,8 @@ struct FramelessWindowPrivate {
     bool right;  // 为 true 时鼠标在窗口的右边框
     bool top;    // 为 true 时鼠标在窗口的上边框
     bool bottom; // 为 true 时鼠标在窗口的下边框
+
+    bool resizable; // 为 true 表示可以调整边框大小，为 false 表示不可以调整边框大小
 
     QPoint startResizePosition; // 开始调整窗口大小时鼠标被按下的位置
     QRect rubberBandRectAsDrag; // 鼠标按下时 rubberBand 的矩形
@@ -64,6 +66,11 @@ void FramelessWindow::setTitleBarVisible(bool visible) {
     d->centralWidget->setTitleBarVisible(visible);
 }
 
+// 设置是否可以调整窗口的大小
+void FramelessWindow::setResizable(bool resizable) {
+    d->resizable = resizable;
+}
+
 void FramelessWindow::mousePressEvent(QMouseEvent *e) {
     if (isMouseAtEdge()) {
         // 在窗口边框上按下鼠标时，记下鼠标的位置，并且显示 rubberBand，进入调整窗口大小的模式
@@ -75,7 +82,7 @@ void FramelessWindow::mousePressEvent(QMouseEvent *e) {
         d->rubberBand->setGeometry(d->rubberBandRectAsDrag);
         d->rubberBand->show();
 
-        // 设置全局的鼠标样式
+        // 开始调整窗口大小的时候设置全局的鼠标样式，否则进入 d->centralWidget 后鼠标的样式会改变
         if (d->left || d->right) {
             QApplication::setOverrideCursor(Qt::SizeHorCursor);
         } else if (d->top || d->bottom) {
@@ -103,6 +110,9 @@ void FramelessWindow::mouseReleaseEvent(QMouseEvent *e) {
 
 void FramelessWindow::mouseMoveEvent(QMouseEvent *e) {
     Q_UNUSED(e)
+
+    // 不可调整窗口大小时返回
+    if (!d->resizable) { return; }
 
     if (isResizeMode()) {
         // 调整窗口大小的模式下移动鼠标时改变 rubberBand 的大小
