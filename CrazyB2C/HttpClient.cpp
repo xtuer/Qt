@@ -1,46 +1,33 @@
 #include "HttpClient.h"
 
-#include <QDebug>
-#include <QHash>
-#include <QUrlQuery>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QNetworkAccessManager>
+#include <QDebug>
 
-struct HttpClientPrivate {
-    HttpClientPrivate(const QString &url) : url(url), networkAccessManager(NULL), useInternalNetworkAccessManager(true) {}
-
-    QString url; // 请求的 URL
-    QUrlQuery params; // 请求的参数
-    QHash<QString, QString> headers; // 请求的头
-    QNetworkAccessManager *networkAccessManager;
-    bool useInternalNetworkAccessManager; // 是否使用内部的 QNetworkAccessManager
-};
-
-HttpClient::HttpClient(const QString &url) : d(new HttpClientPrivate(url)) {
-    //    qDebug() << "HttpClient";
+HttpClient::HttpClient(const QString &url) : url(url), manager(NULL), useInternalManager(true) {
+//    qDebug() << "HttpClient";
 }
 
 HttpClient::~HttpClient() {
-    //    qDebug() << "~HttpClient";
-    delete d;
+//    qDebug() << "~HttpClient";
 }
 
 HttpClient &HttpClient::useManager(QNetworkAccessManager *manager) {
-    d->networkAccessManager = manager;
-    d->useInternalNetworkAccessManager = false;
+    this->manager = manager;
+    this->useInternalManager = false;
     return *this;
 }
 
 // 增加参数
 HttpClient &HttpClient::addParam(const QString &name, const QString &value) {
-    d->params.addQueryItem(name, value);
+    params.addQueryItem(name, value);
     return *this;
 }
 
 // 增加访问头
 HttpClient &HttpClient::addHeader(const QString &header, const QString &value) {
-    d->headers[header] = value;
+    headers[header] = value;
     return *this;
 }
 
@@ -64,23 +51,29 @@ void HttpClient::execute(bool posted,
                          std::function<void (const QString &)> errorHandler,
                          const char *encoding) {
     // 如果是 GET 请求，并且参数不为空，则编码请求的参数，放到 URL 后面
-    if (!posted && !d->params.isEmpty()) {
-        d->url += "?" + d->params.toString(QUrl::FullyEncoded);
+    if (!posted && !params.isEmpty()) {
+        url += "?" + params.toString(QUrl::FullyEncoded);
     }
 
-    QUrl urlx(d->url);
+    QUrl urlx(url);
     QNetworkRequest request(urlx);
 
     // 把请求的头添加到 request 中
-    QHashIterator<QString, QString> iter(d->headers);
+    QHashIterator<QString, QString> iter(headers);
     while (iter.hasNext()) {
         iter.next();
         request.setRawHeader(iter.key().toUtf8(), iter.value().toUtf8());
     }
 
-    // 如果不使用外部的 manager 则创建一个新的，在访问完成后会自动删除掉
-    QNetworkAccessManager *manager = d->useInternalNetworkAccessManager ? new QNetworkAccessManager() : d->networkAccessManager;
-    QNetworkReply *reply = posted ? manager->post(request, d->params.toString(QUrl::FullyEncoded).toUtf8()) : manager->get(request);
+    QNetworkAccessManager *manager = useInternalManager ? new QNetworkAccessManager() : this->manager;
+    QNetworkReply *reply = posted ? manager->post(request, params.toString(QUrl::FullyEncoded).toUtf8()) : manager->get(request);
+
+    // 请求错误处理
+    QObject::connect(reply, static_cast<void (QNetworkReply::*)(QNetworkReply::NetworkError)>(&QNetworkReply::error), [=] {
+        if (NULL != errorHandler) {
+            errorHandler(reply->errorString());
+        }
+    });
 
     // 请求结束时一次性读取所有响应数据
     QObject::connect(reply, &QNetworkReply::finished, [=] {
@@ -99,15 +92,8 @@ void HttpClient::execute(bool posted,
 
         // 释放资源
         reply->deleteLater();
-        if (d->useInternalNetworkAccessManager) {
+        if (useInternalManager) {
             manager->deleteLater();
-        }
-    });
-
-    // 请求错误处理
-    QObject::connect(reply, static_cast<void (QNetworkReply::*)(QNetworkReply::NetworkError)>(&QNetworkReply::error), [=] {
-        if (NULL != errorHandler) {
-            errorHandler(reply->errorString());
         }
     });
 }

@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2016-06-30T17:44:13
+# Project created by QtCreator 2016-09-18T14:04:25
 #
 #-------------------------------------------------
 
@@ -8,8 +8,10 @@ QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = Gui
+TARGET   = CrazyB2C
 TEMPLATE = app
+ICON     = AppIcon.icns
+CONFIG  -=app_bundle
 
 # Output directory
 CONFIG(debug, debug|release) {
@@ -20,22 +22,18 @@ CONFIG(release, debug|release) {
 }
 
 DESTDIR     = bin
-OBJECTS_DIR = $$output/obj
-MOC_DIR     = $$output/moc
-RCC_DIR     = $$output/rcc
-UI_DIR      = $$output/ui
+OBJECTS_DIR = $$output
+MOC_DIR     = $$output
+RCC_DIR     = $$output
+UI_DIR      = $$output
 
-ICON        = AppIcon.icns
-
-SOURCES += main.cpp\
-        widget.cpp \
-    FramelessWindow.cpp \
-    MyThread.cpp \
+SOURCES += main.cpp \
     HttpClient.cpp
 
-HEADERS  += widget.h \
-    FramelessWindow.h \
-    MyThread.h \
+HEADERS  += \
     HttpClient.h
 
-FORMS    += widget.ui
+FORMS    +=
+
+DISTFILES += \
+    urls.txt
