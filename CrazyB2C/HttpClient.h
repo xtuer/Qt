@@ -2,9 +2,9 @@
 #define HTTPCLIENT_H
 
 #include <functional>
-#include <QHash>
-#include <QUrlQuery>
 
+class QString;
+struct HttpClientPrivate;
 class QNetworkAccessManager;
 
 class HttpClient {
@@ -12,6 +12,13 @@ public:
     HttpClient(const QString &url);
     ~HttpClient();
 
+    /**
+     * @brief 每创建一个 QNetworkAccessManager 对象都会创建一个线程，当频繁的访问网络时，为了节省线程资源，
+     *     可以使用传人的 QNetworkAccessManager，它不会被 HttpClient 删除。
+     *     如果没有使用 useManager() 传入一个 QNetworkAccessManager，则 HttpClient 会自动的创建一个，并且在网络访问完成后删除它。
+     * @param manager QNetworkAccessManager 对象
+     * @return 返回 HttpClient 的引用，可以用于链式调用
+     */
     HttpClient& useManager(QNetworkAccessManager *manager);
 
     /**
@@ -62,12 +69,7 @@ private:
                  std::function<void (const QString &)> successHandler,
                  std::function<void (const QString &)> errorHandler,
                  const char *encoding);
-
-    QString url; // 请求的 URL
-    QUrlQuery params; // 请求的参数
-    QHash<QString, QString> headers; // 请求的头
-    QNetworkAccessManager *manager;
-    bool useInternalManager;
+    HttpClientPrivate *d;
 };
 
 #endif // HTTPCLIENT_H

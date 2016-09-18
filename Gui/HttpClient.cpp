@@ -78,8 +78,12 @@ void HttpClient::execute(bool posted,
         request.setRawHeader(iter.key().toUtf8(), iter.value().toUtf8());
     }
 
+    // 注意: 不能在 Lambda 表达式里使用 HttpClient 对象的成员数据，因其可能在网络访问未结束时就已经被析构掉了，
+    // 所以如果要使用它的相关数据，定义一个局部变量来保存其数据，然后在 Lambda 表达式里访问这个局部变量
+
     // 如果不使用外部的 manager 则创建一个新的，在访问完成后会自动删除掉
-    QNetworkAccessManager *manager = d->useInternalNetworkAccessManager ? new QNetworkAccessManager() : d->networkAccessManager;
+    bool internal = d->useInternalNetworkAccessManager;
+    QNetworkAccessManager *manager = internal ? new QNetworkAccessManager() : d->networkAccessManager;
     QNetworkReply *reply = posted ? manager->post(request, d->params.toString(QUrl::FullyEncoded).toUtf8()) : manager->get(request);
 
     // 请求结束时一次性读取所有响应数据
@@ -99,7 +103,7 @@ void HttpClient::execute(bool posted,
 
         // 释放资源
         reply->deleteLater();
-        if (d->useInternalNetworkAccessManager) {
+        if (internal) {
             manager->deleteLater();
         }
     });
