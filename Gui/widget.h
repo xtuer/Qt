@@ -5,6 +5,7 @@
 #include <QList>
 #include <functional>
 
+class Bobo;
 namespace Ui {
 class Widget;
 }
@@ -18,6 +19,7 @@ public:
 
 private:
     Ui::Widget *ui;
+    Bobo *x;
 };
 
 #endif // WIDGET_H

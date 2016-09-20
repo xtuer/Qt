@@ -1,15 +1,16 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2016-06-30T17:44:13
+# Project created by QtCreator 2016-09-20T09:40:10
 #
 #-------------------------------------------------
 
 QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-TARGET   = Gui
+
+TARGET   = HttpClient
 TEMPLATE = app
-ICON     = AppIcon.icns
+CONFIG  -= app_bundle
 
 # Output directory
 CONFIG(debug, debug|release) {
@@ -25,17 +26,8 @@ MOC_DIR     = $$output
 RCC_DIR     = $$output
 UI_DIR      = $$output
 
-SOURCES += main.cpp\
-        widget.cpp \
-    FramelessWindow.cpp \
-    MyThread.cpp \
-    HttpClient.cpp \
-    Bobo.cpp
+SOURCES += main.cpp \
+    HttpClient.cpp
 
-HEADERS  += widget.h \
-    FramelessWindow.h \
-    MyThread.h \
-    HttpClient.h \
-    Bobo.h
-
-FORMS    += widget.ui
+HEADERS += \
+    HttpClient.h
