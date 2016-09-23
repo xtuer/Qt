@@ -11,19 +11,15 @@
 
 Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
     ui->setupUi(this);
+    ui->scrollArea->setContentsMargins(0, 0, 0, 0);
+    ui->scrollArea->widget()->setContentsMargins(0, 0, 0, 0);
 
-    Bobo *x = new Bobo;
-    QFile *file = new QFile("/Users/Biao/Desktop/bii.png");
-    file->open(QIODevice::WriteOnly);
+    ui->scrollArea->widget()->layout()->setContentsMargins(0, 0, 0, 0);
+    qDebug() << ui->scrollArea->widget()->objectName();
 
-    connect(ui->pushButton, &QPushButton::clicked, [x] {
-        HttpClient("http://gamerboom.com/wp-content/uploads/2010/11/Mac-App-Store.png").download([x](const QByteArray &data) {
-            x->name = QString::number(QDateTime::currentDateTime().toMSecsSinceEpoch());
-            qDebug() << x->name;
-        }, [x] {
-            qDebug() << "Finish: " << x->name;
-            delete x;
-        });
+    connect(ui->pushButton, &QPushButton::clicked, [this] {
+        qDebug() << ui->scrollArea->widget()->size();
+        qDebug() << ui->scrollArea->viewport()->size();
     });
 }
 

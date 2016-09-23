@@ -1,15 +1,16 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2016-06-30T17:44:13
+# Project created by QtCreator 2016-09-20T16:56:49
 #
 #-------------------------------------------------
 
-QT       += core gui network
+QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-TARGET   = Gui
+
+TARGET   = Logger
 TEMPLATE = app
-ICON     = AppIcon.icns
+CONFIG  -= app_bundle
 
 # Output directory
 CONFIG(debug, debug|release) {
@@ -25,9 +26,9 @@ MOC_DIR     = $$output
 RCC_DIR     = $$output
 UI_DIR      = $$output
 
-SOURCES += main.cpp\
-        widget.cpp
+SOURCES += main.cpp \
+    LogHandler.cpp
 
-HEADERS  += widget.h
-
-FORMS    += widget.ui
+HEADERS += \
+    Singleton.h \
+    LogHandler.h
