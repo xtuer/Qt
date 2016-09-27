@@ -10,6 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET   = Gui
 TEMPLATE = app
 ICON     = AppIcon.icns
+CONFIG  -=app_bundle
 
 # Output directory
 CONFIG(debug, debug|release) {

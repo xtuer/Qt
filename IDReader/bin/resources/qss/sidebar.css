@@ -1,0 +1,38 @@
+#sidebarWidget {
+    min-width: 149px;
+    max-width: 149px;
+    background-image: url(resources/img/sidebar_background.png);
+}
+
+#sidebarWidget QPushButton {
+	border: 0 solid black;
+	color: rgb(230,230,230);
+	margin-top: 10px;
+	padding: 5px;
+	text-align: left;
+    icon-size: 16px 16px;
+}
+
+#sidebarWidget QPushButton:checked {
+    background-image: url(resources/img/item_selected.png);
+}
+
+#classScheduleButton {
+    qproperty-icon: url(resources/img/7.png);
+}
+
+#teacherScheduleButton {
+    qproperty-icon: url(resources/img/7.png);
+}
+
+#designScheduleButton {
+    qproperty-icon: url(resources/img/2.png);
+}
+
+#arrangeCourseButton {
+    qproperty-icon: url(resources/img/3.png);
+}
+
+#classCourseTeacherButton {
+    qproperty-icon: url(resources/img/6.png);
+}

@@ -1,25 +1,25 @@
 #include "widget.h"
 #include "ui_widget.h"
-#include "Bobo.h"
 
 #include <QDebug>
-#include <QListWidget>
+#include <QUrlQuery>
+#include <QNetworkReply>
+#include <QNetworkRequest>
 #include <QNetworkAccessManager>
-#include "HttpClient.h"
+#include <QThread>
+#include <QDir>
 #include <QFile>
-#include <QDataStream>
+#include <QFileInfo>
 
 Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
     ui->setupUi(this);
-    ui->scrollArea->setContentsMargins(0, 0, 0, 0);
-    ui->scrollArea->widget()->setContentsMargins(0, 0, 0, 0);
-
-    ui->scrollArea->widget()->layout()->setContentsMargins(0, 0, 0, 0);
-    qDebug() << ui->scrollArea->widget()->objectName();
 
     connect(ui->pushButton, &QPushButton::clicked, [this] {
-        qDebug() << ui->scrollArea->widget()->size();
-        qDebug() << ui->scrollArea->viewport()->size();
+        QDir dir("./a/b");
+        if (!dir.exists()) {
+            qDebug() << "mkpath";
+        dir.mkpath(".");
+        }
     });
 }
 

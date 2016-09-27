@@ -14,11 +14,7 @@
    <string>Widget</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">.QPushButton {
-	border: 1px solid gray;
-	background: white;
-}
-</string>
+   <string notr="true"/>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="1">

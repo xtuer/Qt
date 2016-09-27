@@ -4,8 +4,8 @@
 #include <QWidget>
 #include <QList>
 #include <functional>
+#include <QFile>
 
-class Bobo;
 namespace Ui {
 class Widget;
 }
@@ -19,7 +19,7 @@ public:
 
 private:
     Ui::Widget *ui;
-    Bobo *x;
+    QFile file;
 };
 
 #endif // WIDGET_H

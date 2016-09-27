@@ -20,6 +20,8 @@ CONFIG(release, debug|release) {
     output = release
 }
 
+DEFINES += QT_MESSAGELOGCONTEXT
+
 DESTDIR     = bin
 OBJECTS_DIR = $$output
 MOC_DIR     = $$output

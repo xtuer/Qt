@@ -40,7 +40,7 @@ void increaseBuyOrFavorite(QNetworkAccessManager *manager, const QString &url) {
 
     qint64 ms = QDateTime::currentDateTime().toMSecsSinceEpoch();
     qsrand(ms);
-    int len = 30; // 预计增加 200 个
+    int len = 330; // 预计增加 200 个
     int times = 0; // 成功增加的次数
 
     for (int i = 0; i < len; ++i) {

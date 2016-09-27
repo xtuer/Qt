@@ -1,0 +1,33 @@
+{
+    "database": {
+        "debug": true,
+        "type": "QSQLITE",
+        "host": "127.0.0.1",
+        "port": 3306,
+        "database_name": "data/data.db",
+        "username": "root",
+        "password": "root",
+        "test_on_borrow": true,
+        "test_on_borrow_sql": "SELECT 1",
+        "max_wait_time": 5000,
+        "max_connection_count": 20,
+        "sql_files": [
+            "resources/sql/Schedule.sql",
+            "resources/sql/Teacher.sql",
+            "resources/sql/Class.sql",
+            "resources/sql/Course.sql"
+        ]
+    },
+
+    "qss_files": [
+        "resources/qss/sidebar.css",
+        "resources/qss/content.css",
+        "resources/qss/table.css",
+        "resources/qss/scrollbar.css"
+    ],
+
+    "ui": {
+        "padding": 5,
+        "spacing": 5
+    }
+}
