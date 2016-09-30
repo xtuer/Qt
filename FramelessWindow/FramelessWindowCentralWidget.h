@@ -10,6 +10,9 @@ namespace Ui {
 class FramelessWindowCentralWidget;
 }
 
+/**
+ * @brief 类 FramelessWindowCentralWidget 负责窗口的移动和阴影
+ */
 class FramelessWindowCentralWidget : public QWidget {
     Q_OBJECT
 

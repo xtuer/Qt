@@ -5,6 +5,9 @@
 
 struct FramelessWindowPrivate;
 
+/**
+ * @brief 类 FramelessWindow 负责窗口的缩放
+ */
 class FramelessWindow : public QWidget {
     Q_OBJECT
 public:

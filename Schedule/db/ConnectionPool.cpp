@@ -6,6 +6,7 @@
 #include <QString>
 #include <QMutex>
 #include <QSemaphore>
+#include <QApplication>
 
 ////////////////////////////////////////////////////////////////////////////////
 ///                                                                          ///
@@ -79,7 +80,10 @@ ConnectionPoolPrivate::~ConnectionPoolPrivate() {
 ///                                                                          ///
 ////////////////////////////////////////////////////////////////////////////////
 ConnectionPool::ConnectionPool() : data(new ConnectionPoolPrivate) {
-
+    // 程序结束前释放链接
+    QObject::connect(qApp, &QApplication::aboutToQuit, [this] {
+        release();
+    });
 }
 
 ConnectionPool::~ConnectionPool() {

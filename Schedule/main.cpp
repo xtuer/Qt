@@ -1,8 +1,6 @@
 #include "gui/MainWidget.h"
 #include "db/DBUtil.h"
-#include "db/ConnectionPool.h"
 #include "util/UiUtil.h"
-#include "util/ConfigUtil.h"
 #include "test/Test.h"
 
 #include <QApplication>
@@ -10,17 +8,13 @@
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
     UiUtil::loadQss();
+
     MainWidget *w = new MainWidget();
+    // 很重要，因为我们需要在 qApp 的 aboutToQuit() 信号对应的槽函数里释放资源，所以释放资源前主窗口需要先被析构
+    w->setAttribute(Qt::WA_DeleteOnClose);
     w->show();
 
-//    Test::test();
+    // Test::test();
 
-    int ret = a.exec();
-
-    // 释放资源
-    delete w;
-    Singleton<ConnectionPool>::getInstance().release();
-    Singleton<ConfigUtil>::getInstance().release();
-
-    return ret;
+    return a.exec();
 }

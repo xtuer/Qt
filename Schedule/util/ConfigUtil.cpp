@@ -10,11 +10,17 @@
 #include <QStringList>
 #include <QSettings>
 #include <QWidget>
+#include <QApplication>
 
 ConfigUtil::ConfigUtil() {
     config = new JsonReader("resources/config.json"); // 配置文件路径
     guiSettings = new QSettings("data/gui.ini", QSettings::IniFormat);
     guiSettings->setIniCodec("UTF-8");
+
+    // 程序结束前保存配置
+    QObject::connect(qApp, &QApplication::aboutToQuit, [this] {
+        release();
+    });
 }
 
 ConfigUtil::~ConfigUtil() {
