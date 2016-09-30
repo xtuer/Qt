@@ -2,9 +2,6 @@
 #define WIDGET_H
 
 #include <QWidget>
-#include <QList>
-#include <functional>
-#include <QFile>
 
 namespace Ui {
 class Widget;
@@ -22,7 +19,6 @@ protected:
 
 private:
     Ui::Widget *ui;
-    QFile file;
 };
 
 #endif // WIDGET_H

@@ -6,15 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>422</width>
-    <height>442</height>
+    <width>538</width>
+    <height>333</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Widget</string>
-  </property>
-  <property name="styleSheet">
-   <string notr="true"/>
+   <string>Smooth Curve</string>
   </property>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
