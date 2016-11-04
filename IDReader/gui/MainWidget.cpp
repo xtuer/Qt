@@ -158,6 +158,11 @@ void MainWidget::handleEvents() {
         loadSiteAndPeriodUnit();
     });
 
+    // 当 PeriodUnit 变化时，取消 Room 的选择
+    connect(ui->periodUnitComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this]() {
+        ui->roomComboBox->setCurrentIndex(0);
+    });
+
     // 当 Site 变化时，重行初始化 Room 信息
     connect(ui->siteComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this](int index) {
         QString siteCode = ui->siteComboBox->itemData(index).toString();
@@ -165,7 +170,7 @@ void MainWidget::handleEvents() {
     });
 
     // 当 Room 变化时，加载学生的刷卡信息
-    connect(ui->roomComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), [this]() {
+    connect(ui->roomComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this]() {
         loadStudents();
     });
 }
@@ -199,12 +204,14 @@ void MainWidget::personReady(const Person &p) {
 
 // 加载考场的学生信息
 void MainWidget::loadStudents() {
+    updateLoginStatistics(QList<Student>()); // 清空登陆统计
+
     QString siteCode = ui->siteComboBox->currentData().toString();
     QString roomCode = ui->roomComboBox->currentData().toString();
     QString periodUnitCode = ui->periodUnitComboBox->currentData().toString();
 
     if (siteCode.isEmpty() || roomCode.isEmpty() || periodUnitCode.isEmpty()) {
-        showInfo("siteCode or roomCode or periodUnitCode cannot be empty", true);
+        // showInfo("siteCode or roomCode or periodUnitCode cannot be empty", true);
         return;
     }
 
@@ -255,7 +262,7 @@ void MainWidget::loadSiteAndPeriodUnit() {
     });
 }
 
-// 加载考场
+// 加载考场，从考点信息里加载
 void MainWidget::loadRoom(const QString &siteCode) {
     Site s = d->findSite(siteCode);
 
