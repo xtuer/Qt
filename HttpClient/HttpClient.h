@@ -46,6 +46,12 @@ public:
     HttpClient& addHeader(const QString &header, const QString &value);
 
     /**
+     * @brief 添加 POST 表单使用的头信息，等价于 addHeader("content-type", "application/x-www-form-urlencoded")
+     * @return 返回 HttpClient 的引用，可以用于链式调用
+     */
+    HttpClient& addFormHeader();
+
+    /**
      * @brief 执行 GET 请求
      * @param successHandler 请求成功的回调 lambda 函数
      * @param errorHandler   请求失败的回调 lambda 函数

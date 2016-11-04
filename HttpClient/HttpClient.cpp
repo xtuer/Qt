@@ -51,6 +51,10 @@ HttpClient &HttpClient::addHeader(const QString &header, const QString &value) {
     return *this;
 }
 
+HttpClient &HttpClient::addFormHeader() {
+    return addHeader("content-type", "application/x-www-form-urlencoded");
+}
+
 // 执行 GET 请求
 void HttpClient::get(std::function<void (const QString &)> successHandler,
                      std::function<void (const QString &)> errorHandler,
@@ -75,7 +79,7 @@ void HttpClient::download(std::function<void (const QByteArray &)> readyRead,
     }
 
     if (d->debug) {
-        qDebug() << d->url;
+        qDebug() << QString("URL: %1?%2").arg(d->url).arg(d->params.toString());
     }
 
     QUrl urlx(d->url);
@@ -121,7 +125,7 @@ void HttpClient::execute(bool posted,
     }
 
     if (d->debug) {
-        qDebug() << d->url;
+        qDebug() << QString("URL: %1?%2").arg(d->url).arg(d->params.toString());
     }
 
     QUrl urlx(d->url);

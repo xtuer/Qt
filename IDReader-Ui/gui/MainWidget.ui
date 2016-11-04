@@ -1,0 +1,669 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWidget</class>
+ <widget class="QWidget" name="MainWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>554</width>
+    <height>550</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>点考刷卡系统</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">* {
+	
+}
+.MainWidget {
+
+}
+
+.ContainerWidget {
+	background: white;
+}
+
+.TitleLabel {
+	border: none;
+	color: #333;
+	background: rgb(238,240,243);
+	/*background-image: url(:/icon/bg-2.png);*/
+	text-align: left;
+	icon-size: 27px 20px;
+	padding-left: 5px;
+	min-height: 30px;
+	max-height: 30px;
+	font-weight: normal;
+}
+#settingLabel {
+	qproperty-icon: url(:/icon/icon01.png);
+}
+#personLabel {
+	qproperty-icon: url(:/icon/icon02.png);
+}
+#statisticLabel {
+	qproperty-icon: url(:/icon/icon03.png);
+}
+
+.IconLabel {
+	border: none;
+	background: white;
+	text-align: left;
+	icon-size: 27px 20px;
+	padding-left: 1px;
+	min-height: 27px;
+	max-height: 27px;
+}
+#siteLabel {
+	qproperty-icon: url(:/icon/zhukao.png);
+}
+#periodUnitLabel {
+	qproperty-icon: url(:/icon/kaoqi.png);
+}
+#roomLabel {
+	qproperty-icon: url(:/icon/kaodian.png);
+}
+
+#sideWidget,
+#statisticWidget {
+	min-width: 176px;
+	max-width: 176px;
+}
+
+#infoLabel {
+	background: white;
+	padding: 10px 10px;
+	border: 2px solid white;
+	text-align: center;
+	font-size: 16px;
+	min-height: 100px;
+	max-height: 100px;
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+}
+
+#infoLabel[error=true] {
+	/*border: 2px dashed rgb(205,0,0);*/
+	color: red;
+}
+
+#pictureLabel {
+	background: url(:/icon/person.png);
+}
+
+.PersonInfoLabel {
+	border: none;
+	border-bottom: 1px solid lightgray;
+}
+
+.QComboBox {
+	color: black;
+	background: white;
+	border: 1px solid lightgray;
+	height: 20px;
+}
+
+.QComboBox:drop-down {
+	width: 10px;
+	height: 10px;
+	border: 0px solid gray;
+	subcontrol-origin: margin;
+	subcontrol-position: right center;
+	margin-right: 5px;
+}
+
+.QComboBox::down-arrow {
+	image: url(:/icon/arrow-down.png);
+}
+.QComboBox::down-arrow:on {
+	top: 1px;
+	left: 1px;
+}
+.QLineEdit {
+	height: 20px;
+	border: 1px solid lightgray;
+}
+.QPushButton {
+	border: 0px solid 9c41cc;
+	color: white;
+	min-height: 22px;
+	background: rgb(46,62,79);
+	padding-left: 5px;
+	padding-right: 5px;
+	border-radius: 2px;
+}
+.QPushButton:hover {
+	color: #DDD;
+}
+.QPushButton:pressed {
+	color: #BBB;
+}
+</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_4">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <property name="spacing">
+    <number>1</number>
+   </property>
+   <item row="1" column="0">
+    <widget class="QWidget" name="statisticWidget" native="true">
+     <property name="class" stdset="0">
+      <string>ContainerWidget</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>5</number>
+      </property>
+      <item>
+       <widget class="QPushButton" name="statisticLabel">
+        <property name="text">
+         <string>数据统计</string>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
+        </property>
+        <property name="class" stdset="0">
+         <string>TitleLabel</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="widget_3" native="true">
+        <layout class="QGridLayout" name="gridLayout_2">
+         <property name="leftMargin">
+          <number>10</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>10</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <property name="spacing">
+          <number>5</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>已刷卡:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="synchronizedCountLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>0</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_6">
+           <property name="text">
+            <string>未刷卡:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLabel" name="unsynchronizedCountLabel">
+           <property name="text">
+            <string>0</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_8">
+           <property name="text">
+            <string>总人数:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLabel" name="totalLabel">
+           <property name="text">
+            <string>0</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QWidget" name="sideWidget" native="true">
+     <property name="class" stdset="0">
+      <string>ContainerWidget</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>10</number>
+      </property>
+      <item>
+       <widget class="QPushButton" name="settingLabel">
+        <property name="text">
+         <string>配置信息</string>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
+        </property>
+        <property name="class" stdset="0">
+         <string>TitleLabel</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="sideInnerWidget" native="true">
+        <layout class="QGridLayout" name="gridLayout">
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item row="2" column="0" colspan="2">
+          <widget class="QPushButton" name="siteLabel">
+           <property name="text">
+            <string>考点</string>
+           </property>
+           <property name="flat">
+            <bool>true</bool>
+           </property>
+           <property name="class" stdset="0">
+            <string>IconLabel</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0" colspan="2">
+          <widget class="QComboBox" name="siteComboBox"/>
+         </item>
+         <item row="6" column="0" colspan="2">
+          <widget class="QPushButton" name="roomLabel">
+           <property name="text">
+            <string>考场</string>
+           </property>
+           <property name="flat">
+            <bool>true</bool>
+           </property>
+           <property name="class" stdset="0">
+            <string>IconLabel</string>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="0">
+          <widget class="QPushButton" name="loadExamButton">
+           <property name="text">
+            <string>初始化</string>
+           </property>
+           <property name="flat">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="0" colspan="2">
+          <widget class="QComboBox" name="roomComboBox"/>
+         </item>
+         <item row="8" column="1">
+          <widget class="QPushButton" name="toggleReadButton">
+           <property name="text">
+            <string>开始读卡</string>
+           </property>
+           <property name="checkable">
+            <bool>false</bool>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
+           </property>
+           <property name="flat">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QPushButton" name="periodUnitLabel">
+           <property name="text">
+            <string>考期</string>
+           </property>
+           <property name="flat">
+            <bool>true</bool>
+           </property>
+           <property name="class" stdset="0">
+            <string>IconLabel</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0" colspan="2">
+          <widget class="QComboBox" name="periodUnitComboBox"/>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="1" rowspan="2">
+    <widget class="QWidget" name="personWidget" native="true">
+     <property name="class" stdset="0">
+      <string>ContainerWidget</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QPushButton" name="personLabel">
+        <property name="text">
+         <string>学员身份证</string>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
+        </property>
+        <property name="class" stdset="0">
+         <string>TitleLabel</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="widget_4" native="true">
+        <layout class="QGridLayout" name="gridLayout_3">
+         <property name="verticalSpacing">
+          <number>10</number>
+         </property>
+         <item row="4" column="1">
+          <widget class="QLabel" name="cardIdLabel">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="class" stdset="0">
+            <string>PersonInfoLabel</string>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="1" colspan="2">
+          <widget class="QLabel" name="validEndLabel">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="class" stdset="0">
+            <string>PersonInfoLabel</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="nameLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="class" stdset="0">
+            <string>PersonInfoLabel</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2" rowspan="5">
+          <widget class="QLabel" name="pictureLabel">
+           <property name="minimumSize">
+            <size>
+             <width>102</width>
+             <height>126</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>102</width>
+             <height>126</height>
+            </size>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="0">
+          <widget class="QLabel" name="label_24">
+           <property name="text">
+            <string>有效结束日期:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_16">
+           <property name="text">
+            <string>民族:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="label_21">
+           <property name="text">
+            <string>身份证号码:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="1" colspan="2">
+          <widget class="QLabel" name="policeLabel">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="class" stdset="0">
+            <string>PersonInfoLabel</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLabel" name="nationalityLabel">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="class" stdset="0">
+            <string>PersonInfoLabel</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_15">
+           <property name="text">
+            <string>性别:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="label_14">
+           <property name="text">
+            <string>住址:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
+           </property>
+          </widget>
+         </item>
+         <item row="9" column="1">
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="5" column="1" colspan="2">
+          <widget class="QLabel" name="addressLabel">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="class" stdset="0">
+            <string>PersonInfoLabel</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="0">
+          <widget class="QLabel" name="label_22">
+           <property name="text">
+            <string>签发机关:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_17">
+           <property name="text">
+            <string>出生:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLabel" name="birthdayLabel">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="class" stdset="0">
+            <string>PersonInfoLabel</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLabel" name="genderLabel">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="class" stdset="0">
+            <string>PersonInfoLabel</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_11">
+           <property name="text">
+            <string>姓名:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="1" colspan="2">
+          <widget class="QLabel" name="validStartLabel">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="class" stdset="0">
+            <string>PersonInfoLabel</string>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="0">
+          <widget class="QLabel" name="label_23">
+           <property name="text">
+            <string>有效开始日期:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="2">
+    <widget class="QLabel" name="infoLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>

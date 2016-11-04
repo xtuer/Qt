@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network
+QT       += core gui network xmlpatterns
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET   = Gui
@@ -27,8 +27,10 @@ RCC_DIR     = $$output
 UI_DIR      = $$output
 
 SOURCES += main.cpp\
-        widget.cpp
+        widget.cpp \
+    JsonReader.cpp
 
-HEADERS  += widget.h
+HEADERS  += widget.h \
+    JsonReader.h
 
 FORMS    += widget.ui
