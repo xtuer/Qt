@@ -27,7 +27,7 @@ public:
      * @param  debug 是否启用调试模式
      * @return 返回 HttpClient 的引用，可以用于链式调用
      */
-    HttpClient& setDebug(bool debug);
+    HttpClient& debug(bool debug);
 
     /**
      * @brief 增加参数

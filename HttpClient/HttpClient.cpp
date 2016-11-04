@@ -34,7 +34,7 @@ HttpClient &HttpClient::useManager(QNetworkAccessManager *manager) {
 }
 
 // 传入 debug 为 true 则使用 debug 模式，请求执行时输出请求的 URL 和参数等
-HttpClient &HttpClient::setDebug(bool debug) {
+HttpClient &HttpClient::debug(bool debug) {
     d->debug = debug;
     return *this;
 }

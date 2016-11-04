@@ -29,7 +29,8 @@ int main(int argc, char *argv[]) {
                 .addParam("id", "2")
                 .addParam("name", "卧龙")
                 .addHeader("token", "DER#2J7")
-                .addHeader("content-type", "application/x-www-form-urlencoded")
+                // .addHeader("content-type", "application/x-www-form-urlencoded")
+                .addFormHeader()
                 .post([](const QString &response) {
             qDebug() << response;
         });
@@ -47,7 +48,7 @@ int main(int argc, char *argv[]) {
         // [[5]] 下载
         QFile *file = new QFile("dog.png");
         if (file->open(QIODevice::WriteOnly)) {
-            HttpClient("http://xtuer.github.io/img/dog.png").setDebug(true).download([=](const QByteArray &data) {
+            HttpClient("http://xtuer.github.io/img/dog.png").debug(true).download([=](const QByteArray &data) {
                 file->write(data);
             }, [=] {
                 file->flush();
