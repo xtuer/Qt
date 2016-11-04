@@ -73,6 +73,7 @@
 }
 
 #infoLabel {
+	color: darkgreen;
 	background: white;
 	padding: 10px 10px;
 	border: 2px solid white;
@@ -144,16 +145,16 @@
   </property>
   <layout class="QGridLayout" name="gridLayout_4">
    <property name="leftMargin">
-    <number>1</number>
+    <number>0</number>
    </property>
    <property name="topMargin">
     <number>0</number>
    </property>
    <property name="rightMargin">
-    <number>1</number>
+    <number>0</number>
    </property>
    <property name="bottomMargin">
-    <number>1</number>
+    <number>0</number>
    </property>
    <property name="spacing">
     <number>1</number>
@@ -223,7 +224,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>0</string>
+            <string>1</string>
            </property>
           </widget>
          </item>
@@ -237,7 +238,7 @@
          <item row="1" column="1">
           <widget class="QLabel" name="unsynchronizedCountLabel">
            <property name="text">
-            <string>0</string>
+            <string>55</string>
            </property>
           </widget>
          </item>
@@ -251,7 +252,7 @@
          <item row="2" column="1">
           <widget class="QLabel" name="totalLabel">
            <property name="text">
-            <string>0</string>
+            <string>56</string>
            </property>
           </widget>
          </item>

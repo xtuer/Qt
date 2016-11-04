@@ -14,7 +14,7 @@ int main(int argc, char *argv[]) {
     Singleton<LogHandler>::getInstance().installMessageHandler(); // 安装消息处理函数
     Util::registerTypes();
 
-    qDebug() << "创建 Window";
+    // qDebug() << "创建 Window";
     MainWidget *w = new MainWidget();
 
     FramelessWindow *window = new FramelessWindow(w);

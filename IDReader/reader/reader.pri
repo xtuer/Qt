@@ -1,7 +1,7 @@
 HEADERS += \
     $$PWD/CardReader.h \
-    $$PWD/ReadThread.h
+    $$PWD/CardReaderThread.h
 
 SOURCES += \
     $$PWD/CardReader.cpp \
-    $$PWD/ReadThread.cpp
+    $$PWD/CardReaderThread.cpp

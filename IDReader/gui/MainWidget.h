@@ -33,13 +33,16 @@ public:
     ~MainWidget();
 
 private slots:
-    void signIn(const Person &p); // 发送学生信息到服务器签到
+    void personReady(const Person &p); // 得到学生的信息
+    void login(const Person &p); // 发送学生信息到服务器签到
+    void showInfo(const QString &info, bool error = false); // 显示信息, error 为 true 时以红色显示
+    void setReadButtonText(const QString &text);
 
 private:
     void handleEvents(); // 事件处理
-    void showInfo(const QString &info, bool error = false); // 显示信息, error 为 true 时以红色显示
-    void loadRoomEnrollment();  // 加载学生数据
-    void loadRoomInformation(); // 加载初始化信息
+    void loadStudents();  // 加载学生数据
+    void loadSiteAndPeriodUnit(); // 加载考期和考点
+    void loadRoom(const QString &siteCode); // 加载考场
 
     Ui::MainWidget *ui;
     MainWidgetPrivate *d;

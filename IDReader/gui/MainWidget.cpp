@@ -7,7 +7,7 @@
 #include "bean/Site.h"
 #include "bean/PeriodUnit.h"
 #include "reader/CardReader.h"
-#include "reader/ReadThread.h"
+#include "reader/CardReaderThread.h"
 #include "util/Util.h"
 #include "util/UiUtil.h"
 #include "util/JsonReader.h"
@@ -30,7 +30,7 @@
 class MainWidgetPrivate {
 public:
     MainWidgetPrivate() {
-        readThread = new ReadThread();
+        readerThread = new CardReaderThread();
         networkManager = new QNetworkAccessManager();
         serverUrl = Singleton<ConfigUtil>::getInstance().getServerUrl();
         loginDetailsButton = new QPushButton("详情");
@@ -38,9 +38,9 @@ public:
     }
 
     ~MainWidgetPrivate() {
-        readThread->stop();
-        readThread->wait();
-        delete readThread;
+        readerThread->stop();
+        readerThread->wait();
+        delete readerThread;
         delete networkManager;
     }
 
@@ -67,7 +67,7 @@ public:
         return -1;
     }
 
-    ReadThread *readThread;
+    CardReaderThread *readerThread;
     QString serverUrl;
     QNetworkAccessManager *networkManager;
     QPushButton *loginDetailsButton;
@@ -97,6 +97,65 @@ MainWidget::~MainWidget() {
     delete ui;
 }
 
+void MainWidget::handleEvents() {
+    // 连接或断开身份证读卡器
+    connect(ui->toggleReadButton, &QPushButton::clicked, [this]() {
+        if (!d->readerThread->isRunning()) {
+            d->readerThread->start();
+            ui->toggleReadButton->setText("结束刷卡");
+        } else {
+            d->readerThread->stop();
+            d->readerThread->wait();
+            ui->toggleReadButton->setText("开始刷卡");
+        }
+    });
+
+    // 读取到身份证信息，Reader 线程
+    connect(d->readerThread, &CardReaderThread::personReady, [this](const Person &p) {
+        // 显示和发送学生信息到服务器: 使用 invokeMethod() 解决不同线程问题，因为当前上下文环境属于 ReadThread，不属于 GUI 线程
+        QMetaObject::invokeMethod(this, "personReady", Q_ARG(Person, p));
+    });
+
+    // 读卡线程信息，Reader 线程
+    connect(d->readerThread, &CardReaderThread::info, [this](int code, const QString &message) {
+        if (Constants::CODE_READ_READY == code) {
+            //showInfo(Constants::INFO_READ_READY, false);
+            QMetaObject::invokeMethod(this, "showInfo", Q_ARG(QString, Constants::INFO_READ_READY));
+        } else if (11 != code){
+            // 11 为读卡失败，定时读卡时没有卡
+            // showInfo(message, true);
+            QMetaObject::invokeMethod(this, "showInfo", Q_ARG(QString, message), Q_ARG(bool, true));
+        }
+
+        // 端口打开失败
+        if (1 == code) {
+            // ui->toggleReadButton->setText("开始刷卡");
+            QMetaObject::invokeMethod(this, "setReadButtonText", Q_ARG(QString, QString("开始刷卡")));
+        }
+    });
+
+    // 从服务器加载学生刷卡信息
+    connect(d->loginDetailsButton, &QPushButton::clicked, [this] {
+        loadStudents();
+    });
+
+    // 加载考期和考点
+    connect(ui->loadExamButton, &QPushButton::clicked, [this]() {
+        loadSiteAndPeriodUnit();
+    });
+
+    // 当 Site 变化时，重行初始化 Room 信息
+    connect(ui->siteComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this](int index) {
+        QString siteCode = ui->siteComboBox->itemData(index).toString();
+        loadRoom(siteCode);
+    });
+
+    // 当 Room 变化时，加载学生的刷卡信息
+    connect(ui->roomComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), [this]() {
+        loadStudents();
+    });
+}
+
 void MainWidget::showInfo(const QString &info, bool error) {
     ui->infoLabel->setProperty("error", error);
     ui->infoLabel->setText(info);
@@ -104,8 +163,12 @@ void MainWidget::showInfo(const QString &info, bool error) {
     UiUtil::updateQss(ui->infoLabel);
 }
 
+void MainWidget::setReadButtonText(const QString &text) {
+    ui->toggleReadButton->setText(text);
+}
+
 // 加载考场的学生信息
-void MainWidget::loadRoomEnrollment() {
+void MainWidget::loadStudents() {
     QString siteCode = ui->siteComboBox->currentData().toString();
     QString roomCode = ui->roomComboBox->currentData().toString();
     QString periodUnitCode = ui->periodUnitComboBox->currentData().toString();
@@ -117,9 +180,9 @@ void MainWidget::loadRoomEnrollment() {
 
     // http://192.168.10.85:8080/getRoomEnrollment?siteCode=S001&roomCode=001&periodUnitCode=160901
     QString url = d->serverUrl + Urls::GET_ROOM_ENROLLMENT;
-    HttpClient(url).useManager(d->networkManager).addParam("siteCode", siteCode).addParam("roomCode", roomCode).addParam("periodUnitCode", periodUnitCode)
+    HttpClient(url).useManager(d->networkManager).addParam("siteCode", siteCode)
+            .addParam("roomCode", roomCode).addParam("periodUnitCode", periodUnitCode)
             .get([this](const QString &jsonResponse) {
-        qDebug() << jsonResponse;
         JsonReader json(jsonResponse.toUtf8());
 
         if (1 != json.getInt("status")) {
@@ -131,12 +194,12 @@ void MainWidget::loadRoomEnrollment() {
     });
 }
 
-// 加载考试信息
-void MainWidget::loadRoomInformation() {
+// 加载考期和考点
+void MainWidget::loadSiteAndPeriodUnit() {
     // http://192.168.10.85:8080/initializeRoom
     QString url = d->serverUrl + Urls::INITIALIZE_ROOM;
     HttpClient(url).useManager(d->networkManager).get([this](const QString &jsonResponse) {
-        // 解析 Site
+        // 解析考点 Site
         d->sites = ResponseUtil::responseToSites(jsonResponse);
         ui->siteComboBox->clear();
 
@@ -144,37 +207,52 @@ void MainWidget::loadRoomInformation() {
             ui->siteComboBox->addItem(s.siteName, s.siteCode);
         }
 
-        // 解析 PeriodUnit
+        // 解析考期 PeriodUnit
         d->periodUnits = ResponseUtil::responseToPeroidUnits(jsonResponse);
         ui->periodUnitComboBox->clear();
 
         foreach (const PeriodUnit &pu, d->periodUnits) {
-            ui->periodUnitComboBox->addItem(pu.periodUnitCode, pu.periodUnitCode);
+            ui->periodUnitComboBox->addItem(pu.period + "-" + pu.unit, pu.periodUnitCode);
         }
     }, [this](const QString &error) {
         showInfo(error, true);
     });
 }
 
+// 加载考场
+void MainWidget::loadRoom(const QString &siteCode) {
+    Site s = d->findSite(siteCode);
+
+    ui->roomComboBox->clear();
+    foreach (const Room &room, s.rooms) {
+        ui->roomComboBox->addItem(room.roomCode, room.roomCode);
+    }
+
+    ui->roomComboBox->setCurrentIndex(-1);
+}
+
 // 刷卡后发送学生信息到服务器
-void MainWidget::signIn(const Person &p) {
+void MainWidget::login(const Person &p) {
     QString siteCode = ui->siteComboBox->currentData().toString();
     QString roomCode = ui->roomComboBox->currentData().toString();
     QString periodUnitCode = ui->periodUnitComboBox->currentData().toString();
 
     if (siteCode.isEmpty() || roomCode.isEmpty() || periodUnitCode.isEmpty()) {
-        showInfo("siteCode or roomCode or periodUnitCode cannot be empty");
+        showInfo("siteCode or roomCode or periodUnitCode cannot be empty", true);
         return;
     }
 
-    // http://192.168.10.85:8080/signIn/?idCardNo=5225********414&examineeName=黄彪&siteCode=S001&roomCode=001&periodUnitCode=160901
+    // http://192.168.10.85:8080/signIn/?idCardNo=5225********414&examineeName=黄彪&siteCode=S001
+    // &roomCode=001&periodUnitCode=160901
     QString url = d->serverUrl + Urls::SIGN_IN;
-    HttpClient(url).useManager(d->networkManager).addParam("idCardNo", p.cardId).addParam("examineeName", p.name).addParam("siteCode", siteCode)
-            .addParam("roomCode", roomCode).addParam("periodUnitCode", periodUnitCode).get([this](const QString &response) {
+    HttpClient(url).setDebug(true).useManager(d->networkManager).addParam("idCardNo", p.cardId)
+            .addParam("examineeName", p.name).addParam("siteCode", siteCode).addParam("roomCode", roomCode)
+            .addParam("periodUnitCode", periodUnitCode)
+            .addFormHeader().post([this](const QString &response) {
         JsonReader json(response.toUtf8());
 
         if (1 != json.getInt("statusCode")) {
-            showInfo(response, false);
+            showInfo(response, true);
             return;
         }
 
@@ -188,76 +266,18 @@ void MainWidget::signIn(const Person &p) {
     });
 }
 
-void MainWidget::handleEvents() {
-    // 加载初始化信息
-    connect(ui->loadExamButton, &QPushButton::clicked, [this]() {
-        loadRoomInformation();
-    });
+void MainWidget::personReady(const Person &p) {
+    ui->nameLabel->setText(p.name);
+    ui->genderLabel->setText(p.gender);
+    ui->nationalityLabel->setText(p.nationality);
+    ui->birthdayLabel->setText(Util::formatDate(p.birthday));
+    ui->cardIdLabel->setText(p.cardId);
+    ui->addressLabel->setText(p.address);
+    ui->policeLabel->setText(p.police);
+    ui->validStartLabel->setText(Util::formatDate(p.validStart));
+    ui->validEndLabel->setText(Util::formatDate(p.validEnd));
+    ui->pictureLabel->setPixmap(QPixmap(CardReader::personImagePath()));
 
-    // 连接或断开身份证读卡器
-    connect(ui->toggleReadButton, &QPushButton::clicked, [this]() {
-        if (!d->readThread->isRunning()) {
-            d->readThread->start();
-            ui->toggleReadButton->setText("结束刷卡");
-        } else {
-            d->readThread->stop();
-            d->readThread->wait();
-            ui->toggleReadButton->setText("开始刷卡");
-        }
-    });
-
-    // 读取到身份证信息
-    connect(d->readThread, &ReadThread::personReady, [this](const Person &p) {
-        ui->nameLabel->setText(p.name);
-        ui->genderLabel->setText(p.gender);
-        ui->nationalityLabel->setText(p.nationality);
-        ui->birthdayLabel->setText(Util::formatDate(p.birthday));
-        ui->cardIdLabel->setText(p.cardId);
-        ui->addressLabel->setText(p.address);
-        ui->policeLabel->setText(p.police);
-        ui->validStartLabel->setText(Util::formatDate(p.validStart));
-        ui->validEndLabel->setText(Util::formatDate(p.validEnd));
-        ui->pictureLabel->setPixmap(QPixmap(CardReader::personImagePath()));
-
-        // 发送学生信息到服务器: 使用 invokeMethod() 解决不同线程问题，因为当前上下文环境属于 ReadThread，不属于 GUI 线程
-        QMetaObject::invokeMethod(this, "signIn", Q_ARG(Person, p));
-    });
-
-    // 读卡线程信息
-    connect(d->readThread, &ReadThread::info, [this](int code, const QString &message) {
-        if (Constants::CODE_READ_READY == code) {
-            showInfo(Constants::INFO_READ_READY, false);
-        } else if (11 != code){
-            // 11 为读卡失败，定时读卡时没有卡
-            showInfo(message, true);
-        }
-
-        // 端口打开失败
-        if (1 == code) {
-            ui->toggleReadButton->setText("开始刷卡");
-        }
-    });
-
-    // 从服务器加载学生刷卡信息
-    connect(d->loginDetailsButton, &QPushButton::clicked, [this] {
-        loadRoomEnrollment();
-    });
-
-    // 当 Site 变化时，重行初始化 Room 信息
-    connect(ui->siteComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this](int index) {
-        QString siteCode = ui->siteComboBox->itemData(index).toString();
-        Site s = d->findSite(siteCode);
-
-        ui->roomComboBox->clear();
-        foreach (const Room &room, s.rooms) {
-            ui->roomComboBox->addItem(room.roomCode, room.roomCode);
-        }
-
-        ui->roomComboBox->setCurrentIndex(-1);
-    });
-
-    // 当 Room 变化时，加载刷卡信息
-    connect(ui->roomComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), [this]() {
-        loadRoomEnrollment();
-    });
+    // 登陆
+    login(p);
 }
