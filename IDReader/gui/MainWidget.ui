@@ -216,7 +216,7 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QLabel" name="synchronizedCountLabel">
+          <widget class="QLabel" name="loginCountLabel">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
              <horstretch>0</horstretch>
@@ -224,7 +224,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>1</string>
+            <string>0</string>
            </property>
           </widget>
          </item>
@@ -236,9 +236,9 @@
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QLabel" name="unsynchronizedCountLabel">
+          <widget class="QLabel" name="unloginCountLabel">
            <property name="text">
-            <string>55</string>
+            <string>0</string>
            </property>
           </widget>
          </item>
@@ -250,9 +250,9 @@
           </widget>
          </item>
          <item row="2" column="1">
-          <widget class="QLabel" name="totalLabel">
+          <widget class="QLabel" name="totalCountLabel">
            <property name="text">
-            <string>56</string>
+            <string>0</string>
            </property>
           </widget>
          </item>

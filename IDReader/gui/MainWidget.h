@@ -44,6 +44,11 @@ private:
     void loadSiteAndPeriodUnit(); // 加载考期和考点
     void loadRoom(const QString &siteCode); // 加载考场
 
+    void loginSuccess(const QString &idCardNo); // idCardNo 的学生登陆成功
+    void updateLoginStatistics(const QList<Student> &students); // 更新刷卡统计
+
+    void mocLoadStudents();
+
     Ui::MainWidget *ui;
     MainWidgetPrivate *d;
 };

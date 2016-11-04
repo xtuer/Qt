@@ -125,7 +125,11 @@ void HttpClient::execute(bool posted,
     }
 
     if (d->debug) {
-        qDebug() << QString("URL: %1%2").arg(d->url).arg(d->params.isEmpty() ? "" : "?" + d->params.toString());
+        if (posted) {
+            qDebug() << QString("URL: %1%2").arg(d->url).arg(d->params.isEmpty() ? "" : "?" + d->params.toString());
+        } else {
+            qDebug() << QString("URL: %1").arg(d->url);
+        }
     }
 
     QUrl urlx(d->url);

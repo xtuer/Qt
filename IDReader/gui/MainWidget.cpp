@@ -67,6 +67,18 @@ public:
         return -1;
     }
 
+    // 使用身份证号查找学生
+    // 如果找不到则返回 -1
+    int studentIndex(const QString &idCardNo) {
+        for (int i = 0; i < students.size(); ++i) {
+            if (idCardNo == students[i].idCardNo) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
     CardReaderThread *readerThread;
     QString serverUrl;
     QNetworkAccessManager *networkManager;
@@ -74,6 +86,7 @@ public:
 
     QList<Site> sites;
     QList<PeriodUnit> periodUnits;
+    QList<Student> students;
 };
 
 MainWidget::MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::MainWidget) {
@@ -136,7 +149,8 @@ void MainWidget::handleEvents() {
 
     // 从服务器加载学生刷卡信息
     connect(d->loginDetailsButton, &QPushButton::clicked, [this] {
-        loadStudents();
+        //loadStudents();
+        mocLoadStudents();
     });
 
     // 加载考期和考点
@@ -194,7 +208,7 @@ void MainWidget::loadStudents() {
         return;
     }
 
-    // http://192.168.10.85:8080/getRoomEnrollment?siteCode=S001&roomCode=001&periodUnitCode=160901
+    // http://192.168.10.95:8080/getRoomEnrollment?siteCode=0105013&roomCode=11&periodUnitCode=16090001
     QString url = d->serverUrl + Urls::GET_ROOM_ENROLLMENT;
     HttpClient(url).debug(true).useManager(d->networkManager).addParam("siteCode", siteCode)
             .addParam("roomCode", roomCode).addParam("periodUnitCode", periodUnitCode)
@@ -205,6 +219,10 @@ void MainWidget::loadStudents() {
             showInfo(jsonResponse, true);
             return;
         }
+
+        // 显示学生信息
+        d->students = ResponseUtil::responseToStudents(jsonResponse);
+        updateLoginStatistics(d->students);
     }, [this](const QString &error) {
         showInfo(error, true);
     });
@@ -218,6 +236,7 @@ void MainWidget::loadSiteAndPeriodUnit() {
         // 解析考点 Site
         d->sites = ResponseUtil::responseToSites(jsonResponse);
         ui->siteComboBox->clear();
+        ui->siteComboBox->addItem("请选择", "");
 
         foreach (const Site &s, d->sites) {
             ui->siteComboBox->addItem(s.siteName, s.siteCode);
@@ -226,6 +245,7 @@ void MainWidget::loadSiteAndPeriodUnit() {
         // 解析考期 PeriodUnit
         d->periodUnits = ResponseUtil::responseToPeroidUnits(jsonResponse);
         ui->periodUnitComboBox->clear();
+        ui->periodUnitComboBox->addItem("请选择", "");
 
         foreach (const PeriodUnit &pu, d->periodUnits) {
             ui->periodUnitComboBox->addItem(pu.period + "-" + pu.unit, pu.periodUnitCode);
@@ -240,11 +260,12 @@ void MainWidget::loadRoom(const QString &siteCode) {
     Site s = d->findSite(siteCode);
 
     ui->roomComboBox->clear();
+    ui->roomComboBox->addItem("请选择", "");
+    updateLoginStatistics(QList<Student>());
+
     foreach (const Room &room, s.rooms) {
         ui->roomComboBox->addItem(room.roomCode, room.roomCode);
     }
-
-    ui->roomComboBox->setCurrentIndex(-1);
 }
 
 // 刷卡后发送学生信息到服务器
@@ -253,8 +274,18 @@ void MainWidget::login(const Person &p) {
     QString roomCode = ui->roomComboBox->currentData().toString();
     QString periodUnitCode = ui->periodUnitComboBox->currentData().toString();
 
-    if (siteCode.isEmpty() || roomCode.isEmpty() || periodUnitCode.isEmpty()) {
-        showInfo("siteCode or roomCode or periodUnitCode cannot be empty", true);
+    if (periodUnitCode.isEmpty()) {
+        showInfo("请选择考期");
+        return;
+    }
+
+    if (siteCode.isEmpty()) {
+        showInfo("请选择考点");
+        return;
+    }
+
+    if (roomCode.isEmpty()) {
+        showInfo("请选择考场");
         return;
     }
 
@@ -264,7 +295,7 @@ void MainWidget::login(const Person &p) {
     HttpClient(url).debug(true).useManager(d->networkManager).addParam("idCardNo", p.cardId)
             .addParam("examineeName", p.name).addParam("siteCode", siteCode).addParam("roomCode", roomCode)
             .addParam("periodUnitCode", periodUnitCode)
-            .addFormHeader().post([this](const QString &response) {
+            .addFormHeader().post([=](const QString &response) {
         JsonReader json(response.toUtf8());
 
         if (1 != json.getInt("statusCode")) {
@@ -273,9 +304,57 @@ void MainWidget::login(const Person &p) {
         }
 
         showInfo("刷卡成功");
+        loginSuccess(p.cardId);
+    }, [this](const QString &error) {
+        showInfo(error, true);
+    });
+}
 
-        // 更新已同步数(+1)
-        // 更新未已同步数
+// idCardNo 的学生登陆成功
+void MainWidget::loginSuccess(const QString &idCardNo) {
+    int index = d->studentIndex(idCardNo);
+
+    if (-1 == index) {
+        return;
+    }
+
+    // 如果为空，则说明是第一次刷卡，不是重复刷卡
+    if (d->students[index].signedAt.isEmpty()) {
+        d->students[index].signedAt = QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss");
+        updateLoginStatistics(d->students);
+    }
+}
+
+// 更新刷卡统计
+void MainWidget::updateLoginStatistics(const QList<Student> &students) {
+    int totalCount = students.size();
+    int unloginCount = 0; // 未登陆人数
+
+    foreach (const Student &s, students) {
+        if (s.signedAt.isEmpty()) {
+            unloginCount++;
+        }
+    }
+
+    ui->loginCountLabel->setText(QString::number(totalCount - unloginCount));
+    ui->unloginCountLabel->setText(QString::number(unloginCount));
+    ui->totalCountLabel->setText(QString::number(totalCount));
+}
+
+void MainWidget::mocLoadStudents() {
+    // http://192.168.10.95:8080/getRoomEnrollment?siteCode=0105013&roomCode=11&periodUnitCode=160900001
+    QString url = "http://192.168.10.95:8080/getRoomEnrollment?siteCode=0105013&roomCode=11&periodUnitCode=160900001";
+    HttpClient(url).debug(true).useManager(d->networkManager).get([this](const QString &jsonResponse) {
+        JsonReader json(jsonResponse.toUtf8());
+
+        if (1 != json.getInt("status")) {
+            showInfo(jsonResponse, true);
+            return;
+        }
+
+        // 显示学生信息
+        d->students = ResponseUtil::responseToStudents(jsonResponse);
+        updateLoginStatistics(d->students);
 
     }, [this](const QString &error) {
         showInfo(error, true);
