@@ -34,7 +34,7 @@ HttpClient &HttpClient::useManager(QNetworkAccessManager *manager) {
 }
 
 // 传入 debug 为 true 则使用 debug 模式，请求执行时输出请求的 URL 和参数等
-HttpClient &HttpClient::setDebug(bool debug) {
+HttpClient &HttpClient::debug(bool debug) {
     d->debug = debug;
     return *this;
 }
@@ -79,7 +79,7 @@ void HttpClient::download(std::function<void (const QByteArray &)> readyRead,
     }
 
     if (d->debug) {
-        qDebug() << "URL: " << d->url << ", Params: " << d->params.toString(QUrl::FullyEncoded);
+        qDebug() << QString("URL: %1%2").arg(d->url).arg(d->params.isEmpty() ? "" : "?" + d->params.toString());
     }
 
     QUrl urlx(d->url);
@@ -125,7 +125,7 @@ void HttpClient::execute(bool posted,
     }
 
     if (d->debug) {
-        qDebug() << QString("URL: %1?%2").arg(d->url).arg(d->params.toString());
+        qDebug() << QString("URL: %1%2").arg(d->url).arg(d->params.isEmpty() ? "" : "?" + d->params.toString());
     }
 
     QUrl urlx(d->url);

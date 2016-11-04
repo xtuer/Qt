@@ -167,6 +167,22 @@ void MainWidget::setReadButtonText(const QString &text) {
     ui->toggleReadButton->setText(text);
 }
 
+void MainWidget::personReady(const Person &p) {
+    ui->nameLabel->setText(p.name);
+    ui->genderLabel->setText(p.gender);
+    ui->nationalityLabel->setText(p.nationality);
+    ui->birthdayLabel->setText(Util::formatDate(p.birthday));
+    ui->cardIdLabel->setText(p.cardId);
+    ui->addressLabel->setText(p.address);
+    ui->policeLabel->setText(p.police);
+    ui->validStartLabel->setText(Util::formatDate(p.validStart));
+    ui->validEndLabel->setText(Util::formatDate(p.validEnd));
+    ui->pictureLabel->setPixmap(QPixmap(CardReader::personImagePath()));
+
+    // 登陆
+    login(p);
+}
+
 // 加载考场的学生信息
 void MainWidget::loadStudents() {
     QString siteCode = ui->siteComboBox->currentData().toString();
@@ -174,13 +190,13 @@ void MainWidget::loadStudents() {
     QString periodUnitCode = ui->periodUnitComboBox->currentData().toString();
 
     if (siteCode.isEmpty() || roomCode.isEmpty() || periodUnitCode.isEmpty()) {
-        showInfo("siteCode or roomCode or periodUnitCode cannot be empty");
+        showInfo("siteCode or roomCode or periodUnitCode cannot be empty", true);
         return;
     }
 
     // http://192.168.10.85:8080/getRoomEnrollment?siteCode=S001&roomCode=001&periodUnitCode=160901
     QString url = d->serverUrl + Urls::GET_ROOM_ENROLLMENT;
-    HttpClient(url).useManager(d->networkManager).addParam("siteCode", siteCode)
+    HttpClient(url).debug(true).useManager(d->networkManager).addParam("siteCode", siteCode)
             .addParam("roomCode", roomCode).addParam("periodUnitCode", periodUnitCode)
             .get([this](const QString &jsonResponse) {
         JsonReader json(jsonResponse.toUtf8());
@@ -198,7 +214,7 @@ void MainWidget::loadStudents() {
 void MainWidget::loadSiteAndPeriodUnit() {
     // http://192.168.10.85:8080/initializeRoom
     QString url = d->serverUrl + Urls::INITIALIZE_ROOM;
-    HttpClient(url).useManager(d->networkManager).get([this](const QString &jsonResponse) {
+    HttpClient(url).debug(true).useManager(d->networkManager).get([this](const QString &jsonResponse) {
         // 解析考点 Site
         d->sites = ResponseUtil::responseToSites(jsonResponse);
         ui->siteComboBox->clear();
@@ -245,7 +261,7 @@ void MainWidget::login(const Person &p) {
     // http://192.168.10.85:8080/signIn/?idCardNo=5225********414&examineeName=黄彪&siteCode=S001
     // &roomCode=001&periodUnitCode=160901
     QString url = d->serverUrl + Urls::SIGN_IN;
-    HttpClient(url).setDebug(true).useManager(d->networkManager).addParam("idCardNo", p.cardId)
+    HttpClient(url).debug(true).useManager(d->networkManager).addParam("idCardNo", p.cardId)
             .addParam("examineeName", p.name).addParam("siteCode", siteCode).addParam("roomCode", roomCode)
             .addParam("periodUnitCode", periodUnitCode)
             .addFormHeader().post([this](const QString &response) {
@@ -264,20 +280,4 @@ void MainWidget::login(const Person &p) {
     }, [this](const QString &error) {
         showInfo(error, true);
     });
-}
-
-void MainWidget::personReady(const Person &p) {
-    ui->nameLabel->setText(p.name);
-    ui->genderLabel->setText(p.gender);
-    ui->nationalityLabel->setText(p.nationality);
-    ui->birthdayLabel->setText(Util::formatDate(p.birthday));
-    ui->cardIdLabel->setText(p.cardId);
-    ui->addressLabel->setText(p.address);
-    ui->policeLabel->setText(p.police);
-    ui->validStartLabel->setText(Util::formatDate(p.validStart));
-    ui->validEndLabel->setText(Util::formatDate(p.validEnd));
-    ui->pictureLabel->setPixmap(QPixmap(CardReader::personImagePath()));
-
-    // 登陆
-    login(p);
 }
