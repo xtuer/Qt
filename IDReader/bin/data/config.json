@@ -24,6 +24,7 @@
         "resources/qss/sidebar.css",
         "resources/qss/content.css",
         "resources/qss/table.css",
+        "resources/qss/scrollbar.css",
         "resources/qss/scrollbar.css"
     ],
 

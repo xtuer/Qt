@@ -1,6 +1,7 @@
 #include "gui/MainWidget.h"
 #include "gui/FramelessWindow.h"
 #include "util/Util.h"
+#include "util/UiUtil.h"
 #include "util/ConfigUtil.h"
 #include "log/LogHandler.h"
 #include <QApplication>
@@ -13,6 +14,8 @@ int main(int argc, char *argv[]) {
 
     Singleton<LogHandler>::getInstance().installMessageHandler(); // 安装消息处理函数
     Util::registerTypes();
+
+    UiUtil::loadQss();
 
     // qDebug() << "创建 Window";
     MainWidget *w = new MainWidget();
