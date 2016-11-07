@@ -18,6 +18,8 @@ public:
     ~Widget();
 
 private:
+    void loadQss();
+
     Ui::Widget *ui;
     QFile file;
 };

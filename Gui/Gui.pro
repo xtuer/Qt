@@ -28,9 +28,11 @@ UI_DIR      = $$output
 
 SOURCES += main.cpp\
         widget.cpp \
-    JsonReader.cpp
+    JsonReader.cpp \
+    UiUtil.cpp
 
 HEADERS  += widget.h \
-    JsonReader.h
+    JsonReader.h \
+    UiUtil.h
 
 FORMS    += widget.ui
