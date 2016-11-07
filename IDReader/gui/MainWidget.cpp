@@ -314,7 +314,7 @@ void MainWidget::login(const Person &p) {
         JsonReader json(response.toUtf8());
 
         if (1 != json.getInt("statusCode")) {
-            showInfo(response, true);
+            showInfo(json.getString("message"), true);
             return;
         }
 

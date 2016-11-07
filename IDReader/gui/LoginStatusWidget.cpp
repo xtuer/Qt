@@ -6,6 +6,8 @@
 #include <QDebug>
 #include <QModelIndex>
 #include <QToolTip>
+#include <QClipboard>
+#include <QApplication>
 
 LoginStatusWidget::LoginStatusWidget(QWidget *parent) : QWidget(parent), ui(new Ui::LoginStatusWidget) {
     ui->setupUi(this);
@@ -31,6 +33,18 @@ LoginStatusWidget::LoginStatusWidget(QWidget *parent) : QWidget(parent), ui(new 
 
         QToolTip::showText(QCursor::pos(), index.data(Qt::UserRole + 1).toString());
     });
+
+    // 双击复制准考证号
+    connect(ui->listView, &QListView::clicked, [] (const QModelIndex &index) {
+        if (!index.isValid()) {
+            qDebug() << "Invalid index";
+            return;
+        }
+
+        QString examUid = index.data(Qt::UserRole + 2).toString();
+        QApplication::clipboard()->setText(examUid);
+        QToolTip::showText(QCursor::pos(), QString("成功复制准考证号: %1").arg(examUid));
+    });
 }
 
 LoginStatusWidget::~LoginStatusWidget() {
@@ -48,7 +62,8 @@ void LoginStatusWidget::setStudents(const QList<Student> &students) {
         QStandardItem *item = new QStandardItem(student.signedAt.isEmpty() ? offlineIcon : onlineIcon, student.examineeName);
         QString toolTip = QString("姓名: %1<br>准考证号: %2<br>身份证号: %3<br>签到时间: %4")
                 .arg(student.examineeName).arg(student.examUid).arg(student.idCardNo).arg(student.signedAt);
-        item->setData(toolTip);
+        item->setData(toolTip, Qt::UserRole + 1);
+        item->setData(student.examUid, Qt::UserRole + 2); // 准考证号
         item->setSelectable(false);
 
         model->appendRow(item);
