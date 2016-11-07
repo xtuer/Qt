@@ -48,6 +48,7 @@ private:
     void updateLoginStatistics(const QList<Student> &students); // 更新刷卡统计
 
     void mocLoadStudents();
+    void showLoginStatusWidget(const QList<Student> &students); // 可视化的显示登陆状态
 
     Ui::MainWidget *ui;
     MainWidgetPrivate *d;

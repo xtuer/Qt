@@ -1,5 +1,7 @@
 #include "MainWidget.h"
 #include "ui_MainWidget.h"
+#include "LoginStatusWidget.h"
+#include "FramelessWindow.h"
 #include "Constants.h"
 #include "bean/Person.h"
 #include "bean/Student.h"
@@ -155,8 +157,8 @@ void MainWidget::handleEvents() {
 
     // 从服务器加载学生刷卡信息
     connect(d->loginDetailsButton, &QPushButton::clicked, [this] {
-        //loadStudents();
-        mocLoadStudents();
+        showLoginStatusWidget(d->students);
+        // mocLoadStudents();
     });
 
     // 加载考期和考点
@@ -335,6 +337,8 @@ void MainWidget::loginSuccess(const QString &idCardNo) {
     if (d->students[index].signedAt.isEmpty()) {
         d->students[index].signedAt = QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss");
         updateLoginStatistics(d->students);
+    } else {
+        d->students[index].signedAt = QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss");
     }
 }
 
@@ -367,9 +371,22 @@ void MainWidget::mocLoadStudents() {
 
         // 显示学生信息
         d->students = ResponseUtil::responseToStudents(jsonResponse);
-        updateLoginStatistics(d->students);
-
+        showLoginStatusWidget(d->students);
     }, [this](const QString &error) {
         showInfo(error, true);
     });
+}
+
+void MainWidget::showLoginStatusWidget(const QList<Student> &students) {
+    LoginStatusWidget *lsw = new LoginStatusWidget();
+    lsw->setStudents(students);
+    FramelessWindow *window = new FramelessWindow(lsw);
+    window->setTitleBarButtonsVisible(false, false, true);
+    window->resize(600, 400);
+    window->setResizable(false);
+
+    window->setAttribute(Qt::WA_DeleteOnClose);
+    window->setWindowModality(Qt::ApplicationModal);
+
+    window->show();
 }
