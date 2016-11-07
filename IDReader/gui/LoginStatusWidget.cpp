@@ -4,6 +4,8 @@
 #include <QStandardItem>
 #include <QStandardItemModel>
 #include <QDebug>
+#include <QModelIndex>
+#include <QToolTip>
 
 LoginStatusWidget::LoginStatusWidget(QWidget *parent) : QWidget(parent), ui(new Ui::LoginStatusWidget) {
     ui->setupUi(this);
@@ -18,6 +20,17 @@ LoginStatusWidget::LoginStatusWidget(QWidget *parent) : QWidget(parent), ui(new 
     ui->listView->setResizeMode(QListView::Adjust); // 大小变化后重新布局 items
     ui->listView->setEditTriggers(QAbstractItemView::NoEditTriggers); // 不允许编辑
     ui->listView->setIconSize(QSize(64, 64)); // 图标大小
+
+    // 鼠标放到 item 上时显示提示
+    ui->listView->setMouseTracking(true);
+    connect(ui->listView, &QListView::entered, [] (const QModelIndex &index) {
+        if (!index.isValid()) {
+            qDebug() << "Invalid index";
+            return;
+        }
+
+        QToolTip::showText(QCursor::pos(), index.data(Qt::UserRole + 1).toString());
+    });
 }
 
 LoginStatusWidget::~LoginStatusWidget() {
@@ -35,7 +48,8 @@ void LoginStatusWidget::setStudents(const QList<Student> &students) {
         QStandardItem *item = new QStandardItem(student.signedAt.isEmpty() ? offlineIcon : onlineIcon, student.examineeName);
         QString toolTip = QString("姓名: %1<br>准考证号: %2<br>身份证号: %3<br>签到时间: %4")
                 .arg(student.examineeName).arg(student.examUid).arg(student.idCardNo).arg(student.signedAt);
-        item->setToolTip(toolTip);
+        item->setData(toolTip);
+        item->setSelectable(false);
 
         model->appendRow(item);
     }

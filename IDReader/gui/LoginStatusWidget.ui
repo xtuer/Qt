@@ -22,12 +22,15 @@
 	color: #EEE;
 	background-image: url(:/icon/imgs.png);	
 	padding: 0;
-	border: 0px solid red;
-	padding: 0px;
+	border: 0px solid transparent;
 }
 
 #listView::item {
-	margin: 5px 0px 5px 5px;
+
+}
+
+#listView::item:hover {
+	border-color: transparent;
 }</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
