@@ -54,6 +54,8 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
 
         QToolTip::showText(QCursor::pos(), index.data(Qt::UserRole + 1).toString());
     });
+
+    ui->lineEdit->setText("Hello");
 }
 
 Widget::~Widget() {
