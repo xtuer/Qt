@@ -21,7 +21,8 @@ LoginStatusWidget::LoginStatusWidget(QWidget *parent) : QWidget(parent), ui(new 
     ui->listView->setViewMode(QListView::IconMode); // 文字在图标下面
     ui->listView->setResizeMode(QListView::Adjust); // 大小变化后重新布局 items
     ui->listView->setEditTriggers(QAbstractItemView::NoEditTriggers); // 不允许编辑
-    ui->listView->setIconSize(QSize(64, 64)); // 图标大小
+    ui->listView->setIconSize(QSize(36, 36)); // 图标大小
+    ui->listView->setGridSize(QSize(55, 66));
 
     // 鼠标放到 item 上时显示提示
     ui->listView->setMouseTracking(true);
@@ -57,7 +58,7 @@ void LoginStatusWidget::setStudents(const QList<Student> &students) {
     QIcon onlineIcon(":/icon/online.png");
     QIcon offlineIcon(":/icon/offline.png");
 
-    // for (int i = 0; i < 50; ++i) // 测试滚动条
+    // for (int i = 0; i < 2; ++i) // 测试滚动条
     foreach (const Student &student, students) {
         QStandardItem *item = new QStandardItem(student.signedAt.isEmpty() ? offlineIcon : onlineIcon, student.examineeName);
         QString toolTip = QString("姓名: %1<br>准考证号: %2<br>身份证号: %3<br>签到时间: %4")

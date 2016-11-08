@@ -360,7 +360,7 @@ void MainWidget::updateLoginStatistics(const QList<Student> &students) {
 
 void MainWidget::mocLoadStudents() {
     // http://192.168.10.95:8080/getRoomEnrollment?siteCode=0105013&roomCode=11&periodUnitCode=160900001
-    QString url = "http://192.168.10.95:8080/getRoomEnrollment?siteCode=0105013&roomCode=11&periodUnitCode=160900001";
+    QString url = "http://192.168.10.95:8080/getRoomEnrollment?siteCode=0105013&roomCode=014&periodUnitCode=160900007";
     HttpClient(url).debug(true).useManager(d->networkManager).get([this](const QString &jsonResponse) {
         JsonReader json(jsonResponse.toUtf8());
 
@@ -382,7 +382,7 @@ void MainWidget::showLoginStatusWidget(const QList<Student> &students) {
     lsw->setStudents(students);
     FramelessWindow *window = new FramelessWindow(lsw);
     window->setTitleBarButtonsVisible(false, false, true);
-    window->resize(600, 400);
+    window->resize(580, 500);
     window->setResizable(false);
 
     window->setAttribute(Qt::WA_DeleteOnClose);

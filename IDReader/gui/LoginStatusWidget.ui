@@ -21,7 +21,7 @@
 #listView {
 	color: #EEE;
 	background-image: url(:/icon/imgs.png);	
-	padding: 0;
+
 	border: 0px solid transparent;
 }
 
@@ -34,6 +34,18 @@
 }</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <property name="leftMargin">
+    <number>5</number>
+   </property>
+   <property name="topMargin">
+    <number>5</number>
+   </property>
+   <property name="rightMargin">
+    <number>5</number>
+   </property>
+   <property name="bottomMargin">
+    <number>5</number>
+   </property>
    <item row="0" column="0">
     <widget class="QListView" name="listView">
      <property name="focusPolicy">
@@ -41,6 +53,9 @@
      </property>
      <property name="dragEnabled">
       <bool>false</bool>
+     </property>
+     <property name="spacing">
+      <number>0</number>
      </property>
     </widget>
    </item>
