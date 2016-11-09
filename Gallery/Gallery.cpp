@@ -111,6 +111,10 @@ Gallery::Gallery(int imageWidth, int imageHeight, const QList<QString> &imagePat
     });
 }
 
+int Gallery::getImageCount() const {
+    return d->IMAGE_COUNT;
+}
+
 void Gallery::showImage(int index) const {
     if (index >= 0 && index < d->IMAGE_COUNT) {
         // 使用动画显示图片，修改位置移动 d->imageContainer

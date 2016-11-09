@@ -11,6 +11,7 @@ class Gallery : public QWidget {
 public:
     Gallery(int imageWidth, int imageHeight, const QList<QString> &imagePaths, QWidget *parent = NULL);
 
+    int  getImageCount() const; // 获取图片的数量
     void showImage(int index) const; // 显示第 index 张图片
     void setAnimationDuration(int duration); // 设置动画播放时间
 
