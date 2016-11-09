@@ -4,7 +4,7 @@
 
 namespace Constants {
     const int CODE_READ_READY = 10000;
-    const QString INFO_READ_READY = "连接身份证阅读器成功，请放入身份证进行刷卡";
+    const QString INFO_READ_READY = "开始刷卡";
 }
 
 namespace Urls {

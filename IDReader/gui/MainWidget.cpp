@@ -128,6 +128,7 @@ void MainWidget::handleEvents() {
             d->readerThread->stop();
             d->readerThread->wait();
             ui->toggleReadButton->setText("开始刷卡");
+            showInfo("结束刷卡");
         }
     });
 
@@ -290,17 +291,17 @@ void MainWidget::login(const Person &p) {
     QString periodUnitCode = ui->periodUnitComboBox->currentData().toString();
 
     if (periodUnitCode.isEmpty()) {
-        showInfo("请选择考期");
+        showInfo("请选择考期", true);
         return;
     }
 
     if (siteCode.isEmpty()) {
-        showInfo("请选择考点");
+        showInfo("请选择考点", true);
         return;
     }
 
     if (roomCode.isEmpty()) {
-        showInfo("请选择考场");
+        showInfo("请选择考场", true);
         return;
     }
 

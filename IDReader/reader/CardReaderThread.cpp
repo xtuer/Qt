@@ -24,7 +24,7 @@ void CardReaderThread::run() {
     reader->connect();
 
     if (0 == reader->errorCode) {
-        handleInfo(Constants::CODE_READ_READY, QString("连接身份证阅读器成功"));
+        handleInfo(Constants::CODE_READ_READY, Constants::INFO_READ_READY);
     } else {
         handleInfo(reader->errorCode, reader->errorString);
     }
