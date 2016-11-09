@@ -21,16 +21,15 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
-    <widget class="QListView" name="listView">
-     <property name="focusPolicy">
-      <enum>Qt::NoFocus</enum>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string/>
      </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLineEdit" name="lineEdit">
-     <property name="readOnly">
-      <bool>true</bool>
+     <property name="pixmap">
+      <pixmap>../../../../Desktop/y.png</pixmap>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
    </item>
