@@ -15,6 +15,9 @@ public:
     void showImage(int index) const; // 显示第 index 张图片
     void setAnimationDuration(int duration); // 设置动画播放时间
 
+protected:
+    bool eventFilter(QObject *watched, QEvent *event) Q_DECL_OVERRIDE;
+
 private:
     GalleryPrivate *d;
 };
