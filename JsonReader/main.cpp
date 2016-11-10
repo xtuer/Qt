@@ -8,7 +8,7 @@ int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
     // 从文件里读取 Json
-    JsonReader reader("/Users/Biao/Desktop/x.json", true);
+    JsonReader reader("/Users/Biao/Documents/workspace/Qt/JsonReader/x.json", true);
 
     // 第一级
     qDebug() << reader.getString("message");
