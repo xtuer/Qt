@@ -23,8 +23,8 @@ int main(int argc, char *argv[]) {
 
     // 第二级的数组中的值
     QJsonArray array = reader.getJsonArray("roomEnrollmentList");
-    QJsonObject parent = array.at(0).toObject();
-    qDebug() << reader.getString("examineeName", "", parent); // 传入父节点
+    QJsonObject fromNode = array.at(0).toObject();
+    qDebug() << reader.getString("examineeName", "", fromNode); // 传入开始查找的节点
 
     // 从字符串里读取 Json
     JsonReader reader2("{\"data\": {\"userId\": 12345}}");
