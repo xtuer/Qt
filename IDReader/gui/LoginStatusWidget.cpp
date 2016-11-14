@@ -42,9 +42,10 @@ LoginStatusWidget::LoginStatusWidget(QWidget *parent) : QWidget(parent), ui(new 
             return;
         }
 
+        QString examName = index.data().toString();
         QString examUid = index.data(Qt::UserRole + 2).toString();
         QApplication::clipboard()->setText(examUid);
-        QToolTip::showText(QCursor::pos(), QString("成功复制准考证号: %1").arg(examUid));
+        QToolTip::showText(QCursor::pos(), QString("成功复制%1的准考证号: %2").arg(examName).arg(examUid));
     });
 }
 
