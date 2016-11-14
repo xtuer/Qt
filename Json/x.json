@@ -1,0 +1,20 @@
+{
+    "status": 0,
+    "message": "Congratulation",
+    "admin": {
+        "username": "Alice",
+        "password": "Secret",
+        "roles": ["ADMIN", "USER", "SUPERADMIN"]
+    },
+    "roomEnrollmentList": [{
+        "enrollmentId": 5094,
+        "examUId": "10000091",
+        "examineeName": "马超",
+        "subjectName": "普通逻辑"
+    }, {
+        "enrollmentId": 5103,
+        "examUId": "10000100",
+        "examineeName": "肖俊彦",
+        "subjectName": "数值计算"
+    }]
+}
