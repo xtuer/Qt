@@ -37,6 +37,8 @@ include(dao/dao.pri)
 include(util/util.pri)
 include(reader/reader.pri)
 include(log/log.pri)
+include(SingleApplication/singleapplication.pri)
+DEFINES += QAPPLICATION_CLASS=QApplication
 
 #LIBS += $$PWD/lib/cardapi3.a
 LIBS += $$PWD/lib/cardapi3.dll
