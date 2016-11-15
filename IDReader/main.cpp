@@ -42,6 +42,9 @@ int main(int argc, char *argv[]) {
             window->show();
             window->raise();
             window->activateWindow();
+            window->raise();
+            QApplication::setActiveWindow(window);
+            window->raise();
         }
     );
 
