@@ -196,6 +196,11 @@ void MainWidget::setReadButtonText(const QString &text) {
 }
 
 void MainWidget::personReady(const Person &p) {
+    showPerson(p); // 显示身份证信息
+    login(p); // 登陆
+}
+
+void MainWidget::showPerson(const Person &p) {
     ui->nameLabel->setText(p.name);
     ui->genderLabel->setText(p.gender);
     ui->nationalityLabel->setText(p.nationality);
@@ -206,9 +211,6 @@ void MainWidget::personReady(const Person &p) {
     ui->validStartLabel->setText(Util::formatDate(p.validStart));
     ui->validEndLabel->setText(Util::formatDate(p.validEnd));
     ui->pictureLabel->setPixmap(QPixmap(CardReader::personImagePath()));
-
-    // 登陆
-    login(p);
 }
 
 // 加载考场的学生信息

@@ -21,7 +21,6 @@
 #listView {
 	color: #EEE;
 	background-image: url(:/icon/imgs.png);	
-
 	border: 0px solid transparent;
 }
 
@@ -31,7 +30,8 @@
 
 #listView::item:hover {
 	border-color: transparent;
-}</string>
+}
+</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="leftMargin">

@@ -49,6 +49,7 @@ private:
 
     void mocLoadStudents();
     void showLoginStatusWidget(const QList<Student> &students); // 可视化的显示登陆状态
+    void showPerson(const Person &p);
 
     Ui::MainWidget *ui;
     MainWidgetPrivate *d;

@@ -5,7 +5,8 @@ HEADERS += \
     $$PWD/UiUtil.h \
     $$PWD/Util.h \
     $$PWD/ResponseUtil.h \
-    $$PWD/HttpClient.h
+    $$PWD/HttpClient.h \
+    $$PWD/RunGuard.h
 
 SOURCES += \
     $$PWD/ConfigUtil.cpp \
@@ -13,4 +14,5 @@ SOURCES += \
     $$PWD/UiUtil.cpp \
     $$PWD/Util.cpp \
     $$PWD/ResponseUtil.cpp \
-    $$PWD/HttpClient.cpp
+    $$PWD/HttpClient.cpp \
+    $$PWD/RunGuard.cpp
