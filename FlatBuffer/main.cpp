@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
 
     qDebug() << QString::fromUtf8(p->name()->c_str());      // OK: 证明 FlatBuffer 使用的是 UTF-8 存储字符串
     qDebug() << QString::fromLocal8Bit(p->name()->c_str()); // OK: Mac 默认就是使用 UTF-8
-    qDebug() << QString::fromLatin1(p->name()->c_str());    // Error:
+    qDebug() << QString::fromLatin1(p->name()->c_str());    // Error: 因为不是使用 Latin1 存储字符串
 
     return 0;
 }

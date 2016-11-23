@@ -33,6 +33,8 @@ SOURCES += main.cpp\
 
 HEADERS  += widget.h \
     JsonReader.h \
-    UiUtil.h
+    UiUtil.h \
+    Person_generated.h \
+    flatbuffers/flatbuffers.h
 
 FORMS    += widget.ui
