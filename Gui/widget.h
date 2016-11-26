@@ -17,6 +17,9 @@ public:
     explicit Widget(QWidget *parent = 0);
     ~Widget();
 
+protected:
+    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
+
 private:
     void loadQss();
 

@@ -17,6 +17,8 @@
 #include <QAction>
 #include <QModelIndex>
 #include <QToolTip>
+#include <QPainter>
+#include <QPixmap>
 
 Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
     ui->setupUi(this);
@@ -29,6 +31,14 @@ Widget::~Widget() {
     delete ui;
 }
 
+void Widget::paintEvent(QPaintEvent *event) {
+    QPainter painter(this);
+    QPixmap pixmap("/Users/Biao/Desktop/tu1.jpg");
+    pixmap.setDevicePixelRatio(2);
+
+    painter.drawPixmap(0, 0, pixmap);
+}
+
 void Widget::loadQss() {
     QAction *action = new QAction();
     action->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_L));
@@ -38,6 +48,7 @@ void Widget::loadQss() {
         UiUtil::loadQss();
     });
 }
+
 
 
 
