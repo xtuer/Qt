@@ -8,35 +8,35 @@
 #include <QVector3D>
 #include <QMatrix4x4>
 #include <QMouseEvent>
-#include <QUUid>
+#include <QtMath>
 
 /***********************************************************************************************************************
  *                                                   CarouselPrivate                                                   *
  **********************************************************************************************************************/
 struct CarouselPrivate {
     CarouselPrivate(int rotateRadius, int mostFrontItemWidth, int mostFrontItemHeight, int scaleDistanceToMostFrontItem,
-                    const QList<QString> imagePaths);
+                    const QList<QString> &imagePaths);
     ~CarouselPrivate();
 
     int indexOfItem(const QPointF &pos) const;    // 返回包含 pos 的 item 的下标，如果没有找到，则返回 -1
     QList<CarouselItem *> sortedItemsByZ() const; // 把所有的 items 按 z 坐标从小到大排序
-    void calculateMinAndMaxRect();
+    void calculateRects(); // 计算 Carousel 的 items 中最小的 item(z 最小) 的 rect 和最大的 item(z 最大) 的 rect
 
-    int currentItemId;       // 最前面 item 的下标
     int rotateRadius;        // 旋转的半径
     int mostFrontItemWidth;  // 最前面 item 的宽
     int mostFrontItemHeight; // 最前面 item 的高
     int scaleDistanceToMostFrontItem; // 到最前面 item 的距离，用于缩放 items
-    QList<CarouselItem *> carouselItems;
 
     QRectF minRect; // 最上面的 item 的 rect
     QRectF maxRect; // 最前面的 item 的 rect
+    QRectF carouselBoundingRect;
+
+    QList<CarouselItem *> carouselItems;
 };
 
 CarouselPrivate::CarouselPrivate(int rotateRadius, int mostFrontItemWidth, int mostFrontItemHeight, int scaleDistanceToMostFrontItem,
-                                 const QList<QString> imagePaths)
-    : currentItemId(0),
-      rotateRadius(rotateRadius),
+                                 const QList<QString> &imagePaths)
+    : rotateRadius(rotateRadius),
       mostFrontItemWidth(mostFrontItemWidth),
       mostFrontItemHeight(mostFrontItemHeight),
       scaleDistanceToMostFrontItem(scaleDistanceToMostFrontItem) {
@@ -74,13 +74,23 @@ QList<CarouselItem *> CarouselPrivate::sortedItemsByZ() const {
     return temp;
 }
 
-void CarouselPrivate::calculateMinAndMaxRect() {
+void CarouselPrivate::calculateRects() {
     QList<CarouselItem *> temp = sortedItemsByZ();
     minRect.setTopLeft(temp[0]->rect.topLeft());
     minRect.setBottomRight(temp[0]->rect.bottomRight());
 
     maxRect.setTopLeft(temp[temp.size()-1]->rect.topLeft());
     maxRect.setBottomRight(temp[temp.size()-1]->rect.bottomRight());
+
+    double minX = 1000000, minY = 100000, maxX = -100000, maxY = -100000;
+    foreach (const CarouselItem *item, carouselItems) {
+        minX = qMin(minX, item->rect.x());
+        minY = qMin(minY, item->rect.y());
+        maxX = qMax(maxX, item->rect.right());
+        maxY = qMax(maxY, item->rect.bottom());
+    }
+
+    carouselBoundingRect.setRect(minX, minY, maxX, maxY);
 }
 
 /***********************************************************************************************************************
@@ -88,12 +98,12 @@ void CarouselPrivate::calculateMinAndMaxRect() {
  **********************************************************************************************************************/
 Carousel::Carousel(int rotateRadius, int mostFrontItemWidth, int mostFrontItemHeight, int scaleDistanceToMostFrontItem,
                    const QList<QString> imagePaths, QWidget *parent) : QWidget(parent) {
-    d = new CarouselPrivate(rotateRadius, mostFrontItemWidth, mostFrontItemHeight, scaleDistanceToMostFrontItem, imagePaths);
     setAttribute(Qt::WA_StyledBackground, true);
     setStyleSheet("background: #444;");
 
-    rotateToItem(d->currentItemId);
-    d->calculateMinAndMaxRect();
+    d = new CarouselPrivate(rotateRadius, mostFrontItemWidth, mostFrontItemHeight, scaleDistanceToMostFrontItem, imagePaths);
+    rotateToItem(0);
+    d->calculateRects();
 }
 
 Carousel::~Carousel() {
@@ -150,9 +160,9 @@ void Carousel::mousePressEvent(QMouseEvent *event) {
 }
 
 QPoint Carousel::calculateOrigin() const {
-    int carouselAreaHeight = (d->maxRect.bottom() - d->minRect.top());
+    int carouselHeight = (d->maxRect.bottom() - d->minRect.top());
     int x = width() / 2;
-    int y = height() - (height() - carouselAreaHeight) / 2 - d->maxRect.height() / 2;
+    int y = height() - (height() - carouselHeight) / 2 - d->maxRect.height() / 2;
 
     return QPoint(x, y);
 }

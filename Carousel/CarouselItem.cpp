@@ -7,23 +7,23 @@ CarouselItem::CarouselItem(const QString &imagePath)  : image(QPixmap(imagePath)
 }
 
 void CarouselItem::rotate(double angle,
-                          const QVector3D &rotateAxis,
-                          int rotateRadius,
+                          const QVector3D &axis,
+                          int radius,
                           int initWidth,
                           int initHeight,
-                          int scaleDistanceToMostFrontItem) {
+                          int scaleDistance) {
     QMatrix4x4 matrix;
-    matrix.rotate(angle, rotateAxis);
+    matrix.rotate(angle, axis);
 
-    // 最前面一张图片的中心位置绕 rotateAxis 旋转后得到 item 的中心
-    QVector3D mostFrontItemCenter(0, 0, rotateRadius);
-    QVector3D center = matrix.map(mostFrontItemCenter);
+    // 没有旋转时图片的中心位置绕 axis 旋转后得到 item 的中心
+    QVector3D initCenter(0, 0, radius);
+    QVector3D center = matrix.map(initCenter);
 
     // 旋转后的中心
     this->center = center;
 
     // 计算 item 的矩形区域
-    double rate = (center.z() - mostFrontItemCenter.z() + scaleDistanceToMostFrontItem) / scaleDistanceToMostFrontItem;
+    double rate = (center.z() - initCenter.z() + scaleDistance) / scaleDistance;
     double w = initWidth * rate;
     double h = initHeight * rate;
     this->rect.setRect(0, 0, w, h);

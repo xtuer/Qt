@@ -38,6 +38,11 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
     ui->setupUi(this);
     loadQss();
 
+    ui->lineEdit->setInputMask("000.000.000.000;_");
+    connect(ui->lineEdit, &QLineEdit::returnPressed, [this] {
+        qDebug() << ui->lineEdit->text();
+    });
+
     //    matrix.rotate(90, 0, 1, 0);
 
     //    QVector3D p(0, 0, 100);
