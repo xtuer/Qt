@@ -6,6 +6,8 @@
 #include <functional>
 #include <QFile>
 
+struct Item;
+
 namespace Ui {
 class Widget;
 }
@@ -24,6 +26,8 @@ private:
     void loadQss();
 
     Ui::Widget *ui;
+
+    QList<Item*> items;
 };
 
 #endif // WIDGET_H
