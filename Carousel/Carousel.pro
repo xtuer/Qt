@@ -29,7 +29,9 @@ UI_DIR      = $$output
 
 SOURCES += main.cpp\
         Carousel.cpp \
-    CarouselItem.cpp
+    CarouselItem.cpp \
+    CarouselController.cpp
 
 HEADERS  += Carousel.h \
-    CarouselItem.h
+    CarouselItem.h \
+    CarouselController.h

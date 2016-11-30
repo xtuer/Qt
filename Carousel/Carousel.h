@@ -4,14 +4,13 @@
 #include <QWidget>
 #include <QList>
 
-class CarouselItem;
-struct CarouselPrivate;
+class CarouselController;
 
 class Carousel : public QWidget {
     Q_OBJECT
 
 public:
-    explicit Carousel(int rotateRadius, int mostFrontItemWidth, int mostFrontItemHeight, int scaleDistanceToMostFrontItem,
+    explicit Carousel(int rotateRadius, int frontItemWidth, int frontItemHeight, int scaleDistanceToFrontItem,
                       const QList<QString> imagePaths, QWidget *parent = 0);
     ~Carousel();
 
@@ -19,7 +18,7 @@ public:
      * @brief 旋转第 index 张图片到最前面
      * @param itemIndex 图片的下标
      */
-    void rotateToItem(int itemIndex);
+    void rotateItemToFront(int itemIndex);
 
 protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
@@ -27,7 +26,7 @@ protected:
 
 private:
     QPoint calculateOrigin() const; // 计算绘图开始的原点坐标
-    CarouselPrivate *d;
+    CarouselController *d;
 };
 
 #endif // CAROUSEL_H

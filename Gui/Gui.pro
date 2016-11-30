@@ -29,12 +29,14 @@ UI_DIR      = $$output
 SOURCES += main.cpp\
         widget.cpp \
     JsonReader.cpp \
-    UiUtil.cpp
+    UiUtil.cpp \
+    Rect3D.cpp
 
 HEADERS  += widget.h \
     JsonReader.h \
     UiUtil.h \
     Person_generated.h \
-    flatbuffers/flatbuffers.h
+    flatbuffers/flatbuffers.h \
+    Rect3D.h
 
 FORMS    += widget.ui
