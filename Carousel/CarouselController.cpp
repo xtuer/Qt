@@ -4,19 +4,20 @@
 #include <QMatrix4x4>
 #include <QPropertyAnimation>
 
-CarouselController::CarouselController(int rotateRadius, int frontItemWidth, int frontItemHeight,
-                                       double minZoom, const QList<QString> imagePaths)
-        : rotateRadius(rotateRadius),
-          frontItemWidth(frontItemWidth),
-          frontItemHeight(frontItemHeight),
-          minZoom(minZoom),
+CarouselController::CarouselController(int maxItemWidth, int maxItemHeight, double minItemZoom, int rotateRadius,
+                                       const QList<QString> imagePaths)
+        : maxItemWidth(maxItemWidth),
+          maxItemHeight(maxItemHeight),
+          minItemZoom(minItemZoom),
+          rotateRadius(rotateRadius),
           rotateAxis(0, 1, -0.2) {
-    // 初始化 items
+    // 初始化 items，把他们旋转到各自的位置
     for (int i = 0; i < imagePaths.size(); ++i) {
         double rotateAngle = 360.0/imagePaths.size()*i;
         CarouselItem *item = new CarouselItem(0, imagePaths[i]);
         rotateItem(item, rotateAngle); // 旋转到 item 自己的位置上
         item->angle = rotateAngle;
+
         carouselItems << item;
     }
 
@@ -43,7 +44,7 @@ void CarouselController::setRotateAngle(double rotateAngle) {
 
 int CarouselController::indexOfItemAt(const QPointF &pos) const {
     int index = -1;
-    double z = -10000000;
+    double z = INT_MIN;
 
     // 找到在 pos 处最前面的 item，即在 pos 处且 z 最大
     for (int i = 0; i < carouselItems.size(); ++i) {
@@ -72,12 +73,12 @@ void CarouselController::rotateItem(CarouselItem *item, double rotateAngle) {
     matrix.rotate(item->angle + rotateAngle, rotateAxis);
 
     // 没有旋转时图片的中心位置绕 axis 旋转后得到 item 的中心
-    QVector3D frontItemCenter(0, 0, rotateRadius);
-    item->center = matrix.map(frontItemCenter);
+    QVector3D maxItemCenter(0, 0, rotateRadius);
+    item->center = matrix.map(maxItemCenter);
 
     // 计算 item 的矩形区域
-    double rate = minZoom + (1-minZoom) * (1 - (frontItemCenter.z() - item->center.z()) / 2 / rotateRadius);
-    item->rect.setRect(0, 0, frontItemWidth * rate, frontItemHeight * rate);
+    double rate = minItemZoom + (1-minItemZoom) * (1 - (maxItemCenter.z() - item->center.z()) / 2 / rotateRadius);
+    item->rect.setRect(0, 0, maxItemWidth * rate, maxItemHeight * rate);
     item->rect.moveCenter(item->center.toPointF());
 }
 
@@ -136,7 +137,8 @@ void CarouselController::calculateRects() {
     maxRect.setTopLeft(temp[temp.size()-1]->rect.topLeft());
     maxRect.setBottomRight(temp[temp.size()-1]->rect.bottomRight());
 
-    double minX = 1000000, minY = 100000, maxX = -100000, maxY = -100000;
+    double minX = INT_MAX, minY = INT_MAX, maxX = INT_MIN, maxY = INT_MIN;
+
     foreach (const CarouselItem *item, carouselItems) {
         minX = qMin(minX, item->rect.x());
         minY = qMin(minY, item->rect.y());
@@ -144,5 +146,5 @@ void CarouselController::calculateRects() {
         maxY = qMax(maxY, item->rect.bottom());
     }
 
-    carouselBoundingRect.setRect(minX, minY, maxX, maxY);
+    boundingRect.setRect(minX, minY, maxX, maxY);
 }

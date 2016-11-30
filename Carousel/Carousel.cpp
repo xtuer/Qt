@@ -12,12 +12,12 @@
 #include <QtMath>
 #include <QPropertyAnimation>
 
-Carousel::Carousel(int rotateRadius, int frontItemWidth, int frontItemHeight, double minZoom,
+Carousel::Carousel(int maxItemWidth, int maxItemHeight, double minItemZoom, int rotateRadius,
                    const QList<QString> imagePaths, QWidget *parent) : QWidget(parent) {
     setAttribute(Qt::WA_StyledBackground, true);
     setStyleSheet("background: #444;");
 
-    d = new CarouselController(rotateRadius, frontItemWidth, frontItemHeight, minZoom, imagePaths);
+    d = new CarouselController(maxItemWidth, maxItemHeight, minItemZoom, rotateRadius, imagePaths);
     connect(d, SIGNAL(itemsRotated()), this, SLOT(update()));
 }
 
@@ -37,11 +37,7 @@ void Carousel::paintEvent(QPaintEvent *) {
     QList<CarouselItem *> temp = d->sortedItemsByZ();
 
     foreach (const CarouselItem *item, temp) {
-        int x = item->rect.x();
-        int y = item->rect.y();
-        int w = item->rect.width();
-        int h = item->rect.height();
-        painter.drawPixmap(x, y, w, h, item->pixmap);
+        painter.drawPixmap(item->rect.toRect(), item->pixmap);
     }
 }
 

@@ -22,11 +22,12 @@ Carousel::Carousel(QWidget *parent) : QWidget(parent) {
         items << new CarouselItem(QString("%1.jpg").arg(i));
     }
 
-    QVector3D rotateAxis(0, 1, -0.2);     // items 绕此轴旋转
-    QVector3D frontItemCenter(0, 0, 200); // 最前面 item 的中心坐标
-    int       frontItemWidth = 200;       // 最前面 item 的宽
-    int       frontItemHeight = 100;      // 最前面 item 的高
-    double    minZoom = 0.3;              // 最后面 item 与最前面 item 的比例
+    int       radius = 250;                // 旋转的半径
+    QVector3D rotateAxis(0, 1, -0.2);      // items 绕此轴旋转
+    QVector3D maxItemCenter(0, 0, radius); // 最大的 item 的中心坐标，最大的 item 也就是最前面的 item
+    int       maxItemWidth  = 170;         // 最大的 item 的宽
+    int       maxItemHeight = 105;         // 最大的 item 的高
+    double    minItemZoom   = 0.3;         // 最小的 item 与最前面 item 的比例
 
     for (int i = 0; i < items.size(); ++i) {
         CarouselItem *item = items[i];
@@ -34,11 +35,11 @@ Carousel::Carousel(QWidget *parent) : QWidget(parent) {
 
         // [2] item 绕轴 rotateAxis 旋转，得到旋转后 item 的中心坐标
         matrix.rotate(360 / items.size() * i, rotateAxis);
-        item->center = matrix.map(frontItemCenter);
+        item->center = matrix.map(maxItemCenter);
 
         // [3] 根据 item 中心到 distance 的距离，计算 item 的矩形范围
-        double rate = minZoom +  (1-minZoom) * (1 - (frontItemCenter.z() - item->center.z()) / 400);
-        item->rect.setRect(0, 0, frontItemWidth*rate, frontItemHeight*rate);
+        double rate = minItemZoom +  (1-minItemZoom) * (1-(maxItemCenter.z()-item->center.z())/2/radius);
+        item->rect.setRect(0, 0, maxItemWidth*rate, maxItemHeight*rate);
         item->rect.moveCenter(item->center.toPoint());
     }
 
