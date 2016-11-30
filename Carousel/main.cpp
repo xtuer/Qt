@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
         imagePaths << QString("images/%1.jpg").arg(i);
     }
 
-    Carousel w(250, 200, 100, 800, imagePaths);
+    Carousel w(250, 200, 100, 0.5, imagePaths);
     w.resize(800, 300);
     w.show();
 

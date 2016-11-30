@@ -27,16 +27,17 @@ RCC_DIR     = $$output
 UI_DIR      = $$output
 
 SOURCES += main.cpp\
-        widget.cpp \
     JsonReader.cpp \
     UiUtil.cpp \
-    Rect3D.cpp
+    Rect3D.cpp \
+    Carousel.cpp
 
-HEADERS  += widget.h \
+HEADERS  += \
     JsonReader.h \
     UiUtil.h \
     Person_generated.h \
     flatbuffers/flatbuffers.h \
-    Rect3D.h
+    Rect3D.h \
+    Carousel.h
 
 FORMS    += widget.ui

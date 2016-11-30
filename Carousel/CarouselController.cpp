@@ -1,16 +1,15 @@
 #include "CarouselController.h"
 #include "CarouselItem.h"
-#include "Carousel.h"
 
 #include <QMatrix4x4>
 #include <QPropertyAnimation>
 
 CarouselController::CarouselController(int rotateRadius, int frontItemWidth, int frontItemHeight,
-                                       int scaleDistanceToFrontItem, const QList<QString> imagePaths)
+                                       double minZoom, const QList<QString> imagePaths)
         : rotateRadius(rotateRadius),
           frontItemWidth(frontItemWidth),
           frontItemHeight(frontItemHeight),
-          scaleDistanceToFrontItem(scaleDistanceToFrontItem),
+          minZoom(minZoom),
           rotateAxis(0, 1, -0.2) {
     // 初始化 items
     for (int i = 0; i < imagePaths.size(); ++i) {
@@ -73,18 +72,13 @@ void CarouselController::rotateItem(CarouselItem *item, double rotateAngle) {
     matrix.rotate(item->angle + rotateAngle, rotateAxis);
 
     // 没有旋转时图片的中心位置绕 axis 旋转后得到 item 的中心
-    QVector3D initCenter(0, 0, rotateRadius);
-    QVector3D center = matrix.map(initCenter);
-
-    // 旋转后的中心
-    item->center = center;
+    QVector3D frontItemCenter(0, 0, rotateRadius);
+    item->center = matrix.map(frontItemCenter);
 
     // 计算 item 的矩形区域
-    double rate = (center.z() - initCenter.z() + scaleDistanceToFrontItem) / scaleDistanceToFrontItem;
-    double w = frontItemWidth * rate;
-    double h = frontItemHeight * rate;
-    item->rect.setRect(0, 0, w, h);
-    item->rect.moveCenter(QPointF(center.x(), center.y()));
+    double rate = minZoom + (1-minZoom) * (1 - (frontItemCenter.z() - item->center.z()) / 2 / rotateRadius);
+    item->rect.setRect(0, 0, frontItemWidth * rate, frontItemHeight * rate);
+    item->rect.moveCenter(item->center.toPointF());
 }
 
 void CarouselController::rotateItemToFront(int index) {
@@ -109,10 +103,11 @@ void CarouselController::rotateItemToFront(int index) {
         rotateAngle = int(rotateAngle/360+1)*360 - rotateAngle;
     }
 
+    // 设置动画属性
     QPropertyAnimation *animation = new QPropertyAnimation(this, "rotateAngle");
     animation->setStartValue(0);
     animation->setEndValue(rotateAngle);
-    animation->setDuration(qAbs(rotateAngle) / 180 * 1000); // 旋转时间和旋转角度成正比
+    animation->setDuration(qMax(300.0, qAbs(rotateAngle) / 180 * 800)); // 旋转的角度越大，时间越长
     animation->setEasingCurve(QEasingCurve::OutQuad);
     animation->start(QPropertyAnimation::DeleteWhenStopped);
 

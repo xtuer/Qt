@@ -10,7 +10,7 @@ class Carousel : public QWidget {
     Q_OBJECT
 
 public:
-    explicit Carousel(int rotateRadius, int frontItemWidth, int frontItemHeight, int scaleDistanceToFrontItem,
+    explicit Carousel(int rotateRadius, int frontItemWidth, int frontItemHeight, double minZoom,
                       const QList<QString> imagePaths, QWidget *parent = 0);
     ~Carousel();
 

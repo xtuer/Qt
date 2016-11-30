@@ -12,12 +12,12 @@
 #include <QtMath>
 #include <QPropertyAnimation>
 
-Carousel::Carousel(int rotateRadius, int frontItemWidth, int frontItemHeight, int scaleDistanceToFrontItem,
+Carousel::Carousel(int rotateRadius, int frontItemWidth, int frontItemHeight, double minZoom,
                    const QList<QString> imagePaths, QWidget *parent) : QWidget(parent) {
     setAttribute(Qt::WA_StyledBackground, true);
     setStyleSheet("background: #444;");
 
-    d = new CarouselController(rotateRadius, frontItemWidth, frontItemHeight, scaleDistanceToFrontItem, imagePaths);
+    d = new CarouselController(rotateRadius, frontItemWidth, frontItemHeight, minZoom, imagePaths);
     connect(d, SIGNAL(itemsRotated()), this, SLOT(update()));
 }
 
