@@ -26,18 +26,11 @@ MOC_DIR     = $$output
 RCC_DIR     = $$output
 UI_DIR      = $$output
 
-SOURCES += main.cpp\
-    JsonReader.cpp \
-    UiUtil.cpp \
-    Rect3D.cpp \
-    Carousel.cpp
+SOURCES += main.cpp \
+    Widget.cpp
 
-HEADERS  += \
-    JsonReader.h \
-    UiUtil.h \
-    Person_generated.h \
-    flatbuffers/flatbuffers.h \
-    Rect3D.h \
-    Carousel.h
+FORMS += \
+    Widget.ui
 
-FORMS    += widget.ui
+HEADERS += \
+    Widget.h
