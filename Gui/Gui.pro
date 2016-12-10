@@ -27,10 +27,13 @@ RCC_DIR     = $$output
 UI_DIR      = $$output
 
 SOURCES += main.cpp \
-    Widget.cpp
+    Widget.cpp \
+    MainWindow.cpp
 
 FORMS += \
-    Widget.ui
+    Widget.ui \
+    MainWindow.ui
 
 HEADERS += \
-    Widget.h
+    Widget.h \
+    MainWindow.h
