@@ -2,4 +2,6 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     Text \
-    Base
+    Base \
+    Path \
+    Pixmap

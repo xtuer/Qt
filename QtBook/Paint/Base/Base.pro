@@ -35,8 +35,7 @@ SOURCES += main.cpp\
     PolygonCircleWidget.cpp \
     RoundRectWidget.cpp \
     EllipseWidget.cpp \
-    ArcChordPieWidget.cpp \
-    PixmapWidget.cpp
+    ArcChordPieWidget.cpp
 
 HEADERS  += MainWidget.h \
     GridWidget.h \
@@ -46,8 +45,7 @@ HEADERS  += MainWidget.h \
     PolygonCircleWidget.h \
     RoundRectWidget.h \
     EllipseWidget.h \
-    ArcChordPieWidget.h \
-    PixmapWidget.h
+    ArcChordPieWidget.h
 
 FORMS    += MainWidget.ui \
     GridWidget.ui \
@@ -57,8 +55,5 @@ FORMS    += MainWidget.ui \
     PolygonCircleWidget.ui \
     RoundRectWidget.ui \
     EllipseWidget.ui \
-    ArcChordPieWidget.ui \
-    PixmapWidget.ui
+    ArcChordPieWidget.ui
 
-RESOURCES += \
-    resources.qrc

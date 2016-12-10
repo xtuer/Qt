@@ -9,7 +9,6 @@
 #include "RoundRectWidget.h"
 #include "EllipseWidget.h"
 #include "ArcChordPieWidget.h"
-#include "PixmapWidget.h"
 
 MainWidget::MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::MainWidget) {
     ui->setupUi(this);
@@ -44,10 +43,6 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::MainWidget
 
     connect(ui->arcChordPieButton, &QPushButton::clicked, [] {
         (new ArcChordPieWidget)->show();
-    });
-
-    connect(ui->pixmapButton, &QPushButton::clicked, [] {
-        (new PixmapWidget)->show();
     });
 }
 

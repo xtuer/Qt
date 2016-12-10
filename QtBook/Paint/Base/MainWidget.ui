@@ -7,24 +7,24 @@
     <x>0</x>
     <y>0</y>
     <width>447</width>
-    <height>112</height>
+    <height>84</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>绘图基础</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="2">
-    <widget class="QPushButton" name="polylineButton">
-     <property name="text">
-      <string>Polyline</string>
-     </property>
-    </widget>
-   </item>
    <item row="0" column="0">
     <widget class="QPushButton" name="gridButton">
      <property name="text">
       <string>画网格</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="2">
+    <widget class="QPushButton" name="polylineButton">
+     <property name="text">
+      <string>Polyline</string>
      </property>
     </widget>
    </item>
@@ -35,17 +35,17 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0">
-    <widget class="QPushButton" name="polygonCircleButton">
-     <property name="text">
-      <string>多边形画圆</string>
-     </property>
-    </widget>
-   </item>
    <item row="0" column="3">
     <widget class="QPushButton" name="polygonButton">
      <property name="text">
       <string>多边形</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QPushButton" name="polygonCircleButton">
+     <property name="text">
+      <string>多边形画圆</string>
      </property>
     </widget>
    </item>
@@ -56,13 +56,6 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="2">
-    <widget class="QPushButton" name="ellipseButton">
-     <property name="text">
-      <string>椭圆和圆</string>
-     </property>
-    </widget>
-   </item>
    <item row="1" column="1">
     <widget class="QPushButton" name="roundRectButton">
      <property name="text">
@@ -70,10 +63,10 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="0">
-    <widget class="QPushButton" name="pixmapButton">
+   <item row="1" column="2">
+    <widget class="QPushButton" name="ellipseButton">
      <property name="text">
-      <string>Pixmap</string>
+      <string>椭圆和圆</string>
      </property>
     </widget>
    </item>
