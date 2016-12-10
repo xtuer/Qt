@@ -14,9 +14,10 @@ DrawSimpleTextWidget::~DrawSimpleTextWidget() {
 void DrawSimpleTextWidget::paintEvent(QPaintEvent *) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
-    painter.setFont(QFont("Times", 150, QFont::Bold));
-    QFontMetrics metrics = painter.fontMetrics();
+
+    painter.setFont(QFont("Times", 150, QFont::Bold)); // 使用大一些的字体
     int x = 0;
-    int y = metrics.ascent();
+    int y = 0;
+
     painter.drawText(x, y, "jEh");
 }

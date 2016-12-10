@@ -32,16 +32,19 @@ SOURCES += main.cpp\
     CentralTextWidget.cpp \
     WrapTextWidget.cpp \
     AutoResizeTextWidget.cpp \
-    MainWidget.cpp
+    MainWidget.cpp \
+    FontMetricsWidget.cpp
 
 HEADERS  += DrawSimpleTextWidget.h \
     CentralTextWidget.h \
     WrapTextWidget.h \
     AutoResizeTextWidget.h \
-    MainWidget.h
+    MainWidget.h \
+    FontMetricsWidget.h
 
 FORMS    += DrawSimpleTextWidget.ui \
     CentralTextWidget.ui \
     WrapTextWidget.ui \
     AutoResizeTextWidget.ui \
-    MainWidget.ui
+    MainWidget.ui \
+    FontMetricsWidget.ui
