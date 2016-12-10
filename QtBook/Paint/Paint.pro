@@ -4,4 +4,6 @@ SUBDIRS += \
     Text \
     Base \
     Path \
-    Pixmap
+    Pixmap \
+    BezierCurve \
+    AntLine
