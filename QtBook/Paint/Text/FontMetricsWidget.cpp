@@ -4,6 +4,7 @@
 
 FontMetricsWidget::FontMetricsWidget(QWidget *parent) : QWidget(parent), ui(new Ui::FontMetricsWidget) {
     ui->setupUi(this);
+    setAttribute(Qt::WA_DeleteOnClose, true);
 }
 
 FontMetricsWidget::~FontMetricsWidget() {
