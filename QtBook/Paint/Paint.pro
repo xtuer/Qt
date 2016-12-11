@@ -9,4 +9,5 @@ SUBDIRS += \
     AntLine \
     Gradient \
     PainterStatus \
-    ArtistPaint
+    ArtistPaint \
+    SmoothCurve
