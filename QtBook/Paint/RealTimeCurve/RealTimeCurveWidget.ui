@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>SmoothCurveWidget</class>
- <widget class="QWidget" name="SmoothCurveWidget">
+ <class>RealTimeCurveWidget</class>
+ <widget class="QWidget" name="RealTimeCurveWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>590</width>
-    <height>277</height>
+    <width>644</width>
+    <height>203</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>平滑曲线</string>
+   <string>RealTimeWidget</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
@@ -22,27 +22,13 @@
      <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
-       <height>249</height>
+       <height>139</height>
       </size>
      </property>
     </spacer>
    </item>
    <item row="1" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QCheckBox" name="showKnotsCheckBox">
-       <property name="text">
-        <string>Show Knots</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="showSmoothCurveCheckBox">
-       <property name="text">
-        <string>Smooth Curve</string>
-       </property>
-      </widget>
-     </item>
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
@@ -57,23 +43,9 @@
       </spacer>
      </item>
      <item>
-      <widget class="QComboBox" name="smoothCurveGeneratorComboBox">
-       <item>
-        <property name="text">
-         <string>曲线算法一</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>曲线算法二</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="generateCurveButton">
+      <widget class="QCheckBox" name="showSmoothCurveCheckBox">
        <property name="text">
-        <string>生成曲线</string>
+        <string>Smooth Curve</string>
        </property>
       </widget>
      </item>

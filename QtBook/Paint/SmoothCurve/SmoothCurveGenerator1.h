@@ -1,11 +1,11 @@
-#ifndef SMOOTHCURVEGENERATOR_H
-#define SMOOTHCURVEGENERATOR_H
+#ifndef SMOOTHCURVEGENERATOR1_H
+#define SMOOTHCURVEGENERATOR1_H
 
 #include <QList>
 #include <QPointF>
 #include <QPainterPath>
 
-class SmoothCurveGenerator {
+class SmoothCurveGenerator1 {
 public:
     /**
      * 传入曲线上的点的 list，创建平滑曲线
@@ -16,4 +16,4 @@ public:
     static QPainterPath generateSmoothCurve(const QList<QPointF> &points);
 };
 
-#endif // SMOOTHCURVEGENERATOR_H
+#endif // SMOOTHCURVEGENERATOR1_H

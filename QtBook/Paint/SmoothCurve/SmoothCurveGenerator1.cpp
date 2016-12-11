@@ -1,6 +1,6 @@
-#include "SmoothCurveGenerator.h"
+#include "SmoothCurveGenerator1.h"
 
-QPainterPath SmoothCurveGenerator::generateSmoothCurve(const QList<QPointF> &points) {
+QPainterPath SmoothCurveGenerator1::generateSmoothCurve(const QList<QPointF> &points) {
     if (points.size() == 0) {
         return QPainterPath();
     }

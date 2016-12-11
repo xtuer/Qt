@@ -1,6 +1,7 @@
 #include "SmoothCurveWidget.h"
 #include "ui_SmoothCurveWidget.h"
-#include "SmoothCurveGenerator.h"
+#include "SmoothCurveGenerator1.h"
+#include "SmoothCurveGenerator2.h"
 
 #include <QPainter>
 #include <QtGlobal>
@@ -13,6 +14,7 @@ SmoothCurveWidget::SmoothCurveWidget(QWidget *parent) :
     connect(ui->generateCurveButton, SIGNAL(clicked(bool)), this, SLOT(generateCurves()));
     connect(ui->showKnotsCheckBox, SIGNAL(clicked(bool)), this, SLOT(update()));
     connect(ui->showSmoothCurveCheckBox, SIGNAL(clicked(bool)), this, SLOT(update()));
+    connect(ui->smoothCurveGeneratorComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(update()));
 
     ui->generateCurveButton->click();
 }
@@ -34,7 +36,13 @@ void SmoothCurveWidget::paintEvent(QPaintEvent *) {
 
     // showSmoothCurveCheckBox 被选中时显示平滑曲线，否则显示非平滑曲线
     painter.setPen(QPen(QColor(80, 80, 80), 2));
-    painter.drawPath(ui->showSmoothCurveCheckBox->isChecked() ? smoothCurve : nonSmoothCurve);
+    if (ui->showSmoothCurveCheckBox->isChecked() && ui->smoothCurveGeneratorComboBox->currentIndex() == 0) {
+        painter.drawPath(smoothCurve1);
+    } else if (ui->showSmoothCurveCheckBox->isChecked() && ui->smoothCurveGeneratorComboBox->currentIndex() == 1) {
+        painter.drawPath(smoothCurve2);
+    } else {
+        painter.drawPath(nonSmoothCurve);
+    }
 
     // 如果曲线上的点可见，则显示出来
     if (ui->showKnotsCheckBox->isChecked()) {
@@ -58,7 +66,8 @@ void SmoothCurveWidget::generateCurves() {
     }
 
     // 根据曲线上的点创建平滑曲线
-    smoothCurve = SmoothCurveGenerator::generateSmoothCurve(knots);
+    smoothCurve1 = SmoothCurveGenerator1::generateSmoothCurve(knots);
+    smoothCurve2 = SmoothCurveGenerator2::generateSmoothCurve(knots);
 
     // 连接点创建非平滑曲线曲线
     nonSmoothCurve = QPainterPath();

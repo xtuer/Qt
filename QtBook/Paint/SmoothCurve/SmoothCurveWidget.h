@@ -26,7 +26,8 @@ private slots:
 private:
     Ui::SmoothCurveWidget *ui;
     QList<QPointF> knots;        // 曲线上的点
-    QPainterPath smoothCurve;    // 平滑曲线
+    QPainterPath smoothCurve1;   // 平滑曲线
+    QPainterPath smoothCurve2;   // 平滑曲线
     QPainterPath nonSmoothCurve; // 直接连接点的非平滑曲线
 };
 

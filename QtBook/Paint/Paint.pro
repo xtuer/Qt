@@ -10,4 +10,5 @@ SUBDIRS += \
     Gradient \
     PainterStatus \
     ArtistPaint \
-    SmoothCurve
+    SmoothCurve \
+    RealTimeCurve

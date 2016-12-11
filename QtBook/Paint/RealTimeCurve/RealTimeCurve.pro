@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2016-12-11T10:54:35
+# Project created by QtCreator 2016-12-11T15:55:11
 #
 #-------------------------------------------------
 
@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = SmoothCurve
+TARGET = RealTimeCurve
 TEMPLATE = app
 CONFIG  -=app_bundle
 
@@ -27,12 +27,12 @@ RCC_DIR     = $$output
 UI_DIR      = $$output
 
 SOURCES += main.cpp\
-        SmoothCurveWidget.cpp \
     SmoothCurveGenerator2.cpp \
-    SmoothCurveGenerator1.cpp
+    RealTimeCurveWidget.cpp
 
-HEADERS  += SmoothCurveWidget.h \
+HEADERS  += \
     SmoothCurveGenerator2.h \
-    SmoothCurveGenerator1.h
+    RealTimeCurveWidget.h
 
-FORMS    += SmoothCurveWidget.ui
+FORMS    += \
+    RealTimeCurveWidget.ui
