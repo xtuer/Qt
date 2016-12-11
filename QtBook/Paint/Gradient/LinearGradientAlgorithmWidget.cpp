@@ -11,7 +11,7 @@ LinearGradientAlgorithmWidget::~LinearGradientAlgorithmWidget() {
     delete ui;
 }
 
-void LinearGradientAlgorithmWidget::paintEvent(QPaintEvent *event) {
+void LinearGradientAlgorithmWidget::paintEvent(QPaintEvent *) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
 

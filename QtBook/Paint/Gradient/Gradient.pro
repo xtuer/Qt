@@ -31,16 +31,19 @@ SOURCES += main.cpp\
     LinearGradientAlgorithmWidget.cpp \
     MainWidget.cpp \
     RadialGradientWidget.cpp \
-    ConicalGradientWidget.cpp
+    ConicalGradientWidget.cpp \
+    LinearGradientAlgorithm2Widget.cpp
 
 HEADERS  += LinearGradientWidget.h \
     LinearGradientAlgorithmWidget.h \
     MainWidget.h \
     RadialGradientWidget.h \
-    ConicalGradientWidget.h
+    ConicalGradientWidget.h \
+    LinearGradientAlgorithm2Widget.h
 
 FORMS    += LinearGradientWidget.ui \
     LinearGradientAlgorithmWidget.ui \
     MainWidget.ui \
     RadialGradientWidget.ui \
-    ConicalGradientWidget.ui
+    ConicalGradientWidget.ui \
+    LinearGradientAlgorithm2Widget.ui

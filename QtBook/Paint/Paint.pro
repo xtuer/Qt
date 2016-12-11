@@ -7,4 +7,6 @@ SUBDIRS += \
     Pixmap \
     BezierCurve \
     AntLine \
-    Gradient
+    Gradient \
+    PainterStatus \
+    ArtistPaint
