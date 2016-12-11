@@ -6,4 +6,5 @@ SUBDIRS += \
     Path \
     Pixmap \
     BezierCurve \
-    AntLine
+    AntLine \
+    Gradient
