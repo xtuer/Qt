@@ -1,15 +1,15 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2016-06-30T17:44:13
+# Project created by QtCreator 2016-12-13T11:17:43
 #
 #-------------------------------------------------
 
-QT       += core gui network xmlpatterns charts
+QT       += core gui charts
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-TARGET   = Gui
+
+TARGET = SmoothCurveQChart
 TEMPLATE = app
-ICON     = AppIcon.icns
 CONFIG  -=app_bundle
 
 # Output directory
@@ -26,14 +26,8 @@ MOC_DIR     = $$output
 RCC_DIR     = $$output
 UI_DIR      = $$output
 
-SOURCES += main.cpp \
-    Widget.cpp \
-    MainWindow.cpp
+SOURCES += main.cpp
 
-FORMS += \
-    Widget.ui \
-    MainWindow.ui
+HEADERS  +=
 
-HEADERS += \
-    Widget.h \
-    MainWindow.h
+FORMS    +=

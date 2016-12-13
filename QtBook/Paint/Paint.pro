@@ -11,4 +11,6 @@ SUBDIRS += \
     PainterStatus \
     ArtistPaint \
     SmoothCurve \
-    RealTimeCurve
+    RealTimeCurve \
+    SmoothCurveQChart \
+    RealTimeCurveQChart
