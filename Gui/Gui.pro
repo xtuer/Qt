@@ -28,12 +28,13 @@ UI_DIR      = $$output
 
 SOURCES += main.cpp \
     Widget.cpp \
-    MainWindow.cpp
+    Foo.cpp \
+    Bar.cpp
 
 FORMS += \
-    Widget.ui \
-    MainWindow.ui
+    Widget.ui
 
 HEADERS += \
     Widget.h \
-    MainWindow.h
+    Foo.h \
+    Bar.h
