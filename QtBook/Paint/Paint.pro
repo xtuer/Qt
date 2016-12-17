@@ -13,4 +13,5 @@ SUBDIRS += \
     SmoothCurve \
     RealTimeCurve \
     SmoothCurveQChart \
-    RealTimeCurveQChart
+    RealTimeCurveQChart \
+    Clip
