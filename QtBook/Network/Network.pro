@@ -2,4 +2,8 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     UnicastReceiver \
-    UnicastSender
+    UnicastSender \
+    BroadcastSender \
+    BroadcastReceiver \
+    MulticastSender \
+    MulticastReceiver
