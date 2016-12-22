@@ -3,5 +3,6 @@ TEMPLATE = subdirs
 SUBDIRS += \
     Sqlite \
     MysqlLoadDriver \
-    Mysql
+    Mysql \
+    ConnectionPool
 
