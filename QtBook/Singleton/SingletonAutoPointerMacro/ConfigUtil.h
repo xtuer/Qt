@@ -4,7 +4,7 @@
 #include "Singleton.h" // [1]
 #include <QString>
 
-class ConfigUtil {
+class Config {
     SINGLETON(ConfigUtil) // [2]
 
 public:

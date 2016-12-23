@@ -3,7 +3,7 @@
     <define id="fields">id, username, password, email, mobile</define>
 
     <sql id="findByUserId">
-        SELECT <include refId="fields"/> FROM user WHERE id=%1
+        SELECT <include defineId="fields"/> FROM user WHERE id=%1
     </sql>
 
     <sql id="findAll">

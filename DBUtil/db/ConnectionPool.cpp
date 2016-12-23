@@ -1,5 +1,5 @@
 #include "ConnectionPool.h"
-#include "util/ConfigUtil.h"
+#include "util/Config.h"
 #include <QDebug>
 #include <QtSql>
 #include <QStack>
@@ -7,11 +7,9 @@
 #include <QMutex>
 #include <QSemaphore>
 
-////////////////////////////////////////////////////////////////////////////////
-///                                                                          ///
-///                         ConnectionPoolPrivate 的定义                      ///
-///                                                                          ///
-////////////////////////////////////////////////////////////////////////////////
+/*-----------------------------------------------------------------------------|
+ |                          ConnectionPoolPrivate 的定义                        |
+ |----------------------------------------------------------------------------*/
 class ConnectionPoolPrivate {
 public:
     ConnectionPoolPrivate();
@@ -26,7 +24,7 @@ public:
     QString username;
     QString password;
     QString databaseType;
-    int port;
+    int     port;
 
     bool    testOnBorrow;    // 取得连接的时候验证连接有效
     QString testOnBorrowSql; // 测试访问数据库的 SQL
@@ -43,7 +41,7 @@ QMutex ConnectionPoolPrivate::mutex;
 int ConnectionPoolPrivate::lastKey = 0;
 
 ConnectionPoolPrivate::ConnectionPoolPrivate() {
-    ConfigUtil &config = Singleton<ConfigUtil>::getInstance();
+    Config &config = Singleton<Config>::getInstance();
 
     // 从配置文件里读取
     hostName           = config.getDatabaseHost();
@@ -73,30 +71,28 @@ ConnectionPoolPrivate::~ConnectionPoolPrivate() {
     delete semaphore;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-///                                                                          ///
-///                           ConnectionPool 的定义                           ///
-///                                                                          ///
-////////////////////////////////////////////////////////////////////////////////
-ConnectionPool::ConnectionPool() : data(new ConnectionPoolPrivate) {
+/*-----------------------------------------------------------------------------|
+ |                             ConnectionPool 的定义                            |
+ |----------------------------------------------------------------------------*/
+ConnectionPool::ConnectionPool() : d(new ConnectionPoolPrivate) {
 
 }
 
 ConnectionPool::~ConnectionPool() {
-    delete data;
+    delete d;
 }
 
 QSqlDatabase ConnectionPool::openConnection() {
-    Q_ASSERT(NULL != data);
+    Q_ASSERT(NULL != d);
 
-    if (data->semaphore->tryAcquire(1, data->maxWaitTime)) {
+    if (d->semaphore->tryAcquire(1, d->maxWaitTime)) {
         // 有已经回收的连接，复用它们
         // 没有已经回收的连接，则创建新的连接
         ConnectionPoolPrivate::mutex.lock();
-        QString connectionName = data->unusedConnectionNames.size() > 0 ?
-                    data->unusedConnectionNames.pop() :
+        QString connectionName = d->unusedConnectionNames.size() > 0 ?
+                    d->unusedConnectionNames.pop() :
                     QString("C%1").arg(++ConnectionPoolPrivate::lastKey);
-        data->usedConnectionNames.push(connectionName);
+        d->usedConnectionNames.push(connectionName);
         ConnectionPoolPrivate::mutex.unlock();
 
         // 创建连接，因为创建连接很耗时，所以不放在 lock 的范围内，提高并发效率
@@ -104,10 +100,10 @@ QSqlDatabase ConnectionPool::openConnection() {
 
         if (!db.isOpen()) {
             ConnectionPoolPrivate::mutex.lock();
-            data->usedConnectionNames.removeOne(connectionName); // 无效连接删除
+            d->usedConnectionNames.removeOne(connectionName); // 无效连接删除
             ConnectionPoolPrivate::mutex.unlock();
 
-            data->semaphore->release(); // 没有消耗连接
+            d->semaphore->release(); // 没有消耗连接
         }
 
         return db;
@@ -119,49 +115,49 @@ QSqlDatabase ConnectionPool::openConnection() {
 }
 
 void ConnectionPool::closeConnection(const QSqlDatabase &connection) {
-    Q_ASSERT(NULL != data);
+    Q_ASSERT(NULL != d);
     QString connectionName = connection.connectionName();
 
     // 如果是我们创建的连接，并且已经被使用，则从 used 里删除，放入 unused 里
-    if (data->usedConnectionNames.contains(connectionName)) {
+    if (d->usedConnectionNames.contains(connectionName)) {
         QMutexLocker locker(&ConnectionPoolPrivate::mutex);
-        data->usedConnectionNames.removeOne(connectionName);
-        data->unusedConnectionNames.push(connectionName);
-        data->semaphore->release();
+        d->usedConnectionNames.removeOne(connectionName);
+        d->unusedConnectionNames.push(connectionName);
+        d->semaphore->release();
     }
 }
 
 QSqlDatabase ConnectionPool::createConnection(const QString &connectionName) {
-    Q_ASSERT(NULL != data);
+    Q_ASSERT(NULL != d);
 
     // 连接已经创建过了，复用它，而不是重新创建
     if (QSqlDatabase::contains(connectionName)) {
-        QSqlDatabase db1 = QSqlDatabase::database(connectionName);
+        QSqlDatabase existingDb = QSqlDatabase::database(connectionName);
 
-        if (data->testOnBorrow) {
+        if (d->testOnBorrow) {
             // 返回连接前访问数据库，如果连接断开，重新建立连接
             qDebug() << QString("Test connection on borrow, execute: %1, for connection %2")
-                        .arg(data->testOnBorrowSql).arg(connectionName);
-            QSqlQuery query(data->testOnBorrowSql, db1);
+                        .arg(d->testOnBorrowSql).arg(connectionName);
+            QSqlQuery query(d->testOnBorrowSql, existingDb);
 
-            if (query.lastError().type() != QSqlError::NoError && !db1.open()) {
-                qDebug() << "Open datatabase error:" << db1.lastError().text();
+            if (query.lastError().type() != QSqlError::NoError && !existingDb.open()) {
+                qDebug() << "Open datatabase error:" << existingDb.lastError().text();
                 return QSqlDatabase();
             }
         }
 
-        return db1;
+        return existingDb;
     }
 
     // 创建一个新的连接
-    QSqlDatabase db = QSqlDatabase::addDatabase(data->databaseType, connectionName);
-    db.setHostName(data->hostName);
-    db.setDatabaseName(data->databaseName);
-    db.setUserName(data->username);
-    db.setPassword(data->password);
+    QSqlDatabase db = QSqlDatabase::addDatabase(d->databaseType, connectionName);
+    db.setHostName(d->hostName);
+    db.setDatabaseName(d->databaseName);
+    db.setUserName(d->username);
+    db.setPassword(d->password);
 
-    if (data->port != 0) {
-        db.setPort(data->port);
+    if (d->port != 0) {
+        db.setPort(d->port);
     }
 
     if (!db.open()) {
@@ -172,15 +168,13 @@ QSqlDatabase ConnectionPool::createConnection(const QString &connectionName) {
     return db;
 }
 
-void ConnectionPool::release() {
-    Q_ASSERT(NULL != data);
-
-    if (NULL != data) {
+void ConnectionPool::destroy() {
+    if (NULL != d) {
         ConnectionPoolPrivate::mutex.lock();
-        delete data;
-        data = NULL;
+        delete d;
+        d = NULL;
         ConnectionPoolPrivate::mutex.unlock();
 
-        qDebug() << "Release connection pool";
+        qDebug() << "Destroy connection pool";
     }
 }

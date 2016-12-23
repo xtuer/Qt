@@ -33,14 +33,14 @@ private:
 SQL 文件的定义
 1. <sqls> 必须有 namespace
 2. [<define>]*: <define> 必须在 <sql> 前定义，必须有 id 属性才有意义，否则不能被引用
-3. [<sql>]*: <sql> 必须有 id 属性才有意义，<sql> 里可以用 <include refid="define_id"> 引用 <define> 的内容
+3. [<sql>]*: <sql> 必须有 id 属性才有意义，<sql> 里可以用 <include defineId="define_id"> 引用 <define> 的内容
 
 SQL 文件定义 Demo:
 <sqls namespace="User">
     <define id="fields">id, username, password, email, mobile</define>
 
     <sql id="findByUserId">
-        SELECT <include refid="fields"/> FROM user WHERE id=%1
+        SELECT <include defineId="fields"/> FROM user WHERE id=%1
     </sql>
 
     <sql id="findAll">

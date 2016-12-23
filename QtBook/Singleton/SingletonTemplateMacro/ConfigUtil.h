@@ -6,7 +6,7 @@
 
 #define ConfigUtilInstance Singleton<ConfigUtil>::getInstance()
 
-class ConfigUtil {
+class Config {
     SINGLETON(ConfigUtil) // [2]
 
 public:

@@ -4,7 +4,7 @@
 #include "db/Sqls.h"
 #include "db/DBUtil.h"
 #include "db/ConnectionPool.h"
-#include "util/ConfigUtil.h"
+#include "util/Config.h"
 
 #include <QDebug>
 
@@ -15,13 +15,12 @@ void useDao();
 int main(int argc, char *argv[]) {
     Q_UNUSED(argc)
     Q_UNUSED(argv)
-
-//    useDBUtil();
+    useDBUtil();
 //    useSqlFromFile();
-    useDao();
+//    useDao();
 
-    Singleton<ConfigUtil>::getInstance().release();
-    Singleton<ConnectionPool>::getInstance().release(); // 销毁连接池，释放数据库连接
+    Singleton<ConnectionPool>::getInstance().destroy(); // 销毁连接池，释放数据库连接
+
     return 0;
 }
 

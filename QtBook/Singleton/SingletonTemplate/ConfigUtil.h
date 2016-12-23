@@ -5,20 +5,20 @@
 
 template <typename T> class Singleton; // [2]
 
-class ConfigUtil {
+class Config {
 public:
     QString getDatabaseName() const;
 
 private:
     // [3]
-    ConfigUtil();
-    ~ConfigUtil();
-    ConfigUtil(const ConfigUtil &other);
-    ConfigUtil& operator=(const ConfigUtil &other);
+    Config();
+    ~Config();
+    Config(const Config &other);
+    Config& operator=(const Config &other);
 
     // [4]
-    friend class Singleton<ConfigUtil>;
-    friend struct QScopedPointerDeleter<ConfigUtil>;
+    friend class Singleton<Config>;
+    friend struct QScopedPointerDeleter<Config>;
 };
 
 #endif // CONFIGUTIL_H

@@ -4,14 +4,14 @@ SINGLETON_STATIC_INITIALIZE(ConfigUtil) // [3]
 
 #include <QDebug>
 
-ConfigUtil::ConfigUtil() {
+Config::Config() {
     qDebug() << "ConfigUtil()";
 }
 
-ConfigUtil::~ConfigUtil() {
+Config::~Config() {
     qDebug() << "~ConfigUtil()";
 }
 
-QString ConfigUtil::getDatabaseName() const {
+QString Config::getDatabaseName() const {
     return "Pandora";
 }

@@ -1,22 +1,22 @@
 #include "ConfigUtil.h"
 #include <QDebug>
 
-QMutex ConfigUtil::mutex;
-ConfigUtil* ConfigUtil::instance = 0;
+QMutex Config::mutex;
+Config* Config::instance = 0;
 
-ConfigUtil::ConfigUtil() {
+Config::Config() {
     qDebug() << "ConfigUtil()";
 }
 
-ConfigUtil::~ConfigUtil() {
+Config::~Config() {
     qDebug() << "~ConfigUtil()";
 }
 
-ConfigUtil& ConfigUtil::getInstance() {
+Config& Config::getInstance() {
     if (0 == instance) {
         mutex.lock();
         if (0 == instance) {
-            instance = new ConfigUtil();
+            instance = new Config();
         }
         mutex.unlock();
     }
@@ -24,7 +24,7 @@ ConfigUtil& ConfigUtil::getInstance() {
     return *instance;
 }
 
-void ConfigUtil::release() {
+void Config::release() {
     if (0 != instance) {
         mutex.lock();
         delete instance;
@@ -33,6 +33,6 @@ void ConfigUtil::release() {
     }
 }
 
-QString ConfigUtil::getDatabaseName() const {
+QString Config::getDatabaseName() const {
     return "Avatar";
 }

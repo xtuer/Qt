@@ -1,6 +1,6 @@
 #include "DBUtil.h"
 #include "ConnectionPool.h"
-#include "util/ConfigUtil.h"
+#include "util/Config.h"
 
 int DBUtil::insert(const QString &sql, const QVariantMap &params) {
     int id = -1;
@@ -116,7 +116,7 @@ QList<QVariantMap > DBUtil::queryToMaps(QSqlQuery *query) {
 }
 
 void DBUtil::debug(const QSqlQuery &query, const QVariantMap &params) {
-    if (Singleton<ConfigUtil>::getInstance().isDatabaseDebug()) {
+    if (Singleton<Config>::getInstance().isDatabaseDebug()) {
         if (query.lastError().type() != QSqlError::NoError) {
             qDebug() << "    => SQL Error: " << query.lastError().text().trimmed();
         }

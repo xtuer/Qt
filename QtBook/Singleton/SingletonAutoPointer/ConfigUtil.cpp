@@ -1,26 +1,26 @@
 #include "ConfigUtil.h"
 #include <QDebug>
 
-QMutex ConfigUtil::mutex;
-QScopedPointer<ConfigUtil> ConfigUtil::instance;
+QMutex Config::mutex;
+QScopedPointer<Config> Config::instance;
 
-ConfigUtil::ConfigUtil() {
+Config::Config() {
     qDebug() << "ConfigUtil()";
 }
 
-ConfigUtil::~ConfigUtil() {
+Config::~Config() {
     qDebug() << "~ConfigUtil()";
 }
 
-QString ConfigUtil::getDatabaseName() const {
+QString Config::getDatabaseName() const {
     return "Verbose";
 }
 
-ConfigUtil& ConfigUtil::getInstance() {
+Config& Config::getInstance() {
     if (instance.isNull()) {
         mutex.lock();
         if (instance.isNull()) {
-            instance.reset(new ConfigUtil());
+            instance.reset(new Config());
         }
         mutex.unlock();
     }

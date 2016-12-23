@@ -14,20 +14,20 @@
  * 如果 testOnBorrow 为 false，则连接断开后不会自动重新连接，这时获取到的连接调用 QSqlDatabase::isOpen() 返回的值
  * 仍然是 true（因为先前的时候已经建立好了连接，Qt 里没有提供判断底层连接断开的方法或者信号）。
  *
- * 当程序结束后，需要调用 Singleton<ConnectionPool>::getInstance().release() 关闭所有数据库的连接（一般在 main() 函数返回前调用）。
+ * 当程序结束后，需要调用 Singleton<ConnectionPool>::getInstance().destroy() 关闭所有数据库的连接（一般在 main() 函数返回前调用）。
  *
  * 使用方法：
  * 1. 从数据库连接池里取得连接
- * QSqlDatabase db = Singleton<ConnectionPool>::getInstance().openConnection();
+ *    QSqlDatabase db = Singleton<ConnectionPool>::getInstance().openConnection();
  *
  * 2. 使用 db 访问数据库，如
- * QSqlQuery query(db);
+ *    QSqlQuery query(db);
  *
  * 3. 数据库连接使用完后需要释放回数据库连接池
- * Singleton<ConnectionPool>::getInstance().closeConnection(db);
+ *    Singleton<ConnectionPool>::getInstance().closeConnection(db);
  *
  * 4. 程序结束的时候真正的关闭所有数据库连接
- * Singleton<ConnectionPool>::getInstance().release();
+ *    Singleton<ConnectionPool>::getInstance().destroy();
  */
 
 class QSqlDatabase;
@@ -37,13 +37,13 @@ class ConnectionPool {
     SINGLETON(ConnectionPool)
 
 public:
-    void release(); // 销毁连接池，关闭所有的数据库连接
+    void destroy(); // 销毁连接池，关闭所有的数据库连接
     QSqlDatabase openConnection();                        // 获取数据库连接
     void closeConnection(const QSqlDatabase &connection); // 释放数据库连接回连接池
 
 private:
     QSqlDatabase createConnection(const QString &connectionName); // 创建数据库连接
-    ConnectionPoolPrivate *data;
+    ConnectionPoolPrivate *d;
 };
 
 #endif // CONNECTIONPOOL_H

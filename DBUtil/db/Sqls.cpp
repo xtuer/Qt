@@ -1,5 +1,5 @@
 #include "Sqls.h"
-#include "util/ConfigUtil.h"
+#include "util/Config.h"
 
 #include <QFile>
 #include <QDebug>
@@ -8,23 +8,21 @@
 #include <QXmlParseException>
 #include <QXmlDefaultHandler>
 
-////////////////////////////////////////////////////////////////////////////////
-///                                                                          ///
-///                              SqlsPrivate 的定义                           ///
-///                                                                          ///
-////////////////////////////////////////////////////////////////////////////////
-// static 全局变量作用域为本文件
-static const char * const SQL_ID              = "id";
-static const char * const SQL_REF_ID          = "refId";
-static const char * const SQL_TAGNAME_SQL     = "sql";
-static const char * const SQL_TAGNAME_SQLS    = "sqls";
-static const char * const SQL_TAGNAME_DEFINE  = "define";
-static const char * const SQL_TAGNAME_INCLUDE = "include";
-static const char * const SQL_NAMESPACE       = "namespace";
+// static 全局变量作用域为当前文件
+static const char * const SQL_ID                 = "id";
+static const char * const SQL_INCLUDED_DEFINE_ID = "defineId";
+static const char * const SQL_TAGNAME_SQL        = "sql";
+static const char * const SQL_TAGNAME_SQLS       = "sqls";
+static const char * const SQL_TAGNAME_DEFINE     = "define";
+static const char * const SQL_TAGNAME_INCLUDE    = "include";
+static const char * const SQL_NAMESPACE          = "namespace";
 
+/*-----------------------------------------------------------------------------|
+ |                         SqlsPrivate implementation                          |
+ |----------------------------------------------------------------------------*/
 class SqlsPrivate : public QXmlDefaultHandler {
 public:
-    SqlsPrivate(Sqls *cxt);
+    SqlsPrivate(Sqls *context);
     static QString buildKey(const QString &sqlNamespace, const QString &id);
 
 protected:
@@ -42,14 +40,13 @@ private:
     QString currentText;
     QString currentSqlId;
     QString currentDefineId;
-    QString currentRefId;
+    QString currentIncludedDefineId;
 
-    Sqls *cxt;
+    Sqls *context;
 };
 
-SqlsPrivate::SqlsPrivate(Sqls *cxt) {
-    this->cxt = cxt;
-    QStringList sqlFiles = Singleton<ConfigUtil>::getInstance().getDatabaseSqlFiles();
+SqlsPrivate::SqlsPrivate(Sqls *context) : context(context) {
+    QStringList sqlFiles = Singleton<Config>::getInstance().getDatabaseSqlFiles();
 
     foreach (QString fileName, sqlFiles) {
         qDebug() << QString("Loading SQL file: %1").arg(fileName);
@@ -76,14 +73,14 @@ bool SqlsPrivate::startElement(const QString &namespaceURI,
     Q_UNUSED(namespaceURI)
     Q_UNUSED(localName)
 
-    // 1. 取得 SQL 得 xml 文档中得 namespace, sql id, refid, include id
+    // 1. 取得 SQL 得 xml 文档中得 namespace, sql id, include 的 defineId, include 的 id
     // 2. 如果是 <sql> 标签，清空 currentText
     // 3. 如果是 <define> 标签，清空 currentText
     if (SQL_TAGNAME_SQL == qName) {
         currentSqlId = attributes.value(SQL_ID);
         currentText = "";
     } else if (SQL_TAGNAME_INCLUDE == qName) {
-        currentRefId = attributes.value(SQL_REF_ID);
+        currentIncludedDefineId = attributes.value(SQL_INCLUDED_DEFINE_ID);
     } else if (SQL_TAGNAME_DEFINE == qName) {
         currentDefineId = attributes.value(SQL_ID);
         currentText = "";
@@ -103,11 +100,11 @@ bool SqlsPrivate::endElement(const QString &namespaceURI, const QString &localNa
     // 3. 如果是 <define> 标签，则存入 defines
     if (SQL_TAGNAME_SQL == qName) {
         // 取到一个完整的 SQL 语句
-        cxt->sqls.insert(buildKey(sqlNamespace, currentSqlId), currentText.simplified());
+        context->sqls.insert(buildKey(sqlNamespace, currentSqlId), currentText.simplified());
         currentText = "";
     } else if (SQL_TAGNAME_INCLUDE == qName) {
-        QString defKey = buildKey(sqlNamespace, currentRefId);
-        QString def = defines.value(defKey);
+        QString defKey = buildKey(sqlNamespace, currentIncludedDefineId);
+        QString def    = defines.value(defKey);
 
         if (!def.isEmpty()) {
             currentText += def;
@@ -134,18 +131,14 @@ bool SqlsPrivate::fatalError(const QXmlParseException &exception) {
     return false;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-///                                                                          ///
-///                                 Sqls 的定义                               ///
-///                                                                          ///
-////////////////////////////////////////////////////////////////////////////////
+/*-----------------------------------------------------------------------------|
+ |                             Sqls implementation                             |
+ |----------------------------------------------------------------------------*/
 Sqls::Sqls() {
-    SqlsPrivate *data = new SqlsPrivate(this); // 读取 SQL 文件，内容放到 QHash sqls 里
-    delete data; // 不需要 data 了，所以删除掉它
+    SqlsPrivate(this); // 读取 SQL 文件，内容放到 QHash sqls 里
 }
 
 Sqls::~Sqls() {
-
 }
 
 QString Sqls::getSql(const QString &sqlNamespace, const QString &sqlId) {

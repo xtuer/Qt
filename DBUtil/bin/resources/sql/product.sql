@@ -2,7 +2,7 @@
     <define id="fields">id, name</define>
 
     <sql id="selectById">
-        SELECT <include refId="fields"/> FROM product WHERE id=%1
+        SELECT <include defineId="fields"/> FROM product WHERE id=%1
     </sql>
 
     <sql id="selectAll">

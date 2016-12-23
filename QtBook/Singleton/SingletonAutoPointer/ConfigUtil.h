@@ -5,22 +5,22 @@
 #include <QMutex>
 #include <QScopedPointer>
 
-class ConfigUtil {
+class Config {
 public:
     QString getDatabaseName() const;
 
-    static ConfigUtil& getInstance();
+    static Config& getInstance();
     static void release();
 
 private:
-    ConfigUtil();
-    ~ConfigUtil();
-    ConfigUtil(const ConfigUtil &other);
-    ConfigUtil& operator=(const ConfigUtil &other);
+    Config();
+    ~Config();
+    Config(const Config &other);
+    Config& operator=(const Config &other);
 
     static QMutex mutex;
-    static QScopedPointer<ConfigUtil> instance;
-    friend struct QScopedPointerDeleter<ConfigUtil>;
+    static QScopedPointer<Config> instance;
+    friend struct QScopedPointerDeleter<Config>;
 };
 
 #endif // CONFIGUTIL_H

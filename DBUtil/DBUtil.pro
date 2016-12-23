@@ -10,16 +10,21 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = DBUtil
 TEMPLATE = app
+CONFIG  -= app_bundle
 
-CONFIG     -= app_bundle
-CONFIG     += c++11
+# Output directory
+CONFIG(debug, debug|release) {
+    output = debug
+}
+CONFIG(release, debug|release) {
+    output = release
+}
 
-# 编译输出的文件
 DESTDIR     = bin
-UI_DIR      = compiled/ui
-MOC_DIR     = compiled/moc
-OBJECTS_DIR = compiled/obj
-RCC_DIR     = compiled/qrc
+OBJECTS_DIR = $$output
+MOC_DIR     = $$output
+RCC_DIR     = $$output
+UI_DIR      = $$output
 
 include(util/util.pri)
 include(bean/bean.pri)

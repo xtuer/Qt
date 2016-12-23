@@ -1,10 +1,10 @@
 {
     "database": {
         "debug": true,
-        "type": "QSQLITE",
+        "type": "QMYSQL",
         "host": "127.0.0.1",
         "port": 3306,
-        "database_name": "data.db",
+        "database_name": "qt",
         "username": "root",
         "password": "root",
         "test_on_borrow": true,

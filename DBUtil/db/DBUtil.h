@@ -12,8 +12,9 @@
 
 /**
  * 本类封装了一些操作数据库的通用方法，例如插入、更新操作、查询结果返回整数，时间类型，
- * 还可以把查询结果映射成 map，甚至通过传入的映射函数把 map 映射成对象等，
+ * 还可以把查询结果映射成 map，甚至通过传入的映射函数把 map 映射成对象等，也就是 Bean，
  * 极大的简化了操作数据库的类的实现，参考 UserDao.cpp.
+ * 所谓的 bean，就是一个简单的对象，只有属性，getter 和 setter 方法，主要目的是用来传输数据，
  *
  * sql 可以是一个简单的 SQL，如 SELECT id, username, password FROM user，
  * 也可以是一个需要绑定参数的 SQL，如 UPDATE user SET username=:username, password=:password WHERE id=:id，
@@ -25,11 +26,9 @@
  *
  *      DaoTemplate::update(sql, params);
  *
- * 所谓的 bean，就是一个简单的对象，只有属性[，getter 和 setter 方法]，主要目的是用来传输数据.
- *
  * 比较常用的方法有:
  *     insert
- *     update
+ *     update: 包括更新和删除
  *
  *     selectMap
  *     selectMaps
@@ -56,7 +55,7 @@ public:
     static bool update(const QString &sql, const QVariantMap &params = QVariantMap());
 
     /**
-     * 执行查询语句，查询到一条记录，并把其映射成 map，Key 是列名，Value 是列值.
+     * 执行查询语句，查询到一条记录，并把其映射成 map: key 是列名，value 是列值.
      * @param sql
      * @param params
      * @return 返回记录映射的 map.
