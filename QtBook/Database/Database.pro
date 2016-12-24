@@ -4,5 +4,6 @@ SUBDIRS += \
     Sqlite \
     MysqlLoadDriver \
     Mysql \
-    ConnectionPool
+    ConnectionPool\
+    DBUtil
 

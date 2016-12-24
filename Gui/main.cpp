@@ -1,13 +1,12 @@
 #include <QApplication>
 #include <QDebug>
-
-#include "Widget.h"
+#include <QList>
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
 
-    Widget w;
-    w.show();
+    QList<int> os;
+    os.clear();
 
     return app.exec();
 }
