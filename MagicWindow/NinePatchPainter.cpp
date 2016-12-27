@@ -110,13 +110,13 @@ void NinePatchPainter::draw(QPainter *painter, const QRect &rect) const {
     QRect centerRect      = rects.at(8);
 
     // 把背景图片上的 9 个部分使用缩放的方式绘制到 Rect 上对应的 9 个部分
-    painter->drawPixmap(leftRect, d->scaleImage(d->leftPixmap, leftRect.size()));
+    painter->drawTiledPixmap(leftRect, d->scaleImage(d->leftPixmap, leftRect.size()));
     painter->drawPixmap(topLeftRect, d->scaleImage(d->topLeftPixmap, topLeftRect.size()));
-    painter->drawPixmap(topRect, d->scaleImage(d->topPixmap, topRect.size()));
+    painter->drawTiledPixmap(topRect, d->scaleImage(d->topPixmap, topRect.size()));
     painter->drawPixmap(topRightRect, d->scaleImage(d->topRightPixmap,topRightRect.size()));
-    painter->drawPixmap(rightRect, d->scaleImage(d->rightPixmap, rightRect.size()));
+    painter->drawTiledPixmap(rightRect, d->scaleImage(d->rightPixmap, rightRect.size()));
     painter->drawPixmap(bottomRightRect, d->scaleImage(d->bottomRightPixmap, bottomRightRect.size()));
-    painter->drawPixmap(bottomRect, d->scaleImage(d->bottomPixmap, bottomRect.size()));
+    painter->drawTiledPixmap(bottomRect, d->scaleImage(d->bottomPixmap, bottomRect.size()));
     painter->drawPixmap(bottomLeftRect, d->scaleImage(d->bottomLeftPixmap, bottomLeftRect.size()));
     painter->drawPixmap(centerRect, d->scaleImage(d->centerPixmap, centerRect.size()));
 }
