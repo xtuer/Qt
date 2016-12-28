@@ -22,19 +22,42 @@
 	max-height: 30px;
 }
 
-.QToolButton {
-	padding: 0px;
-	width: 10px;
-	height: 10px;
-	border: 0px solid #BBB;
-	background: transparent;
-	border-radius: 4px;
-	color: #777;
-	font-weight: bold;
+#minButton, #maxButton, #closeButton {
+	min-width: 20px;
+	max-width: 20px;
+	min-height: 17px;
+	max-height: 17px;
+	border-width: 0;
 }
 
-.QToolButton:hover {
-	color: black;
+#minButton {
+	border-image: url(:/img/min.png) 5 5 4 5 repeat stretch;
+}
+#minButton:hover {
+	border-image: url(:/img/min-hover.png) 5 5 4 5 repeat stretch;
+}
+#minButton:pressed {
+	border-image: url(:/img/min-pressed.png) 5 5 4 5 repeat stretch;
+}
+
+#maxButton {
+	border-image: url(:/img/max.png) 5 5 5 5 repeat stretch;
+}
+#maxButton:hover {
+	border-image: url(:/img/max-hover.png) 5 5 5 5 repeat stretch;
+}
+#maxButton:pressed {
+	border-image: url(:/img/max-pressed.png) 5 5 5 5 repeat stretch;
+}
+
+#closeButton {
+	border-image: url(:/img/close.png) 5 5 5 5 repeat stretch;
+}
+#closeButton:hover {
+	border-image: url(:/img/close-hover.png) 5 5 5 5 repeat stretch;
+}
+#closeButton:pressed {
+	border-image: url(:/img/close-pressed.png) 5 5 5 5 repeat stretch;
 }</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -53,6 +76,9 @@
    <item>
     <widget class="QWidget" name="titleBarWidget" native="true">
      <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="spacing">
+       <number>1</number>
+      </property>
       <property name="leftMargin">
        <number>5</number>
       </property>
@@ -86,23 +112,32 @@
        </spacer>
       </item>
       <item>
-       <widget class="QToolButton" name="minButton">
+       <widget class="QPushButton" name="minButton">
         <property name="text">
-         <string>-</string>
+         <string/>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="maxButton">
+       <widget class="QPushButton" name="maxButton">
         <property name="text">
-         <string>+</string>
+         <string/>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="closeButton">
+       <widget class="QPushButton" name="closeButton">
         <property name="text">
-         <string>x</string>
+         <string/>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
         </property>
        </widget>
       </item>

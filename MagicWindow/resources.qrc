@@ -1,5 +1,16 @@
 <RCC>
     <qresource prefix="/">
         <file>img/shadow.png</file>
+        <file>img/close.png</file>
+        <file>img/max.png</file>
+        <file>img/min.png</file>
+        <file>img/close-hover.png</file>
+        <file>img/max-hover.png</file>
+        <file>img/min-hover.png</file>
+        <file>img/close-pressed.png</file>
+        <file>img/max-pressed.png</file>
+        <file>img/min-pressed.png</file>
+        <file>img/restore-pressed.png</file>
+        <file>img/stroke.png</file>
     </qresource>
 </RCC>

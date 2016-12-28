@@ -170,14 +170,14 @@ void MagicWindow::mouseMoveEvent(QMouseEvent *e) {
 
 void MagicWindow::signalSlot() {
     // 最小化
-    connect(ui->minButton, &QToolButton::clicked, [=] {
+    connect(ui->minButton, &QPushButton::clicked, [=] {
         showMinimized();
     });
 
     // 点击 maxButton，最大化或者恢复窗口大小
     // 最大化时恢复窗口大小，这时需要阴影，所以加上窗口的 padding
     // 普通模式时最大化窗口，这时不需要阴影，所以去掉窗口的 padding
-    connect(ui->maxButton, &QToolButton::clicked, [=] {
+    connect(ui->maxButton, &QPushButton::clicked, [=] {
         if (isMaximized()) {
             layout()->setContentsMargins(d->padding);
             showNormal();
@@ -188,7 +188,7 @@ void MagicWindow::signalSlot() {
     });
 
     // 关闭
-    connect(ui->closeButton, &QToolButton::clicked, [=] {
+    connect(ui->closeButton, &QPushButton::clicked, [=] {
         close();
     });
 }
