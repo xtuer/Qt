@@ -14,7 +14,7 @@ class MagicWindow : public QWidget {
     Q_OBJECT
 
 public:
-    explicit MagicWindow(QWidget *centralWidget, bool asDialog = false);
+    explicit MagicWindow(QWidget *centralWidget);
     ~MagicWindow();
 
     /**
@@ -56,6 +56,11 @@ public:
      * @brief 从最大化恢复普通窗口大小
      */
     void showNormal();
+
+    /**
+     * @brief 显示为模态对话框
+     */
+    void showModal();
 
 protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;

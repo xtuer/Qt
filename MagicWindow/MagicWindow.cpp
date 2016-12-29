@@ -41,17 +41,11 @@ public:
 /*-----------------------------------------------------------------------------|
  |                               FramelessWindow                               |
  |----------------------------------------------------------------------------*/
-MagicWindow::MagicWindow(QWidget *centralWidget, bool asDialog)
+MagicWindow::MagicWindow(QWidget *centralWidget)
     : ui(new Ui::MagicWindow), d(new MagicWindowPrivate(centralWidget)) {
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground);
-
-    // 如果作为对话框，则显示为引用程序级别的模态对话框
-    if (asDialog) {
-        setWindowFlags(Qt::Dialog | Qt::Popup | Qt::FramelessWindowHint);
-        setWindowModality(Qt::ApplicationModal);
-    }
 
     layout()->setSpacing(0);
     layout()->setContentsMargins(d->padding);
@@ -91,18 +85,26 @@ void MagicWindow::setResizable(bool resizable) {
 
 void MagicWindow::showMaximized() {
     layout()->setContentsMargins(0,0,0,0); // 最大化窗口时不需要阴影，所以去掉窗口的 padding
-    QWidget::showMaximized(); // 函数覆盖
-
     ui->maxButton->hide();
     ui->restoreButton->show();
+
+    QWidget::showMaximized(); // 函数覆盖
 }
 
 void MagicWindow::showNormal() {
     layout()->setContentsMargins(d->padding); // 时恢复窗口大小时显示阴影，所以加上窗口的 padding
-    QWidget::showNormal();
-
     ui->maxButton->show();
     ui->restoreButton->hide();
+
+    QWidget::showNormal();
+}
+
+void MagicWindow::showModal() {
+    setTitleBarButtonsVisible(false, false, true); // 模态对话框没必要显示最小化，最大化按钮
+    setWindowFlags(Qt::Dialog | Qt::Popup | Qt::FramelessWindowHint);
+    setWindowModality(Qt::ApplicationModal);
+
+    QWidget::show();
 }
 
 void MagicWindow::paintEvent(QPaintEvent *) {
