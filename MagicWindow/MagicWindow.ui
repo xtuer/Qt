@@ -18,15 +18,15 @@
 	background: white;
 	border-top-left-radius: 3px;
      border-top-right-radius: 3px;
-	min-height: 30px;
+	min-height: 27px;
 	max-height: 27px;
 }
 
 #minButton, #maxButton, #restoreButton, #closeButton {
 	min-width: 30px;
 	max-width: 30px;
-	min-height: 29px;
-	max-height: 29px;
+	min-height: 27px;
+	max-height: 27px;
 	border-width: 0;
 }
 

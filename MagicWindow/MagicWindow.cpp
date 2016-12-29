@@ -41,15 +41,19 @@ public:
 /*-----------------------------------------------------------------------------|
  |                               FramelessWindow                               |
  |----------------------------------------------------------------------------*/
-MagicWindow::MagicWindow(QWidget *centralWidget)
-    : ui(new Ui::MagicWindow), d(new MagicWindowPrivate(centralWidget)) {
+MagicWindow::MagicWindow(QWidget *centralWidget) : ui(new Ui::MagicWindow), d(new MagicWindowPrivate(centralWidget)) {
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground);
 
-    layout()->setSpacing(0);
-    layout()->setContentsMargins(d->padding);
+    layout()->setSpacing(0); // 去掉标题栏和中心 widget 的间隙
+    layout()->setContentsMargins(d->padding); // 留空白显示出阴影
     layout()->addWidget(centralWidget);
+
+    // 几个按钮都靠上贴合到边框上
+    ui->titleBarWidget->layout()->setAlignment(ui->minButton,   Qt::AlignTop);
+    ui->titleBarWidget->layout()->setAlignment(ui->maxButton,   Qt::AlignTop);
+    ui->titleBarWidget->layout()->setAlignment(ui->closeButton, Qt::AlignTop);
 
     // 启用 Mouse Tracking
     this->setMouseTracking(true);
