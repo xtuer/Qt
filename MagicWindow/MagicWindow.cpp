@@ -46,8 +46,6 @@ MagicWindow::MagicWindow(QWidget *centralWidget) : ui(new Ui::MagicWindow), d(ne
     setWindowFlags(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground);
 
-    setObjectName("magicWindow"); // 用 QSS 的时候，objectName 可以用作 id 选择器
-
     layout()->setSpacing(0); // 去掉标题栏和中心 widget 的间隙
     layout()->setContentsMargins(d->padding); // 留空白显示出阴影
     layout()->addWidget(centralWidget);
