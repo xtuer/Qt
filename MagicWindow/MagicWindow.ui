@@ -22,7 +22,7 @@
 	max-height: 30px;
 }
 
-#minButton, #maxButton, #closeButton {
+#minButton, #maxButton, #restoreButton, #closeButton {
 	min-width: 20px;
 	max-width: 20px;
 	min-height: 17px;
@@ -58,6 +58,16 @@
 }
 #closeButton:pressed {
 	border-image: url(:/img/close-pressed.png) 5 5 5 5 repeat stretch;
+}
+
+#restoreButton {
+	border-image: url(:/img/restore.png) 5 5 5 5 repeat stretch;
+}
+#restoreButton:hover {
+	border-image: url(:/img/restore-hover.png) 5 5 5 5 repeat stretch;
+}
+#restoreButton:pressed {
+	border-image: url(:/img/restore-pressed.png) 5 5 5 5 repeat stretch;
 }</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -77,7 +87,7 @@
     <widget class="QWidget" name="titleBarWidget" native="true">
      <layout class="QHBoxLayout" name="horizontalLayout">
       <property name="spacing">
-       <number>1</number>
+       <number>0</number>
       </property>
       <property name="leftMargin">
        <number>5</number>
@@ -123,6 +133,16 @@
       </item>
       <item>
        <widget class="QPushButton" name="maxButton">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="restoreButton">
         <property name="text">
          <string/>
         </property>

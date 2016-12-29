@@ -12,5 +12,7 @@
         <file>img/min-pressed.png</file>
         <file>img/restore-pressed.png</file>
         <file>img/stroke.png</file>
+        <file>img/restore-hover.png</file>
+        <file>img/restore.png</file>
     </qresource>
 </RCC>

@@ -62,6 +62,7 @@ MagicWindow::MagicWindow(QWidget *centralWidget, bool asDialog)
     ui->titleBarWidget->setMouseTracking(true);
     d->centralWidget->setMouseTracking(true);
 
+    ui->restoreButton->hide();
     signalSlot();
 }
 
@@ -74,7 +75,11 @@ void MagicWindow::setTitle(const QString &title) {
     ui->titleLabel->setText(title);
 }
 
-void MagicWindow::showButtons(bool min, bool max, bool close) {
+void MagicWindow::setTitleBarVisible(bool visible) {
+    ui->titleBarWidget->setVisible(visible);
+}
+
+void MagicWindow::setTitleBarButtonsVisible(bool min, bool max, bool close) {
     ui->minButton->setVisible(min);
     ui->maxButton->setVisible(max);
     ui->closeButton->setVisible(close);
@@ -82,6 +87,22 @@ void MagicWindow::showButtons(bool min, bool max, bool close) {
 
 void MagicWindow::setResizable(bool resizable) {
     d->resizable = resizable;
+}
+
+void MagicWindow::showMaximized() {
+    layout()->setContentsMargins(0,0,0,0); // 最大化窗口时不需要阴影，所以去掉窗口的 padding
+    QWidget::showMaximized(); // 函数覆盖
+
+    ui->maxButton->hide();
+    ui->restoreButton->show();
+}
+
+void MagicWindow::showNormal() {
+    layout()->setContentsMargins(d->padding); // 时恢复窗口大小时显示阴影，所以加上窗口的 padding
+    QWidget::showNormal();
+
+    ui->maxButton->show();
+    ui->restoreButton->hide();
 }
 
 void MagicWindow::paintEvent(QPaintEvent *) {
@@ -133,6 +154,7 @@ void MagicWindow::mouseReleaseEvent(QMouseEvent *) {
 }
 
 void MagicWindow::mouseMoveEvent(QMouseEvent *e) {
+    // 最大化时不允许移动、修改窗口大小
     if (isMaximized()) {
         return;
     }
@@ -174,17 +196,14 @@ void MagicWindow::signalSlot() {
         showMinimized();
     });
 
-    // 点击 maxButton，最大化或者恢复窗口大小
-    // 最大化时恢复窗口大小，这时需要阴影，所以加上窗口的 padding
-    // 普通模式时最大化窗口，这时不需要阴影，所以去掉窗口的 padding
+    // 最大化
     connect(ui->maxButton, &QPushButton::clicked, [=] {
-        if (isMaximized()) {
-            layout()->setContentsMargins(d->padding);
-            showNormal();
-        } else {
-            layout()->setContentsMargins(0,0,0,0);
-            showMaximized();
-        }
+        showMaximized();
+    });
+
+    // 普通大小
+    connect(ui->restoreButton, &QPushButton::clicked, [=] {
+        showNormal();
     });
 
     // 关闭

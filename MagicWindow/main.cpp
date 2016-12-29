@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
         // [2] 对话框，不显示最大最小按钮，不可调整窗口大小
         MagicWindow *dialog = new MagicWindow(centralWidget2, true);
         dialog->setTitle("模态对话框");
-        dialog->showButtons(false, false, true);
+        dialog->setTitleBarButtonsVisible(false, false, true);
         dialog->setResizable(false);
         dialog->setAttribute(Qt::WA_DeleteOnClose);
         dialog->show();
