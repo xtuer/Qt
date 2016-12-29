@@ -19,55 +19,59 @@
 	border-top-left-radius: 3px;
      border-top-right-radius: 3px;
 	min-height: 30px;
-	max-height: 30px;
+	max-height: 27px;
 }
 
 #minButton, #maxButton, #restoreButton, #closeButton {
-	min-width: 20px;
-	max-width: 20px;
-	min-height: 17px;
-	max-height: 17px;
+	min-width: 30px;
+	max-width: 30px;
+	min-height: 29px;
+	max-height: 29px;
 	border-width: 0;
 }
 
+#closeButton {
+	border-top-right-radius: 3px;
+}
+
 #minButton {
-	border-image: url(:/img/min.png) 5 5 4 5 repeat stretch;
+	border-image: url(:/img/toolbar-min.png) 0 0 0 0 repeat stretch;
 }
 #minButton:hover {
-	border-image: url(:/img/min-hover.png) 5 5 4 5 repeat stretch;
+	border-image: url(:/img/toolbar-min-hover.png) 0 0 0 0 repeat stretch;
 }
 #minButton:pressed {
-	border-image: url(:/img/min-pressed.png) 5 5 4 5 repeat stretch;
+	border-image: url(:/img/toolbar-min-pressed.png) 0 0 0 0 repeat stretch;
 }
 
 #maxButton {
-	border-image: url(:/img/max.png) 5 5 5 5 repeat stretch;
+	border-image: url(:/img/toolbar-max.png) 0 0 0 0 repeat stretch;
 }
 #maxButton:hover {
-	border-image: url(:/img/max-hover.png) 5 5 5 5 repeat stretch;
+	border-image: url(:/img/toolbar-max-hover.png) 0 0 0 0 repeat stretch;
 }
 #maxButton:pressed {
-	border-image: url(:/img/max-pressed.png) 5 5 5 5 repeat stretch;
+	border-image: url(:/img/toolbar-max-pressed.png) 0 0 0 0 repeat stretch;
 }
 
 #closeButton {
-	border-image: url(:/img/close.png) 5 5 5 5 repeat stretch;
+	border-image: url(:/img/toolbar-close.png) 0 0 0 0 repeat stretch;
 }
 #closeButton:hover {
-	border-image: url(:/img/close-hover.png) 5 5 5 5 repeat stretch;
+	border-image: url(:/img/toolbar-close-hover.png) 0 0 0 0 repeat stretch;
 }
 #closeButton:pressed {
-	border-image: url(:/img/close-pressed.png) 5 5 5 5 repeat stretch;
+	border-image: url(:/img/toolbar-close-pressed.png) 0 0 0 0 repeat stretch;
 }
 
 #restoreButton {
-	border-image: url(:/img/restore.png) 5 5 5 5 repeat stretch;
+	border-image: url(:/img/toolbar-restore.png) 0 0 0 0 repeat stretch;
 }
 #restoreButton:hover {
-	border-image: url(:/img/restore-hover.png) 5 5 5 5 repeat stretch;
+	border-image: url(:/img/toolbar-restore-hover.png) 0 0 0 0 repeat stretch;
 }
 #restoreButton:pressed {
-	border-image: url(:/img/restore-pressed.png) 5 5 5 5 repeat stretch;
+	border-image: url(:/img/toolbar-restore-pressed.png) 0 0 0 0 repeat stretch;
 }</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -96,7 +100,7 @@
        <number>0</number>
       </property>
       <property name="rightMargin">
-       <number>5</number>
+       <number>0</number>
       </property>
       <property name="bottomMargin">
        <number>0</number>
