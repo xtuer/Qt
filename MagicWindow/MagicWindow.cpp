@@ -16,10 +16,10 @@ public:
     NinePatchPainter *ninePatchPainter;
     QMargins padding; // 根据阴影的大小来设置窗口的 padding 以便达到满意的效果
 
-    bool left;   // 为 true 时鼠标在窗口的左边框
-    bool right;  // 为 true 时鼠标在窗口的右边框
-    bool top;    // 为 true 时鼠标在窗口的上边框
-    bool bottom; // 为 true 时鼠标在窗口的下边框
+    bool left;      // 为 true 时鼠标在窗口的左边框
+    bool right;     // 为 true 时鼠标在窗口的右边框
+    bool top;       // 为 true 时鼠标在窗口的上边框
+    bool bottom;    // 为 true 时鼠标在窗口的下边框
     bool resizable; // 是否允许改变窗口大小
 
     QPoint mousePressedPosition;         // 鼠标按下时的全局坐标坐标
@@ -136,7 +136,7 @@ void MagicWindow::mousePressEvent(QMouseEvent *e) {
 }
 
 void MagicWindow::mouseReleaseEvent(QMouseEvent *) {
-    if (isResizeMode()) {
+    if (isResizingWindowMode()) {
         // 调整窗口大小的模式下松开鼠标时修改窗口的大小
         int x = d->rubberBand->pos().x() - d->padding.left();
         int y = d->rubberBand->pos().y() - d->padding.top();
@@ -165,12 +165,12 @@ void MagicWindow::mouseMoveEvent(QMouseEvent *e) {
         updateCursor();
     }
 
-    if (isMoveMode()) {
+    if (isMovingWindowMode()) {
         // 移动模式下移动鼠标修改窗口的位置
         QPoint delta = e->globalPos() - d->mousePressedPosition;
         QPoint pos = d->windowPositionAsMousePressed + delta;
         this->move(pos);
-    } else if (isResizeMode()) {
+    } else if (isResizingWindowMode()) {
         // 调整窗口大小的模式下移动鼠标时改变 rubberBand 的大小
         QRect r(d->rubberBandRectAsDrag);
         int x = QCursor::pos().x();
@@ -218,12 +218,12 @@ bool MagicWindow::isMouseAtEdge() const {
 }
 
 // 移动模式：鼠标按下且不在窗口边上
-bool MagicWindow::isMoveMode() const {
+bool MagicWindow::isMovingWindowMode() const {
     return !d->mousePressedPosition.isNull() && !isMouseAtEdge();
 }
 
 // 修改窗口大小模式: 鼠标按下且在窗口边上
-bool MagicWindow::isResizeMode() const {
+bool MagicWindow::isResizingWindowMode() const {
     return !d->mousePressedPosition.isNull() && isMouseAtEdge();
 }
 

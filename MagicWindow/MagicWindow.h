@@ -66,8 +66,8 @@ protected:
 private:
     void signalSlot();                   // 处理信号槽
     bool isMouseAtEdge() const;          // 检查鼠标是否在窗口边框上
-    bool isMoveMode() const;             // 正在移动窗口
-    bool isResizeMode() const;           // 正在修改窗口大小
+    bool isMovingWindowMode() const;     // 正在移动窗口
+    bool isResizingWindowMode() const;   // 正在修改窗口大小
     void calculateMousePosition() const; // 计算鼠标在窗口的哪一个边框上
     void updateCursor();                 // 根据鼠标的位置更新鼠标的样式
     void reset();                        // 恢复鼠标的标记，鼠标样式等
