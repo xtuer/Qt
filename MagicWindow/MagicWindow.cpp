@@ -29,7 +29,7 @@ public:
 
     MagicWindowPrivate(QWidget *centralWidget) : centralWidget(centralWidget), resizable(true),
         rubberBand(new QRubberBand(QRubberBand::Rectangle)) {
-        padding = QMargins(16, 10, 16, 16);
+        padding = QMargins(16, 10, 16, 16); // 根据阴影的大小来设置窗口的 padding 以便达到满意的效果
         ninePatchPainter = new NinePatchPainter(23, 13, 23, 33, ":/img/shadow.png"); // 根据阴影的大小来设置
     }
 
@@ -51,6 +51,7 @@ MagicWindow::MagicWindow(QWidget *centralWidget) : ui(new Ui::MagicWindow), d(ne
     layout()->addWidget(centralWidget);
 
     // 几个按钮都靠上贴合到边框上
+    ui->titleBarWidget->layout()->setContentsMargins(5, 0, 0, 0);
     ui->titleBarWidget->layout()->setAlignment(ui->minButton,   Qt::AlignTop);
     ui->titleBarWidget->layout()->setAlignment(ui->maxButton,   Qt::AlignTop);
     ui->titleBarWidget->layout()->setAlignment(ui->closeButton, Qt::AlignTop);
