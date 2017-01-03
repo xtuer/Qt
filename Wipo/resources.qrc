@@ -12,5 +12,6 @@
         <file>img/analysis-info-active.png</file>
         <file>img/analysis-info.png</file>
         <file>img/course.png</file>
+        <file>img/close-hover.png</file>
     </qresource>
 </RCC>

@@ -38,9 +38,10 @@
 	background: url(:/img/close.png);
 }
 
-#titleBarWidget {
-
-}</string>
+#closeButton:hover {
+	background: url(:/img/close-hover.png);
+}
+</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="leftMargin">

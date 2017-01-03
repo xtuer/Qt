@@ -56,7 +56,8 @@
 
 #courseWidget {
 	background: url(:/img/course.png);
-}</string>
+}
+</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="0" column="0">
@@ -72,6 +73,9 @@
        <width>284</width>
        <height>684</height>
       </size>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <property name="leftMargin">
@@ -91,6 +95,9 @@
       </property>
       <item row="0" column="0">
        <widget class="QPushButton" name="indexButton">
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -107,6 +114,9 @@
       </item>
       <item row="1" column="0">
        <widget class="QPushButton" name="analysisBaseButton">
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -123,6 +133,9 @@
       </item>
       <item row="2" column="0">
        <widget class="QPushButton" name="analysisAdvanceButton">
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -136,6 +149,9 @@
       </item>
       <item row="3" column="0">
        <widget class="QPushButton" name="analysisInfoButton">
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -164,6 +180,9 @@
        <height>680</height>
       </size>
      </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
      <layout class="QGridLayout" name="gridLayout_3">
       <property name="leftMargin">
        <number>8</number>
@@ -178,10 +197,31 @@
        <number>8</number>
       </property>
       <item row="0" column="0">
-       <widget class="QListView" name="listView"/>
+       <widget class="QListView" name="courseListView">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
+        <property name="editTriggers">
+         <set>QAbstractItemView::NoEditTriggers</set>
+        </property>
+       </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QListView" name="listView_2"/>
+       <widget class="QListView" name="coursewareListView">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>

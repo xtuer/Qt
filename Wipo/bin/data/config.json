@@ -1,0 +1,31 @@
+{
+    "index": [
+        {
+            "courseName": "A",
+            "coursewares": [
+                {"coursewareName": "A1", "video": "1.mp4"},
+                {"coursewareName": "A2", "video": "2.mp4"},
+                {"coursewareName": "A3", "video": "3.mp4"},
+            ]
+        },
+        {
+            "courseName": "B",
+            "coursewares": [
+                {"coursewareName": "B1", "video": "1.mp4"},
+                {"coursewareName": "B2", "video": "2.mp4"},
+                {"coursewareName": "B3", "video": "3.mp4"},
+            ]
+        }
+    ],
+    "analysisBase": [
+        {
+
+        }
+    ],
+    "analysisAdvance": [
+
+    ],
+    "analysisInfo": [
+
+    ]
+}
