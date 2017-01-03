@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CentralWidget</class>
+ <widget class="QWidget" name="CentralWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>949</width>
+    <height>708</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">#moduleWidget {
+	background: url(:/img/module.png);
+}
+
+#moduleWidget .QPushButton {
+	min-width: 264px;
+	max-width: 264px;
+	min-height: 140px;
+	max-height: 140px;
+	border: 0px solid red;
+}
+
+#indexButton {
+	background: url(:/img/index.png);
+}
+#indexButton:checked {
+	background: url(:/img/index-active.png);
+}
+
+#analysisBaseButton {
+	background: url(:/img/analysis-base.png);
+}
+#analysisBaseButton:checked {
+	background: url(:/img/analysis-base-active.png);
+}
+
+#analysisAdvanceButton {
+	background: url(:/img/analysis-advance.png);
+}
+#analysisAdvanceButton:checked {
+	background: url(:/img/analysis-advance-active.png);
+}
+
+#analysisInfoButton {
+	background: url(:/img/analysis-info.png);
+}
+#analysisInfoButton:checked {
+	background: url(:/img/analysis-info-active.png);
+}
+
+#courseWidget {
+	background: url(:/img/course.png);
+}</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="0" column="0">
+    <widget class="QWidget" name="moduleWidget" native="true">
+     <property name="minimumSize">
+      <size>
+       <width>284</width>
+       <height>684</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>284</width>
+       <height>684</height>
+      </size>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <property name="leftMargin">
+       <number>8</number>
+      </property>
+      <property name="topMargin">
+       <number>78</number>
+      </property>
+      <property name="rightMargin">
+       <number>8</number>
+      </property>
+      <property name="bottomMargin">
+       <number>8</number>
+      </property>
+      <property name="spacing">
+       <number>10</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QPushButton" name="indexButton">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QPushButton" name="analysisBaseButton">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QPushButton" name="analysisAdvanceButton">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QPushButton" name="analysisInfoButton">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QWidget" name="courseWidget" native="true">
+     <property name="minimumSize">
+      <size>
+       <width>631</width>
+       <height>680</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>631</width>
+       <height>680</height>
+      </size>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <property name="leftMargin">
+       <number>8</number>
+      </property>
+      <property name="topMargin">
+       <number>70</number>
+      </property>
+      <property name="rightMargin">
+       <number>8</number>
+      </property>
+      <property name="bottomMargin">
+       <number>8</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QListView" name="listView"/>
+      </item>
+      <item row="0" column="1">
+       <widget class="QListView" name="listView_2"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

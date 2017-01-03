@@ -1,12 +1,20 @@
 #include "Widget.h"
 #include "ui_Widget.h"
+#include "FoxWidget.h"
+
 #include <QPainter>
 #include <QDebug>
 
 Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
     ui->setupUi(this);
-
-    connect(ui->slotButton, SIGNAL(clicked(bool)), this, SLOT(foo()));
+    QWidget *w = new FoxWidget();
+    w->setWindowFlags(Qt::ToolTip);
+    w->resize(400, 300);
+//    w->setAttribute(Qt::WA_DeleteOnClose);
+    connect(ui->pushButton, &QPushButton::clicked, [=] {
+        w->move(QCursor::pos());
+        w->show();
+    });
 }
 
 Widget::~Widget() {

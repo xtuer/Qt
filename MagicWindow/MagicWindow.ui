@@ -107,6 +107,11 @@
       </property>
       <item>
        <widget class="QLabel" name="titleLabel">
+        <property name="font">
+         <font>
+          <pointsize>13</pointsize>
+         </font>
+        </property>
         <property name="text">
          <string>标题</string>
         </property>
