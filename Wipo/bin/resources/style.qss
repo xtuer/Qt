@@ -22,7 +22,7 @@ QScrollBar::sub-line:horizontal, QScrollBar::add-line:horizontal {
 }
 
 QListView {
-    font-family: Arial;
+    font-family: 微软雅黑;
     font-size: 20px;
     border: 0px solid red;
 }

@@ -2,6 +2,7 @@
 #include "ui_CentralWidget.h"
 #include "util/Json.h"
 #include "util/UiUtil.h"
+#include "util/Config.h"
 #include "bean/Course.h"
 #include "bean/Courseware.h"
 
@@ -39,7 +40,7 @@ CentralWidgetPrivate::CentralWidgetPrivate() {
     coursewareModel = new QStandardItemModel();
 
     // 从文件读取课程到 Json 对象
-    Json config("./data/config.json", true);
+    Json config(Config::getConfigFilePath(), true);
 
     // 加载模块对应的课程
     indexCourses           = loadModuleCourses(&config, "检索基础模块");

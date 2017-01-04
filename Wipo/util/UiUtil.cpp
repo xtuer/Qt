@@ -1,4 +1,5 @@
 #include "UiUtil.h"
+#include "util/Config.h"
 
 #include <QFile>
 #include <QStringList>
@@ -11,7 +12,7 @@
 #include <QGridLayout>
 
 void UiUtil::loadQss() {
-    QStringList qssFileNames("./resources/style.qss");
+    QStringList qssFileNames(Config::getQssFilePath());
     QString qss;
 
     foreach (QString name, qssFileNames) {
