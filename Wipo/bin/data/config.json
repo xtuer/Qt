@@ -1,11 +1,11 @@
 {
-    "index": [
+    "检索基础模块": [
         {
-            "courseName": "A",
+            "courseName": "数学",
             "coursewares": [
                 {"coursewareName": "A1", "video": "1.mp4"},
                 {"coursewareName": "A2", "video": "2.mp4"},
-                {"coursewareName": "A3", "video": "3.mp4"},
+                {"coursewareName": "A3", "video": "3.mp4"}
             ]
         },
         {
@@ -13,19 +13,256 @@
             "coursewares": [
                 {"coursewareName": "B1", "video": "1.mp4"},
                 {"coursewareName": "B2", "video": "2.mp4"},
-                {"coursewareName": "B3", "video": "3.mp4"},
+                {"coursewareName": "B3", "video": "3.mp4"}
+            ]
+        },
+        {
+            "courseName": "数学",
+            "coursewares": [
+                {"coursewareName": "A1", "video": "1.mp4"},
+                {"coursewareName": "A2", "video": "2.mp4"},
+                {"coursewareName": "A3", "video": "3.mp4"}
+            ]
+        },
+        {
+            "courseName": "数学",
+            "coursewares": [
+                {"coursewareName": "A1", "video": "1.mp4"},
+                {"coursewareName": "A2", "video": "2.mp4"},
+                {"coursewareName": "A3", "video": "3.mp4"}
+            ]
+        },
+        {
+            "courseName": "数学",
+            "coursewares": [
+                {"coursewareName": "A1", "video": "1.mp4"},
+                {"coursewareName": "A2", "video": "2.mp4"},
+                {"coursewareName": "A3", "video": "3.mp4"}
+            ]
+        },
+        {
+            "courseName": "数学",
+            "coursewares": [
+                {"coursewareName": "A1", "video": "1.mp4"},
+                {"coursewareName": "A2", "video": "2.mp4"},
+                {"coursewareName": "A3", "video": "3.mp4"}
+            ]
+        },
+        {
+            "courseName": "数学",
+            "coursewares": [
+                {"coursewareName": "A1", "video": "1.mp4"},
+                {"coursewareName": "A2", "video": "2.mp4"},
+                {"coursewareName": "A3", "video": "3.mp4"}
+            ]
+        },
+        {
+            "courseName": "数学",
+            "coursewares": [
+                {"coursewareName": "A1", "video": "1.mp4"},
+                {"coursewareName": "A2", "video": "2.mp4"},
+                {"coursewareName": "A3", "video": "3.mp4"}
+            ]
+        },
+        {
+            "courseName": "数学",
+            "coursewares": [
+                {"coursewareName": "A1", "video": "1.mp4"},
+                {"coursewareName": "A2", "video": "2.mp4"},
+                {"coursewareName": "A3", "video": "3.mp4"}
+            ]
+        },
+        {
+            "courseName": "数学",
+            "coursewares": [
+                {"coursewareName": "A1", "video": "1.mp4"},
+                {"coursewareName": "A2", "video": "2.mp4"},
+                {"coursewareName": "A3", "video": "3.mp4"}
+            ]
+        },
+        {
+            "courseName": "数学",
+            "coursewares": [
+                {"coursewareName": "A1", "video": "1.mp4"},
+                {"coursewareName": "A2", "video": "2.mp4"},
+                {"coursewareName": "A3", "video": "3.mp4"}
+            ]
+        },
+        {
+            "courseName": "B",
+            "coursewares": [
+                {"coursewareName": "B1", "video": "1.mp4"},
+                {"coursewareName": "B2", "video": "2.mp4"},
+                {"coursewareName": "B3", "video": "3.mp4"}
+            ]
+        },
+        {
+            "courseName": "数学",
+            "coursewares": [
+                {"coursewareName": "A1", "video": "1.mp4"},
+                {"coursewareName": "A2", "video": "2.mp4"},
+                {"coursewareName": "A3", "video": "3.mp4"}
+            ]
+        },
+        {
+            "courseName": "数学",
+            "coursewares": [
+                {"coursewareName": "A1", "video": "1.mp4"},
+                {"coursewareName": "A2", "video": "2.mp4"},
+                {"coursewareName": "A3", "video": "3.mp4"}
+            ]
+        },
+        {
+            "courseName": "数学",
+            "coursewares": [
+                {"coursewareName": "A1", "video": "1.mp4"},
+                {"coursewareName": "A2", "video": "2.mp4"},
+                {"coursewareName": "A3", "video": "3.mp4"}
+            ]
+        },
+        {
+            "courseName": "数学",
+            "coursewares": [
+                {"coursewareName": "A1", "video": "1.mp4"},
+                {"coursewareName": "A2", "video": "2.mp4"},
+                {"coursewareName": "A3", "video": "3.mp4"}
+            ]
+        },
+        {
+            "courseName": "数学",
+            "coursewares": [
+                {"coursewareName": "A1", "video": "1.mp4"},
+                {"coursewareName": "A2", "video": "2.mp4"},
+                {"coursewareName": "A3", "video": "3.mp4"}
+            ]
+        },
+        {
+            "courseName": "数学",
+            "coursewares": [
+                {"coursewareName": "A1", "video": "1.mp4"},
+                {"coursewareName": "A2", "video": "2.mp4"},
+                {"coursewareName": "A3", "video": "3.mp4"}
+            ]
+        },
+        {
+            "courseName": "数学",
+            "coursewares": [
+                {"coursewareName": "A1", "video": "1.mp4"},
+                {"coursewareName": "A2", "video": "2.mp4"},
+                {"coursewareName": "A3", "video": "3.mp4"}
+            ]
+        },
+        {
+            "courseName": "数学",
+            "coursewares": [
+                {"coursewareName": "A1", "video": "1.mp4"},
+                {"coursewareName": "A2", "video": "2.mp4"},
+                {"coursewareName": "A3", "video": "3.mp4"}
+            ]
+        },
+        {
+            "courseName": "数学",
+            "coursewares": [
+                {"coursewareName": "A1", "video": "1.mp4"},
+                {"coursewareName": "A2", "video": "2.mp4"},
+                {"coursewareName": "A3", "video": "3.mp4"}
+            ]
+        },
+        {
+            "courseName": "B",
+            "coursewares": [
+                {"coursewareName": "B1", "video": "1.mp4"},
+                {"coursewareName": "B2", "video": "2.mp4"},
+                {"coursewareName": "B3", "video": "3.mp4"}
+            ]
+        },
+        {
+            "courseName": "数学",
+            "coursewares": [
+                {"coursewareName": "A1", "video": "1.mp4"},
+                {"coursewareName": "A2", "video": "2.mp4"},
+                {"coursewareName": "A3", "video": "3.mp4"}
+            ]
+        },
+        {
+            "courseName": "数学",
+            "coursewares": [
+                {"coursewareName": "A1", "video": "1.mp4"},
+                {"coursewareName": "A2", "video": "2.mp4"},
+                {"coursewareName": "A3", "video": "3.mp4"}
+            ]
+        },
+        {
+            "courseName": "数学",
+            "coursewares": [
+                {"coursewareName": "A1", "video": "1.mp4"},
+                {"coursewareName": "A2", "video": "2.mp4"},
+                {"coursewareName": "A3", "video": "3.mp4"}
+            ]
+        },
+        {
+            "courseName": "数学",
+            "coursewares": [
+                {"coursewareName": "A1", "video": "1.mp4"},
+                {"coursewareName": "A2", "video": "2.mp4"},
+                {"coursewareName": "A3", "video": "3.mp4"}
+            ]
+        },
+        {
+            "courseName": "数学",
+            "coursewares": [
+                {"coursewareName": "A1", "video": "1.mp4"},
+                {"coursewareName": "A2", "video": "2.mp4"},
+                {"coursewareName": "A3", "video": "3.mp4"}
+            ]
+        },
+        {
+            "courseName": "数学",
+            "coursewares": [
+                {"coursewareName": "A1", "video": "1.mp4"},
+                {"coursewareName": "A2", "video": "2.mp4"},
+                {"coursewareName": "A3", "video": "3.mp4"}
+            ]
+        },
+        {
+            "courseName": "数学",
+            "coursewares": [
+                {"coursewareName": "A1", "video": "1.mp4"},
+                {"coursewareName": "A2", "video": "2.mp4"},
+                {"coursewareName": "A3", "video": "3.mp4"}
+            ]
+        },
+        {
+            "courseName": "数学",
+            "coursewares": [
+                {"coursewareName": "A1", "video": "1.mp4"},
+                {"coursewareName": "A2", "video": "2.mp4"},
+                {"coursewareName": "A3", "video": "3.mp4"}
+            ]
+        },
+        {
+            "courseName": "数学",
+            "coursewares": [
+                {"coursewareName": "A1", "video": "1.mp4"},
+                {"coursewareName": "A2", "video": "2.mp4"},
+                {"coursewareName": "A3", "video": "3.mp4"}
             ]
         }
     ],
-    "analysisBase": [
+    "分析基础模块": [
+
+    ],
+    "分析提高模块": [
+
+    ],
+    "信息分析模块": [
         {
-
+            "courseName": "数学",
+            "coursewares": [
+                {"coursewareName": "A1", "video": "1.mp4"},
+                {"coursewareName": "A2", "video": "2.mp4"},
+                {"coursewareName": "A3", "video": "3.mp4"}
+            ]
         }
-    ],
-    "analysisAdvance": [
-
-    ],
-    "analysisInfo": [
-
     ]
 }

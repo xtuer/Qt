@@ -1,7 +1,7 @@
 QScrollBar:vertical {
     width: 8px;
     background: #DDD;
-    padding-bottom: 8px;
+    padding-bottom: 0px;
 }
 QScrollBar:horizontal {
     height: 8px;
@@ -19,4 +19,23 @@ QScrollBar::sub-line:vertical, QScrollBar::add-line:vertical,
 QScrollBar::sub-line:horizontal, QScrollBar::add-line:horizontal {
     width: 0;
     height: 0;
+}
+
+QListView {
+    font-family: Arial;
+    font-size: 20px;
+    border: 0px solid red;
+}
+
+QListView::item {
+    font-size: 20px;
+    color: #AAA;
+    border-bottom: 1px solid #EEE;
+    padding-left: 5px;
+}
+
+QListView::item:selected { /*被选中的index*/
+    color: black;
+	font-weight: bold;
+    background: white;
 }
