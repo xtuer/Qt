@@ -47,3 +47,4 @@ SOURCES += main.cpp
 RESOURCES += \
     resources.qrc
 
+RC_ICONS = AppIcon.ico
