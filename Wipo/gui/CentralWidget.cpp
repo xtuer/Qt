@@ -14,6 +14,7 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <QMessageBox>
+#include <QIcon>
 #include <QDebug>
 
 /*-----------------------------------------------------------------------------|
@@ -146,8 +147,10 @@ void CentralWidget::showCoursewares(const QModelIndex &index) {
     d->coursewareModel->clear();
     d->coursewareModel->setRowCount(coursewares.size());
 
+    QIcon playIcon(":/img/play.png");
+
     for (int i = 0; i < coursewares.size(); ++i) {
-        QStandardItem *item = new QStandardItem(coursewares[i].name);
+        QStandardItem *item = new QStandardItem(playIcon, coursewares[i].name);
         item->setData(coursewares[i].video); // data 为课件的视频路径
         d->coursewareModel->setItem(i, item);
     }

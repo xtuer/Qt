@@ -2,14 +2,17 @@
 #include "ui_MainWidget.h"
 #include "CentralWidget.h"
 
+#include <QPainter>
+#include <QPixmap>
 #include <QMouseEvent>
 
 MainWidget::MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::MainWidget) {
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint);
-    //    setAttribute(Qt::WA_TranslucentBackground);
+    setAttribute(Qt::WA_TranslucentBackground);
     setAttribute(Qt::WA_StyledBackground);
     layout()->addWidget(new CentralWidget);
+    background.load(":/img/background.png");
 
     connect(ui->closeButton, &QPushButton::clicked, [=] {
         close();
@@ -35,4 +38,9 @@ void MainWidget::mouseMoveEvent(QMouseEvent *e) {
     QPoint delta = e->globalPos() - mousePressedPosition;
     QPoint pos = windowPositionAsMousePressed + delta;
     this->move(pos);
+}
+
+void MainWidget::paintEvent(QPaintEvent *) {
+    QPainter painter(this);
+    painter.drawPixmap(0, 0, background);
 }

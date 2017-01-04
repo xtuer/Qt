@@ -18,12 +18,14 @@ protected:
     void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
     void mouseReleaseEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
     void mouseMoveEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
 
 private:
     Ui::MainWidget *ui;
 
     QPoint mousePressedPosition; // 鼠标按下时的全局坐标坐标
     QPoint windowPositionAsMousePressed;
+    QPixmap background;
 };
 
 #endif // MAINWIDGET_H

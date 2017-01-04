@@ -13,5 +13,7 @@
         <file>img/analysis-info.png</file>
         <file>img/course.png</file>
         <file>img/close-hover.png</file>
+        <file>img/play-active.png</file>
+        <file>img/play.png</file>
     </qresource>
 </RCC>
