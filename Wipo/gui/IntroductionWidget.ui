@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>IntroductionWidget</class>
+ <widget class="QWidget" name="IntroductionWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>986</width>
+    <height>729</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">#IntroductionWidget {
+	min-width: 986px;
+	max-width: 986px;
+	min-height: 729px;
+	max-height: 729px;
+	background: url(:/img/intro.png);
+}
+
+#startButton {
+	min-width: 172px;
+	max-width: 172px;
+	min-height: 59px;
+	max-height: 59px;
+	background: url(:/img/start.png);
+	border: 0px solid gray;
+}
+#startButton:pressed {
+	margin-top: 1px;
+	margin-left: 1px;
+}
+
+#flashWidget {
+	min-width: 963px;
+	max-width: 963px;
+	min-height: 101px;
+	max-height: 101px;
+	background: url(:/img/flash.png);
+}</string>
+  </property>
+  <widget class="QPushButton" name="startButton">
+   <property name="geometry">
+    <rect>
+     <x>770</x>
+     <y>630</y>
+     <width>172</width>
+     <height>59</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QWidget" name="flashWidget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>230</y>
+     <width>963</width>
+     <height>101</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

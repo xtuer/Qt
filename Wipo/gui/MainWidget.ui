@@ -36,6 +36,7 @@
 	min-height: 33px;
 	max-height: 33px;
 	background: url(:/img/close.png);
+	border: 0px solid gray;
 }
 
 #closeButton:hover {

@@ -15,5 +15,8 @@
         <file>img/close-hover.png</file>
         <file>img/play-active.png</file>
         <file>img/play.png</file>
+        <file>img/intro.png</file>
+        <file>img/start.png</file>
+        <file>img/flash.png</file>
     </qresource>
 </RCC>

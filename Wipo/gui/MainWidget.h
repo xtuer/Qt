@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+class IntroductionWidget;
+
 namespace Ui {
 class MainWidget;
 }
@@ -22,6 +24,7 @@ protected:
 
 private:
     Ui::MainWidget *ui;
+    IntroductionWidget *introductionWidget;
 
     QPoint mousePressedPosition; // 鼠标按下时的全局坐标坐标
     QPoint windowPositionAsMousePressed;

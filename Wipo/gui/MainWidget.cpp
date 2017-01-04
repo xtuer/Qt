@@ -1,6 +1,7 @@
 #include "MainWidget.h"
 #include "ui_MainWidget.h"
 #include "CentralWidget.h"
+#include "IntroductionWidget.h"
 
 #include <QPainter>
 #include <QPixmap>
@@ -11,8 +12,12 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::MainWidget
     setWindowFlags(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground);
     setAttribute(Qt::WA_StyledBackground);
+
     layout()->addWidget(new CentralWidget);
     background.load(":/img/background.png");
+
+    introductionWidget = new IntroductionWidget(this);
+    introductionWidget->move(7, 64);
 
     connect(ui->closeButton, &QPushButton::clicked, [=] {
         close();
