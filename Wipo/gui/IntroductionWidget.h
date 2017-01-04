@@ -2,6 +2,7 @@
 #define INTRODUCTIONWIDGET_H
 
 #include <QWidget>
+class TitleLabel;
 
 namespace Ui {
 class IntroductionWidget;
@@ -19,6 +20,7 @@ protected:
 
 private:
     Ui::IntroductionWidget *ui;
+    TitleLabel *titleLabel;
 };
 
 #endif // INTRODUCTIONWIDGET_H

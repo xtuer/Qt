@@ -1,26 +1,32 @@
 #include "IntroductionWidget.h"
 #include "ui_IntroductionWidget.h"
+#include "TitleLabel.h"
+
+#include <QDebug>
 #include <QPropertyAnimation>
-#include <QSequentialAnimationGroup>
+#include <QParallelAnimationGroup>
 #include <QGraphicsOpacityEffect>
 
 IntroductionWidget::IntroductionWidget(QWidget *parent) : QWidget(parent), ui(new Ui::IntroductionWidget) {
     ui->setupUi(this);
     setAttribute(Qt::WA_StyledBackground);
 
+    titleLabel = new TitleLabel(this);
+    titleLabel->move(-5000, 230);
+
     connect(ui->startButton, &QPushButton::clicked, [=] {
         QGraphicsOpacityEffect *effect = new QGraphicsOpacityEffect(this);
         effect->setOpacity(1);
-        setGraphicsEffect(effect);
+        this->setGraphicsEffect(effect);
 
         QPropertyAnimation *an = new QPropertyAnimation(effect, "opacity");
         an->setEndValue(0);
         an->setDuration(300);
-        an->start(QAbstractAnimation::DeleteWhenStopped);
         an->setEasingCurve(QEasingCurve::InCubic);
+        an->start(QAbstractAnimation::DeleteWhenStopped);
 
         connect(an, &QPropertyAnimation::finished, [=] {
-            hide();
+            this->hide();
         });
     });
 }
@@ -30,21 +36,25 @@ IntroductionWidget::~IntroductionWidget() {
 }
 
 void IntroductionWidget::showEvent(QShowEvent *) {
-    int y = 233;
+    QPropertyAnimation *an = new QPropertyAnimation(titleLabel, "geometry");
+    an->setStartValue(QRect(470, 280, 1, 1));
+    an->setEndValue(QRect(10, 210, 945, 161));
+    an->setDuration(2000);
+    an->setEasingCurve(QEasingCurve::OutBounce);
+    an->start(QAbstractAnimation::DeleteWhenStopped);
 
-    QPropertyAnimation *an1 = new QPropertyAnimation(ui->flashWidget, "pos");
-    an1->setStartValue(QPoint(-1000, y));
-    an1->setEndValue(QPoint(1500, y));
-    an1->setDuration(500);
-    an1->setEasingCurve(QEasingCurve::InCubic);
+//    QGraphicsOpacityEffect *effect = new QGraphicsOpacityEffect(this);
+//    effect->setOpacity(0);
+//    titleLabel->setGraphicsEffect(effect);
 
-    QPropertyAnimation *an2 = new QPropertyAnimation(ui->flashWidget, "pos");
-    an2->setEndValue(QPoint(0, y));
-    an2->setDuration(500);
-    an2->setEasingCurve(QEasingCurve::OutCubic);
+//    QPropertyAnimation *effectAn = new QPropertyAnimation(titleLabel, "opacity");
+//    effectAn->setStartValue(0);
+//    effectAn->setEndValue(1);
+//    effectAn->setDuration(1000);
+//    effectAn->setEasingCurve(QEasingCurve::InCubic);
 
-    QSequentialAnimationGroup *anGroup = new QSequentialAnimationGroup();
-    anGroup->addAnimation(an1);
-//    anGroup->addAnimation(an2);
-    anGroup->start(QAbstractAnimation::DeleteWhenStopped);
+//    QParallelAnimationGroup *anGroup = new QParallelAnimationGroup(this);
+//    anGroup->addAnimation(an);
+//    anGroup->addAnimation(effectAn);
+//    anGroup->start(QAbstractAnimation::DeleteWhenStopped);
 }

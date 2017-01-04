@@ -6,9 +6,11 @@ FORMS += \
 HEADERS += \
     $$PWD/CentralWidget.h \
     $$PWD/MainWidget.h \
-    $$PWD/IntroductionWidget.h
+    $$PWD/IntroductionWidget.h \
+    $$PWD/TitleLabel.h
 
 SOURCES += \
     $$PWD/CentralWidget.cpp \
     $$PWD/MainWidget.cpp \
-    $$PWD/IntroductionWidget.cpp
+    $$PWD/IntroductionWidget.cpp \
+    $$PWD/TitleLabel.cpp
