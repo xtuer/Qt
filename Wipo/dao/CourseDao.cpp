@@ -28,9 +28,9 @@ QList<Course> CourseDao::loadModuleCourses(Json *json, const QString &module) {
 
         // [2] 加载课程下的课件
         QJsonArray cws = json->getJsonArray("coursewares", c);
-        for (QJsonArray::const_iterator cwsIter = cws.begin(); cwsIter != cws.end(); ++cwsIter) {
+        for (QJsonArray::const_iterator cwIter = cws.begin(); cwIter != cws.end(); ++cwIter) {
             Courseware courseware;
-            QJsonObject cw = (*cwsIter).toObject();
+            QJsonObject cw = (*cwIter).toObject();
             courseware.name = json->getString("coursewareName", "", cw);
             courseware.video = json->getString("video", "", cw);
 
