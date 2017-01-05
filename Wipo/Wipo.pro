@@ -27,6 +27,7 @@ RCC_DIR     = $$output
 UI_DIR      = $$output
 
 include(gui/gui.pri)
+include(dao/dao.pri)
 include(bean/bean.pri)
 include(util/util.pri)
 

@@ -1,12 +1,11 @@
 #include "CentralWidget.h"
 #include "ui_CentralWidget.h"
-#include "util/Json.h"
 #include "util/UiUtil.h"
 #include "util/Config.h"
 #include "bean/Course.h"
 #include "bean/Courseware.h"
+#include "dao/CourseDao.h"
 
-#include <QJsonArray>
 #include <QButtonGroup>
 #include <QStandardItem>
 #include <QStandardItemModel>
@@ -25,61 +24,23 @@ public:
     QStandardItemModel *courseModel;     // 课程的 model
     QStandardItemModel *coursewareModel; // 课件的 model
 
-    QList<Course> indexCourses;           // 检索基础模块的课程
-    QList<Course> analysisBaseCourses;    // 分析基础模块的课程
-    QList<Course> analysisAdvanceCourses; // 分析提高模块的课程
-    QList<Course> analysisInfoCourses;    // 信息分析模块的课程
-    QList<Course> currentModuleCourses;   // 当前被选中模块的课程
+    CourseDao *courseDao;         // 课程数据访问对象
+    QList<Course> currentCourses; // 当前被选中模块的课程
 
     CentralWidgetPrivate();
     ~CentralWidgetPrivate();
-    QList<Course> loadModuleCourses(Json *config, const QString &module); // 加载模块下的课程
 };
 
 CentralWidgetPrivate::CentralWidgetPrivate() {
     courseModel     = new QStandardItemModel();
     coursewareModel = new QStandardItemModel();
-
-    // 从文件读取课程到 Json 对象
-    Json config(Config::getConfigFilePath(), true);
-
-    // 加载模块对应的课程
-    indexCourses           = loadModuleCourses(&config, "检索基础模块");
-    analysisBaseCourses    = loadModuleCourses(&config, "分析基础模块");
-    analysisAdvanceCourses = loadModuleCourses(&config, "分析提高模块");
-    analysisInfoCourses    = loadModuleCourses(&config, "信息分析模块");
+    courseDao       = new CourseDao(Config::getConfigFilePath());
 }
 
 CentralWidgetPrivate::~CentralWidgetPrivate() {
     delete courseModel;
     delete coursewareModel;
-}
-
-QList<Course> CentralWidgetPrivate::loadModuleCourses(Json *json, const QString &module) {
-    QList<Course> courses; // 存储课程
-    QJsonArray courseModule = json->getJsonArray(module);
-
-    for (QJsonArray::const_iterator cIter = courseModule.begin(); cIter != courseModule.end(); ++cIter) {
-        // [1] 加载课程
-        Course course;
-        QJsonObject c = (*cIter).toObject();
-        course.name = json->getString("courseName", "", c); // 取得课程名字
-
-        // [2] 加载课程下的课件
-        QJsonArray cws = json->getJsonArray("coursewares", c);
-        for (QJsonArray::const_iterator cwsIter = cws.begin(); cwsIter != cws.end(); ++cwsIter) {
-            Courseware courseware;
-            QJsonObject cw = (*cwsIter).toObject();
-            courseware.name = json->getString("coursewareName", "", cw);
-            courseware.video = json->getString("video", "", cw);
-
-            course.coursewares << courseware;
-        }
-
-        courses << course;
-    }
-
-    return courses;
+    delete courseDao;
 }
 
 /*-----------------------------------------------------------------------------|
@@ -87,11 +48,10 @@ QList<Course> CentralWidgetPrivate::loadModuleCourses(Json *json, const QString 
  |----------------------------------------------------------------------------*/
 CentralWidget::CentralWidget(QWidget *parent) : QWidget(parent), ui(new Ui::CentralWidget), d(new CentralWidgetPrivate) {
     ui->setupUi(this);
+    createLoadQssAction();
 
     ui->courseListView->setModel(d->courseModel);
     ui->coursewareListView->setModel(d->coursewareModel);
-
-    createLoadQssAction();
 
     // 把模块的按钮添加到 button group，这样就能做到同时只有一个按钮被选中
     QButtonGroup *bg = new QButtonGroup(this);
@@ -116,21 +76,21 @@ CentralWidget::~CentralWidget() {
 void CentralWidget::showCourses(QAbstractButton *button) {
     // [1] 当前选中的课程
     if (button == ui->indexButton) {
-        d->currentModuleCourses = d->indexCourses;
+        d->currentCourses = d->courseDao->indexCourses;
     } else if (button == ui->analysisBaseButton) {
-        d->currentModuleCourses = d->analysisBaseCourses;
+        d->currentCourses = d->courseDao->analysisBaseCourses;
     } else if (button == ui->analysisAdvanceButton) {
-        d->currentModuleCourses = d->analysisAdvanceCourses;
+        d->currentCourses = d->courseDao->analysisAdvanceCourses;
     } else if (button == ui->analysisInfoButton) {
-        d->currentModuleCourses = d->analysisInfoCourses;
+        d->currentCourses = d->courseDao->analysisInfoCourses;
     }
 
     // [2] 显示课程
     d->courseModel->clear();
-    d->courseModel->setRowCount(d->currentModuleCourses.size());
+    d->courseModel->setRowCount(d->currentCourses.size());
 
-    for (int i = 0; i < d->currentModuleCourses.size(); ++i) {
-        QStandardItem *item = new QStandardItem(d->currentModuleCourses[i].name);
+    for (int i = 0; i < d->currentCourses.size(); ++i) {
+        QStandardItem *item = new QStandardItem(d->currentCourses[i].name);
         d->courseModel->setItem(i, item);
     }
 
@@ -141,9 +101,9 @@ void CentralWidget::showCourses(QAbstractButton *button) {
 
 void CentralWidget::showCoursewares(const QModelIndex &index) {
     if (!index.isValid()) { return; }
-    if (index.row() > d->currentModuleCourses.size()) { return; }
+    if (index.row() > d->currentCourses.size()) { return; }
 
-    QList<Courseware> &coursewares = d->currentModuleCourses[index.row()].coursewares;
+    QList<Courseware> &coursewares = d->currentCourses[index.row()].coursewares;
     d->coursewareModel->clear();
     d->coursewareModel->setRowCount(coursewares.size());
 
