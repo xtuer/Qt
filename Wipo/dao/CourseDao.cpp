@@ -17,10 +17,10 @@ CourseDao::CourseDao(const QString &courseFilePath) {
 }
 
 QList<Course> CourseDao::loadModuleCourses(Json *json, const QString &module) {
-    QList<Course> courses; // 存储课程
-    QJsonArray courseModule = json->getJsonArray(module);
+    QList<Course> courses; // 课程
+    QJsonArray moduleCourses = json->getJsonArray(module); // 取得模块下的课程
 
-    for (QJsonArray::const_iterator cIter = courseModule.begin(); cIter != courseModule.end(); ++cIter) {
+    for (QJsonArray::const_iterator cIter = moduleCourses.begin(); cIter != moduleCourses.end(); ++cIter) {
         // [1] 加载课程
         Course course;
         QJsonObject c = (*cIter).toObject();
@@ -28,9 +28,9 @@ QList<Course> CourseDao::loadModuleCourses(Json *json, const QString &module) {
 
         // [2] 加载课程下的课件
         QJsonArray cws = json->getJsonArray("coursewares", c);
-        for (QJsonArray::const_iterator cwIter = cws.begin(); cwIter != cws.end(); ++cwIter) {
+        for (QJsonArray::const_iterator cwsIter = cws.begin(); cwsIter != cws.end(); ++cwsIter) {
             Courseware courseware;
-            QJsonObject cw = (*cwIter).toObject();
+            QJsonObject cw = (*cwsIter).toObject();
             courseware.name = json->getString("coursewareName", "", cw);
             courseware.video = json->getString("video", "", cw);
 
