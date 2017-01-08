@@ -15,11 +15,6 @@ public:
     explicit Widget(QWidget *parent = 0);
     ~Widget();
 
-public slots:
-     void foo() {
-         qDebug() << "foo111()";
-     }
-
 protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
 

@@ -14,7 +14,21 @@ class MagicWindow : public QWidget {
     Q_OBJECT
 
 public:
-    explicit MagicWindow(QWidget *centralWidget);
+    /**
+     * @brief 使用 MagicWindow 创建一个自定义边框和标题栏的窗口，centralWidget 作为窗口的主要 widget 显示。如果需要使用自己的边框风格，
+     *        则传入 windowPaddings，borderImageBorders 和 borderImagePath。
+     *
+     * @param centralWidget      窗口的中心 widget
+     * @param windowPaddings     窗口的 padding，根据 border image 的边来设置
+     * @param borderImageBorders Border image 4 个边的宽度
+     * @param borderImagePath    Border image 的路径
+     * @param tiled              是否使用平铺的方式绘制边框
+     */
+    explicit MagicWindow(QWidget *centralWidget,
+                         const QMargins &windowPaddings     = QMargins(16, 10, 16, 16),
+                         const QMargins &borderImageBorders = QMargins(23, 13, 23, 33),
+                         const QString  &borderImagePath    = QString(":/img/shadow.png"),
+                         bool  tiled = false);
     ~MagicWindow();
 
     /**

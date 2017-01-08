@@ -8,13 +8,13 @@
 #include <QMouseEvent>
 
 /*-----------------------------------------------------------------------------|
- |                           FramelessWindowPrivate                            |
+ |                              MagicWindowPrivate                             |
  |----------------------------------------------------------------------------*/
 class MagicWindowPrivate {
 public:
     QWidget *centralWidget;
     NinePatchPainter *ninePatchPainter;
-    QMargins padding; // 根据阴影的大小来设置窗口的 padding 以便达到满意的效果
+    QMargins padding; // 根据 border image 的边(一般是阴影的大小)来设置窗口的 padding 以便达到满意的效果
 
     bool left;      // 为 true 时鼠标在窗口的左边框
     bool right;     // 为 true 时鼠标在窗口的右边框
@@ -27,10 +27,19 @@ public:
     QRect  rubberBandRectAsDrag;         // 鼠标按下时 rubberBand 的矩形
     QRubberBand *rubberBand;
 
-    MagicWindowPrivate(QWidget *centralWidget) : centralWidget(centralWidget), resizable(true),
+    MagicWindowPrivate(QWidget *centralWidget,
+                       const QMargins &windowPaddings,
+                       const QMargins &borderImageBorders,
+                       const QString  &borderImagePath,
+                       bool  tiled)
+        : centralWidget(centralWidget), padding(windowPaddings), resizable(true),
         rubberBand(new QRubberBand(QRubberBand::Rectangle)) {
-        padding = QMargins(16, 10, 16, 16); // 根据阴影的大小来设置窗口的 padding 以便达到满意的效果
-        ninePatchPainter = new NinePatchPainter(23, 13, 23, 33, ":/img/shadow.png"); // 根据阴影的大小来设置
+        ninePatchPainter = new NinePatchPainter(borderImageBorders.left(),
+                                                borderImageBorders.top(),
+                                                borderImageBorders.right(),
+                                                borderImageBorders.bottom(),
+                                                borderImagePath,
+                                                tiled);
     }
 
     ~MagicWindowPrivate() {
@@ -39,9 +48,14 @@ public:
 };
 
 /*-----------------------------------------------------------------------------|
- |                               FramelessWindow                               |
+ |                                 MagicWindow                                 |
  |----------------------------------------------------------------------------*/
-MagicWindow::MagicWindow(QWidget *centralWidget) : ui(new Ui::MagicWindow), d(new MagicWindowPrivate(centralWidget)) {
+MagicWindow::MagicWindow(QWidget *centralWidget,
+                         const QMargins &windowPaddings,
+                         const QMargins &borderImageBorders,
+                         const QString  &borderImagePath,
+                         bool tiled)
+    : ui(new Ui::MagicWindow), d(new MagicWindowPrivate(centralWidget, windowPaddings, borderImageBorders, borderImagePath, tiled)) {
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground);

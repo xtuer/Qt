@@ -11,7 +11,7 @@ class NinePatchPainterPrivate;
  */
 class NinePatchPainter {
 public:
-    NinePatchPainter(int left, int top, int right, int bottom, const QString &imagePath);
+    NinePatchPainter(int left, int top, int right, int bottom, const QString &imagePath, bool tiled);
     ~NinePatchPainter();
 
     void draw(QPainter *painter, const QRect &rect) const;

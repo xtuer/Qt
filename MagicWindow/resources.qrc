@@ -26,5 +26,7 @@
         <file>img/toolbar-restore-hover.png</file>
         <file>img/toolbar-restore-pressed.png</file>
         <file>img/toolbar-restore.png</file>
+        <file>img/colorful-border.jpg</file>
+        <file>img/colorful-border.png</file>
     </qresource>
 </RCC>

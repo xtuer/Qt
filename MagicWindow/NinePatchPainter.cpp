@@ -9,16 +9,17 @@
  |----------------------------------------------------------------------------*/
 class NinePatchPainterPrivate {
 public:
-    NinePatchPainterPrivate(int left, int top, int right, int bottom, const QString &imagePath);
+    NinePatchPainterPrivate(int left, int top, int right, int bottom, const QString &imagePath, bool tiled);
 
-    void prepareNinePatchImages(const QString imagePath); // 根据给定的 left, top, right, bottom 把图片按九宫格切为 9 个子图
+    void prepareNinePatchPixmaps(const QString imagePath); // 根据给定的 left, top, right, bottom 把图片按九宫格切为 9 个子图
     QList<QRect> calculateNinePatchRects(const QRect &rect) const; // 根据给定的 left, top, right, bottom 把 rect 按九宫格切为 9 个 rect
-    QPixmap scaleImage(const QPixmap &pixmap, const QSize &size) const; // 对图片进行缩放处理
+    QPixmap scalePixmap(const QPixmap &pixmap, const QSize &size) const; // 对图片进行缩放处理
 
-    int left;   // 左边的宽
-    int top;    // 上边的宽
-    int right;  // 右边的宽
-    int bottom; // 下边的宽
+    int  left;   // 左边的宽
+    int  top;    // 上边的宽
+    int  right;  // 右边的宽
+    int  bottom; // 下边的宽
+    bool tiled;  // 是否使用平铺绘制
 
     QPixmap leftPixmap;        // 左边的图片
     QPixmap topLeftPixmap;     // 左上角的图片
@@ -31,12 +32,12 @@ public:
     QPixmap centerPixmap;      // 中间的图片
 };
 
-NinePatchPainterPrivate::NinePatchPainterPrivate(int left, int top, int right, int bottom, const QString &imagePath)
-    : left(left), top(top), right(right), bottom(bottom) {
-    prepareNinePatchImages(imagePath); // 准备好九宫格的 9 个子图，程序运行期间不会变，所以保存起来
+NinePatchPainterPrivate::NinePatchPainterPrivate(int left, int top, int right, int bottom, const QString &imagePath, bool tiled)
+    : left(left), top(top), right(right), bottom(bottom), tiled(tiled) {
+    prepareNinePatchPixmaps(imagePath); // 准备好九宫格的 9 个子图，程序运行期间不会变，所以保存起来
 }
 
-void NinePatchPainterPrivate::prepareNinePatchImages(const QString imagePath) {
+void NinePatchPainterPrivate::prepareNinePatchPixmaps(const QString imagePath) {
     // 加载背景图
     QPixmap pixmap(imagePath);
 
@@ -79,7 +80,7 @@ QList<QRect> NinePatchPainterPrivate::calculateNinePatchRects(const QRect &rect)
                           << centerRect;
 }
 
-QPixmap NinePatchPainterPrivate::scaleImage(const QPixmap &pixmap, const QSize &size) const {
+QPixmap NinePatchPainterPrivate::scalePixmap(const QPixmap &pixmap, const QSize &size) const {
     // 缩放的时候忽略图片的高宽比，使用平滑缩放的效果
     return pixmap.scaled(size, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 }
@@ -87,8 +88,8 @@ QPixmap NinePatchPainterPrivate::scaleImage(const QPixmap &pixmap, const QSize &
 /*-----------------------------------------------------------------------------|
  |                              NinePatchPainter                               |
  |----------------------------------------------------------------------------*/
-NinePatchPainter::NinePatchPainter(int left, int top, int right, int bottom, const QString &imagePath)
-    : d(new NinePatchPainterPrivate(left, top, right, bottom, imagePath)) {
+NinePatchPainter::NinePatchPainter(int left, int top, int right, int bottom, const QString &imagePath, bool tiled)
+    : d(new NinePatchPainterPrivate(left, top, right, bottom, imagePath, tiled)) {
 }
 
 NinePatchPainter::~NinePatchPainter() {
@@ -110,13 +111,23 @@ void NinePatchPainter::draw(QPainter *painter, const QRect &rect) const {
     QRect centerRect      = rects.at(8);
 
     // 把背景图片上的 9 个部分使用缩放的方式绘制到 Rect 上对应的 9 个部分
-    painter->drawTiledPixmap(leftRect, d->scaleImage(d->leftPixmap, leftRect.size()));
-    painter->drawPixmap(topLeftRect, d->scaleImage(d->topLeftPixmap, topLeftRect.size()));
-    painter->drawTiledPixmap(topRect, d->scaleImage(d->topPixmap, topRect.size()));
-    painter->drawPixmap(topRightRect, d->scaleImage(d->topRightPixmap,topRightRect.size()));
-    painter->drawTiledPixmap(rightRect, d->scaleImage(d->rightPixmap, rightRect.size()));
-    painter->drawPixmap(bottomRightRect, d->scaleImage(d->bottomRightPixmap, bottomRightRect.size()));
-    painter->drawTiledPixmap(bottomRect, d->scaleImage(d->bottomPixmap, bottomRect.size()));
-    painter->drawPixmap(bottomLeftRect, d->scaleImage(d->bottomLeftPixmap, bottomLeftRect.size()));
-    painter->drawPixmap(centerRect, d->scaleImage(d->centerPixmap, centerRect.size()));
+    painter->drawPixmap(topLeftRect,     d->scalePixmap(d->topLeftPixmap, topLeftRect.size()));
+    painter->drawPixmap(topRightRect,    d->scalePixmap(d->topRightPixmap,topRightRect.size()));
+    painter->drawPixmap(bottomRightRect, d->scalePixmap(d->bottomRightPixmap, bottomRightRect.size()));
+    painter->drawPixmap(bottomLeftRect,  d->scalePixmap(d->bottomLeftPixmap, bottomLeftRect.size()));
+    painter->drawPixmap(centerRect,      d->scalePixmap(d->centerPixmap, centerRect.size()));
+
+    if (d->tiled) {
+        // 平铺绘制
+        painter->drawTiledPixmap(leftRect,   d->leftPixmap);   // left
+        painter->drawTiledPixmap(topRect,    d->topPixmap);    // top
+        painter->drawTiledPixmap(rightRect,  d->rightPixmap);  // right
+        painter->drawTiledPixmap(bottomRect, d->bottomPixmap); // bottom
+    } else {
+        // 拉伸绘制
+        painter->drawPixmap(leftRect,   d->scalePixmap(d->leftPixmap, leftRect.size()));     // left
+        painter->drawPixmap(topRect,    d->scalePixmap(d->topPixmap, topRect.size()));       // top
+        painter->drawPixmap(rightRect,  d->scalePixmap(d->rightPixmap, rightRect.size()));   // right
+        painter->drawPixmap(bottomRect, d->scalePixmap(d->bottomPixmap, bottomRect.size())); // bottom
+    }
 }
