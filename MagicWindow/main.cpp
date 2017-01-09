@@ -23,7 +23,7 @@ int main(int argc, char *argv[]) {
         centralWidget2->setStyleSheet("background: #AAA;");
 
         // [2] showModal() 显示为模态对话框，并且使用了自定义边框
-        MagicWindow *dialog = new MagicWindow(centralWidget2, QMargins(7,7,7,7), QMargins(8,8,8,8), ":/img/colorful-border.png", true);
+        MagicWindow *dialog = new MagicWindow(centralWidget2, QMargins(4,4,4,4), QMargins(8,8,8,8), ":/img/colorful-border.png", true);
         dialog->setTitle("模态对话框");
         dialog->setResizable(false);
         dialog->setAttribute(Qt::WA_DeleteOnClose);
