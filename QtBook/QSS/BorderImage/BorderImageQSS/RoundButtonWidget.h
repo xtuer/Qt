@@ -1,8 +1,7 @@
-#ifndef WIDGET_H
-#define WIDGET_H
+#ifndef ROUNDBUTTONWIDGET_H
+#define ROUNDBUTTONWIDGET_H
 
 #include <QWidget>
-#include <QDebug>
 
 namespace Ui {
 class RoundButtonWidget;
@@ -15,11 +14,8 @@ public:
     explicit RoundButtonWidget(QWidget *parent = 0);
     ~RoundButtonWidget();
 
-protected:
-    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
-
 private:
     Ui::RoundButtonWidget *ui;
 };
 
-#endif // WIDGET_H
+#endif // ROUNDBUTTONWIDGET_H

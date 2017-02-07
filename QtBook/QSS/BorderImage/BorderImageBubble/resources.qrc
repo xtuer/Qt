@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>img/balloon-left.png</file>
+        <file>img/balloon-right.png</file>
+        <file>img/bubble-left.png</file>
+        <file>img/bubble-right.png</file>
+        <file>img/in_lime.png</file>
+    </qresource>
+</RCC>

@@ -5,17 +5,23 @@
 #include <QPainter>
 #include <QFont>
 #include <QDebug>
+#include <QKeySequence>
+#include <QShortcut>
 
-Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
+RoundButtonWidget::RoundButtonWidget(QWidget *parent) : QWidget(parent), ui(new Ui::RoundButtonWidget) {
     ui->setupUi(this);
 
-    ui->label->setFont(QFont("Monaco", 30));
+//    QShortcut *shortcut = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_L), this);
+
+//    connect(shortcut, &QShortcut::activated, [] {
+//        qDebug() << "shortcut";
+//    });
 }
 
-Widget::~Widget() {
+RoundButtonWidget::~RoundButtonWidget() {
     delete ui;
 }
 
-void Widget::paintEvent(QPaintEvent *) {
+void RoundButtonWidget::paintEvent(QPaintEvent *) {
     QPainter painter(this);
 }

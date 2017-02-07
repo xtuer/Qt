@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>img/round-button.png</file>
+        <file>img/repeat-round.png</file>
+    </qresource>
+</RCC>

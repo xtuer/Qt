@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWidget</class>
+ <widget class="QWidget" name="MainWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>336</width>
+    <height>197</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWidget</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">#qt_calendar_calendarview {
+    background: white;
+}
+
+#qt_calendar_navigationbar {
+    background: rgba(215, 215, 215, 255);
+}
+
+QToolButton {
+    icon-size: 30px, 30px;
+    width: 80px;
+    height: 30px;
+}
+
+QToolButton#qt_calendar_prevmonth {
+    background: green;
+    width: 40px;
+    qproperty-icon: url(:/resources/tabset-left.png);
+}
+
+QToolButton#qt_calendar_nextmonth {
+    background: blue;
+    width: 40px;
+    qproperty-icon: url(:/resources/tabset-right.png);
+}
+
+QToolButton#qt_calendar_monthbutton {
+    background: yellow;
+    padding-right: 20px;
+}
+
+QToolButton#qt_calendar_yearbutton {
+    background: magenta;
+}
+
+QToolButton#qt_calendar_monthbutton::menu-indicator{
+    subcontrol-origin: padding;
+    subcontrol-position: center right;
+    right: 3px;
+    width: 10px;
+}
+
+QAbstractItemView {
+    color: black;
+    selection-color: white;
+    selection-background-color: rgb(255, 174, 0);
+    font: 15px;
+}</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QCalendarWidget" name="calendarWidget"/>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>
