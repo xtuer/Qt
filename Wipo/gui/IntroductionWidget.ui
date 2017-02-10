@@ -14,51 +14,21 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">#IntroductionWidget {
-	min-width: 986px;
-	max-width: 986px;
-	min-height: 729px;
-	max-height: 729px;
-	background: url(:/img/intro.png);
+   <string notr="true">
+QPushButton:pressed {
+	background: transparent;
 }
-
-#startButton {
-	min-width: 172px;
-	max-width: 172px;
-	min-height: 59px;
-	max-height: 59px;
-	background: url(:/img/start.png);
-	border: 0px solid gray;
-}
-#startButton:pressed {
-	margin-top: 1px;
-	margin-left: 1px;
-}
-
-#flashWidget {
-	min-width: 963px;
-	max-width: 963px;
-	min-height: 101px;
-	max-height: 101px;
-	background: url(:/img/flash.png);
-}</string>
+</string>
   </property>
-  <widget class="QPushButton" name="startButton">
-   <property name="geometry">
-    <rect>
-     <x>770</x>
-     <y>630</y>
-     <width>172</width>
-     <height>59</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="flat">
-    <bool>true</bool>
-   </property>
-  </widget>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>

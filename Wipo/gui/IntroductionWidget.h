@@ -2,7 +2,8 @@
 #define INTRODUCTIONWIDGET_H
 
 #include <QWidget>
-class TitleLabel;
+#include <QMovie>
+#include <QPushButton>
 
 namespace Ui {
 class IntroductionWidget;
@@ -15,12 +16,10 @@ public:
     explicit IntroductionWidget(QWidget *parent = 0);
     ~IntroductionWidget();
 
-protected:
-    void showEvent(QShowEvent *event);
-
 private:
     Ui::IntroductionWidget *ui;
-    TitleLabel *titleLabel;
+    QMovie *coverMovie;
+    QPushButton *startButton;
 };
 
 #endif // INTRODUCTIONWIDGET_H

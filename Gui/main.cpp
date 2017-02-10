@@ -1,21 +1,22 @@
 #include <QApplication>
 #include <QDebug>
-#include <QList>
-#include "Widget.h"
 #include <QPushButton>
-#include <QShortcut>
-#include <QKeySequence>
+#include <QMovie>
+#include <QLabel>
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
 
-    RoundButtonWidget w;
-    w.show();
+    QLabel *label = new QLabel();
+    QMovie *movie = new QMovie("/Users/Biao/Desktop/intro.gif");
+    label->setMovie(movie);
+    movie->start();
+    label->show();
 
-    QShortcut *shortcut = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_L), &w);
-
-    QObject::connect(shortcut, &QShortcut::activated, [] {
-        qDebug() << "hi";
+    QObject::connect(movie, &QMovie::frameChanged, [=](int frameNumber) {
+        if (frameNumber == movie->frameCount() - 1) {
+            movie->stop();
+        }
     });
 
     return app.exec();
