@@ -14,12 +14,9 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::MainWidget
     ui->setupUi(this);
     initializeWidgets();
     createLoadQssAction();
-
-    Singleton<ConfigUtil>::getInstance().restoreWindowGeometry("MainWindow", this);
 }
 
 MainWidget::~MainWidget() {
-    Singleton<ConfigUtil>::getInstance().saveWindowGeometry("MainWindow", this);
     delete ui;
 }
 

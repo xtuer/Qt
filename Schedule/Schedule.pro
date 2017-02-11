@@ -12,6 +12,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = Schedule
 TEMPLATE = app
 
+DEFINES += QT_DEPRECATED_WARNINGS
+
 # Output directory
 CONFIG(debug, debug|release) {
     compiled = debug
@@ -34,6 +36,7 @@ include(db/db.pri)
 include(gui/gui.pri)
 include(util/util.pri)
 include(test/test.pri)
+include(MagicWindow/MagicWindow.pri)
 
 # Copy promotion required headers to build directory
 win32 {
@@ -52,7 +55,8 @@ mac {
 SOURCES += main.cpp \
     Constants.cpp
 
-RESOURCES +=
+RESOURCES += \
+    resources.qrc
 
 HEADERS += \
     Constants.h

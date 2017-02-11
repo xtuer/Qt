@@ -1,6 +1,7 @@
 #include "MagicWindow.h"
 #include "ui_MagicWindow.h"
 #include "NinePatchPainter.h"
+#include "util/ConfigUtil.h"
 
 #include <QDebug>
 #include <QPixmap>
@@ -75,6 +76,7 @@ MagicWindow::MagicWindow(QWidget *centralWidget,
     ui->minButton->installEventFilter(this);
     ui->maxButton->installEventFilter(this);
     ui->restoreButton->installEventFilter(this);
+    d->centralWidget->installEventFilter(this);
 
     // 启用 Mouse Tracking
     this->setMouseTracking(true);
@@ -83,9 +85,13 @@ MagicWindow::MagicWindow(QWidget *centralWidget,
 
     ui->restoreButton->hide();
     signalSlot();
+
+    Singleton<ConfigUtil>::getInstance().restoreWindowGeometry("MainWindow", this);
 }
 
 MagicWindow::~MagicWindow() {
+    Singleton<ConfigUtil>::getInstance().saveWindowGeometry("MainWindow", this);
+
     delete ui;
     delete d;
 }
@@ -218,10 +224,11 @@ void MagicWindow::mouseMoveEvent(QMouseEvent *e) {
 }
 
 bool MagicWindow::eventFilter(QObject *watched, QEvent *event) {
-    if (watched == ui->closeButton || watched == ui->minButton || watched == ui->maxButton) {
+    if (watched == ui->closeButton || watched == ui->minButton || watched == ui->maxButton || watched == d->centralWidget) {
         if (event->type() == QEvent::Enter) {
             QWidget *w = qobject_cast<QWidget*>(watched);
             w->setCursor(Qt::ArrowCursor);
+            return true;
         }
     }
 

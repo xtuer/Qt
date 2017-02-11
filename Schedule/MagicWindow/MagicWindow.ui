@@ -15,11 +15,15 @@
   </property>
   <property name="styleSheet">
    <string notr="true">#titleBarWidget {
-	background: white;
+	background: #333;
 	border-top-left-radius: 3px;
      border-top-right-radius: 3px;
 	min-height: 27px;
 	max-height: 27px;
+}
+
+#titleLabel {
+	color: #AAA;
 }
 
 #minButton, #maxButton, #restoreButton, #closeButton {
