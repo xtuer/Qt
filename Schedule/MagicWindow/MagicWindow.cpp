@@ -230,6 +230,11 @@ bool MagicWindow::eventFilter(QObject *watched, QEvent *event) {
             w->setCursor(Qt::ArrowCursor);
             return true;
         }
+
+        // 避免鼠标移动到 central widget 内后按下鼠标还能够修改窗口大小
+        if (watched == d->centralWidget && event->type() == QEvent::MouseButtonPress) {
+            return true;
+        }
     }
 
     return QObject::eventFilter(watched, event);

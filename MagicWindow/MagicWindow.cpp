@@ -218,10 +218,16 @@ void MagicWindow::mouseMoveEvent(QMouseEvent *e) {
 }
 
 bool MagicWindow::eventFilter(QObject *watched, QEvent *event) {
-    if (watched == ui->closeButton || watched == ui->minButton || watched == ui->maxButton) {
+    if (watched == ui->closeButton || watched == ui->minButton || watched == ui->maxButton || watched == d->centralWidget) {
         if (event->type() == QEvent::Enter) {
             QWidget *w = qobject_cast<QWidget*>(watched);
             w->setCursor(Qt::ArrowCursor);
+            return true;
+        }
+
+        // 避免鼠标移动到 central widget 内后按下鼠标还能够修改窗口大小
+        if (watched == d->centralWidget && event->type() == QEvent::MouseButtonPress) {
+            return true;
         }
     }
 
