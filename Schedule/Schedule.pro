@@ -5,9 +5,10 @@
 #-------------------------------------------------
 
 QT       += core gui sql xml
-CONFIG   += c++11
-
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
+CONFIG   += c++11
+CONFIG     -=app_bundle
 
 TARGET   = Schedule
 TEMPLATE = app
@@ -28,8 +29,6 @@ OBJECTS_DIR = $$compiled
 MOC_DIR     = $$compiled
 RCC_DIR     = $$compiled
 UI_DIR      = $$compiled
-
-CONFIG     -=app_bundle
 
 include(bean/bean.pri)
 include(dao/dao.pri)
