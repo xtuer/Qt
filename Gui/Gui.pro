@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network xmlpatterns charts
+QT       += core gui network xmlpatterns charts webenginewidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET   = Gui
