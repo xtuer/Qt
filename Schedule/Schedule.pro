@@ -9,8 +9,9 @@ CONFIG   += c++11
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = Schedule
+TARGET   = Schedule
 TEMPLATE = app
+RC_ICONS = AppIcon.ico
 
 DEFINES += QT_DEPRECATED_WARNINGS
 
@@ -61,8 +62,3 @@ RESOURCES += \
 HEADERS += \
     Constants.h
 
-OTHER_FILES += \
-    app.rc
-
-RC_FILE = \
-    app.rc
