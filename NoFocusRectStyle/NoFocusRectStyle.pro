@@ -39,8 +39,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
-        Widget.cpp \
-    NoFocusRectStyle.cpp
+        Widget.cpp
 
 HEADERS  += Widget.h \
     NoFocusRectStyle.h
