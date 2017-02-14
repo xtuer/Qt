@@ -23,7 +23,8 @@ HEADERS += \
     $$PWD/ClassScheduleWidget.h \
     $$PWD/TeacherScheduleWidget.h \
     $$PWD/CourseTeacherDialog.h \
-    $$PWD/DragableCourseTeacherLabel.h
+    $$PWD/DragableCourseTeacherLabel.h \
+    $$PWD/NoFocusRectStyle.h
 
 SOURCES += \
     $$PWD/MainWidget.cpp \

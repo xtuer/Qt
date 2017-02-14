@@ -1,4 +1,5 @@
 #include "gui/MainWidget.h"
+#include "gui/NoFocusRectStyle.h"
 #include "db/DBUtil.h"
 #include "util/UiUtil.h"
 #include "test/Test.h"
@@ -7,7 +8,9 @@
 #include <QApplication>
 
 int main(int argc, char *argv[]) {
-    QApplication a(argc, argv);
+    QApplication app(argc, argv);
+    NoFocusRectStyle *style = new NoFocusRectStyle(app.style());
+    app.setStyle(style); // Ownership of the style object is transferred to QApplication
     UiUtil::loadQss();
 
     MainWidget *w = new MainWidget();
@@ -22,5 +25,5 @@ int main(int argc, char *argv[]) {
 
     // Test::test();
 
-    return a.exec();
+    return app.exec();
 }
