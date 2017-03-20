@@ -14,4 +14,5 @@ SUBDIRS += \
     RealTimeCurve \
     SmoothCurveQChart \
     RealTimeCurveQChart \
-    Clip
+    Clip \
+    OSUi

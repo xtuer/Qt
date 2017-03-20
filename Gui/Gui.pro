@@ -27,9 +27,9 @@ RCC_DIR     = $$output
 UI_DIR      = $$output
 
 SOURCES += main.cpp \
-    FoxWidget.cpp
+    User.cpp
 
 FORMS +=
 
 HEADERS += \
-    FoxWidget.h
+    User.h
