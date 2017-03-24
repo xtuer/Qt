@@ -1,0 +1,120 @@
+#contentStackedWidget {
+    background: rgb(243,243,243);
+}
+
+#contentStackedWidget QPushButton {
+    background: white;
+    border: 1px solid rgb(200,200,200);
+    border-radius: 2px;
+    height: 20px;
+    min-width: 80px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#contentStackedWidget QPushButton:hover {
+    background: rgb(240,240,240);
+}
+
+#contentStackedWidget QPushButton:pressed {
+    background: rgb(220,220,220);
+}
+
+#contentStackedWidget #scheduleWidget {
+    background: rgb(182,182,182);
+}
+
+#contentStackedWidget #scheduleWidget .DayLabel,
+#contentStackedWidget #scheduleWidget .RestLabel {
+    background: white;
+    min-height: 30px;
+    max-height: 30px;
+    font-weight: bold;
+}
+
+#contentStackedWidget #scheduleWidget .TimeLabel {
+    background: white;
+    font-weight: bold;
+}
+
+#contentStackedWidget #scheduleWidget .ScheduleItemWidget {
+    background: white;
+}
+
+#contentStackedWidget #scheduleWidget .ScheduleItemWidget[dragFocus=true]{
+    background: #EFEFEF;
+    background: rgba(213, 236, 255, 255);
+}
+
+#contentStackedWidget #scheduleWidget .ScheduleItemWidget[conflict=true]{
+    border: 2px dashed   rgb(200,0,0);
+    border-radius: 4px;
+}
+
+#contentStackedWidget #scheduleWidget .ScheduleItemWidget .QLabel {
+    padding-bottom: 2px;
+}
+
+#contentStackedWidget #scheduleWidget .ScheduleItemEditableLabel {
+    min-width:  20px;
+    min-height: 20px;
+    max-width:  20px;
+    max-height: 20px;
+    background: url(resources/img/1.png);
+    background-repeat: no-repeat;
+}
+
+#contentStackedWidget .ClassWidget {
+    background: LIGHTBLUE;
+}
+
+#contentStackedWidget .CourseWidget {
+    background: ORANGE;
+}
+
+#contentStackedWidget .TeacherWidget {
+    background: PURPLE;
+}
+
+#contentStackedWidget .ClassWidget QPushButton,
+#contentStackedWidget .CourseWidget QPushButton,
+#contentStackedWidget .TeacherWidget QPushButton {
+    min-width: 30px;
+}
+
+#contentStackedWidget .ArrangeCourseWidget #classTableView,
+#contentStackedWidget .ClassScheduleWidget #classTableView,
+#contentStackedWidget .TeacherScheduleWidget #teacherTableView {
+    min-width: 150px;
+    max-width: 150px;
+}
+
+#scheduleWidget QLabel:disabled {
+    color: black;
+}
+
+QGroupBox {
+    /*background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #E0E0E0, stop: 1 #FFFFFF);*/
+    border: 1px solid rgb(170, 170, 170);
+    border-radius: 0px;
+    margin-top: 10px; /* leave space at the top for the title */
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top center; /* position at the top center */
+    padding: 3px 3px;
+}
+
+.CourseTeacherDialog .QScrollArea {
+    background: white;
+}
+
+.DragableCourseTeacherLabel {
+    background: white;
+    max-height: 25px;
+    border: 1px solid gray;
+    border-radius: 2px;
+    padding-left: 5px;
+    padding-right: 5px;
+}

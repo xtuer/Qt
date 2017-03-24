@@ -1,0 +1,25 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icon/arrow-down.png</file>
+        <file>icon/bg-1.png</file>
+        <file>icon/bg-2.png</file>
+        <file>icon/button_01.png</file>
+        <file>icon/button_02.png</file>
+        <file>icon/close.png</file>
+        <file>icon/close-hover.png</file>
+        <file>icon/icon01.png</file>
+        <file>icon/icon02.png</file>
+        <file>icon/icon03.png</file>
+        <file>icon/imgs.png</file>
+        <file>icon/kaodian.png</file>
+        <file>icon/kaoqi.png</file>
+        <file>icon/offline.png</file>
+        <file>icon/online.png</file>
+        <file>icon/title-bar.png</file>
+        <file>icon/zhanyong.png</file>
+        <file>icon/zhukao.png</file>
+        <file>icon/person.png</file>
+        <file>icon/title-bar-2.png</file>
+        <file>icon/title-bar-1.png</file>
+    </qresource>
+</RCC>
