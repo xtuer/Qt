@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network xmlpatterns charts webenginewidgets
+QT       += core gui network xmlpatterns charts webenginewidgets webengine sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET   = Gui
@@ -27,9 +27,12 @@ RCC_DIR     = $$output
 UI_DIR      = $$output
 
 SOURCES += main.cpp \
-    User.cpp
+    User.cpp \
+    Form.cpp
 
-FORMS +=
+FORMS += \
+    Form.ui
 
 HEADERS += \
-    User.h
+    User.h \
+    Form.h

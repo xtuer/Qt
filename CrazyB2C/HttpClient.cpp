@@ -8,13 +8,14 @@
 #include <QNetworkAccessManager>
 
 struct HttpClientPrivate {
-    HttpClientPrivate(const QString &url) : url(url), networkAccessManager(NULL), useInternalNetworkAccessManager(true) {}
+    HttpClientPrivate(const QString &url) : url(url), networkAccessManager(NULL), useInternalNetworkAccessManager(true), debug(false) {}
 
     QString url; // 请求的 URL
     QUrlQuery params; // 请求的参数
     QHash<QString, QString> headers; // 请求的头
     QNetworkAccessManager *networkAccessManager;
     bool useInternalNetworkAccessManager; // 是否使用内部的 QNetworkAccessManager
+    bool debug;
 };
 
 HttpClient::HttpClient(const QString &url) : d(new HttpClientPrivate(url)) {
@@ -32,6 +33,12 @@ HttpClient &HttpClient::useManager(QNetworkAccessManager *manager) {
     return *this;
 }
 
+// 传入 debug 为 true 则使用 debug 模式，请求执行时输出请求的 URL 和参数等
+HttpClient &HttpClient::debug(bool debug) {
+    d->debug = debug;
+    return *this;
+}
+
 // 增加参数
 HttpClient &HttpClient::addParam(const QString &name, const QString &value) {
     d->params.addQueryItem(name, value);
@@ -42,6 +49,10 @@ HttpClient &HttpClient::addParam(const QString &name, const QString &value) {
 HttpClient &HttpClient::addHeader(const QString &header, const QString &value) {
     d->headers[header] = value;
     return *this;
+}
+
+HttpClient &HttpClient::addFormHeader() {
+    return addHeader("content-type", "application/x-www-form-urlencoded");
 }
 
 // 执行 GET 请求
@@ -58,6 +69,51 @@ void HttpClient::post(std::function<void (const QString &)> successHandler,
     execute(true, successHandler, errorHandler, encoding);
 }
 
+// 使用 GET 进行下载，当有数据可读取时回调 readyRead(), 大多数情况下应该在 readyRead() 里把数据保存到文件
+void HttpClient::download(std::function<void (const QByteArray &)> readyRead,
+                          std::function<void ()> finishHandler,
+                          std::function<void (const QString &)> errorHandler) {
+    // 如果是 GET 请求，并且参数不为空，则编码请求的参数，放到 URL 后面
+    if (!d->params.isEmpty()) {
+        d->url += "?" + d->params.toString(QUrl::FullyEncoded);
+    }
+
+    if (d->debug) {
+        qDebug() << QString("URL: %1?%2").arg(d->url).arg(d->params.toString());
+    }
+
+    QUrl urlx(d->url);
+    QNetworkRequest request(urlx);
+    bool internal = d->useInternalNetworkAccessManager;
+    QNetworkAccessManager *manager = internal ? new QNetworkAccessManager() : d->networkAccessManager;
+    QNetworkReply *reply = manager->get(request);
+
+    // 有数据可读取时回调 readyRead()
+    QObject::connect(reply, &QNetworkReply::readyRead, [=] {
+        readyRead(reply->readAll());
+    });
+
+    // 请求结束
+    QObject::connect(reply, &QNetworkReply::finished, [=] {
+        if (reply->error() == QNetworkReply::NoError && NULL != finishHandler) {
+            finishHandler();
+        }
+
+        // 释放资源
+        reply->deleteLater();
+        if (internal) {
+            manager->deleteLater();
+        }
+    });
+
+    // 请求错误处理
+    QObject::connect(reply, static_cast<void (QNetworkReply::*)(QNetworkReply::NetworkError)>(&QNetworkReply::error), [=] {
+        if (NULL != errorHandler) {
+            errorHandler(reply->errorString());
+        }
+    });
+}
+
 // 执行请求的辅助函数
 void HttpClient::execute(bool posted,
                          std::function<void (const QString &)> successHandler,
@@ -66,6 +122,10 @@ void HttpClient::execute(bool posted,
     // 如果是 GET 请求，并且参数不为空，则编码请求的参数，放到 URL 后面
     if (!posted && !d->params.isEmpty()) {
         d->url += "?" + d->params.toString(QUrl::FullyEncoded);
+    }
+
+    if (d->debug) {
+        qDebug() << QString("URL: %1?%2").arg(d->url).arg(d->params.toString());
     }
 
     QUrl urlx(d->url);

@@ -28,12 +28,15 @@ RCC_DIR     = $$output
 UI_DIR      = $$output
 
 SOURCES += main.cpp \
-    HttpClient.cpp
+    HttpClient.cpp \
+    MainWidget.cpp
 
 HEADERS  += \
-    HttpClient.h
+    HttpClient.h \
+    MainWidget.h
 
-FORMS    +=
+FORMS    += \
+    MainWidget.ui
 
 DISTFILES += \
     urls.txt

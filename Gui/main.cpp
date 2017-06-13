@@ -1,13 +1,22 @@
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QPluginLoader>
+#include <QCoreApplication>
 #include <QDebug>
-#include <QVariant>
-#include <QByteArray>
-#include <QPushButton>
+
+void loadMySqlDriver();
 
 int main(int argc, char *argv[]) {
-    Q_UNUSED(argc)
-    Q_UNUSED(argv)
+    QCoreApplication app(argc, argv);
+    loadMySqlDriver();
+    return app.exec();
+}
 
-    qDebug() << "\xe5\x8f\x91\xe7\x94\x9f\xe9\x94\x99\xe8\xaf\xaf\xef\xbc\x8c\xe8\xaf\xb7\xe9\x87\x8d\xe8\xaf\x95";
-
-    return 0;
+void loadMySqlDriver() {
+    QPluginLoader loader;
+    // MySQL 驱动插件的路径
+    loader.setFileName("/Users/Biao/Qt5.8.0/5.8/clang_64/plugins/sqldrivers/libqsqlmysql.dylib");
+    qDebug() << loader.load();
+    qDebug() << loader.errorString();
 }
