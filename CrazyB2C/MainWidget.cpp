@@ -1,6 +1,7 @@
 #include "MainWidget.h"
 #include "ui_MainWidget.h"
 #include "HttpClient.h"
+#include <QMutexLocker>
 
 MainWidget::MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::MainWidget) {
     ui->setupUi(this);
@@ -32,6 +33,9 @@ MainWidget::~MainWidget() {
 }
 
 void MainWidget::increase() {
+    ui->plainTextEdit->appendPlainText("开始...");
+    ui->startButton->setEnabled(false);
+
     int productId = ui->productIdLineEdit->text().trimmed().toInt();
     int loveCount = ui->loveSlider->value();
     int buyCount = ui->buySlider->value();
@@ -44,27 +48,33 @@ void MainWidget::increase() {
 
     // buy
     for (int i = 0; i < buyCount; ++i) {
-
+        HttpClient(buyUrl).useManager(networkAccessManager).debug(false).get([this](const QString &response) {
+            Q_UNUSED(response)
+            oneRequestFinish();
+        }, [this](const QString &error) {
+            ui->plainTextEdit->appendPlainText(error);
+            oneRequestFinish();
+        });
     }
 
     // love
     for (int i = 0; i < loveCount; ++i) {
-        HttpClient(loveUrl).useManager(networkAccessManager).debug(true).get([this](const QString &response) {
+        HttpClient(loveUrl).useManager(networkAccessManager).debug(false).get([this](const QString &response) {
             Q_UNUSED(response)
-            qDebug() << response;
-//            ++finishedCount;
-
-//            if (finishedCount >= totalCount) {
-//                ui->plainTextEdit->appendPlainText("完成");
-//            }
+            oneRequestFinish();
         }, [this](const QString &error) {
             ui->plainTextEdit->appendPlainText(error);
-            qDebug() << error;
-//            ++finishedCount;
-
-//            if (finishedCount >= totalCount) {
-//                ui->plainTextEdit->appendPlainText("完成");
-//            }
+            oneRequestFinish();
         });
+    }
+}
+
+void MainWidget::oneRequestFinish() {
+    QMutexLocker locker(&mutex);
+    ++finishedCount;
+
+    if (finishedCount >= totalCount) {
+        ui->plainTextEdit->appendPlainText("完成");
+        ui->startButton->setEnabled(true);
     }
 }

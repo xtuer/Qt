@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QNetworkAccessManager>
-#include <QAtomicInteger>
+#include <QMutex>
 
 namespace Ui {
 class MainWidget;
@@ -18,11 +18,13 @@ public:
 
 private:
     void increase();
+    void oneRequestFinish();
 
     Ui::MainWidget *ui;
     int totalCount;
-    QAtomicInt::QAtomicInteger finishedCount;
+    int finishedCount;
     QNetworkAccessManager * networkAccessManager;
+    QMutex mutex;
 };
 
 #endif // MAINWIDGET_H
