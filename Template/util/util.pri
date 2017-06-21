@@ -1,14 +1,10 @@
 HEADERS += \
-    util/SqlUtil.h \
-    util/Singleton.h \
-    util/SettingUtil.h \
-    util/DBUtil.h \
-    util/UiUtil.h \
-    util/CommonUtil.h
+    $$PWD/Singleton.h \
+    $$PWD/Json.h \
+    $$PWD/Config.h \
+    $$PWD/UiUtil.h
 
 SOURCES += \
-    util/SqlUtil.cpp \
-    util/SettingUtil.cpp \
-    util/DBUtil.cpp \
-    util/UiUtil.cpp \
-    util/CommonUtil.cpp
+    $$PWD/Json.cpp \
+    $$PWD/Config.cpp \
+    $$PWD/UiUtil.cpp

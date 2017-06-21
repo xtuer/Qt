@@ -1,27 +1,31 @@
 #include "UiUtil.h"
-#include "util/SettingUtil.h"
-#include "info/Error.h"
+#include "util/Config.h"
 
 #include <QFile>
 #include <QStringList>
 #include <QDebug>
 #include <QApplication>
 
+#include <QLabel>
 #include <QWidget>
 #include <QStackedWidget>
 #include <QSpacerItem>
 #include <QGridLayout>
+#include <QTableView>
+#include <QItemSelectionModel>
+#include <QModelIndexList>
+#include <QModelIndex>
 
 void UiUtil::loadQss() {
-    QStringList qssFileNames = SettingUtil::getInstance().getQssFileNames();
+    QStringList qssFileNames = Singleton<Config>::getInstance().getQssFiles();
     QString qss;
 
     foreach (QString name, qssFileNames) {
-        qDebug() << QString("加载 QSS 文件 %1").arg(name);
+        qDebug() << QString("=> Loading QSS file: %1").arg(name);
 
         QFile file(name);
         if (!file.open(QIODevice::ReadOnly)) {
-            qDebug() << Error::QSS_FILE_NOT_FOUND_TEXT << " : " << name;
+            qDebug() << QString("=> Error: Loading QSS file: %1 failed").arg(name);
             continue;
         }
 
@@ -30,7 +34,6 @@ void UiUtil::loadQss() {
     }
 
     if (!qss.isEmpty()) {
-//        qDebug() << qss;
         qApp->setStyleSheet(qss);
     }
 }
@@ -76,4 +79,41 @@ void UiUtil::addWidgetIntoStackedWidget(QWidget *widget, QStackedWidget *stacked
     layout->addWidget(widget, 1, 1);
     container->setLayout(layout);
     stackedWidget->addWidget(container);
+}
+
+void UiUtil::setWidgetPaddingAndSpacing(QWidget *widget, int padding, int spacing) {
+    // 设置 Widget 的 padding 和 spacing
+    QLayout *layout = widget->layout();
+
+    if (NULL != layout) {
+        layout->setContentsMargins(padding, padding, padding, padding);
+        layout->setSpacing(spacing);
+    }
+}
+
+QModelIndex UiUtil::getTableViewSelectedIndex(QTableView *view) {
+    QItemSelectionModel *ism = view->selectionModel();
+    QModelIndexList mil = ism->selectedIndexes();
+
+    return mil.count() > 0 ? mil.at(0) : QModelIndex();
+}
+
+void UiUtil::appendTableViewRow(QTableView *view, int editColumn) {
+    QAbstractItemModel *model = view->model();
+    int row = model->rowCount();
+    model->insertRow(row);
+
+    QModelIndex index = model->index(row, editColumn);
+    if (!index.isValid()) { return; }
+
+    view->setCurrentIndex(index);
+    view->edit(index);
+}
+
+void UiUtil::removeTableViewSelectedRow(QTableView *view) {
+    QModelIndex index = getTableViewSelectedIndex(view);
+
+    if (index.isValid()) {
+        view->model()->removeRow(index.row());
+    }
 }

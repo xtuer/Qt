@@ -1,16 +1,16 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2016-09-18T14:04:25
+# Project created by QtCreator 2014-08-27T22:30:14
 #
 #-------------------------------------------------
 
-QT       += core gui network
+QT       += core gui xml sql network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET   = CrazyB2C
+TARGET = CrazyB2C
 TEMPLATE = app
-CONFIG  -=app_bundle
+CONFIG  -= app_bundle
 ICON     = AppIcon.icns
 RC_ICONS = AppIcon.ico
 
@@ -28,16 +28,11 @@ MOC_DIR     = $$output
 RCC_DIR     = $$output
 UI_DIR      = $$output
 
-SOURCES += main.cpp \
-    HttpClient.cpp \
-    MainWidget.cpp
+include (db/db.pri)
+include (dao/dao.pri)
+include (gui/gui.pri)
+include (bean/bean.pri)
+include (util/util.pri)
+include (test/test.pri)
 
-HEADERS  += \
-    HttpClient.h \
-    MainWidget.h
-
-FORMS    += \
-    MainWidget.ui
-
-DISTFILES += \
-    urls.txt
+SOURCES += main.cpp

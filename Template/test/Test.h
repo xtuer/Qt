@@ -7,6 +7,7 @@ public:
     static void testReadQss();
     static void testReadSql();
     static void testUserDao();
+    static void testReadConfig();
 };
 
 #endif // TEST_H

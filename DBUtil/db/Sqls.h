@@ -10,11 +10,7 @@ class SqlsPrivate;
 
 /**
  * 用于加载 SQL 语句，用法.
- * Sqls::getSql("User", "selectById");
- *
- * SQL 文件的路径定义在 app.ini 的 [Database] 下的 sql_files，可以指定多个 SQL 文件，
- * 路径可以是绝对路径，也可以是相对与可执行文件的路径，如
- * sql_files = resources/sql/user.sql, resources/sql/product.sql
+ * qDebug() << Singleton<Sqls>::getInstance().getSql("User", "findByUserId");
  */
 class Sqls {
     SINGLETON(Sqls)

@@ -1,31 +1,27 @@
-#include "gui/MainWindow.h"
 #include "gui/CentralWidget.h"
-
 #include "util/UiUtil.h"
-#include "util/CommonUtil.h"
-
 #include "test/Test.h"
 
 #include <QApplication>
 #include <QDebug>
 
 int main(int argc, char *argv[]) {
-//    // [[0]] 设置 Debug 输出的格式
-//    CommonUtil::registerMessagePattern();
+    // [[0]] 测试
+    Test::test();
 
-//    Test::test();
-
+    // [[1]] 启动程序，加载样式 QSS 文件，翻译文件，登陆等
     QApplication a(argc, argv);
     UiUtil::loadQss();
 
-    // [[1]] 创建并显示窗口
+    // [[2]] 创建并显示窗口
     CentralWidget w;
     w.show();
 
-    // [[2]] 进入 Qt Gui 事件循环
-    int ret = a.exec();
+    // [[3]] 进入 Qt Gui 事件循环
+    int state = a.exec();
 
-//    // [[3]] 清理释放资源
-    CommonUtil::releaseSingletonResource();
-//    return ret;
+    // [[4]] 清理释放资源，例如销毁连接池
+
+    // [[5]] 结束程序
+    return state;
 }

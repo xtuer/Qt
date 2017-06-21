@@ -8,18 +8,15 @@ CentralWidget::CentralWidget(QWidget *parent) :
     ui->setupUi(this);
 
     initialize();
-    createLoadQssAction();
 }
 
 CentralWidget::~CentralWidget() {
     delete ui;
 }
 
-void CentralWidget::loadQss() {
-    UiUtil::loadQss();
-}
-
 void CentralWidget::initialize() {
+    createLoadQssAction();
+
     // 删除 widgets 之间的 spaing.
     // 删除 widgets 和边框之间的 margin.
     layout()->setSpacing(0);
@@ -33,7 +30,9 @@ void CentralWidget::createLoadQssAction() {
     QAction *action = new QAction(this);
     action->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_L));
     addAction(action);
-    connect(action, SIGNAL(triggered()), this, SLOT(loadQss()));
+    connect(action, &QAction::triggered, [] {
+        UiUtil::loadQss();
+    });
 }
 
 /**
@@ -56,15 +55,17 @@ void CentralWidget::changeCurrentWidget(QAbstractButton *button) {
 }
 
 /**
- * 当按钮按下时, 动态创建对应的widget, 防止程序启动时加载所有的组件
- * -- 界面中与侧栏按钮对应的组件在此函数中进行添加
+ * 当按钮按下时, 动态创建对应的 widget, 防止程序启动时加载所有的组件
+ * 右侧界面中与侧栏按钮对应的组件在此函数中进行添加
  */
 void CentralWidget::createRelatedWidget(QAbstractButton *button) {
     if (button == ui->pushButton_1) {
+        // [1] 创建 widget
         QWidget *w = new QWidget();
         w->setStyleSheet("background: red");
         buttonWidgetHash.insert(ui->pushButton_1, w);
 
+        // [2] 添加 widget 到窗口中
         UiUtil::addWidgetIntoStackedWidget(w, ui->contentStackedWidget);
     } else if (button == ui->pushButton_2) {
         QWidget *w = new QWidget();
