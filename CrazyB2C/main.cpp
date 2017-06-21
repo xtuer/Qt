@@ -7,12 +7,12 @@
 #include <QDebug>
 
 int main(int argc, char *argv[]) {
-    // [[0]] 测试
-    Test::test();
-
-    // [[1]] 启动程序，加载样式 QSS 文件，翻译文件，登陆等
+    // [[0]] 启动程序，加载样式 QSS 文件，翻译文件，登陆等
     QApplication a(argc, argv);
     UiUtil::loadQss();
+
+    // [[1]] 测试
+    Test::test();
 
     // [[2]] 创建并显示窗口
     CentralWidget w;
