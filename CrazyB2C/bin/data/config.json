@@ -12,14 +12,12 @@
         "max_wait_time": 5000,
         "max_connection_count": 5,
         "sql_files": [
-            "resources/sql/user.sql",
-            "resources/sql/product.sql"
+            "resources/sql/name_value.sql"
         ]
     },
 
     "qss_files": [
-        "resources/qss/button.qss",
-        "resources/qss/groupbox.qss",
-        "resources/qss/centralWidget.qss"
+        "resources/qss/sidebar.qss",
+        "resources/qss/scrollbar.qss"
     ]
 }

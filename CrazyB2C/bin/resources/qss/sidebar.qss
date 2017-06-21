@@ -1,0 +1,37 @@
+.BuyLoveWidget,
+.CommentWidget {
+    background: #F4F4F4;
+    padding: 22px;
+}
+
+.Sidebar {
+    min-width: 129px;
+    max-width: 129px;
+    background-image: url(resources/img/sidebar_background.png);
+}
+
+.Sidebar .QPushButton {
+    border: 0 solid black;
+	color: rgb(220,220,220);
+	margin-top: 10px;
+	padding: 5px;
+	text-align: left;
+    icon-size: 16px 16px;
+    background-position: center right;
+}
+
+.Sidebar .QPushButton:hover {
+    color: rgb(230,230,230);
+}
+
+.Sidebar .QPushButton:checked {
+    background-image: url(resources/img/item_selected.png);
+}
+
+.Sidebar #buyLoveButton {
+    qproperty-icon: url(resources/img/love.png);
+}
+
+.Sidebar #commentButton {
+    qproperty-icon: url(resources/img/comment.png);
+}
