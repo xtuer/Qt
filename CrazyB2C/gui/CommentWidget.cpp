@@ -184,7 +184,7 @@ QList<Comment> CommentWidget::generateComments() {
     for (int i = 0; i < dates.size() && i < comments.size(); ++i) {
         QString userId = users.at(qrand() % users.size());
         QString content = comments.at(i);
-        ulong time = QDateTime(dates.at(i)).toTime_t() * 1000L;
+        qulonglong time = (qulonglong)QDateTime(dates.at(i)).toTime_t() * 1000L;
 
         Comment comment;
         comment.userId = userId;
