@@ -2,13 +2,10 @@
 #define FORM_H
 
 #include <QWidget>
+#include <QList>
+#include <QPainterPath>
 
-namespace Ui {
-class Form;
-}
-
-class Form : public QWidget
-{
+class Form : public QWidget {
     Q_OBJECT
 
 public:
@@ -16,11 +13,13 @@ public:
     ~Form();
 
 protected:
-    void dragEnterEvent(QDragEnterEvent *event);
-    void enterEvent(QEvent *event);
+    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
 
 private:
-    Ui::Form *ui;
+    QList<QPointF> points1; // 曲线一的顶点数组
+    QList<QPointF> points2; // 曲线二的顶点数组
+    QPainterPath smoothCurvePath1; // 平滑曲线一
+    QPainterPath smoothCurvePath2; // 平滑曲线二
 };
 
 #endif // FORM_H

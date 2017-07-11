@@ -28,11 +28,18 @@ UI_DIR      = $$output
 
 SOURCES += main.cpp \
     User.cpp \
-    Form.cpp
+    Form.cpp \
+    SmoothCurveGenerator.cpp \
+    NewForm.cpp \
+    DraggableLabel.cpp
 
 FORMS += \
-    Form.ui
+    Form.ui \
+    NewForm.ui
 
 HEADERS += \
     User.h \
-    Form.h
+    Form.h \
+    SmoothCurveGenerator.h \
+    NewForm.h \
+    DraggableLabel.h
