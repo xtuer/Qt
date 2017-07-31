@@ -1,0 +1,33 @@
+.StepButton {
+    min-width: 80px;
+    min-height: 40px;
+    max-height: 40px;
+    padding-left: 10px;
+    padding-right: -10px;
+    border-width: 0px 22px 0px 0px;
+}
+
+.StepButton[status="middle"] {
+    /* repeat: 水平平铺，stretch: 垂直拉伸 */
+    border-image: url(:/img/normal.png) 0 22 0 0 repeat stretch;
+}
+
+.StepButton[status="last"] {
+    border-image: url(:/img/last.png) 0 22 0 0 repeat stretch;
+}
+
+.StepButton[status="active-middle"] {
+    border-image: url(:/img/active.png) 0 22 0 0 repeat stretch;
+}
+
+.StepButton[status="active-last"] {
+    border-image: url(:/img/last-active.png) 0 22 0 0 repeat stretch;
+}
+
+.StepButton[status="active-prev"] {
+    border-image: url(:/img/active-pre.png) 0 22 0 0 repeat stretch;
+}
+
+QWidget {
+    background: gray;
+}

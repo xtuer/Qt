@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>img/active-pre.png</file>
+        <file>img/active.png</file>
+        <file>img/last-active.png</file>
+        <file>img/last.png</file>
+        <file>img/normal.png</file>
+    </qresource>
+</RCC>

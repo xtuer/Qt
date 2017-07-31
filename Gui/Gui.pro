@@ -30,16 +30,19 @@ SOURCES += main.cpp \
     User.cpp \
     Form.cpp \
     SmoothCurveGenerator.cpp \
-    NewForm.cpp \
-    DraggableLabel.cpp
+    DraggableLabel.cpp \
+    CertDegisner.cpp \
+    MyWidget.cpp
 
 FORMS += \
     Form.ui \
-    NewForm.ui
+    CertDegisner.ui \
+    MyWidget.ui
 
 HEADERS += \
     User.h \
     Form.h \
     SmoothCurveGenerator.h \
-    NewForm.h \
-    DraggableLabel.h
+    DraggableLabel.h \
+    CertDegisner.h \
+    MyWidget.h
