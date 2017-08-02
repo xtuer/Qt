@@ -26,23 +26,8 @@ MOC_DIR     = $$output
 RCC_DIR     = $$output
 UI_DIR      = $$output
 
-SOURCES += main.cpp \
-    User.cpp \
-    Form.cpp \
-    SmoothCurveGenerator.cpp \
-    DraggableLabel.cpp \
-    CertDegisner.cpp \
-    MyWidget.cpp
+SOURCES +=
 
-FORMS += \
-    Form.ui \
-    CertDegisner.ui \
-    MyWidget.ui
+FORMS +=
 
-HEADERS += \
-    User.h \
-    Form.h \
-    SmoothCurveGenerator.h \
-    DraggableLabel.h \
-    CertDegisner.h \
-    MyWidget.h
+HEADERS +=
