@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network xmlpatterns charts webenginewidgets webengine sql
+QT       += core gui network xmlpatterns charts webenginewidgets webengine sql multimedia multimediawidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET   = Gui
@@ -26,8 +26,12 @@ MOC_DIR     = $$output
 RCC_DIR     = $$output
 UI_DIR      = $$output
 
-SOURCES +=
+SOURCES += \
+    main.cpp \
+    Widget.cpp
 
-FORMS +=
+FORMS += \
+    Widget.ui
 
-HEADERS +=
+HEADERS += \
+    Widget.h
