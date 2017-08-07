@@ -6,6 +6,7 @@
 class QString;
 class QByteArray;
 struct HttpClientPrivate;
+class QNetworkReply;
 class QNetworkAccessManager;
 
 class HttpClient {
@@ -81,6 +82,17 @@ public:
                   std::function<void ()> finishHandler = NULL,
                   std::function<void (const QString &)> errorHandler = NULL);
 
+    /**
+     * @brief 上传文件
+     * @param path 要上传的文件的路径
+     * @param successHandler 请求成功的回调 lambda 函数
+     * @param errorHandler   请求失败的回调 lambda 函数
+     * @param encoding       请求响应的编码
+     */
+    void upload(const QString &path, std::function<void (const QString &)> successHandler = NULL,
+                std::function<void (const QString &)> errorHandler = NULL,
+                const char *encoding = "UTF-8");
+
 private:
     /**
      * @brief 执行请求的辅助函数
@@ -93,6 +105,15 @@ private:
                  std::function<void (const QString &)> successHandler,
                  std::function<void (const QString &)> errorHandler,
                  const char *encoding);
+
+    /**
+     * @brief 读取服务器响应的数据
+     * @param reply 请求的 QNetworkReply 对象
+     * @param encoding 请求响应的编码，默认使用 UTF-8
+     * @return 服务器端响应的字符串
+     */
+    QString readResponse(QNetworkReply *reply, const char *encoding = "UTF-8");
+
     HttpClientPrivate *d;
 };
 

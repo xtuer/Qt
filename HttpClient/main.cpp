@@ -58,6 +58,9 @@ int main(int argc, char *argv[]) {
                 qDebug() << "Download file finished";
             });
         }
+
+        // [[6]] 上传
+        HttpClient("http://localhost:8080/webuploader").upload("/Users/Biao/Pictures/ade.jpg");
     }
 
     return a.exec();
