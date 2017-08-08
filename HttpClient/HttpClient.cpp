@@ -121,6 +121,10 @@ void HttpClient::upload(const QString &path,
                         std::function<void (const QString &)> successHandler,
                         std::function<void (const QString &)> errorHandler,
                         const char *encoding) {
+    if (d->debug) {
+        qDebug() << QString("URL: %1").arg(d->url);
+    }
+
     QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
 
     QFile *file = new QFile(path);

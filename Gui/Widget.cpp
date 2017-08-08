@@ -27,7 +27,7 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
     camera->start(); // 打开摄像头
 
     connect(ui->captureButton, &QPushButton::clicked, [=] {
-        imageCapture->capture(); // 截图
+        imageCapture->capture("capture.jpg"); // 截图
     });
 
     // 截图时的信号槽
