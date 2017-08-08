@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
 
     FramelessWindow *window = new FramelessWindow(w);
     window->setTitleBarButtonsVisible(false, false, true);
-    window->resize(540, 500);
+    window->resize(700, 500);
     window->setResizable(false);
     window->show();
 
