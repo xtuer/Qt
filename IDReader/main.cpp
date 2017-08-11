@@ -3,7 +3,7 @@
 #include <QApplication>
 
 #include "gui/MainWidget.h"
-#include "gui/FramelessWindow.h"
+#include "magic/MagicWindow.h"
 #include "util/Util.h"
 #include "util/UiUtil.h"
 #include "util/ConfigUtil.h"
@@ -28,11 +28,14 @@ int main(int argc, char *argv[]) {
 
     // qDebug() << "创建 Window";
     MainWidget *w = new MainWidget();
+    w->setWindowFlags(Qt::FramelessWindowHint);
+    w->show();
 
-    FramelessWindow *window = new FramelessWindow(w);
-    window->setTitleBarButtonsVisible(false, false, true);
+    MagicWindow *window = new MagicWindow(w, QMargins(1, 1, 1, 1), QMargins(3, 3, 3, 3), ":/img/solid.png", true);
     window->resize(700, 500);
     window->setResizable(false);
+    window->setTitle("");
+    window->setTitleBarButtonsVisible(false, false, true);
     window->show();
 
     QObject::connect(

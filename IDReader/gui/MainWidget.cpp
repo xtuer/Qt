@@ -1,7 +1,7 @@
 #include "MainWidget.h"
 #include "ui_MainWidget.h"
 #include "LoginStatusWidget.h"
-#include "FramelessWindow.h"
+#include "magic/MagicWindow.h"
 #include "Constants.h"
 #include "bean/Person.h"
 #include "bean/Student.h"
@@ -27,6 +27,11 @@
 #include <QJsonValue>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QCamera>
+#include <QCameraViewfinder>
+#include <QCameraImageCapture>
+#include <QImage>
+#include <QPixmap>
 
 /***********************************************************************************************************************
  *                                                  MainWidgetPrivate                                                  *
@@ -34,19 +39,34 @@
  **********************************************************************************************************************/
 class MainWidgetPrivate {
 public:
-    MainWidgetPrivate() {
+    MainWidgetPrivate(MainWidget *widget) {
         readerThread = new CardReaderThread();
         networkManager = new QNetworkAccessManager();
         serverUrl = Singleton<ConfigUtil>::getInstance().getServerUrl();
         loginDetailsButton = new QPushButton("详情");
         loginDetailsButton->setFlat(true);
+
+        camera = new QCamera(); // 摄像头对象
+        viewfinder = new QCameraViewfinder(); // 用于实时显示摄像头图像
+        imageCapture = new QCameraImageCapture(camera); // 用于截取摄像头图像
+
+        viewfinder->setAttribute(Qt::WA_StyledBackground, true); // 使 viewfinder 能够使用 QSS
+        viewfinder->setFixedSize(164, 90);
+
+        delete widget->ui->cameraWidget->layout()->replaceWidget(widget->ui->placeholderLabel, viewfinder);
+        delete widget->ui->placeholderLabel;
+        camera->setViewfinder(viewfinder); // camera 使用 viewfinder 实时显示图像
+        camera->start();
     }
 
     ~MainWidgetPrivate() {
         readerThread->stop();
         readerThread->wait();
+        camera->stop();
+
         delete readerThread;
         delete networkManager;
+        delete camera;
     }
 
     // 使用 siteCode 从 sites 里查找第一个有相同 siteCode 的 site
@@ -92,6 +112,10 @@ public:
     QList<Site> sites;
     QList<PeriodUnit> periodUnits;
     QList<Student> students;
+
+    QCamera *camera;
+    QCameraViewfinder *viewfinder;
+    QCameraImageCapture *imageCapture;
 };
 
 /***********************************************************************************************************************
@@ -101,7 +125,7 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::MainWidget
     ui->setupUi(this);
 
     setAttribute(Qt::WA_StyledBackground, true);
-    d = new MainWidgetPrivate();
+    d = new MainWidgetPrivate(this);
 
     // 添加详情按钮
     QHBoxLayout *l = new QHBoxLayout();
@@ -182,6 +206,47 @@ void MainWidget::handleEvents() {
     connect(ui->roomComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this]() {
         loadStudents();
     });
+
+    // 点击拍照
+    connect(ui->captureButton, &QPushButton::clicked, [=] {
+        d->imageCapture->capture("id-reader.jpg");
+    });
+
+    // 照片拍好后，显示预览，保存到文件，然后上传到服务器
+    connect(d->imageCapture, &QCameraImageCapture::imageCaptured, [=](int id, const QImage &image) {
+        Q_UNUSED(id)
+        // 图片名字
+        QString pictureName = uploadPictureName();
+        if (pictureName.isEmpty()) {
+            return;
+        }
+
+        showInfo("", true);
+
+        // 显示预览图
+        QImage scaledImage = image.scaled(ui->previewLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        ui->previewLabel->setPixmap(QPixmap::fromImage(scaledImage));
+
+        // 保存到本地
+        QString path = QString("user-img/%1").arg(pictureName);
+        QImage userImage = image.scaled(500, 500, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        userImage.save(path, "jpg", 50);
+
+        // 上传到服务器
+        QString url = QString("%1/uploadPhoto").arg(d->serverUrl);
+        HttpClient(url).useManager(d->networkManager).debug(true).upload(path, [=](const QString &response) {
+            if (response == "true") {
+                showInfo(ui->nameLabel->text() + "的照片上传成功", false);
+                qDebug() << QString("%1 上传成功").arg(pictureName);
+            } else {
+                showInfo(response, true);
+                qDebug() << response;
+            }
+        }, [=](const QString &error) {
+            showInfo(error, true);
+            qDebug() << error;
+        });
+    });
 }
 
 void MainWidget::showInfo(const QString &info, bool error) {
@@ -211,6 +276,35 @@ void MainWidget::showPerson(const Person &p) {
     ui->validStartLabel->setText(Util::formatDate(p.validStart));
     ui->validEndLabel->setText(Util::formatDate(p.validEnd));
     ui->pictureLabel->setPixmap(QPixmap(CardReader::personImagePath()));
+}
+
+QString MainWidget::uploadPictureName() {
+    QString siteCode = ui->siteComboBox->currentData().toString();
+    QString roomCode = ui->roomComboBox->currentData().toString();
+    QString periodUnitCode = ui->periodUnitComboBox->currentData().toString();
+    QString cardId = ui->cardIdLabel->text().trimmed();
+
+    if (periodUnitCode.isEmpty()) {
+        showInfo("请选择考期", true);
+        return "";
+    }
+
+    if (siteCode.isEmpty()) {
+        showInfo("请选择考点", true);
+        return "";
+    }
+
+    if (roomCode.isEmpty()) {
+        showInfo("请选择考场", true);
+        return "";
+    }
+
+    if (cardId.isEmpty()) {
+        showInfo("请先刷卡", true);
+        return "";
+    }
+
+    return QString("%1-%2-%3-%4.jpg").arg(periodUnitCode).arg(siteCode).arg(roomCode).arg(cardId);
 }
 
 // 加载考场的学生信息
@@ -268,6 +362,8 @@ void MainWidget::loadSiteAndPeriodUnit() {
         foreach (const PeriodUnit &pu, d->periodUnits) {
             ui->periodUnitComboBox->addItem(pu.period + "-" + pu.unit, pu.periodUnitCode);
         }
+
+        showInfo("初始化完成，请选择考期、考点、考场", false);
     }, [this](const QString &error) {
         showInfo(error, true);
     });
@@ -383,7 +479,8 @@ void MainWidget::mocLoadStudents() {
 void MainWidget::showLoginStatusWidget(const QList<Student> &students) {
     LoginStatusWidget *lsw = new LoginStatusWidget();
     lsw->setStudents(students);
-    FramelessWindow *window = new FramelessWindow(lsw);
+    MagicWindow *window = new MagicWindow(lsw, QMargins(1, 1, 1, 1), QMargins(3, 3, 3, 3), ":/img/solid.png", true);
+    window->setTitle("");
     window->setTitleBarButtonsVisible(false, false, true);
     window->resize(580, 500);
     window->setResizable(false);

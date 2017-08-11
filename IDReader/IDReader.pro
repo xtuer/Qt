@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network xml
+QT       += core gui network xml multimedia multimediawidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -31,12 +31,14 @@ RCC_DIR     = $$compiled
 UI_DIR      = $$compiled
 
 include(lib/lib.pri)
+include(magic/magic.pri)
 include(gui/gui.pri)
 include(bean/bean.pri)
 include(dao/dao.pri)
 include(util/util.pri)
 include(reader/reader.pri)
 include(log/log.pri)
+
 include(SingleApplication/singleapplication.pri)
 DEFINES += QAPPLICATION_CLASS=QApplication
 
@@ -47,7 +49,8 @@ SOURCES += main.cpp \
     Constants.cpp
 
 RESOURCES += \
-    icon.qrc
+    icon.qrc \
+    resources.qrc
 
 HEADERS += \
     Constants.h

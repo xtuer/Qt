@@ -1,5 +1,5 @@
 {
-    "serverUrl": "http://192.168.10.95:8080",
+    "serverUrl": "http://hnexam.edu-edu.com:8080",
     "database": {
         "debug": true,
         "type": "QSQLITE",

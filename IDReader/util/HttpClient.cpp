@@ -1,11 +1,14 @@
 #include "HttpClient.h"
 
 #include <QDebug>
+#include <QFile>
 #include <QHash>
 #include <QUrlQuery>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QNetworkAccessManager>
+#include <QHttpPart>
+#include <QHttpMultiPart>
 
 struct HttpClientPrivate {
     HttpClientPrivate(const QString &url) : url(url), networkAccessManager(NULL), useInternalNetworkAccessManager(true), debug(false) {}
@@ -79,7 +82,7 @@ void HttpClient::download(std::function<void (const QByteArray &)> readyRead,
     }
 
     if (d->debug) {
-        qDebug() << QString("URL: %1%2").arg(d->url).arg(d->params.isEmpty() ? "" : "?" + d->params.toString());
+        qDebug() << QString("URL: %1?%2").arg(d->url).arg(d->params.toString());
     }
 
     QUrl urlx(d->url);
@@ -114,6 +117,62 @@ void HttpClient::download(std::function<void (const QByteArray &)> readyRead,
     });
 }
 
+void HttpClient::upload(const QString &path,
+                        std::function<void (const QString &)> successHandler,
+                        std::function<void (const QString &)> errorHandler,
+                        const char *encoding) {
+    if (d->debug) {
+        qDebug() << QString("URL: %1").arg(d->url);
+    }
+
+    QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
+
+    QFile *file = new QFile(path);
+    file->setParent(multiPart); // we cannot delete the file now, so delete it with the multiPart
+
+    // 如果文件打开失败，则释放资源返回
+    if(!file->open(QIODevice::ReadOnly)) {
+        if (NULL != errorHandler) {
+            errorHandler(QString("文件打开失败: %1").arg(file->errorString()));
+            multiPart->deleteLater();
+            return;
+        }
+    }
+
+    // 表明是文件上传
+    QString disposition = QString("form-data; name=\"file\"; filename=\"%1\"").arg(file->fileName());
+    QHttpPart imagePart;
+    imagePart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant(disposition));
+    imagePart.setBodyDevice(file);
+    multiPart->append(imagePart);
+
+    bool internal = d->useInternalNetworkAccessManager;
+    QNetworkRequest request(QUrl(d->url));
+    QNetworkAccessManager *manager = internal ? new QNetworkAccessManager() : d->networkAccessManager;
+    QNetworkReply *reply = manager->post(request, multiPart);
+    multiPart->setParent(reply);
+
+    // 请求结束时一次性读取所有响应数据
+    QObject::connect(reply, &QNetworkReply::finished, [=] {
+        if (reply->error() == QNetworkReply::NoError && NULL != successHandler) {
+            successHandler(readResponse(reply, encoding)); // 成功执行
+        }
+
+        // 释放资源
+        reply->deleteLater();
+        if (internal) {
+            manager->deleteLater();
+        }
+    });
+
+    // 请求错误处理
+    QObject::connect(reply, static_cast<void (QNetworkReply::*)(QNetworkReply::NetworkError)>(&QNetworkReply::error), [=] {
+        if (NULL != errorHandler) {
+            errorHandler(reply->errorString());
+        }
+    });
+}
+
 // 执行请求的辅助函数
 void HttpClient::execute(bool posted,
                          std::function<void (const QString &)> successHandler,
@@ -125,11 +184,7 @@ void HttpClient::execute(bool posted,
     }
 
     if (d->debug) {
-        if (posted) {
-            qDebug() << QString("URL: %1%2").arg(d->url).arg(d->params.isEmpty() ? "" : "?" + d->params.toString());
-        } else {
-            qDebug() << QString("URL: %1").arg(d->url);
-        }
+        qDebug() << QString("URL: %1?%2").arg(d->url).arg(d->params.toString());
     }
 
     QUrl urlx(d->url);
@@ -153,16 +208,7 @@ void HttpClient::execute(bool posted,
     // 请求结束时一次性读取所有响应数据
     QObject::connect(reply, &QNetworkReply::finished, [=] {
         if (reply->error() == QNetworkReply::NoError && NULL != successHandler) {
-            // 读取响应数据
-            QTextStream in(reply);
-            QString result;
-            in.setCodec(encoding);
-
-            while (!in.atEnd()) {
-                result += in.readLine();
-            }
-
-            successHandler(result);
+            successHandler(readResponse(reply, encoding)); // 成功执行
         }
 
         // 释放资源
@@ -178,4 +224,16 @@ void HttpClient::execute(bool posted,
             errorHandler(reply->errorString());
         }
     });
+}
+
+QString HttpClient::readResponse(QNetworkReply *reply, const char *encoding) {
+    QTextStream in(reply);
+    QString result;
+    in.setCodec(encoding);
+
+    while (!in.atEnd()) {
+        result += in.readLine();
+    }
+
+    return result;
 }

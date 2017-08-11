@@ -28,10 +28,21 @@ UI_DIR      = $$output
 
 SOURCES += \
     main.cpp \
-    Widget.cpp
+    Widget.cpp \
+    Form.cpp \
+    MagicWindow.cpp \
+    NinePatchPainter.cpp
 
 FORMS += \
-    Widget.ui
+    Widget.ui \
+    Form.ui \
+    MagicWindow.ui
 
 HEADERS += \
-    Widget.h
+    Widget.h \
+    Form.h \
+    MagicWindow.h \
+    NinePatchPainter.h
+
+RESOURCES += \
+    resources.qrc
