@@ -769,7 +769,7 @@
          </size>
         </property>
         <property name="text">
-         <string>摄像头预览</string>
+         <string>拍照预览</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
