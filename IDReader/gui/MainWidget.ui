@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>650</width>
-    <height>474</height>
+    <height>552</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,8 +17,8 @@
    <string notr="true">* {
 	
 }
-.MainWidget {
-
+#MainWidget {
+	background: #CCC;
 }
 
 .ContainerWidget {
@@ -143,14 +143,20 @@
 }
 
 #placeholderLabel, #previewLabel {
-	border: 2px dashed #DDD;
-	margin-left: 3px;
-	margin-right: 3px;
+	border: 1px solid #EEE;
+	margin-left: 2px;
+	margin-right: 2px;
 }
 
 #captureButton {
-	border-radius: 0;
-}</string>
+	margin-left: 2px;
+	margin-right: 2px;
+}
+
+#cameraWidget {
+	border-bottom-right-radius: 4px;
+}
+</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_4">
    <property name="leftMargin">
@@ -168,6 +174,25 @@
    <property name="spacing">
     <number>1</number>
    </property>
+   <item row="2" column="0" colspan="2">
+    <widget class="QLabel" name="infoLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
    <item row="1" column="0">
     <widget class="QWidget" name="statisticWidget" native="true">
      <property name="class" stdset="0">
@@ -263,144 +288,6 @@
            <property name="text">
             <string>0</string>
            </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="0" column="0">
-    <widget class="QWidget" name="sideWidget" native="true">
-     <property name="class" stdset="0">
-      <string>ContainerWidget</string>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <property name="leftMargin">
-       <number>0</number>
-      </property>
-      <property name="topMargin">
-       <number>0</number>
-      </property>
-      <property name="rightMargin">
-       <number>0</number>
-      </property>
-      <property name="bottomMargin">
-       <number>10</number>
-      </property>
-      <item>
-       <widget class="QPushButton" name="settingLabel">
-        <property name="text">
-         <string>配置信息</string>
-        </property>
-        <property name="flat">
-         <bool>true</bool>
-        </property>
-        <property name="class" stdset="0">
-         <string>TitleLabel</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QWidget" name="sideInnerWidget" native="true">
-        <layout class="QGridLayout" name="gridLayout">
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
-         <item row="2" column="0" colspan="2">
-          <widget class="QPushButton" name="siteLabel">
-           <property name="text">
-            <string>考点</string>
-           </property>
-           <property name="flat">
-            <bool>true</bool>
-           </property>
-           <property name="class" stdset="0">
-            <string>IconLabel</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0" colspan="2">
-          <widget class="QComboBox" name="siteComboBox">
-           <item>
-            <property name="text">
-             <string>未初始化</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-         <item row="6" column="0" colspan="2">
-          <widget class="QPushButton" name="roomLabel">
-           <property name="text">
-            <string>考场</string>
-           </property>
-           <property name="flat">
-            <bool>true</bool>
-           </property>
-           <property name="class" stdset="0">
-            <string>IconLabel</string>
-           </property>
-          </widget>
-         </item>
-         <item row="8" column="0">
-          <widget class="QPushButton" name="loadExamButton">
-           <property name="text">
-            <string>初始化</string>
-           </property>
-           <property name="flat">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="7" column="0" colspan="2">
-          <widget class="QComboBox" name="roomComboBox">
-           <item>
-            <property name="text">
-             <string>未初始化</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-         <item row="8" column="1">
-          <widget class="QPushButton" name="toggleReadButton">
-           <property name="text">
-            <string>开始读卡</string>
-           </property>
-           <property name="checkable">
-            <bool>false</bool>
-           </property>
-           <property name="checked">
-            <bool>false</bool>
-           </property>
-           <property name="flat">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QPushButton" name="periodUnitLabel">
-           <property name="text">
-            <string>考期</string>
-           </property>
-           <property name="flat">
-            <bool>true</bool>
-           </property>
-           <property name="class" stdset="0">
-            <string>IconLabel</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0" colspan="2">
-          <widget class="QComboBox" name="periodUnitComboBox">
-           <item>
-            <property name="text">
-             <string>未初始化</string>
-            </property>
-           </item>
           </widget>
          </item>
         </layout>
@@ -670,23 +557,142 @@
      </layout>
     </widget>
    </item>
-   <item row="2" column="0" colspan="2">
-    <widget class="QLabel" name="infoLabel">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
+   <item row="0" column="0">
+    <widget class="QWidget" name="sideWidget" native="true">
+     <property name="class" stdset="0">
+      <string>ContainerWidget</string>
      </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>10</number>
+      </property>
+      <item>
+       <widget class="QPushButton" name="settingLabel">
+        <property name="text">
+         <string>配置信息</string>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
+        </property>
+        <property name="class" stdset="0">
+         <string>TitleLabel</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="sideInnerWidget" native="true">
+        <layout class="QGridLayout" name="gridLayout">
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item row="2" column="0" colspan="2">
+          <widget class="QPushButton" name="siteLabel">
+           <property name="text">
+            <string>考点</string>
+           </property>
+           <property name="flat">
+            <bool>true</bool>
+           </property>
+           <property name="class" stdset="0">
+            <string>IconLabel</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0" colspan="2">
+          <widget class="QComboBox" name="siteComboBox">
+           <item>
+            <property name="text">
+             <string>未初始化</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="6" column="0" colspan="2">
+          <widget class="QPushButton" name="roomLabel">
+           <property name="text">
+            <string>考场</string>
+           </property>
+           <property name="flat">
+            <bool>true</bool>
+           </property>
+           <property name="class" stdset="0">
+            <string>IconLabel</string>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="0">
+          <widget class="QPushButton" name="loadExamButton">
+           <property name="text">
+            <string>初始化</string>
+           </property>
+           <property name="flat">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="0" colspan="2">
+          <widget class="QComboBox" name="roomComboBox">
+           <item>
+            <property name="text">
+             <string>未初始化</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="8" column="1">
+          <widget class="QPushButton" name="toggleReadButton">
+           <property name="text">
+            <string>开始读卡</string>
+           </property>
+           <property name="checkable">
+            <bool>false</bool>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
+           </property>
+           <property name="flat">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QPushButton" name="periodUnitLabel">
+           <property name="text">
+            <string>考期</string>
+           </property>
+           <property name="flat">
+            <bool>true</bool>
+           </property>
+           <property name="class" stdset="0">
+            <string>IconLabel</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0" colspan="2">
+          <widget class="QComboBox" name="periodUnitComboBox">
+           <item>
+            <property name="text">
+             <string>未初始化</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
    <item row="0" column="2" rowspan="3">
@@ -730,14 +736,14 @@
        <widget class="QLabel" name="placeholderLabel">
         <property name="minimumSize">
          <size>
-          <width>0</width>
-          <height>150</height>
+          <width>164</width>
+          <height>90</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>16777215</width>
-          <height>150</height>
+          <width>160</width>
+          <height>90</height>
          </size>
         </property>
         <property name="text">
@@ -752,14 +758,14 @@
        <widget class="QLabel" name="previewLabel">
         <property name="minimumSize">
          <size>
-          <width>0</width>
-          <height>150</height>
+          <width>164</width>
+          <height>90</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>16777215</width>
-          <height>150</height>
+          <width>164</width>
+          <height>90</height>
          </size>
         </property>
         <property name="text">
@@ -767,6 +773,13 @@
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="captureButton">
+        <property name="text">
+         <string>拍照上传</string>
         </property>
        </widget>
       </item>
@@ -782,13 +795,6 @@
          </size>
         </property>
        </spacer>
-      </item>
-      <item>
-       <widget class="QPushButton" name="captureButton">
-        <property name="text">
-         <string>拍照上传</string>
-        </property>
-       </widget>
       </item>
      </layout>
     </widget>
