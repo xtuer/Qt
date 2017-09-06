@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>rounded-rectangle.png</file>
+    </qresource>
+</RCC>

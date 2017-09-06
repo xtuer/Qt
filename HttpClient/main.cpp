@@ -4,11 +4,12 @@
 #include <QFile>
 #include <QApplication>
 #include <QNetworkAccessManager>
+#include <QThread>
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
-    {
+    /*{
         // 在代码块里执行网络访问，是为了测试 HttpClient 对象在被析构后，网络访问的回调函数仍然能正常执行
         // [[1]] GET 请求无参数
         HttpClient("http://localhost:8080/device").get([](const QString &response) {
@@ -61,6 +62,19 @@ int main(int argc, char *argv[]) {
 
         // [[6]] 上传
         HttpClient("http://localhost:8080/webuploader").upload("/Users/Biao/Pictures/ade.jpg");
+    }*/
+
+    {
+        QString token("eyJpZCI6Im51bGwiLCJyb2xlcyI6IltcIlJPTEVfQURNSU5cIl0iLCJzaWduQXQiOiIxNTA0MzYxODU1MjI0IiwidXNlcm5hbWUiOiJhZG1pbiJ9.7eca21ecefca007bbbb1f9abc434332f");
+
+        for (int i = 0; i < 1000; ++i) {
+            HttpClient("http://localhost:8080/page/admin").addHeader("auth-token", token).get([=](const QString &response) {
+                qDebug() << i << ": " << response;
+            }, [](const QString &error) {
+                qDebug() << "ERROR: " << error;
+            });
+        }
+
     }
 
     return a.exec();

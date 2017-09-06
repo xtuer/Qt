@@ -15,4 +15,5 @@ SUBDIRS += \
     SmoothCurveQChart \
     RealTimeCurveQChart \
     Clip \
-    OSUi
+    OSUi \
+    NinePatchPainter
