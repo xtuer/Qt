@@ -5,6 +5,7 @@
 #include <QApplication>
 #include <QNetworkAccessManager>
 #include <QThread>
+#include <QDate>
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
@@ -68,13 +69,12 @@ int main(int argc, char *argv[]) {
         QString token("eyJpZCI6Im51bGwiLCJyb2xlcyI6IltcIlJPTEVfQURNSU5cIl0iLCJzaWduQXQiOiIxNTA0MzYxODU1MjI0IiwidXNlcm5hbWUiOiJhZG1pbiJ9.7eca21ecefca007bbbb1f9abc434332f");
 
         for (int i = 0; i < 1000; ++i) {
-            HttpClient("http://localhost:8080/page/admin").addHeader("auth-token", token).get([=](const QString &response) {
+            HttpClient("http://localhost:8080/hello?username=bob").addHeader("auth-token", token).get([=](const QString &response) {
                 qDebug() << i << ": " << response;
             }, [](const QString &error) {
                 qDebug() << "ERROR: " << error;
             });
         }
-
     }
 
     return a.exec();
