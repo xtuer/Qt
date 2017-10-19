@@ -16,4 +16,5 @@ SUBDIRS += \
     RealTimeCurveQChart \
     Clip \
     OSUi \
-    NinePatchPainter
+    NinePatchPainter \
+    FittingCurve

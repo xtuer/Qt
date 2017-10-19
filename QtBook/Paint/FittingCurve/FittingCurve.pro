@@ -1,15 +1,15 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2016-06-30T17:44:13
+# Project created by QtCreator 2017-10-19T13:31:31
 #
 #-------------------------------------------------
 
-QT       += core gui network xmlpatterns charts sql multimedia multimediawidgets
+QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-TARGET   = Gui
+
+TARGET   = FittingCurve
 TEMPLATE = app
-ICON     = AppIcon.icns
 CONFIG  -=app_bundle
 
 # Output directory
@@ -27,15 +27,10 @@ RCC_DIR     = $$output
 UI_DIR      = $$output
 
 SOURCES += \
-    main.cpp \
-    NinePatchPainter.cpp \
-    Panel.cpp
-
-FORMS +=
+        main.cpp \
+    FittingCurveWidget.cpp
 
 HEADERS += \
-    NinePatchPainter.h \
-    Panel.h
+    FittingCurveWidget.h
 
-RESOURCES += \
-    resources.qrc
+FORMS +=

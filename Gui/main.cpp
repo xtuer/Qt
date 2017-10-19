@@ -1,12 +1,13 @@
 #include <QApplication>
-#include <QPixmap>
 #include <QDebug>
+#include "Panel.h"
 
 int main(int argc, char *argv[]) {
-    QApplication a(argc, argv);
+    QApplication app(argc, argv);
 
-    QPixmap p("/Users/Biao/Desktop/x.png");
-    p.save("/Users/Biao/Desktop/y.png");
+    Panel panel;
+    panel.resize(700, 400);
+    panel.show();
 
-    return a.exec();
+    return app.exec();
 }
