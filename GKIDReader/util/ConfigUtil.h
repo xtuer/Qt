@@ -53,6 +53,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////
     QString getLoginUrl() const;
     QString getTimeServiceUrl() const;
+    bool isDebug() const;
 
 private:
     QVariant getGuiValue(const  QString &groupName, const QString &name, const QVariant &def = QVariant());

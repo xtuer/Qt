@@ -109,6 +109,10 @@ QString ConfigUtil::getTimeServiceUrl() const {
     return config->getString("timeServiceUrl");
 }
 
+bool ConfigUtil::isDebug() const {
+    return config->getBool("debug");
+}
+
 QVariant ConfigUtil::getGuiValue(const QString& groupName, const QString& name, const QVariant& def) {
     return getValue(guiSettings, groupName, name, def);
 }

@@ -1,6 +1,7 @@
 {
     "loginUrl": "http://ilearning.edu-edu.com.cn/index.php?r=operation/AutoExamCdcard/IndexExamCard",
 	"timeServiceUrl": "http://ilearning.edu-edu.com.cn/index.php?r=operation/AutoExamCdcard/CurrentTime",
+	"debug": true,
     "database": {
         "debug": true,
         "type": "QSQLITE",
