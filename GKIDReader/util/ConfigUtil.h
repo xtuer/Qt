@@ -51,7 +51,8 @@ public:
     ////////////////////////////////////////////////////////////////////////////
     /// 其它
     ////////////////////////////////////////////////////////////////////////////
-    QString getServerUrl() const;
+    QString getLoginUrl() const;
+    QString getTimeServiceUrl() const;
 
 private:
     QVariant getGuiValue(const  QString &groupName, const QString &name, const QVariant &def = QVariant());

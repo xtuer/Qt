@@ -1,5 +1,6 @@
 {
-    "serverUrl": "http://ilearning.edu-edu.com.cn/index.php?r=operation/AutoExamCdcard/IndexExamCard",
+    "loginUrl": "http://ilearning.edu-edu.com.cn/index.php?r=operation/AutoExamCdcard/IndexExamCard",
+	"timeServiceUrl": "http://ilearning.edu-edu.com.cn/index.php?r=operation/AutoExamCdcard/CurrentTime",
     "database": {
         "debug": true,
         "type": "QSQLITE",
@@ -24,7 +25,6 @@
         "resources/qss/sidebar.css",
         "resources/qss/content.css",
         "resources/qss/table.css",
-        "resources/qss/scrollbar.css",
         "resources/qss/scrollbar.css"
     ],
 

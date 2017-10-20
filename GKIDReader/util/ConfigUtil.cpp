@@ -101,8 +101,12 @@ void ConfigUtil::restoreWindowGeometry(const QString &groupName, QWidget *window
     window->resize(getGuiValue(groupName, "size", QSize(600, 400)).toSize());
 }
 
-QString ConfigUtil::getServerUrl() const {
-    return config->getString("serverUrl");
+QString ConfigUtil::getLoginUrl() const {
+    return config->getString("loginUrl");
+}
+
+QString ConfigUtil::getTimeServiceUrl() const {
+    return config->getString("timeServiceUrl");
 }
 
 QVariant ConfigUtil::getGuiValue(const QString& groupName, const QString& name, const QVariant& def) {

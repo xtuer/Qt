@@ -37,7 +37,7 @@ public:
     MainWidgetPrivate() {
         readerThread = new CardReaderThread();
         networkManager = new QNetworkAccessManager();
-        serverUrl = ConfigUtilInstance.getServerUrl();
+        loginUrl = ConfigUtilInstance.getLoginUrl();
         loginDetailsButton = new QPushButton("详情");
         loginDetailsButton->setFlat(true);
     }
@@ -85,13 +85,15 @@ public:
     }
 
     CardReaderThread *readerThread;
-    QString serverUrl;
+    QString loginUrl;
     QNetworkAccessManager *networkManager;
     QPushButton *loginDetailsButton;
 
     QList<Site> sites;
     QList<PeriodUnit> periodUnits;
     QList<Student> students;
+
+    qint64 deltaTimeBetweenClientAndServer; // 程序启动时客户端和服务器端时间差
 };
 
 /***********************************************************************************************************************
@@ -190,7 +192,7 @@ void MainWidget::login(const Person &p) {
     QByteArray token = (p.cardId + birthday + startTime + endTime + pointCode + "mainexam201704cdcard").toUtf8();
     token = Util::md5(Util::md5(token));
 
-    HttpClient(d->serverUrl).debug(true).useManager(d->networkManager).addFormHeader()
+    HttpClient(d->loginUrl).debug(true).useManager(d->networkManager).addFormHeader()
             .addParam("name", p.name).addParam("cardnum", p.cardId)
             .addParam("sex", p.gender).addParam("nation", p.nationality)
             .addParam("birth", birthday).addParam("start_time", startTime).addParam("end_time", endTime)
