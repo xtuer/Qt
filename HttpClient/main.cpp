@@ -10,8 +10,8 @@
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
+    // 在代码块里执行网络访问，是为了测试 HttpClient 对象在被析构后，网络访问的回调函数仍然能正常执行
     {
-        // 在代码块里执行网络访问，是为了测试 HttpClient 对象在被析构后，网络访问的回调函数仍然能正常执行
         // [[1]] GET 请求无参数
         HttpClient("http://localhost:8080/device").get([](const QString &response) {
             qDebug() << response;
