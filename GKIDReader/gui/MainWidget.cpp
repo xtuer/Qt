@@ -41,7 +41,7 @@ public:
         debug = ConfigUtilInstance.isDebug();
         loginUrl = ConfigUtilInstance.getLoginUrl();
         timeServiceUrl = ConfigUtilInstance.getTimeServiceUrl();
-        deltaTimeBetweenClientAndServer = 0;
+        deltaTimeBetweenClientAndServer = 100000000;
 
         loginDetailsButton = new QPushButton("详情");
         loginDetailsButton->setFlat(true);
@@ -100,7 +100,7 @@ public:
     QList<Student> students;
 
     bool debug;
-    qint64 deltaTimeBetweenClientAndServer; // 程序启动时客户端和服务器端时间差
+    qint64 deltaTimeBetweenClientAndServer; // 程序启动时客户端和服务器端时间差，单位为秒
 };
 
 /***********************************************************************************************************************
@@ -111,6 +111,15 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::MainWidget
 
     setAttribute(Qt::WA_StyledBackground, true);
     d = new MainWidgetPrivate();
+
+    // 请求服务器的时间
+    HttpClient(d->timeServiceUrl).debug(d->debug).useManager(d->networkManager).get([=](const QString &time) {
+        qDebug() << QString("Server Time: %1").arg(time);
+        d->deltaTimeBetweenClientAndServer = time.toLongLong() - QDateTime::currentSecsSinceEpoch();
+    }, [=](const QString &error) {
+        qDebug() << error;
+        showInfo(error, true);
+    });
 
     handleEvents();
 }
@@ -194,9 +203,11 @@ void MainWidget::login(const Person &p) {
     QString endTime = Util::formatDateISO(p.validEnd);
     QString pointCode = QString::number(33);
     QString pointName("福建");
+    qint64  time = QDateTime::currentSecsSinceEpoch() + d->deltaTimeBetweenClientAndServer;
 
     // md5(md5(cardnum+birth+start_time+end_time+point_code+'mainexam201704cdcard')) //验证串
-    QByteArray token = (p.cardId + birthday + startTime + endTime + pointCode + "mainexam201704cdcard").toUtf8();
+    //QByteArray token = (p.cardId + birthday + startTime + endTime + pointCode + "mainexam201704cdcard").toUtf8();
+    QByteArray token = (p.cardId + QString::number(time) + "mainexam201704cdcard").toUtf8();
     token = Util::md5(Util::md5(token));
 
     HttpClient(d->loginUrl).debug(d->debug).useManager(d->networkManager).addFormHeader()
@@ -206,7 +217,8 @@ void MainWidget::login(const Person &p) {
             .addParam("address", p.address).addParam("institution", p.police)
             .addParam("check_time", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"))
             .addParam("point_code", pointCode).addParam("point_name", pointName)
-            .addParam("str", token).post([=](const QString &response) {
+            .addParam("time", QString::number(time))
+            .addParam("token", token).post([=](const QString &response) {
         qDebug() << response;
         showInfo(response);
     }, [=](const QString &error) {
