@@ -115,7 +115,7 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::MainWidget
     // 请求服务器的时间
     HttpClient(d->timeServiceUrl).debug(d->debug).useManager(d->networkManager).get([=](const QString &time) {
         qDebug() << QString("Server Time: %1").arg(time);
-        d->deltaTimeBetweenClientAndServer = time.toLongLong() - QDateTime::currentSecsSinceEpoch();
+        d->deltaTimeBetweenClientAndServer = time.toLongLong() - QDateTime::currentMSecsSinceEpoch() / 1000;
     }, [=](const QString &error) {
         qDebug() << error;
         showInfo(error, true);
@@ -203,7 +203,7 @@ void MainWidget::login(const Person &p) {
     QString endTime = Util::formatDateISO(p.validEnd);
     QString pointCode = QString::number(33);
     QString pointName("福建");
-    qint64  time = QDateTime::currentSecsSinceEpoch() + d->deltaTimeBetweenClientAndServer;
+    qint64  time = QDateTime::currentMSecsSinceEpoch() / 1000 + d->deltaTimeBetweenClientAndServer;
 
     // md5(md5(cardnum+birth+start_time+end_time+point_code+'mainexam201704cdcard')) //验证串
     //QByteArray token = (p.cardId + birthday + startTime + endTime + pointCode + "mainexam201704cdcard").toUtf8();
