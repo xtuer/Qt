@@ -9,6 +9,9 @@ struct HttpClientPrivate;
 class QNetworkReply;
 class QNetworkAccessManager;
 
+/**
+ * @brief 对 QNetworkAccessManager 进行封装的 HTTP 访问客户端，可以进行 GET，POST，上传，下载请求。
+ */
 class HttpClient {
 public:
     HttpClient(const QString &url);
@@ -71,6 +74,16 @@ public:
     void post(std::function<void (const QString &)> successHandler,
              std::function<void (const QString &)> errorHandler = NULL,
              const char *encoding = "UTF-8");
+
+    /**
+     * @brief 使用 GET 进行下载，下载的文件保存到 destinationPath
+     * @param destinationPath 下载的文件保存路径
+     * @param finishHandler   请求处理完成后的回调 lambda 函数
+     * @param errorHandler    请求失败的回调 lambda 函数，打开文件 destinationPath 出错也会调用此函数
+     */
+    void download(const QString &destinationPath,
+                  std::function<void ()> finishHandler = NULL,
+                  std::function<void (const QString &)> errorHandler = NULL);
 
     /**
      * @brief 使用 GET 进行下载，当有数据可读取时回调 readyRead(), 大多数情况下应该在 readyRead() 里把数据保存到文件

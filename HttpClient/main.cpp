@@ -10,7 +10,7 @@
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
-    /*{
+    {
         // 在代码块里执行网络访问，是为了测试 HttpClient 对象在被析构后，网络访问的回调函数仍然能正常执行
         // [[1]] GET 请求无参数
         HttpClient("http://localhost:8080/device").get([](const QString &response) {
@@ -47,7 +47,10 @@ int main(int argc, char *argv[]) {
             });
         }
 
-        // [[5]] 下载
+        // [[5]] 下载: 下载直接保存到文件
+        HttpClient("http://xtuer.github.io/img/dog.png").debug(true).download("/Users/Biao/Desktop/dog.png");
+
+        // [[6]] 下载: 自己处理下载得到的字节数据
         QFile *file = new QFile("dog.png");
         if (file->open(QIODevice::WriteOnly)) {
             HttpClient("http://xtuer.github.io/img/dog.png").debug(true).download([=](const QByteArray &data) {
@@ -61,20 +64,8 @@ int main(int argc, char *argv[]) {
             });
         }
 
-        // [[6]] 上传
+        // [[7]] 上传
         HttpClient("http://localhost:8080/webuploader").upload("/Users/Biao/Pictures/ade.jpg");
-    }*/
-
-    {
-        QString token("eyJpZCI6Im51bGwiLCJyb2xlcyI6IltcIlJPTEVfQURNSU5cIl0iLCJzaWduQXQiOiIxNTA0MzYxODU1MjI0IiwidXNlcm5hbWUiOiJhZG1pbiJ9.7eca21ecefca007bbbb1f9abc434332f");
-
-        for (int i = 0; i < 1000; ++i) {
-            HttpClient("http://localhost:8080/hello?username=bob").addHeader("auth-token", token).get([=](const QString &response) {
-                qDebug() << i << ": " << response;
-            }, [](const QString &error) {
-                qDebug() << "ERROR: " << error;
-            });
-        }
     }
 
     return a.exec();

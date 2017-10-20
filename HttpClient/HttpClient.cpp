@@ -21,6 +21,7 @@ struct HttpClientPrivate {
     bool debug;
 };
 
+// 注意: 不能在回调函数中使用 d，因为回调函数被调用时 HttpClient 对象很可能已经被释放掉了。
 HttpClient::HttpClient(const QString &url) : d(new HttpClientPrivate(url)) {
     //    qDebug() << "HttpClient";
 }
@@ -72,17 +73,59 @@ void HttpClient::post(std::function<void (const QString &)> successHandler,
     execute(true, successHandler, errorHandler, encoding);
 }
 
+void HttpClient::download(const QString &destinationPath,
+                          std::function<void ()> finishHandler,
+                          std::function<void (const QString &)> errorHandler) {
+    QFile *file = new QFile(destinationPath);
+    bool debug = d->debug;
+
+    if (file->open(QIODevice::WriteOnly)) {
+        download([=](const QByteArray &data) {
+            file->write(data);
+        }, [=] {
+            // 请求结束后释放文件对象.
+            file->flush();
+            file->close();
+            file->deleteLater();
+
+            // 不能用 d->debug，因为 d 以及被释放了
+            if (debug) {
+                qDebug() << QString("下载完成，保存到: %1").arg(destinationPath);
+            }
+
+            if (NULL != finishHandler) {
+                finishHandler();
+            }
+        }, errorHandler);
+    } else {
+        // 打开文件出错
+        if (debug) {
+            qDebug() << QString("打开文件出错: %1").arg(destinationPath);
+        }
+
+        if (NULL != errorHandler) {
+            errorHandler(QString("打开文件出错: %1").arg(destinationPath));
+        }
+    }
+}
+
 // 使用 GET 进行下载，当有数据可读取时回调 readyRead(), 大多数情况下应该在 readyRead() 里把数据保存到文件
 void HttpClient::download(std::function<void (const QByteArray &)> readyRead,
                           std::function<void ()> finishHandler,
                           std::function<void (const QString &)> errorHandler) {
+    if (d->debug) {
+        QString params = d->params.toString();
+
+        if (params.isEmpty()) {
+            qDebug() << QString("URL: %1").arg(d->url);
+        } else {
+            qDebug() << QString("URL: %1?%2").arg(d->url).arg(params);
+        }
+    }
+
     // 如果是 GET 请求，并且参数不为空，则编码请求的参数，放到 URL 后面
     if (!d->params.isEmpty()) {
         d->url += "?" + d->params.toString(QUrl::FullyEncoded);
-    }
-
-    if (d->debug) {
-        qDebug() << QString("URL: %1?%2").arg(d->url).arg(d->params.toString());
     }
 
     QUrl urlx(d->url);
