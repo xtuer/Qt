@@ -204,6 +204,7 @@ void MainWidget::login(const Person &p) {
     QString pointCode = QString::number(33);
     QString pointName("福建");
     qint64  time = QDateTime::currentMSecsSinceEpoch() / 1000 + d->deltaTimeBetweenClientAndServer;
+    int type = ui->startRadioButton->isChecked() ? 1 : 2; // 1 是入场，2 是退场
 
     // md5(md5(cardnum+birth+start_time+end_time+point_code+'mainexam201704cdcard')) //验证串
     //QByteArray token = (p.cardId + birthday + startTime + endTime + pointCode + "mainexam201704cdcard").toUtf8();
@@ -217,6 +218,7 @@ void MainWidget::login(const Person &p) {
             .addParam("address", p.address).addParam("institution", p.police)
             .addParam("check_time", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"))
             .addParam("point_code", pointCode).addParam("point_name", pointName)
+            .addParam("type", QString::number(type))
             .addParam("time", QString::number(time))
             .addParam("token", token).post([=](const QString &response) {
         qDebug() << response;

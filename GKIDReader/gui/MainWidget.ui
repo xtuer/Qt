@@ -157,28 +157,6 @@
    <property name="spacing">
     <number>0</number>
    </property>
-   <item row="3" column="1">
-    <widget class="QPushButton" name="toggleReadButton">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>30</height>
-      </size>
-     </property>
-     <property name="text">
-      <string>开始刷卡</string>
-     </property>
-     <property name="checkable">
-      <bool>false</bool>
-     </property>
-     <property name="checked">
-      <bool>false</bool>
-     </property>
-     <property name="flat">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
    <item row="0" column="1" rowspan="2">
     <widget class="QWidget" name="personWidget" native="true">
      <property name="class" stdset="0">
@@ -421,6 +399,23 @@
            </property>
           </widget>
          </item>
+         <item row="9" column="1">
+          <widget class="QRadioButton" name="startRadioButton">
+           <property name="text">
+            <string>入场</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="9" column="2">
+          <widget class="QRadioButton" name="endRadioButton">
+           <property name="text">
+            <string>退场</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
       </item>
@@ -454,6 +449,28 @@
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
      </property>
      <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QPushButton" name="toggleReadButton">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>30</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>开始刷卡</string>
+     </property>
+     <property name="checkable">
+      <bool>false</bool>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+     <property name="flat">
       <bool>true</bool>
      </property>
     </widget>
