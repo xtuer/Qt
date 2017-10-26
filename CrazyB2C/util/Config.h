@@ -37,6 +37,7 @@ public:
 
     // 其它
     QStringList getQssFiles() const; // QSS 样式表文件, 可以是多个
+    QString getServerUrl() const;
 
 private:
     Json *json;

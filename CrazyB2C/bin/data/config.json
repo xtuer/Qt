@@ -1,4 +1,5 @@
 {
+    "serverUrl": "http://www.edu-edu.com",
     "database": {
         "debug": true,
         "type": "QSQLITE",

@@ -68,3 +68,7 @@ QStringList Config::getDatabaseSqlFiles() const {
 QStringList Config::getQssFiles() const {
     return json->getStringList("qss_files");
 }
+
+QString Config::getServerUrl() const {
+    return json->getString("serverUrl").trimmed();
+}

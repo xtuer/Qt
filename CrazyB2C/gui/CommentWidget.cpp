@@ -3,6 +3,7 @@
 #include "gui/CommentSettingsDialog.h"
 #include "dao/NameValueDao.h"
 #include "bean/Comment.h"
+#include "util/Config.h"
 
 #include <QDebug>
 #include <QRegularExpression>
@@ -207,8 +208,7 @@ void CommentWidget::submitComments() {
     finishedCount = 0;
     totalCount = comments.size();
 
-    QString url = QString("http://%1/sale/public/comments/innerInsertComment")
-                  .arg(isProductPlatform ? "edu-edu.com" : "eplatform.edu-edu.com.cn");
+    QString url = QString("http://%1/sale/public/comments/innerInsertComment").arg(ConfigInstance.getServerUrl());
 
     foreach (Comment comment, comments) {
         HttpClient(url).useManager(networkAccessManager).debug(true)

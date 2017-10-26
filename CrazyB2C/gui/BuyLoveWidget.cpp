@@ -1,6 +1,8 @@
 #include "BuyLoveWidget.h"
 #include "ui_BuyLoveWidget.h"
 #include "util/HttpClient.h"
+#include "util/Config.h"
+
 #include <QMutexLocker>
 
 BuyLoveWidget::BuyLoveWidget(QWidget *parent) : QWidget(parent), ui(new Ui::BuyLoveWidget) {
@@ -45,8 +47,8 @@ void BuyLoveWidget::increase() {
     finishedCount = 0;
     totalCount = loveCount + buyCount;
 
-    QString buyUrl = QString("http://i.edu-edu.com.cn/sale/public/comments/counter/add/1/%1/1/jsonp/__sale_product_counter_loaded?_=1474179046754").arg(productId);
-    QString loveUrl = QString("http://i.edu-edu.com.cn/sale/public/comments/counter/add/1/%1/2/jsonp/__sale_product_counter_loaded?_=1474179046754").arg(productId);
+    QString buyUrl  = QString("%1/sale/public/comments/counter/add/1/%2/1/jsonp/__sale_product_counter_loaded?_=1474179046754").arg(ConfigInstance.getServerUrl()).arg(productId);
+    QString loveUrl = QString("%1/sale/public/comments/counter/add/1/%2/2/jsonp/__sale_product_counter_loaded?_=1474179046754").arg(ConfigInstance.getServerUrl()).arg(productId);
 
     // buy
     for (int i = 0; i < buyCount; ++i) {
