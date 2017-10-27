@@ -5,9 +5,10 @@
 
 class QString;
 class QByteArray;
-struct HttpClientPrivate;
+class QNetworkRequest;
 class QNetworkReply;
 class QNetworkAccessManager;
+struct HttpClientPrivate;
 
 /**
  * @brief 对 QNetworkAccessManager 进行封装的 HTTP 访问客户端，可以进行 GET，POST，上传，下载请求。
@@ -127,6 +128,13 @@ private:
      * @return 服务器端响应的字符串
      */
     QString readResponse(QNetworkReply *reply, const char *encoding = "UTF-8");
+
+    /**
+     * @brief 请求执行前准备好 Request 需要的数据，例如 URL，参数，请求头等。
+     * @param posted 为 true 表示 POST 请求，为 false 表示 GET 请求
+     * @return 返回可用于执行请求的 QNetworkRequest
+     */
+    QNetworkRequest prepareRequest(bool posted = false);
 
     HttpClientPrivate *d;
 };
