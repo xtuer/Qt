@@ -11,14 +11,17 @@
 #include <QHttpMultiPart>
 
 struct HttpClientPrivate {
-    HttpClientPrivate(const QString &url) : url(url), networkAccessManager(NULL), useInternalNetworkAccessManager(true), debug(false) {}
-
-    QString url; // 请求的 URL
-    QUrlQuery params; // 请求的参数
+    HttpClientPrivate(const QString &url) : url(url), networkAccessManager(NULL),
+        useJson(false), useInternalNetworkAccessManager(true), debug(false) {}
+    QString   url;      // 请求的 URL
+    QUrlQuery params;   // 请求的参数使用 Form 格式
+    QString   jsonData; // 请求的参数使用 Json 格式
     QHash<QString, QString> headers; // 请求的头
     QNetworkAccessManager *networkAccessManager;
+
+    bool useJson; // 为 true 时 POST 请求使用 Json 格式传递参数，否则使用 Form 格式传递参数
     bool useInternalNetworkAccessManager; // 是否使用内部的 QNetworkAccessManager
-    bool debug;
+    bool debug; // 为 true 时输出请求的 URL 和参数
 };
 
 // 注意: 不能在回调函数中使用 d，因为回调函数被调用时 HttpClient 对象很可能已经被释放掉了。
@@ -46,6 +49,14 @@ HttpClient &HttpClient::debug(bool debug) {
 // 增加参数
 HttpClient &HttpClient::addParam(const QString &name, const QString &value) {
     d->params.addQueryItem(name, value);
+
+    return *this;
+}
+
+HttpClient &HttpClient::jsonData(const QString &data) {
+    d->useJson = true;
+    d->jsonData = data;
+
     return *this;
 }
 
@@ -53,10 +64,6 @@ HttpClient &HttpClient::addParam(const QString &name, const QString &value) {
 HttpClient &HttpClient::addHeader(const QString &header, const QString &value) {
     d->headers[header] = value;
     return *this;
-}
-
-HttpClient &HttpClient::addFormHeader() {
-    return addHeader("content-type", "application/x-www-form-urlencoded");
 }
 
 // 执行 GET 请求
@@ -226,12 +233,27 @@ void HttpClient::execute(bool posted,
         d->url += "?" + d->params.toString(QUrl::FullyEncoded);
     }
 
+    // 输出调试信息
     if (d->debug) {
-        qDebug() << QString("URL: %1?%2").arg(d->url).arg(d->params.toString());
+        qDebug() << "网址:" << d->url;
+
+        if (posted && d->useJson) {
+            qDebug() << "参数:" << d->jsonData;
+        } else if (posted && !d->useJson) {
+            qDebug() << "参数:" << d->params.toString();
+        }
     }
 
     QUrl urlx(d->url);
     QNetworkRequest request(urlx);
+
+    // 如果是 POST 请求，useJson 为 true 时添加 Json 的请求头，useJson 为 false 时添加 Form 的请求头
+    if (posted && !d->useJson) {
+        addHeader("Content-Type", "application/x-www-form-urlencoded");
+    } else if (posted && d->useJson) {
+        addHeader("Accept", "application/json; charset=utf-8");
+        addHeader("Content-Type", "application/json");
+    }
 
     // 把请求的头添加到 request 中
     QHashIterator<QString, QString> iter(d->headers);
@@ -246,7 +268,18 @@ void HttpClient::execute(bool posted,
     // 如果不使用外部的 manager 则创建一个新的，在访问完成后会自动删除掉
     bool internal = d->useInternalNetworkAccessManager;
     QNetworkAccessManager *manager = internal ? new QNetworkAccessManager() : d->networkAccessManager;
-    QNetworkReply *reply = posted ? manager->post(request, d->params.toString(QUrl::FullyEncoded).toUtf8()) : manager->get(request);
+    QNetworkReply *reply = NULL;
+
+    if (!posted) {
+        // GET 请求
+        reply = manager->get(request);
+    } else if (posted && d->useJson) {
+        // POST 请求，参数使用 Json 格式
+        reply = manager->post(request, d->jsonData.toUtf8());
+    } else if (posted && !d->useJson) {
+        // POST 请求，参数使用 Form 格式
+        reply = manager->post(request, d->params.toString(QUrl::FullyEncoded).toUtf8());
+    }
 
     // 请求结束时一次性读取所有响应数据
     QObject::connect(reply, &QNetworkReply::finished, [=] {

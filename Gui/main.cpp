@@ -1,13 +1,12 @@
 #include <QApplication>
 #include <QDebug>
-#include "Panel.h"
+#include <QString>
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
 
-    Panel panel;
-    panel.resize(700, 400);
-    panel.show();
+    QString str;
+    qDebug() << str.isEmpty();
 
-    return app.exec();
+    return 0;
 }

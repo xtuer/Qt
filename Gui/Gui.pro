@@ -29,13 +29,16 @@ UI_DIR      = $$output
 SOURCES += \
     main.cpp \
     NinePatchPainter.cpp \
-    Panel.cpp
+    Panel.cpp \
+    Widget.cpp
 
-FORMS +=
+FORMS += \
+    Widget.ui
 
 HEADERS += \
     NinePatchPainter.h \
-    Panel.h
+    Panel.h \
+    Widget.h
 
 RESOURCES += \
     resources.qrc

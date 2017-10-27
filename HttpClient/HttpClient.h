@@ -19,7 +19,7 @@ public:
 
     /**
      * @brief 每创建一个 QNetworkAccessManager 对象都会创建一个线程，当频繁的访问网络时，为了节省线程资源，
-     *     可以使用传人的 QNetworkAccessManager，它不会被 HttpClient 删除。
+     *     可以传入 QNetworkAccessManager 给多个请求共享(它不会被 HttpClient 删除，用户需要自己手动删除)。
      *     如果没有使用 useManager() 传入一个 QNetworkAccessManager，则 HttpClient 会自动的创建一个，并且在网络访问完成后删除它。
      * @param  manager QNetworkAccessManager 对象
      * @return 返回 HttpClient 的引用，可以用于链式调用
@@ -34,7 +34,7 @@ public:
     HttpClient& debug(bool debug);
 
     /**
-     * @brief 增加参数
+     * @brief 添加请求的参数
      * @param name  参数的名字
      * @param value 参数的值
      * @return 返回 HttpClient 的引用，可以用于链式调用
@@ -42,18 +42,19 @@ public:
     HttpClient& addParam(const QString &name, const QString &value);
 
     /**
-     * @brief 增加访问头
-     * @param header 访问头的名字
-     * @param value  访问头的值
+     * @brief 添加请求的参数，使用 Json 格式，例如 "{\"name\": \"Alice\"}"
+     * @param data Json 格式的参数字符串
+     * @return
+     */
+    HttpClient& jsonData(const QString &data);
+
+    /**
+     * @brief 添加请求头
+     * @param header 请求头的名字
+     * @param value  请求头的值
      * @return 返回 HttpClient 的引用，可以用于链式调用
      */
     HttpClient& addHeader(const QString &header, const QString &value);
-
-    /**
-     * @brief 添加 POST 表单使用的头信息，等价于 addHeader("content-type", "application/x-www-form-urlencoded")
-     * @return 返回 HttpClient 的引用，可以用于链式调用
-     */
-    HttpClient& addFormHeader();
 
     /**
      * @brief 执行 GET 请求
