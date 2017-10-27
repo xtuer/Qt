@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
     {
         // [[1]] GET 请求无参数
         HttpClient("http://localhost:8080/rest").get([](const QString &response) {
-            qDebug() << response;
+            qDebug().noquote() << response;
         });
 
         // [[2]] GET 请求有参数，有自定义 header
@@ -20,21 +20,21 @@ int main(int argc, char *argv[]) {
                 .addParam("name", "诸葛亮")
                 .addHeader("token", "123AS#D")
                 .get([](const QString &response) {
-            qDebug() << response;
+            qDebug().noquote() << response;
         });
 
         // [[3]] POST 请求，使用 addParam 添加参数时，请求的参数使用 Form 格式
         HttpClient("http://localhost:8080/rest").debug(true)
                 .addParam("name", "卧龙")
                 .post([](const QString &response) {
-            qDebug() << response;
+            qDebug().noquote() << response;
         });
 
         // [[4]] POST 请求，使用 jsonData 添加参数时，请求的参数使用 Json 格式
         HttpClient("http://localhost:8080/restJson").debug(true)
                 .jsonData("{\"name\": \"Alice\"}")
                 .post([](const QString &response) {
-            qDebug() << response;
+            qDebug().noquote() << response;
         });
 
         // [[5]] 下载: 下载直接保存到文件
@@ -50,7 +50,7 @@ int main(int argc, char *argv[]) {
                 file->close();
                 file->deleteLater();
 
-                qDebug() << "下载完成";
+                qDebug().noquote() << "下载完成";
             });
         }
 
@@ -66,7 +66,7 @@ int main(int argc, char *argv[]) {
         QNetworkAccessManager *manager = new QNetworkAccessManager();
         for (int i = 0; i < 5000; ++i) {
             HttpClient("http://localhost:8080/rest").useManager(manager).get([=](const QString &response) {
-                qDebug() << response << ", " << i;
+                qDebug().noquote() << response << ", " << i;
             });
         }
     }

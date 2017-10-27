@@ -26,11 +26,11 @@ struct HttpClientPrivate {
 
 // 注意: 不能在回调函数中使用 d，因为回调函数被调用时 HttpClient 对象很可能已经被释放掉了。
 HttpClient::HttpClient(const QString &url) : d(new HttpClientPrivate(url)) {
-    //    qDebug() << "HttpClient";
+    //    qDebug().noquote() << "HttpClient";
 }
 
 HttpClient::~HttpClient() {
-    //    qDebug() << "~HttpClient";
+    //    qDebug().noquote() << "~HttpClient";
     delete d;
 }
 
@@ -97,7 +97,7 @@ void HttpClient::download(const QString &destinationPath,
 
             // 不能用 d->debug，因为 d 以及被释放了
             if (debug) {
-                qDebug() << QString("下载完成，保存到: %1").arg(destinationPath);
+                qDebug().noquote() << QString("下载完成，保存到: %1").arg(destinationPath);
             }
 
             if (NULL != finishHandler) {
@@ -107,7 +107,7 @@ void HttpClient::download(const QString &destinationPath,
     } else {
         // 打开文件出错
         if (debug) {
-            qDebug() << QString("打开文件出错: %1").arg(destinationPath);
+            qDebug().noquote() << QString("打开文件出错: %1").arg(destinationPath);
         }
 
         if (NULL != errorHandler) {
@@ -124,9 +124,9 @@ void HttpClient::download(std::function<void (const QByteArray &)> readyRead,
         QString params = d->params.toString();
 
         if (params.isEmpty()) {
-            qDebug() << QString("URL: %1").arg(d->url);
+            qDebug().noquote() << QString("网址: %1").arg(d->url);
         } else {
-            qDebug() << QString("URL: %1?%2").arg(d->url).arg(params);
+            qDebug().noquote() << QString("网址: %1?%2").arg(d->url).arg(params);
         }
     }
 
@@ -172,7 +172,7 @@ void HttpClient::upload(const QString &path,
                         std::function<void (const QString &)> errorHandler,
                         const char *encoding) {
     if (d->debug) {
-        qDebug() << QString("URL: %1").arg(d->url);
+        qDebug().noquote() << QString("URL: %1").arg(d->url);
     }
 
     QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
@@ -235,12 +235,12 @@ void HttpClient::execute(bool posted,
 
     // 输出调试信息
     if (d->debug) {
-        qDebug() << "网址:" << d->url;
+        qDebug().noquote() << "网址:" << d->url;
 
         if (posted && d->useJson) {
-            qDebug() << "参数:" << d->jsonData;
+            qDebug().noquote() << "参数:" << d->jsonData;
         } else if (posted && !d->useJson) {
-            qDebug() << "参数:" << d->params.toString();
+            qDebug().noquote() << "参数:" << d->params.toString();
         }
     }
 

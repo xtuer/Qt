@@ -5,8 +5,7 @@
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
 
-    QString str;
-    qDebug() << str.isEmpty();
+    qDebug().noquote() << QString("Greeting: %1").arg("Biao");
 
     return 0;
 }
