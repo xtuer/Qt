@@ -29,7 +29,8 @@ private:
 
     int timerId;
     int maxSize;  // data 最多存储 maxSize 个元素
-    int maxValue; // 业务数据的最大值
+    int maxX;
+    int maxY;
     QList<double> data; // 存储业务数据的 list
 
     QChart *chart;

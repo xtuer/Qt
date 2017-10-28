@@ -3,20 +3,13 @@
 #include <QHBoxLayout>
 
 RealTimeCurveQChartWidget::RealTimeCurveQChartWidget(QWidget *parent) : QWidget(parent) {
-    maxSize = 31;   // 只存储最新的 31 个数据
-    maxValue = 100; // 数据的最大值为 100，因为我们生成的随机数为 [0, 100]
-    timerId = startTimer(200);
-    qsrand(QDateTime::currentDateTime().toTime_t());
+    maxSize = 31; // 只存储最新的 31 个数据
+    maxX = 300;
+    maxY = 100;
 
     splineSeries = new QSplineSeries();
     scatterSeries = new QScatterSeries();
     scatterSeries->setMarkerSize(8);
-
-    // 预先分配坐标，这样在 dataReceived 中直接替换坐标了
-    for (int i = 0; i < maxSize; ++i) {
-        splineSeries->append(i * 10, -10);
-        scatterSeries->append(i * 10, -10);
-    }
 
     chart = new QChart();
     chart->addSeries(splineSeries);
@@ -24,7 +17,8 @@ RealTimeCurveQChartWidget::RealTimeCurveQChartWidget(QWidget *parent) : QWidget(
     chart->legend()->hide();
     chart->setTitle("实时动态曲线");
     chart->createDefaultAxes();
-    chart->axisY()->setRange(0, maxValue);
+    chart->axisX()->setRange(0, 300);
+    chart->axisY()->setRange(0, maxY);
 
     chartView = new QChartView(chart);
     chartView->setRenderHint(QPainter::Antialiasing);
@@ -33,15 +27,18 @@ RealTimeCurveQChartWidget::RealTimeCurveQChartWidget(QWidget *parent) : QWidget(
     layout->setContentsMargins(0, 0, 0, 0);
     layout->addWidget(chartView);
     setLayout(layout);
+
+    timerId = startTimer(200);
+    qsrand(QDateTime::currentDateTime().toTime_t());
 }
 
 RealTimeCurveQChartWidget::~RealTimeCurveQChartWidget() {
 }
 
 void RealTimeCurveQChartWidget::timerEvent(QTimerEvent *event) {
+    // 产生一个数据，模拟不停的接收到新数据
     if (event->timerId() == timerId) {
-        // 模拟不停的接收到新数据
-        int newData = qrand() % (maxValue + 1);
+        int newData = qrand() % (maxY + 1);
         dataReceived(newData);
     }
 }
@@ -49,18 +46,21 @@ void RealTimeCurveQChartWidget::timerEvent(QTimerEvent *event) {
 void RealTimeCurveQChartWidget::dataReceived(int value) {
     data << value;
 
-    // 数据个数超过了指定值，则删除最先接收到的数据，实现曲线向前移动
+    // 数据个数超过了最大数量，则删除最先接收到的数据，实现曲线向前移动
     while (data.size() > maxSize) {
         data.removeFirst();
     }
 
+    // 界面被隐藏后就没有必要绘制数据的曲线了
     if (isVisible()) {
-        // 界面被隐藏后就没有必要绘制数据的曲线了
-        // 替换曲线中现有数据
-        int delta = maxSize - data.size();
+        splineSeries->clear();
+        scatterSeries->clear();
+        int dx = maxX / (maxSize-1);
+        int less = maxSize - data.size();
+
         for (int i = 0; i < data.size(); ++i) {
-            splineSeries->replace(delta+i, splineSeries->at(delta+i).x(), data.at(i));
-            scatterSeries->replace(delta+i, scatterSeries->at(delta+i).x(), data.at(i));
+            splineSeries->append(less*dx+i*dx, data.at(i));
+            scatterSeries->append(less*dx+i*dx, data.at(i));
         }
     }
 }
