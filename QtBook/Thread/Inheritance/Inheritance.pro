@@ -1,15 +1,15 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2016-06-30T17:44:13
+# Project created by QtCreator 2017-10-30T20:42:51
 #
 #-------------------------------------------------
 
-QT       += core gui network xmlpatterns charts sql multimedia multimediawidgets
+QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-TARGET   = Gui
+
+TARGET   = Inheritance
 TEMPLATE = app
-ICON     = AppIcon.icns
 CONFIG  -=app_bundle
 
 # Output directory
@@ -26,20 +26,16 @@ MOC_DIR     = $$output
 RCC_DIR     = $$output
 UI_DIR      = $$output
 
+DEFINES += QT_DEPRECATED_WARNINGS
+
 SOURCES += \
-    main.cpp \
-    Widget.cpp \
-    ReadingWidget.cpp \
+        main.cpp \
+        ReadingWidget.cpp \
     ReadingThread.cpp
 
-FORMS += \
-    Widget.ui \
-    ReadingWidget.ui
-
 HEADERS += \
-    Widget.h \
-    ReadingWidget.h \
+        ReadingWidget.h \
     ReadingThread.h
 
-RESOURCES += \
-    resources.qrc
+FORMS += \
+        ReadingWidget.ui
