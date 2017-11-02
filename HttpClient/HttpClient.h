@@ -16,6 +16,7 @@ class HttpClientPrivate;
  * 在执行请求前可调用 header() 设置请求头，参数使用 Form 表单的方式传递则调用 param()，如果参数使用 request body
  * 传递则调用 json() 设置参数(当然也可以不是 JSON 格式，使用 request body 的情况多数是 RESTful 时，大家都是用 JSON 格式，故命名为 json)。
  * 默认 HttpClient 会创建一个 QNetworkAccessManager，如果不想使用默认的，调用 manager() 传入即可。
+ * 默认不输出请求的网址参数等调试信息，如果需要输出，调用 debug(true) 即可。
  */
 class HttpClient {
 public:
