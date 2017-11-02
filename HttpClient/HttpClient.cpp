@@ -352,22 +352,22 @@ void HttpClientPrivate::handleFinish(bool debug,
                                      std::function<void (const QString &)> errorHandler,
                                      QNetworkReply *reply, QNetworkAccessManager *manager) {
     if (reply->error() == QNetworkReply::NoError) {
+        // 请求成功
         if (debug) {
             qDebug().noquote() << QString("[成功]请求结束: %1").arg(successMessage);
         }
 
         if (NULL != successHandler) {
-            successHandler(successMessage); // 请求成功
+            successHandler(successMessage);
         }
-    }
-
-    if (reply->error() != QNetworkReply::NoError) {
+    } else {
+        // 请求失败
         if (debug) {
-            qDebug().noquote() << QString("[成功]请求结束: %1").arg(errorMessage);
+            qDebug().noquote() << QString("[失败]请求结束: %1").arg(errorMessage);
         }
 
         if (NULL != errorHandler) {
-            errorHandler(errorMessage); // 请求失败
+            errorHandler(errorMessage);
         }
     }
 

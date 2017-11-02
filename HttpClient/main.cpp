@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
             qDebug().noquote() << response;
         });
 
-        // [[6]] 下载: 下载直接保存到文件
+        // [[6]] 下载: 直接保存到文件
         HttpClient("http://xtuer.github.io/img/dog.png").debug(true).download("/Users/Biao/Desktop/dog-1.png");
 
         // [[7]] 下载: 自己处理下载得到的字节数据
