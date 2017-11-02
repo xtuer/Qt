@@ -331,10 +331,21 @@ QNetworkRequest HttpClientPrivate::createRequest(HttpMethod method, HttpClientPr
 
         if (postJson) {
             qDebug().noquote() << "参数:" << d->json;
-        } else if (postForm) {
-            qDebug().noquote() << "参数:" << d->params.toString();
-        } else if (upload) {
-            qDebug().noquote() << "参数:" << d->params.toString();
+        } else if (postForm || upload) {
+            QList<QPair<QString, QString> > paramItems = d->params.queryItems();
+
+            // 按键值对的方式输出参数
+            for (int i = 0; i < paramItems.size(); ++i) {
+                QString name  = paramItems.at(i).first;
+                QString value = paramItems.at(i).second;
+
+                if (0 == i) {
+                    qDebug().noquote() << QString("参数: %1=%2").arg(name).arg(value);
+                } else {
+                    qDebug().noquote() << QString("     %1=%2").arg(name).arg(value);
+                }
+
+            }
         }
     }
 
