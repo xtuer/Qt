@@ -56,6 +56,23 @@ public:
      * @return 返回可用于执行请求的 QNetworkRequest
      */
     static QNetworkRequest createRequest(HttpMethod method, HttpClientPrivate *d);
+
+    /**
+     * @brief 请求结束的处理函数
+     * @param debug          如果为 true 则输出调试信息，为 false 不输出
+     * @param successMessage 请求成功的消息
+     * @param errorMessage   请求失败的消息
+     * @param successHandler 请求成功的回调 lambda 函数
+     * @param errorHandler   请求失败的回调 lambda 函数
+     * @param reply          QNetworkReply 对象，不能为 NULL
+     * @param manager        请求的 manager，不为 NULL 时在此函数中 delete
+     */
+    static void handleFinish(bool debug,
+                             const QString &successMessage,
+                             const QString &errorMessage,
+                             std::function<void (const QString &)> successHandler,
+                             std::function<void (const QString &)> errorHandler,
+                             QNetworkReply *reply, QNetworkAccessManager *manager);
 };
 
 HttpClientPrivate::HttpClientPrivate(const QString &url) : url(url), manager(NULL), useJson(false), debug(false) {
@@ -63,11 +80,9 @@ HttpClientPrivate::HttpClientPrivate(const QString &url) : url(url), manager(NUL
 
 // 注意: 不要在回调函数中使用 d，因为回调函数被调用时 HttpClient 对象很可能已经被释放掉了。
 HttpClient::HttpClient(const QString &url) : d(new HttpClientPrivate(url)) {
-    // qDebug().noquote() << "HttpClient";
 }
 
 HttpClient::~HttpClient() {
-    // qDebug().noquote() << "~HttpClient";
     delete d;
 }
 
@@ -134,16 +149,16 @@ void HttpClient::remove(std::function<void (const QString &)> successHandler,
 }
 
 void HttpClient::download(const QString &destinationPath,
-                          std::function<void ()> finishHandler,
+                          std::function<void (const QString &)> successHandler,
                           std::function<void (const QString &)> errorHandler) {
-    bool debug = d->debug;
+    bool debug  = d->debug;
     QFile *file = new QFile(destinationPath);
 
     if (file->open(QIODevice::WriteOnly)) {
         download([=](const QByteArray &data) {
             file->write(data);
-        }, [=] {
-            // 请求结束后释放文件对象.
+        }, [=](const QString &) {
+            // 请求结束后释放文件对象
             file->flush();
             file->close();
             file->deleteLater();
@@ -152,8 +167,8 @@ void HttpClient::download(const QString &destinationPath,
                 qDebug().noquote() << QString("下载完成，保存到: %1").arg(destinationPath);
             }
 
-            if (NULL != finishHandler) {
-                finishHandler();
+            if (NULL != successHandler) {
+                successHandler(QString("下载完成，保存到: %1").arg(destinationPath));
             }
         }, errorHandler);
     } else {
@@ -170,12 +185,13 @@ void HttpClient::download(const QString &destinationPath,
 
 // 使用 GET 进行下载，当有数据可读取时回调 readyRead(), 大多数情况下应该在 readyRead() 里把数据保存到文件
 void HttpClient::download(std::function<void (const QByteArray &)> readyRead,
-                          std::function<void ()> finishHandler,
+                          std::function<void (const QString &)> successHandler,
                           std::function<void (const QString &)> errorHandler) {
+    bool debug    = d->debug;
     bool internal = d->manager == NULL;
-    QNetworkRequest request = HttpClientPrivate::createRequest(HttpClientPrivate::GET, d);
+    QNetworkRequest request        = HttpClientPrivate::createRequest(HttpClientPrivate::GET, d);
     QNetworkAccessManager *manager = internal ? new QNetworkAccessManager() : d->manager;
-    QNetworkReply *reply = manager->get(request);
+    QNetworkReply *reply           = manager->get(request);
 
     // 有数据可读取时回调 readyRead()
     QObject::connect(reply, &QNetworkReply::readyRead, [=] {
@@ -184,22 +200,10 @@ void HttpClient::download(std::function<void (const QByteArray &)> readyRead,
 
     // 请求结束
     QObject::connect(reply, &QNetworkReply::finished, [=] {
-        if (reply->error() == QNetworkReply::NoError && NULL != finishHandler) {
-            finishHandler();
-        }
-
-        // 释放资源
-        reply->deleteLater();
-        if (internal) {
-            manager->deleteLater();
-        }
-    });
-
-    // 请求错误处理
-    QObject::connect(reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error), [=] {
-        if (NULL != errorHandler) {
-            errorHandler(reply->errorString());
-        }
+        QString successMessage = "下载完成"; // 请求结束时一次性读取所有响应数据
+        QString errorMessage   = reply->errorString();
+        HttpClientPrivate::handleFinish(debug, successMessage, errorMessage, successHandler, errorHandler,
+                                        reply, internal ? manager : NULL);
     });
 }
 
@@ -208,6 +212,19 @@ void HttpClient::upload(const QString &path,
                         std::function<void (const QString &)> errorHandler,
                         const char *encoding) {
     QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
+
+    // 创建 Form 表单的参数 Text Part
+    QList<QPair<QString, QString> > paramItems = d->params.queryItems();
+    for (int i = 0; i < paramItems.size(); ++i) {
+        QHttpPart textPart;
+        QString name  = paramItems.at(i).first;
+        QString value = paramItems.at(i).second;
+        textPart.setHeader(QNetworkRequest::ContentDispositionHeader, QString("form-data; name=\"%1\"").arg(name));
+        textPart.setBody(value.toUtf8());
+        multiPart->append(textPart);
+    }
+
+    // 创建 File Part
     QFile *file = new QFile(path);
     file->setParent(multiPart); // we cannot delete the file now, so delete it with the multiPart
 
@@ -220,37 +237,26 @@ void HttpClient::upload(const QString &path,
         }
     }
 
-    // 表明是文件上传
+    // 文件上传的参数名为 file，值为文件名
     QString disposition = QString("form-data; name=\"file\"; filename=\"%1\"").arg(file->fileName());
-    QHttpPart part;
-    part.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant(disposition));
-    part.setBodyDevice(file);
-    multiPart->append(part);
+    QHttpPart filePart;
+    filePart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant(disposition));
+    filePart.setBodyDevice(file);
+    multiPart->append(filePart);
 
+    bool debug    = d->debug;
     bool internal = d->manager == NULL;
-    QNetworkRequest request = HttpClientPrivate::createRequest(HttpClientPrivate::GET, d);
+    QNetworkRequest request        = HttpClientPrivate::createRequest(HttpClientPrivate::GET, d);
     QNetworkAccessManager *manager = internal ? new QNetworkAccessManager() : d->manager;
-    QNetworkReply *reply = manager->post(request, multiPart);
+    QNetworkReply *reply           = manager->post(request, multiPart);
 
-    // 请求结束时一次性读取所有响应数据
     QObject::connect(reply, &QNetworkReply::finished, [=] {
-        if (reply->error() == QNetworkReply::NoError && NULL != successHandler) {
-            successHandler(HttpClientPrivate::readReply(reply, encoding)); // 成功执行
-        }
+        multiPart->deleteLater(); // 释放资源: multiPart + file
 
-        // 释放资源
-        multiPart->deleteLater();
-        reply->deleteLater();
-        if (internal) {
-            manager->deleteLater();
-        }
-    });
-
-    // 请求错误处理
-    QObject::connect(reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error), [=] {
-        if (NULL != errorHandler) {
-            errorHandler(reply->errorString());
-        }
+        QString successMessage = HttpClientPrivate::readReply(reply, encoding); // 请求结束时一次性读取所有响应数据
+        QString errorMessage   = reply->errorString();
+        HttpClientPrivate::handleFinish(debug, successMessage, errorMessage, successHandler, errorHandler,
+                                        reply, internal ? manager : NULL);
     });
 }
 
@@ -260,10 +266,11 @@ void HttpClientPrivate::executeQuery(HttpMethod method, HttpClientPrivate *d,
                                      std::function<void (const QString &)> errorHandler,
                                      const char *encoding) {
     // 如果不使用外部的 manager 则创建一个新的，在访问完成后会自动删除掉
+    bool debug    = d->debug;
     bool internal = d->manager == NULL;
-    QNetworkRequest request = createRequest(method, d);
+    QNetworkRequest request        = createRequest(method, d);
     QNetworkAccessManager *manager = internal ? new QNetworkAccessManager() : d->manager;
-    QNetworkReply *reply = NULL;
+    QNetworkReply *reply           = NULL;
 
     switch (method) {
     case HttpClientPrivate::GET:
@@ -280,24 +287,11 @@ void HttpClientPrivate::executeQuery(HttpMethod method, HttpClientPrivate *d,
         break;
     }
 
-    // 请求结束时一次性读取所有响应数据
     QObject::connect(reply, &QNetworkReply::finished, [=] {
-        if (reply->error() == QNetworkReply::NoError && NULL != successHandler) {
-            successHandler(HttpClientPrivate::readReply(reply, encoding)); // 成功执行
-        }
-
-        // 释放资源
-        reply->deleteLater();
-        if (internal) {
-            manager->deleteLater();
-        }
-    });
-
-    // 请求错误处理
-    QObject::connect(reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error), [=] {
-        if (NULL != errorHandler) {
-            errorHandler(reply->errorString());
-        }
+        QString successMessage = HttpClientPrivate::readReply(reply, encoding); // 请求结束时一次性读取所有响应数据
+        QString errorMessage   = reply->errorString();
+        HttpClientPrivate::handleFinish(debug, successMessage, errorMessage, successHandler, errorHandler,
+                                        reply, internal ? manager : NULL);
     });
 }
 
@@ -349,4 +343,38 @@ QNetworkRequest HttpClientPrivate::createRequest(HttpMethod method, HttpClientPr
     }
 
     return request;
+}
+
+void HttpClientPrivate::handleFinish(bool debug,
+                                     const QString &successMessage,
+                                     const QString &errorMessage,
+                                     std::function<void (const QString &)> successHandler,
+                                     std::function<void (const QString &)> errorHandler,
+                                     QNetworkReply *reply, QNetworkAccessManager *manager) {
+    if (reply->error() == QNetworkReply::NoError) {
+        if (debug) {
+            qDebug().noquote() << QString("[成功]请求结束: %1").arg(successMessage);
+        }
+
+        if (NULL != successHandler) {
+            successHandler(successMessage); // 请求成功
+        }
+    }
+
+    if (reply->error() != QNetworkReply::NoError) {
+        if (debug) {
+            qDebug().noquote() << QString("[成功]请求结束: %1").arg(errorMessage);
+        }
+
+        if (NULL != errorHandler) {
+            errorHandler(errorMessage); // 请求失败
+        }
+    }
+
+    // 释放资源
+    reply->deleteLater();
+
+    if (NULL != manager) {
+        manager->deleteLater();
+    }
 }

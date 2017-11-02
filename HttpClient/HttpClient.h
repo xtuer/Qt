@@ -103,23 +103,23 @@ public:
              const char *encoding = "UTF-8");
 
     /**
-     * @brief 使用 GET 进行下载，下载的文件保存到 destinationPath
-     * @param destinationPath 下载的文件保存路径
-     * @param finishHandler   请求处理完成后的回调 lambda 函数
-     * @param errorHandler    请求失败的回调 lambda 函数，打开文件 destinationPath 出错也会调用此函数
+     * @brief 使用 GET 进行下载，下载的文件保存到 savePath
+     * @param savePath       下载的文件保存路径
+     * @param successHandler 请求处理完成后的回调 lambda 函数
+     * @param errorHandler   请求失败的回调 lambda 函数，打开文件 destinationPath 出错也会调用此函数
      */
-    void download(const QString &destinationPath,
-                  std::function<void ()> finishHandler = NULL,
+    void download(const QString &savePath,
+                  std::function<void (const QString &)> successHandler = NULL,
                   std::function<void (const QString &)> errorHandler = NULL);
 
     /**
      * @brief 使用 GET 进行下载，当有数据可读取时回调 readyRead(), 大多数情况下应该在 readyRead() 里把数据保存到文件
-     * @param readyRead     有数据可读取时的回调 lambda 函数
-     * @param finishHandler 请求处理完成后的回调 lambda 函数
-     * @param errorHandler  请求失败的回调 lambda 函数
+     * @param readyRead      有数据可读取时的回调 lambda 函数
+     * @param successHandler 请求处理完成后的回调 lambda 函数
+     * @param errorHandler   请求失败的回调 lambda 函数
      */
     void download(std::function<void (const QByteArray &)> readyRead,
-                  std::function<void ()> finishHandler = NULL,
+                  std::function<void (const QString &)> successHandler = NULL,
                   std::function<void (const QString &)> errorHandler = NULL);
 
     /**

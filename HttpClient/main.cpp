@@ -39,24 +39,32 @@ int main(int argc, char *argv[]) {
         });
 
         // [[6]] 下载: 下载直接保存到文件
-        HttpClient("http://xtuer.github.io/img/dog.png").debug(true).download("/Users/Biao/Desktop/dog.png");
+        HttpClient("http://xtuer.github.io/img/dog.png").debug(true).download("/Users/Biao/Desktop/dog-1.png");
 
         // [[7]] 下载: 自己处理下载得到的字节数据
-        QFile *file = new QFile("dog.png");
+        QFile *file = new QFile("/Users/Biao/Desktop/dog-2.png");
         if (file->open(QIODevice::WriteOnly)) {
             HttpClient("http://xtuer.github.io/img/dog.png").debug(true).download([=](const QByteArray &data) {
                 file->write(data);
-            }, [=] {
+            }, [=](const QString &) {
                 file->flush();
                 file->close();
                 file->deleteLater();
 
                 qDebug().noquote() << "下载完成";
             });
+        } else {
+            file->deleteLater();
+            file = NULL;
         }
 
         // [[8]] 上传
-        HttpClient("http://localhost:8080/webuploader").upload("/Users/Biao/Pictures/ade.jpg");
+        HttpClient("http://localhost:8080/upload").upload("/Users/Biao/Pictures/ade.jpg");
+
+        // [[9]] 上传: 也能同时传参数
+        HttpClient("http://localhost:8080/upload").debug(true)
+                .param("username", "Alice").param("password", "Passw0rd")
+                .upload("/Users/Biao/Pictures/ade.jpg");
     }
 
     {
