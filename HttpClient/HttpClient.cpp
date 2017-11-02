@@ -211,6 +211,7 @@ void HttpClient::upload(const QString &path,
                         std::function<void (const QString &)> successHandler,
                         std::function<void (const QString &)> errorHandler,
                         const char *encoding) {
+    bool debug = d->debug;
     QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
 
     // 创建 Form 表单的参数 Text Part
@@ -230,9 +231,16 @@ void HttpClient::upload(const QString &path,
 
     // 如果文件打开失败，则释放资源返回
     if(!file->open(QIODevice::ReadOnly)) {
-        if (NULL != errorHandler) {
-            errorHandler(QString("文件打开失败: %1").arg(file->errorString()));
+        QString errorMessage = QString("打开文件失败[%2]: %1").arg(path).arg(file->errorString());
+
+        if (debug) {
+            qDebug().noquote() << errorMessage;
         }
+
+        if (NULL != errorHandler) {
+            errorHandler(errorMessage);
+        }
+
         multiPart->deleteLater();
         return;
     }
@@ -244,7 +252,6 @@ void HttpClient::upload(const QString &path,
     filePart.setBodyDevice(file);
     multiPart->append(filePart);
 
-    bool debug    = d->debug;
     bool internal = d->manager == NULL;
     QNetworkRequest request        = HttpClientPrivate::createRequest(HttpClientPrivate::GET, d);
     QNetworkAccessManager *manager = internal ? new QNetworkAccessManager() : d->manager;
