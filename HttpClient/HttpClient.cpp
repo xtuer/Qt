@@ -232,9 +232,9 @@ void HttpClient::upload(const QString &path,
     if(!file->open(QIODevice::ReadOnly)) {
         if (NULL != errorHandler) {
             errorHandler(QString("文件打开失败: %1").arg(file->errorString()));
-            multiPart->deleteLater();
-            return;
         }
+        multiPart->deleteLater();
+        return;
     }
 
     // 文件上传的参数名为 file，值为文件名
