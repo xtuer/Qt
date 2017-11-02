@@ -25,7 +25,7 @@ public:
 
     // HTTP 请求的类型
     enum HttpMethod {
-        GET, POST, PUT, DELETE
+        GET, POST, PUT, DELETE, UPLOAD /* 不是 HTTP Method，只是为了上传时特殊处理而定义的 */
     };
 
     /**
@@ -253,7 +253,7 @@ void HttpClient::upload(const QString &path,
     multiPart->append(filePart);
 
     bool internal = d->manager == NULL;
-    QNetworkRequest request        = HttpClientPrivate::createRequest(HttpClientPrivate::GET, d);
+    QNetworkRequest request        = HttpClientPrivate::createRequest(HttpClientPrivate::UPLOAD, d);
     QNetworkAccessManager *manager = internal ? new QNetworkAccessManager() : d->manager;
     QNetworkReply *reply           = manager->post(request, multiPart);
 
@@ -315,29 +315,34 @@ QString HttpClientPrivate::readReply(QNetworkReply *reply, const char *encoding)
 }
 
 QNetworkRequest HttpClientPrivate::createRequest(HttpMethod method, HttpClientPrivate *d) {
-    bool get = method == HttpMethod::GET;
+    bool get      = method == HttpMethod::GET;
+    bool upload   = method == HttpClientPrivate::UPLOAD;
+    bool postForm = !get && !upload && !d->useJson;
+    bool postJson = !get && !upload &&  d->useJson;
 
     // 如果是 GET 请求，并且参数不为空，则编码请求的参数，放到 URL 后面
     if (get && !d->params.isEmpty()) {
         d->url += "?" + d->params.toString(QUrl::FullyEncoded);
     }
 
-    // 输出调试信息
+    // 调试时输出网址和参数
     if (d->debug) {
         qDebug().noquote() << "网址:" << d->url;
 
-        if (!get && d->useJson) {
+        if (postJson) {
             qDebug().noquote() << "参数:" << d->json;
-        } else if (!get && !d->useJson) {
+        } else if (postForm) {
+            qDebug().noquote() << "参数:" << d->params.toString();
+        } else if (upload) {
             qDebug().noquote() << "参数:" << d->params.toString();
         }
     }
 
     // 如果是 POST 请求，useJson 为 true 时添加 Json 的请求头，useJson 为 false 时添加 Form 的请求头
-    if (!get && !d->useJson) {
+    if (postForm) {
         d->headers["Content-Type"] = "application/x-www-form-urlencoded";
-    } else if (!get && d->useJson) {
-        d->headers["Accept"] = "application/json; charset=utf-8";
+    } else if (postJson) {
+        d->headers["Accept"]       = "application/json; charset=utf-8";
         d->headers["Content-Type"] = "application/json";
     }
 

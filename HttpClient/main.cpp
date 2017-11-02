@@ -59,7 +59,7 @@ int main(int argc, char *argv[]) {
         }
 
         // [[8]] 上传
-        HttpClient("http://localhost:8080/upload").upload("/Users/Biao/Pictures/ade.jpg");
+        HttpClient("http://localhost:8080/upload").debug(true).upload("/Users/Biao/Pictures/ade.jpg");
 
         // [[9]] 上传: 也能同时传参数
         HttpClient("http://localhost:8080/upload").debug(true)
