@@ -14,6 +14,8 @@ public:
     explicit Widget(QWidget *parent = 0);
     ~Widget();
 
+protected:
+
 private:
     Ui::Widget *ui;
 };

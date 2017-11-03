@@ -25,37 +25,52 @@ public:
 
     // HTTP 请求的类型
     enum HttpMethod {
-        GET, POST, PUT, DELETE, UPLOAD /* 不是 HTTP Method，只是为了上传时特殊处理而定义的 */
+        GET, POST, PUT, DELETE, UPLOAD /* UPLOAD 不是 HTTP Method，只是为了上传时特殊处理而定义的 */
     };
 
     /**
+     * @brief 使用用户设定的 URL、请求头等创建 Request
+     * @param d      HttpClientPrivate 的对象
+     * @param method 请求的类型
+     * @return 返回可用于执行请求的 QNetworkRequest
+     */
+    static QNetworkRequest createRequest(HttpClientPrivate *d, HttpMethod method);
+
+    /**
      * @brief 执行请求的辅助函数
-     * @param method         请求的类型
      * @param d              HttpClient 的辅助对象
+     * @param method         请求的类型
      * @param successHandler 请求成功的回调 lambda 函数
      * @param errorHandler   请求失败的回调 lambda 函数
      * @param encoding       请求响应的编码
      */
-    static void executeQuery(HttpMethod method, HttpClientPrivate *d,
+    static void executeQuery(HttpClientPrivate *d, HttpMethod method,
                              std::function<void (const QString &)> successHandler,
                              std::function<void (const QString &)> errorHandler,
                              const char *encoding);
 
     /**
+     * @brief 上传文件或者数据
+     * @param d    HttpClientPrivate 的对象
+     * @param path 要上传的文件的路径(path 和 data 不能同时使用)
+     * @param data 要上传的文件的数据
+     * @param successHandler 请求成功的回调 lambda 函数
+     * @param errorHandler   请求失败的回调 lambda 函数
+     * @param encoding       请求响应的编码
+     */
+    static void upload(HttpClientPrivate *d,
+                       const QString &path, const QByteArray &data,
+                       std::function<void (const QString &)> successHandler,
+                       std::function<void (const QString &)> errorHandler,
+                       const char *encoding);
+
+    /**
      * @brief 读取服务器响应的数据
-     * @param reply 请求的 QNetworkReply 对象
+     * @param reply    请求的 QNetworkReply 对象
      * @param encoding 请求响应的编码，默认使用 UTF-8
      * @return 服务器端响应的字符串
      */
     static QString readReply(QNetworkReply *reply, const char *encoding = "UTF-8");
-
-    /**
-     * @brief 使用用户设定的 URL、请求头等创建 Request
-     * @param method 请求的类型
-     * @param d      HttpClientPrivate 的对象
-     * @return 返回可用于执行请求的 QNetworkRequest
-     */
-    static QNetworkRequest createRequest(HttpMethod method, HttpClientPrivate *d);
 
     /**
      * @brief 请求结束的处理函数
@@ -124,28 +139,28 @@ HttpClient &HttpClient::header(const QString &header, const QString &value) {
 void HttpClient::get(std::function<void (const QString &)> successHandler,
                      std::function<void (const QString &)> errorHandler,
                      const char *encoding) {
-    HttpClientPrivate::executeQuery(HttpClientPrivate::GET, d, successHandler, errorHandler, encoding);
+    HttpClientPrivate::executeQuery(d, HttpClientPrivate::GET, successHandler, errorHandler, encoding);
 }
 
 // 执行 POST 请求
 void HttpClient::post(std::function<void (const QString &)> successHandler,
                       std::function<void (const QString &)> errorHandler,
                       const char *encoding) {
-    HttpClientPrivate::executeQuery(HttpClientPrivate::POST, d, successHandler, errorHandler, encoding);
+    HttpClientPrivate::executeQuery(d, HttpClientPrivate::POST, successHandler, errorHandler, encoding);
 }
 
 // 执行 PUT 请求
 void HttpClient::put(std::function<void (const QString &)> successHandler,
                      std::function<void (const QString &)> errorHandler,
                      const char *encoding) {
-    HttpClientPrivate::executeQuery(HttpClientPrivate::PUT, d, successHandler, errorHandler, encoding);
+    HttpClientPrivate::executeQuery(d, HttpClientPrivate::PUT, successHandler, errorHandler, encoding);
 }
 
 // 执行 DELETE 请求
 void HttpClient::remove(std::function<void (const QString &)> successHandler,
                         std::function<void (const QString &)> errorHandler,
                         const char *encoding) {
-    HttpClientPrivate::executeQuery(HttpClientPrivate::DELETE, d, successHandler, errorHandler, encoding);
+    HttpClientPrivate::executeQuery(d, HttpClientPrivate::DELETE, successHandler, errorHandler, encoding);
 }
 
 void HttpClient::download(const QString &destinationPath,
@@ -189,7 +204,7 @@ void HttpClient::download(std::function<void (const QByteArray &)> readyRead,
                           std::function<void (const QString &)> errorHandler) {
     bool debug    = d->debug;
     bool internal = d->manager == NULL;
-    QNetworkRequest request        = HttpClientPrivate::createRequest(HttpClientPrivate::GET, d);
+    QNetworkRequest request        = HttpClientPrivate::createRequest(d, HttpClientPrivate::GET);
     QNetworkAccessManager *manager = internal ? new QNetworkAccessManager() : d->manager;
     QNetworkReply *reply           = manager->get(request);
 
@@ -207,10 +222,28 @@ void HttpClient::download(std::function<void (const QByteArray &)> readyRead,
     });
 }
 
+// 上传文件
 void HttpClient::upload(const QString &path,
                         std::function<void (const QString &)> successHandler,
                         std::function<void (const QString &)> errorHandler,
                         const char *encoding) {
+    HttpClientPrivate::upload(d, path, QByteArray(), successHandler, errorHandler, encoding);
+}
+
+// 上传数据
+void HttpClient::upload(const QByteArray &data,
+                        std::function<void (const QString &)> successHandler,
+                        std::function<void (const QString &)> errorHandler,
+                        const char *encoding) {
+    HttpClientPrivate::upload(d, QString(), data, successHandler, errorHandler, encoding);
+}
+
+// 上传文件或者数据的实现
+void HttpClientPrivate::upload(HttpClientPrivate *d,
+                               const QString &path, const QByteArray &data,
+                               std::function<void (const QString &)> successHandler,
+                               std::function<void (const QString &)> errorHandler,
+                               const char *encoding) {
     bool debug = d->debug;
     QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
 
@@ -225,35 +258,44 @@ void HttpClient::upload(const QString &path,
         multiPart->append(textPart);
     }
 
-    // 创建 File Part
-    QFile *file = new QFile(path);
-    file->setParent(multiPart); // we cannot delete the file now, so delete it with the multiPart
+    if (!path.isEmpty()) {
+        // path 不为空时，上传文件
+        QFile *file = new QFile(path);
+        file->setParent(multiPart); // we cannot delete the file now, so delete it with the multiPart
 
-    // 如果文件打开失败，则释放资源返回
-    if(!file->open(QIODevice::ReadOnly)) {
-        QString errorMessage = QString("打开文件失败[%2]: %1").arg(path).arg(file->errorString());
+        // 如果文件打开失败，则释放资源返回
+        if(!file->open(QIODevice::ReadOnly)) {
+            QString errorMessage = QString("打开文件失败[%2]: %1").arg(path).arg(file->errorString());
 
-        if (debug) {
-            qDebug().noquote() << errorMessage;
+            if (debug) {
+                qDebug().noquote() << errorMessage;
+            }
+
+            if (NULL != errorHandler) {
+                errorHandler(errorMessage);
+            }
+
+            multiPart->deleteLater();
+            return;
         }
 
-        if (NULL != errorHandler) {
-            errorHandler(errorMessage);
-        }
-
-        multiPart->deleteLater();
-        return;
+        // 文件上传的参数名为 file，值为文件名
+        QString   disposition = QString("form-data; name=\"file\"; filename=\"%1\"").arg(file->fileName());
+        QHttpPart filePart;
+        filePart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant(disposition));
+        filePart.setBodyDevice(file);
+        multiPart->append(filePart);
+    } else {
+        // 上传数据
+        QString   disposition = QString("form-data; name=\"file\"; filename=\"no-name\"");
+        QHttpPart dataPart;
+        dataPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant(disposition));
+        dataPart.setBody(data);
+        multiPart->append(dataPart);
     }
 
-    // 文件上传的参数名为 file，值为文件名
-    QString disposition = QString("form-data; name=\"file\"; filename=\"%1\"").arg(file->fileName());
-    QHttpPart filePart;
-    filePart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant(disposition));
-    filePart.setBodyDevice(file);
-    multiPart->append(filePart);
-
     bool internal = d->manager == NULL;
-    QNetworkRequest request        = HttpClientPrivate::createRequest(HttpClientPrivate::UPLOAD, d);
+    QNetworkRequest request        = HttpClientPrivate::createRequest(d, HttpClientPrivate::UPLOAD);
     QNetworkAccessManager *manager = internal ? new QNetworkAccessManager() : d->manager;
     QNetworkReply *reply           = manager->post(request, multiPart);
 
@@ -268,14 +310,14 @@ void HttpClient::upload(const QString &path,
 }
 
 // 执行请求的辅助函数
-void HttpClientPrivate::executeQuery(HttpMethod method, HttpClientPrivate *d,
+void HttpClientPrivate::executeQuery(HttpClientPrivate *d, HttpMethod method,
                                      std::function<void (const QString &)> successHandler,
                                      std::function<void (const QString &)> errorHandler,
                                      const char *encoding) {
     // 如果不使用外部的 manager 则创建一个新的，在访问完成后会自动删除掉
     bool debug    = d->debug;
     bool internal = d->manager == NULL;
-    QNetworkRequest request        = createRequest(method, d);
+    QNetworkRequest request        = HttpClientPrivate::createRequest(d, method);
     QNetworkAccessManager *manager = internal ? new QNetworkAccessManager() : d->manager;
     QNetworkReply *reply           = NULL;
 
@@ -292,6 +334,8 @@ void HttpClientPrivate::executeQuery(HttpMethod method, HttpClientPrivate *d,
     case HttpClientPrivate::DELETE:
         reply = manager->deleteResource(request);
         break;
+    default:
+        break;
     }
 
     QObject::connect(reply, &QNetworkReply::finished, [=] {
@@ -302,19 +346,7 @@ void HttpClientPrivate::executeQuery(HttpMethod method, HttpClientPrivate *d,
     });
 }
 
-QString HttpClientPrivate::readReply(QNetworkReply *reply, const char *encoding) {
-    QTextStream in(reply);
-    QString result;
-    in.setCodec(encoding);
-
-    while (!in.atEnd()) {
-        result += in.readLine();
-    }
-
-    return result;
-}
-
-QNetworkRequest HttpClientPrivate::createRequest(HttpMethod method, HttpClientPrivate *d) {
+QNetworkRequest HttpClientPrivate::createRequest(HttpClientPrivate *d, HttpMethod method) {
     bool get      = method == HttpMethod::GET;
     bool upload   = method == HttpClientPrivate::UPLOAD;
     bool postForm = !get && !upload && !d->useJson;
@@ -366,6 +398,18 @@ QNetworkRequest HttpClientPrivate::createRequest(HttpMethod method, HttpClientPr
     }
 
     return request;
+}
+
+QString HttpClientPrivate::readReply(QNetworkReply *reply, const char *encoding) {
+    QTextStream in(reply);
+    QString result;
+    in.setCodec(encoding);
+
+    while (!in.atEnd()) {
+        result += in.readLine();
+    }
+
+    return result;
 }
 
 void HttpClientPrivate::handleFinish(bool debug,

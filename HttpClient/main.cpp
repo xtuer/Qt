@@ -58,17 +58,23 @@ int main(int argc, char *argv[]) {
             file = NULL;
         }
 
-        // [[8]] 上传
-        HttpClient("http://localhost:8080/upload").debug(true).upload("/Users/Biao/Pictures/ade.jpg");
+        // [[8]] 上传文件
+        HttpClient("http://localhost:8080/upload").debug(true).upload(QString("/Users/Biao/Pictures/ade.jpg"));
 
-        // [[9]] 上传: 也能同时传参数
+        // [[9]] 上传文件: 也能同时传参数
         HttpClient("http://localhost:8080/upload").debug(true)
                 .param("username", "Alice").param("password", "Passw0rd")
-                .upload("/Users/Biao/Pictures/ade.jpg");
+                .upload(QString("/Users/Biao/Pictures/ade.jpg"));
+
+        // [[10]] 上传数据: 例如使用摄像头拍照后直接把图片数据传到服务器
+        QFile dataFile("/Users/Biao/Pictures/ade.jpg");
+        dataFile.open(QIODevice::ReadOnly);
+        QByteArray data = dataFile.readAll();
+        HttpClient("http://localhost:8080/upload").debug(true).upload(data);
     }
 
     {
-        // [[8]] 共享 QNetworkAccessManager
+        // [[11]] 共享 QNetworkAccessManager
         // 每创建一个 QNetworkAccessManager 对象都会创建一个线程，当频繁的访问网络时，为了节省线程资源，调用 manager()
         // 使用共享的 QNetworkAccessManager，它不会被 HttpClient 删除，需要我们自己不用的时候删除它。
         // 如果下面的代码不传入 QNetworkAccessManager，从任务管理器里可以看到创建了几千个线程。
