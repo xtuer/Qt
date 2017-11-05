@@ -79,8 +79,8 @@ public:
      * @param encoding       请求响应的编码
      */
     void post(std::function<void (const QString &)> successHandler,
-             std::function<void (const QString &)> errorHandler = NULL,
-             const char *encoding = "UTF-8");
+              std::function<void (const QString &)> errorHandler = NULL,
+              const char *encoding = "UTF-8");
 
     /**
      * @brief 执行 PUT 请求
