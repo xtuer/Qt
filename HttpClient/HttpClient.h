@@ -100,8 +100,8 @@ public:
      * @param encoding       请求响应的编码
      */
     void remove(std::function<void (const QString &)> successHandler,
-             std::function<void (const QString &)> errorHandler = NULL,
-             const char *encoding = "UTF-8");
+                std::function<void (const QString &)> errorHandler = NULL,
+                const char *encoding = "UTF-8");
 
     /**
      * @brief 使用 GET 进行下载，下载的文件保存到 savePath
