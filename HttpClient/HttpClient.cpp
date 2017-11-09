@@ -30,6 +30,7 @@ public:
 
     /**
      * @brief 获取 Manager，如果使用传入的 manager 则返回此 manager，否则新创建一个 manager
+     * @param d        HttpClientPrivate 的对象
      * @param internal 使用传入的 manager 则 interval 被设置为 false，创建新的 manager 则设置 interval 为 true
      * @return 返回 QNetworkAccessManager 对象
      */
