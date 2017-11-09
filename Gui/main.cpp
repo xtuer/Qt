@@ -1,22 +1,44 @@
 #include <QApplication>
 #include <QDebug>
 #include "Widget.h"
-#include <QMediaPlayer>
-#include <QVideoWidget>
-#include <QUrl>
+
+#include <QList>
+#include <algorithm>
+#include <QTime>
+
+// sort using a custom function object
+struct {
+    bool operator()(int a, int b) const
+    {
+        return a > b;
+    }
+} customGreater;
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
 
-    QMediaPlayer *player = new QMediaPlayer;
-    player->setMedia(QUrl::fromLocalFile("/Users/Biao/Desktop/x.mp4"));
+    const int count = 10000000;
+    QTime time;
 
-    QVideoWidget *videoWidget = new QVideoWidget;
-    player->setVideoOutput(videoWidget);
-    videoWidget->resize(400, 400);
-    videoWidget->show();
+    // 非 Lambda 排序
+    time.start();
+    QList<int> ns2 = QList<int>() << 1 << 3 << 5 << 4 << 2 << 23 << 123 << 2342;
+    for (int i = 0; i < count; ++i) {
+        std::sort(ns2.begin(), ns2.end(), customGreater);
+    }
+    qDebug() << time.elapsed();
 
-    player->play();
+    // Lambda 排序
+    time.restart();
+    QList<int> ns1 = QList<int>() << 1 << 3 << 5 << 4 << 2 << 23 << 123 << 2342;
+    for (int i = 0; i < count; ++i) {
+        std::sort(ns1.begin(), ns1.end(), [](int a, int b) -> bool {
+            return a > b;
+        });
+    }
+    qDebug() << time.elapsed();
 
-    return app.exec();
+
+
+    return 0;
 }
