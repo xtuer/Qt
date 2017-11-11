@@ -1,4 +1,5 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    Inheritance
+    Inheritance \
+    ThreadPool
