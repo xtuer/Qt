@@ -10,6 +10,7 @@ TARGET   = MyLibrary
 TEMPLATE = lib
 
 DEFINES += MYLIBRARY_LIBRARY
+VERSION = 2.0 # 定义版本好，默认 1.0
 
 # Output directory
 CONFIG(debug, debug|release) {
