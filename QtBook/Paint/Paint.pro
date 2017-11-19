@@ -17,4 +17,5 @@ SUBDIRS += \
     Clip \
     OSUi \
     NinePatchPainter \
-    FittingCurve
+    FittingCurve \
+    MouseSelection
