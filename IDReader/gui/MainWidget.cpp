@@ -216,7 +216,7 @@ void MainWidget::handleEvents() {
     connect(d->imageCapture, &QCameraImageCapture::imageCaptured, [=](int id, const QImage &image) {
         Q_UNUSED(id)
         // 图片名字
-        QString pictureName = uploadPictureName();
+        QString pictureName = uploadCameraPictureName();
         if (pictureName.isEmpty()) {
             return;
         }
@@ -278,7 +278,7 @@ void MainWidget::showPerson(const Person &p) {
     ui->pictureLabel->setPixmap(QPixmap(CardReader::personImagePath()));
 }
 
-QString MainWidget::uploadPictureName() {
+QString MainWidget::uploadCameraPictureName() {
     QString siteCode = ui->siteComboBox->currentData().toString();
     QString roomCode = ui->roomComboBox->currentData().toString();
     QString periodUnitCode = ui->periodUnitComboBox->currentData().toString();

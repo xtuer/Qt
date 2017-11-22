@@ -50,7 +50,7 @@ private:
     void mocLoadStudents();
     void showLoginStatusWidget(const QList<Student> &students); // 可视化的显示登陆状态
     void showPerson(const Person &p);
-    QString uploadPictureName(); // 上传的考生照片的名字
+    QString uploadCameraPictureName(); // 上传的考生照片的名字
 
     friend class MainWidgetPrivate;
 
