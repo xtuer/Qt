@@ -228,13 +228,13 @@ void MainWidget::handleEvents() {
         ui->previewLabel->setPixmap(QPixmap::fromImage(scaledImage));
 
         // 保存到本地
-        QString path = QString("user-img/%1").arg(pictureName);
+        QString path = QString("student-camera-picture/%1").arg(pictureName);
         QImage userImage = image.scaled(500, 500, Qt::KeepAspectRatio, Qt::SmoothTransformation);
         userImage.save(path, "jpg", 50);
 
         // 上传到服务器
         QString url = QString("%1/uploadPhoto").arg(d->serverUrl);
-        HttpClient(url).useManager(d->networkManager).debug(true).upload(path, [=](const QString &response) {
+        HttpClient(url).manager(d->networkManager).debug(true).upload(path, [=](const QString &response) {
             if (response == "true") {
                 showInfo(ui->nameLabel->text() + "的照片上传成功", false);
                 qDebug() << QString("%1 上传成功").arg(pictureName);
@@ -322,8 +322,8 @@ void MainWidget::loadStudents() {
 
     // http://192.168.10.95:8080/getRoomEnrollment?siteCode=0105013&roomCode=11&periodUnitCode=16090001
     QString url = d->serverUrl + Urls::GET_ROOM_ENROLLMENT;
-    HttpClient(url).debug(true).useManager(d->networkManager).addParam("siteCode", siteCode)
-            .addParam("roomCode", roomCode).addParam("periodUnitCode", periodUnitCode)
+    HttpClient(url).debug(true).manager(d->networkManager).param("siteCode", siteCode)
+            .param("roomCode", roomCode).param("periodUnitCode", periodUnitCode)
             .get([this](const QString &jsonResponse) {
         JsonReader json(jsonResponse.toUtf8());
 
@@ -344,7 +344,7 @@ void MainWidget::loadStudents() {
 void MainWidget::loadSiteAndPeriodUnit() {
     // http://192.168.10.85:8080/initializeRoom
     QString url = d->serverUrl + Urls::INITIALIZE_ROOM;
-    HttpClient(url).debug(true).useManager(d->networkManager).get([this](const QString &jsonResponse) {
+    HttpClient(url).debug(true).manager(d->networkManager).get([this](const QString &jsonResponse) {
         // 解析考点 Site
         d->sites = ResponseUtil::responseToSites(jsonResponse);
         ui->siteComboBox->clear();
@@ -403,13 +403,20 @@ void MainWidget::login(const Person &p) {
         return;
     }
 
+    // 复制身份证图片到 student-id-picture 目录下
+    QString studentPicture = QString("student-id-picture/%1.bmp").arg(p.cardId);
+    QFile::copy("person.bmp", studentPicture);
+
     // http://192.168.10.85:8080/signIn/?idCardNo=5225********414&examineeName=黄彪&siteCode=S001
     // &roomCode=001&periodUnitCode=160901
     QString url = d->serverUrl + Urls::SIGN_IN;
-    HttpClient(url).debug(true).useManager(d->networkManager).addParam("idCardNo", p.cardId)
-            .addParam("examineeName", p.name).addParam("siteCode", siteCode).addParam("roomCode", roomCode)
-            .addParam("periodUnitCode", periodUnitCode)
-            .addFormHeader().post([=](const QString &response) {
+    HttpClient(url).debug(true).manager(d->networkManager)
+            .param("idCardNo", p.cardId)
+            .param("examineeName", p.name)
+            .param("siteCode", siteCode)
+            .param("roomCode", roomCode)
+            .param("periodUnitCode", periodUnitCode)
+            .upload(studentPicture, [=](const QString &response) {
         JsonReader json(response.toUtf8());
 
         if (1 != json.getInt("statusCode")) {
@@ -460,7 +467,7 @@ void MainWidget::updateLoginStatistics(const QList<Student> &students) {
 void MainWidget::mocLoadStudents() {
     // http://192.168.10.95:8080/getRoomEnrollment?siteCode=0105013&roomCode=11&periodUnitCode=160900001
     QString url = "http://192.168.10.95:8080/getRoomEnrollment?siteCode=0105013&roomCode=014&periodUnitCode=160900007";
-    HttpClient(url).debug(true).useManager(d->networkManager).get([this](const QString &jsonResponse) {
+    HttpClient(url).debug(true).manager(d->networkManager).get([this](const QString &jsonResponse) {
         JsonReader json(jsonResponse.toUtf8());
 
         if (1 != json.getInt("status")) {
