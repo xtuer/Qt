@@ -8,7 +8,9 @@ namespace Constants {
 }
 
 namespace Urls {
-    const QString SIGN_IN = "/signIn";
-    const QString INITIALIZE_ROOM = "/initializeRoom";
+    const QString SIGN_IN             = "/signIn";
+    const QString INITIALIZE_ROOM     = "/initializeRoom";
     const QString GET_ROOM_ENROLLMENT = "/getRoomEnrollment";
+    const QString TIMESTAMP           = "/timestamp";
+    const QString UPLOAD_PHOTO        = "/uploadPhoto";
 }

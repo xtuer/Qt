@@ -3,6 +3,8 @@
 #include <Qdate>
 #include <QNetworkReply>
 #include <QTextStream>
+#include <QCryptographicHash>
+
 #include "bean/Person.h"
 
 QString Util::formatDate(const QString &date) {
@@ -12,4 +14,8 @@ QString Util::formatDate(const QString &date) {
 void Util::registerTypes() {
     qRegisterMetaType<Person>("Person");
     qRegisterMetaType<Person>("Person&");
+}
+
+QByteArray Util::md5(const QByteArray &data) {
+    return QCryptographicHash::hash(data, QCryptographicHash::Md5).toHex();
 }

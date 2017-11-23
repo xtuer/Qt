@@ -46,6 +46,8 @@ public:
         loginDetailsButton = new QPushButton("详情");
         loginDetailsButton->setFlat(true);
 
+        initServerTime(); // 请求服务器的时间
+
         camera = new QCamera(); // 摄像头对象
         viewfinder = new QCameraViewfinder(); // 用于实时显示摄像头图像
         imageCapture = new QCameraImageCapture(camera); // 用于截取摄像头图像
@@ -104,6 +106,19 @@ public:
         return -1;
     }
 
+    void initServerTime() {
+        // timeDiff is client current time minus server current time.
+        QString url = serverUrl + Urls::TIMESTAMP;
+        HttpClient(url).manager(networkManager).debug(true).get([this](const QString &response) {
+            timeDiff = QDateTime::currentMSecsSinceEpoch() - response.toLongLong();
+        });
+    }
+
+    // 计算服务器的当前时间，单位为毫秒
+    qint64 getCurrentTime() {
+        return QDateTime::currentMSecsSinceEpoch() - timeDiff;
+    }
+
     CardReaderThread *readerThread;
     QString serverUrl;
     QNetworkAccessManager *networkManager;
@@ -116,6 +131,8 @@ public:
     QCamera *camera;
     QCameraViewfinder *viewfinder;
     QCameraImageCapture *imageCapture;
+
+    qint64 timeDiff; // 客户端和服务器的时间差，单位为毫秒
 };
 
 /***********************************************************************************************************************
@@ -233,7 +250,7 @@ void MainWidget::handleEvents() {
         userImage.save(path, "jpg", 50);
 
         // 上传到服务器
-        QString url = QString("%1/uploadPhoto").arg(d->serverUrl);
+        QString url = d->serverUrl + Urls::UPLOAD_PHOTO;
         HttpClient(url).manager(d->networkManager).debug(true).upload(path, [=](const QString &response) {
             if (response == "true") {
                 showInfo(ui->nameLabel->text() + "的照片上传成功", false);
@@ -408,7 +425,9 @@ void MainWidget::login(const Person &p) {
     QFile::copy("person.bmp", studentPicture);
 
     // http://192.168.10.85:8080/signIn/?idCardNo=5225********414&examineeName=黄彪&siteCode=S001
-    // &roomCode=001&periodUnitCode=160901
+    // &roomCode=001&periodUnitCode=160901&signAt=1232142&sign=asdfasdf123
+    QString signAt = QString::number(QDateTime::currentMSecsSinceEpoch() - d->timeDiff);
+    QString sign = Util::md5(QString("%1%2").arg(p.cardId).arg(signAt).toUtf8());
     QString url = d->serverUrl + Urls::SIGN_IN;
     HttpClient(url).debug(true).manager(d->networkManager)
             .param("idCardNo", p.cardId)
@@ -416,6 +435,8 @@ void MainWidget::login(const Person &p) {
             .param("siteCode", siteCode)
             .param("roomCode", roomCode)
             .param("periodUnitCode", periodUnitCode)
+            .param("signAt", signAt)
+            .param("sign", sign)
             .upload(studentPicture, [=](const QString &response) {
         JsonReader json(response.toUtf8());
 

@@ -13,6 +13,8 @@ public:
 
     // 注册自定义类型
     static void registerTypes();
+
+    static QByteArray md5(const QByteArray &data);
 };
 
 #endif // UTIL_H

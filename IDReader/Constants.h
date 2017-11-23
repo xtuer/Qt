@@ -12,6 +12,8 @@ namespace Urls {
     extern const QString SIGN_IN;
     extern const QString INITIALIZE_ROOM;
     extern const QString GET_ROOM_ENROLLMENT;
+    extern const QString TIMESTAMP;
+    extern const QString UPLOAD_PHOTO;
 }
 
 #endif // CONSTANTS_H
