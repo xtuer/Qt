@@ -18,4 +18,5 @@ SUBDIRS += \
     OSUi \
     NinePatchPainter \
     FittingCurve \
-    MouseSelection
+    MouseSelection \
+    DragMoveWindow

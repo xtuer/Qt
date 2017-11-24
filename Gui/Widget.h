@@ -15,6 +15,7 @@ public:
     ~Widget();
 
 protected:
+    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
 
 private:
     Ui::Widget *ui;
