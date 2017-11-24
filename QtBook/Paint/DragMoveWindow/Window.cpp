@@ -20,6 +20,7 @@ void Window::mouseReleaseEvent(QMouseEvent *) {
 }
 
 // 鼠标移动时如果 mousePressedPosition 不为空，则说明需要移动窗口
+// 鼠标移动的位移差，就是窗口移动的位移差
 void Window::mouseMoveEvent(QMouseEvent *event) {
     if (!mousePressedPosition.isNull()) {
         QPoint delta = event->globalPos() - mousePressedPosition;

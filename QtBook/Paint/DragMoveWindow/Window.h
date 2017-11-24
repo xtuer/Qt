@@ -16,8 +16,8 @@ protected:
     void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 
 private:
-    QPoint windowPositionBeforeMoving;
-    QPoint mousePressedPosition;
+    QPoint windowPositionBeforeMoving; // 移动窗口前窗口左上角的坐标
+    QPoint mousePressedPosition;       // 按下鼠标时鼠标的全局坐标
 };
 
 #endif // WINDOW_H

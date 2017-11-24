@@ -4,7 +4,8 @@
 #include <QKeySequence>
 
 int main(int argc, char *argv[]) {
-    QApplication a(argc, argv);
+    QApplication app(argc, argv);
+
     Window w;
     w.setWindowFlags(Qt::FramelessWindowHint);
     w.show();
@@ -15,5 +16,5 @@ int main(int argc, char *argv[]) {
         qApp->quit();
     });
 
-    return a.exec();
+    return app.exec();
 }
