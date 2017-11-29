@@ -1,12 +1,12 @@
 #include <QApplication>
-#include <QDateTime>
 #include <QDebug>
 #include "Widget.h"
 
 int main(int argc, char *argv[]) {
-    QApplication app(argc, argv);
+    Q_UNUSED(argc)
+    Q_UNUSED(argv)
 
-    qDebug() << QDateTime::currentSecsSinceEpoch();
+    qDebug() << LLONG_MAX;
 
-    return app.exec();
+    return 0;
 }

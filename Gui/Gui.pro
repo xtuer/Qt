@@ -28,15 +28,13 @@ UI_DIR      = $$output
 
 SOURCES += \
     main.cpp \
-    Widget.cpp \
-    MySeries.cpp
+    Widget.cpp
 
 FORMS += \
     Widget.ui
 
 HEADERS += \
-    Widget.h \
-    MySeries.h
+    Widget.h
 
 RESOURCES += \
     resources.qrc
