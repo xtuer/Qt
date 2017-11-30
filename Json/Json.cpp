@@ -48,9 +48,9 @@ JsonPrivate::JsonPrivate(const QString &jsonOrJsonFilePath, bool fromFile) {
 
 // 使用递归+引用设置 Json 的值，因为 toObject() 等返回的是对象的副本，对其修改不会改变原来的对象，所以需要用引用来实现
 void JsonPrivate::setValue(QJsonObject &parent, const QString &path, const QJsonValue &newValue) {
-    const int indexOfDot = path.indexOf('.');
-    const QString property = path.left(indexOfDot); // 第一个 . 之前的内容，如果 indexOfDot 是 -1 则返回整个字符串
-    const QString subPath = (indexOfDot>0) ? path.mid(indexOfDot+1) : QString(); // 第一个 . 后面的内容
+    const int firstDotIndex = path.indexOf('.');
+    const QString property  = path.left(firstDotIndex); // 第一个 . 之前的内容，如果 indexOfDot 是 -1 则返回整个字符串
+    const QString subPath   = (firstDotIndex>0) ? path.mid(firstDotIndex+1) : QString(); // 第一个 . 后面的内容
 
     QJsonValue subValue = parent[property];
 
@@ -68,7 +68,6 @@ void JsonPrivate::setValue(QJsonObject &parent, const QString &path, const QJson
 // 读取属性的值，如果 fromNode 为空，则从跟节点开始访问
 QJsonValue JsonPrivate::getValue(const QString &path, const QJsonObject &fromNode) const {
     QJsonObject parent(fromNode.isEmpty() ? root : fromNode);
-
     QStringList tokens = path.split(QRegularExpression("\\."));
     int size = tokens.size();
 

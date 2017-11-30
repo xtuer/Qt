@@ -51,10 +51,11 @@ public:
     /**
      * 读取路径 path 对应属性的整数值
      *
-     * @param path 带 "." 的路径格
-     * @param def 如果要找的属性不存在时返回的默认值
+     * @param path     带 "." 的路径格
+     * @param def      如果要找的属性不存在时返回的默认值
      * @param fromNode 从此节点开始查找，如果为默认值，则从 Json 的根节点开始查找
-     * @return 整数值
+     *
+     * @return 整数值，如果无对应属性，则返回 def
      */
     int         getInt(const QString &path, int def = 0, const QJsonObject &fromNode = QJsonObject()) const;
     bool        getBool(const QString &path, bool def = false, const QJsonObject &fromNode = QJsonObject()) const;
@@ -68,7 +69,8 @@ public:
 
     /**
      * @brief 设置 path 对应的 Json 属性的值
-     * @param path path 带 "." 的路径格
+     * @param path  path 带 "." 的路径格
+     *
      * @param value 可以是整数，浮点数，字符串，QJsonValue, QJsonObject 等，具体请参考 QJsonValue 的构造函数
      */
     void set(const QString &path, const QJsonValue &value);
@@ -76,11 +78,18 @@ public:
 
     /**
      * @brief 把 Json 保存到文件
+     * @param format 为 Indented 时为格式化的，Compact 为压缩格式
      *
-     * @param path 文件的路径
+     * @param path   保存 Json 文件的路径
      */
     void save(const QString &path, QJsonDocument::JsonFormat format = QJsonDocument::Indented);
 
+    /**
+     * @brief 转为 Json 格式的字符串
+     *
+     * @param format 为 Indented 时为格式化的，Compact 为压缩格式
+     * @return Json  格式的字符串
+     */
     QString toString(QJsonDocument::JsonFormat format = QJsonDocument::Indented) const;
 
 public:

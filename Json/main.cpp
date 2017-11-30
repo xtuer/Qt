@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
     bar.insert("fruit", "Apple");
     json.set("foo.bar", bar);
     json.set("foo.names", QStringList() << "One" << "Two" << "Three");
-    qDebug() << json.toString(QJsonDocument::Compact);
+    qDebug().noquote() << json.toString(QJsonDocument::Compact);
 
     // 保存到文件
     json.save("/Users/Biao/Desktop/xr.json");
