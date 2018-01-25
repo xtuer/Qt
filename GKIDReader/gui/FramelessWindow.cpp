@@ -1,4 +1,4 @@
-#include "FramelessWindow.h"
+﻿#include "FramelessWindow.h"
 #include "FramelessWindowCentralWidget.h"
 
 #include <QDebug>
@@ -33,7 +33,7 @@ struct FramelessWindowPrivate {
 FramelessWindow::FramelessWindow(QWidget *contentWidget, QWidget *parent) : QWidget(parent) {
     setMouseTracking(true);
     setWindowFlags(Qt::FramelessWindowHint);    // 去掉边框
-    setAttribute(Qt::WA_TranslucentBackground); // 背景透明
+    // setAttribute(Qt::WA_TranslucentBackground); // 背景透明
 
     d = new FramelessWindowPrivate(new FramelessWindowCentralWidget(this, contentWidget));
     d->centralWidget->installEventFilter(this);

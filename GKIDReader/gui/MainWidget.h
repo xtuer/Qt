@@ -1,4 +1,4 @@
-#ifndef MAINWIDGET_H
+﻿#ifndef MAINWIDGET_H
 #define MAINWIDGET_H
 
 #include <QWidget>
@@ -41,6 +41,8 @@ private:
     void handleEvents(); // 事件处理
     void showPerson(const Person &p);
     void login(const Person &p);
+
+    friend class MainWidgetPrivate;
 
     Ui::MainWidget *ui;
     MainWidgetPrivate *d;

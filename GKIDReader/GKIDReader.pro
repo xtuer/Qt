@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network xml
+QT       += core gui network xml multimedia multimediawidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -37,6 +37,7 @@ include(dao/dao.pri)
 include(util/util.pri)
 include(reader/reader.pri)
 include(log/log.pri)
+include(magic/magic.pri)
 include(SingleApplication/singleapplication.pri)
 DEFINES += QAPPLICATION_CLASS=QApplication
 

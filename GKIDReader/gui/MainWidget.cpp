@@ -1,4 +1,4 @@
-#include "MainWidget.h"
+﻿#include "MainWidget.h"
 #include "ui_MainWidget.h"
 #include "LoginStatusWidget.h"
 #include "FramelessWindow.h"
@@ -27,6 +27,11 @@
 #include <QJsonValue>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QCamera>
+#include <QCameraViewfinder>
+#include <QCameraImageCapture>
+#include <QImage>
+#include <QPixmap>
 
 /***********************************************************************************************************************
  *                                                  MainWidgetPrivate                                                  *
@@ -34,7 +39,7 @@
  **********************************************************************************************************************/
 class MainWidgetPrivate {
 public:
-    MainWidgetPrivate() {
+    MainWidgetPrivate(MainWidget *widget) {
         readerThread = new CardReaderThread();
         networkManager = new QNetworkAccessManager();
 
@@ -45,13 +50,28 @@ public:
 
         loginDetailsButton = new QPushButton("详情");
         loginDetailsButton->setFlat(true);
+
+        camera = new QCamera(); // 摄像头对象
+        viewfinder = new QCameraViewfinder(); // 用于实时显示摄像头图像
+        imageCapture = new QCameraImageCapture(camera); // 用于截取摄像头图像
+
+        viewfinder->setAttribute(Qt::WA_StyledBackground, true); // 使 viewfinder 能够使用 QSS
+        viewfinder->setFixedSize(164, 90);
+
+        delete widget->ui->cameraWidget->layout()->replaceWidget(widget->ui->placeholderLabel, viewfinder);
+        delete widget->ui->placeholderLabel;
+        camera->setViewfinder(viewfinder); // camera 使用 viewfinder 实时显示图像
+        camera->start();
     }
 
     ~MainWidgetPrivate() {
         readerThread->stop();
         readerThread->wait();
+        camera->stop();
+
         delete readerThread;
         delete networkManager;
+        delete camera;
     }
 
     // 使用 siteCode 从 sites 里查找第一个有相同 siteCode 的 site
@@ -101,6 +121,10 @@ public:
 
     bool debug;
     qint64 deltaTimeBetweenClientAndServer; // 程序启动时客户端和服务器端时间差，单位为秒
+
+    QCamera *camera;
+    QCameraViewfinder *viewfinder;
+    QCameraImageCapture *imageCapture;
 };
 
 /***********************************************************************************************************************
@@ -110,10 +134,10 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::MainWidget
     ui->setupUi(this);
 
     setAttribute(Qt::WA_StyledBackground, true);
-    d = new MainWidgetPrivate();
+    d = new MainWidgetPrivate(this);
 
     // 请求服务器的时间
-    HttpClient(d->timeServiceUrl).debug(d->debug).useManager(d->networkManager).get([=](const QString &time) {
+    HttpClient(d->timeServiceUrl).debug(d->debug).manager(d->networkManager).get([=](const QString &time) {
         qDebug() << QString("Server Time: %1").arg(time);
         d->deltaTimeBetweenClientAndServer = time.toLongLong() - QDateTime::currentMSecsSinceEpoch() / 1000;
     }, [=](const QString &error) {
@@ -166,6 +190,47 @@ void MainWidget::handleEvents() {
             QMetaObject::invokeMethod(this, "setReadButtonText", Q_ARG(QString, QString("开始刷卡")));
         }
     });
+
+    // 点击拍照
+    connect(ui->captureButton, &QPushButton::clicked, [=] {
+        d->imageCapture->capture("id-reader.jpg");
+    });
+
+    // 照片拍好后，显示预览，保存到文件，然后上传到服务器
+    connect(d->imageCapture, &QCameraImageCapture::imageCaptured, [=](int id, const QImage &image) {
+        Q_UNUSED(id)
+        // 图片名字
+        QString pictureName = "ABC.jpg"; //uploadCameraPictureName();
+        if (pictureName.isEmpty()) {
+            return;
+        }
+
+        showInfo("", true);
+
+        // 显示预览图
+        QImage scaledImage = image.scaled(ui->previewLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        ui->previewLabel->setPixmap(QPixmap::fromImage(scaledImage));
+
+        // 保存到本地
+        QString path = QString("student-camera-picture/%1").arg(pictureName);
+        QImage userImage = image.scaled(500, 500, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        userImage.save(path, "jpg", 50);
+
+        // 上传到服务器
+        /*QString url = d->serverUrl + Urls::UPLOAD_PHOTO;
+        HttpClient(url).manager(d->networkManager).debug(true).upload(path, [=](const QString &response) {
+            if (response == "true") {
+                showInfo(ui->nameLabel->text() + "的照片上传成功", false);
+                qDebug() << QString("%1 上传成功").arg(pictureName);
+            } else {
+                showInfo(response, true);
+                qDebug() << response;
+            }
+        }, [=](const QString &error) {
+            showInfo(error, true);
+            qDebug() << error;
+        });*/
+    });
 }
 
 void MainWidget::showInfo(const QString &info, bool error) {
@@ -211,16 +276,20 @@ void MainWidget::login(const Person &p) {
     QByteArray token = (p.cardId + QString::number(time) + "mainexam201704cdcard").toUtf8();
     token = Util::md5(Util::md5(token));
 
-    HttpClient(d->loginUrl).debug(d->debug).useManager(d->networkManager).addFormHeader()
-            .addParam("name", p.name).addParam("cardnum", p.cardId)
-            .addParam("sex", p.gender).addParam("nation", p.nationality)
-            .addParam("birth", birthday).addParam("start_time", startTime).addParam("end_time", endTime)
-            .addParam("address", p.address).addParam("institution", p.police)
-            .addParam("check_time", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"))
-            .addParam("point_code", pointCode).addParam("point_name", pointName)
-            .addParam("type", QString::number(type))
-            .addParam("time", QString::number(time))
-            .addParam("token", token).post([=](const QString &response) {
+    // 复制身份证图片到 student-id-picture 目录下
+    QString studentPicture = QString("student-id-picture/%1.bmp").arg(p.cardId);
+    QFile::copy("person.bmp", studentPicture);
+
+    HttpClient(d->loginUrl).debug(d->debug).manager(d->networkManager)
+            .param("name", p.name).param("cardnum", p.cardId)
+            .param("sex", p.gender).param("nation", p.nationality)
+            .param("birth", birthday).param("start_time", startTime).param("end_time", endTime)
+            .param("address", p.address).param("institution", p.police)
+            .param("check_time", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"))
+            .param("point_code", pointCode).param("point_name", pointName)
+            .param("type", QString::number(type))
+            .param("time", QString::number(time))
+            .param("token", token).upload(studentPicture, [=](const QString &response) {
         qDebug() << response;
         showInfo(response);
     }, [=](const QString &error) {
