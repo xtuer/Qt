@@ -1,12 +1,13 @@
 #include <QApplication>
-#include <QDateTime>
 #include <QDebug>
-#include "Widget.h"
+#include "ImageWidget.h"
+#include <QStringList>
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
 
-    qDebug() << QDateTime::currentSecsSinceEpoch();
+    ImageWidget w;
+    w.show();
 
     return app.exec();
 }
