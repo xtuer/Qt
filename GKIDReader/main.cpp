@@ -1,9 +1,9 @@
-#include <QDebug>
+﻿#include <QDebug>
 #include <QTextCodec>
 #include <QApplication>
 
 #include "gui/MainWidget.h"
-#include "gui/FramelessWindow.h"
+#include "magic/MagicWindow.h"
 #include "util/Util.h"
 #include "util/UiUtil.h"
 #include "util/ConfigUtil.h"
@@ -29,10 +29,16 @@ int main(int argc, char *argv[]) {
     // qDebug() << "创建 Window";
     MainWidget *w = new MainWidget();
 
-    FramelessWindow *window = new FramelessWindow(w);
-    window->setTitleBarButtonsVisible(false, false, true);
-    window->resize(400, 500);
+//    FramelessWindow *window = new FramelessWindow(w);
+//    window->setTitleBarButtonsVisible(false, false, true);
+//    window->resize(520, 500);
+//    window->setResizable(false);
+//    window->show();
+    MagicWindow *window = new MagicWindow(w, QMargins(1, 1, 1, 1), QMargins(3, 3, 3, 3), ":/img/solid.png", true);
+    window->resize(520, 500);
     window->setResizable(false);
+    window->setTitle("");
+    window->setTitleBarButtonsVisible(false, false, true);
     window->show();
 
     QObject::connect(
