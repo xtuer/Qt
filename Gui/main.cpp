@@ -1,12 +1,13 @@
 #include <QApplication>
 #include <QDebug>
-#include "Widget.h"
+#include "ImageWidget.h"
+#include <QStringList>
 
 int main(int argc, char *argv[]) {
-    Q_UNUSED(argc)
-    Q_UNUSED(argv)
+    QApplication app(argc, argv);
 
-    qDebug() << LLONG_MAX;
+    ImageWidget w;
+    w.show();
 
-    return 0;
+    return app.exec();
 }
