@@ -1,4 +1,4 @@
-﻿#include "HttpClient.h"
+#include "HttpClient.h"
 
 #include <QDebug>
 #include <QFile>
@@ -288,14 +288,16 @@ void HttpClientPrivate::upload(HttpClientPrivate *d,
         }
 
         // 文件上传的参数名为 file，值为文件名
-        QString   disposition = QString("multipart/form-data; name=\"file\"; filename=\"%1\"").arg(file->fileName());
+        // 服务器是 Java 的则用 form-data
+        // 服务器是 PHP  的则用 multipart/form-data
+        QString   disposition = QString("form-data; name=\"file\"; filename=\"%1\"").arg(file->fileName());
         QHttpPart filePart;
         filePart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant(disposition));
         filePart.setBodyDevice(file);
         multiPart->append(filePart);
     } else {
         // 上传数据
-        QString   disposition = QString("multipart/form-data; name=\"file\"; filename=\"no-name\"");
+        QString   disposition = QString("form-data; name=\"file\"; filename=\"no-name\"");
         QHttpPart dataPart;
         dataPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant(disposition));
         dataPart.setBody(data);
