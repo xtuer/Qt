@@ -288,7 +288,7 @@ void HttpClientPrivate::upload(HttpClientPrivate *d,
         }
 
         // 文件上传的参数名为 file，值为文件名
-        QString   disposition = QString("form-data; name=\"file\"; filename=\"%1\"").arg(file->fileName());
+        QString   disposition = QString("multipart/form-data; name=\"file\"; filename=\"%1\"").arg(file->fileName());
         QHttpPart filePart;
         filePart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant(disposition));
         filePart.setBodyDevice(file);
@@ -296,7 +296,7 @@ void HttpClientPrivate::upload(HttpClientPrivate *d,
         qDebug().noquote() << "Will upload: " << path;
     } else {
         // 上传数据
-        QString   disposition = QString("form-data; name=\"file\"; filename=\"no-name\"");
+        QString   disposition = QString("multipart/form-data; name=\"file\"; filename=\"no-name\"");
         QHttpPart dataPart;
         dataPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant(disposition));
         dataPart.setBody(data);
