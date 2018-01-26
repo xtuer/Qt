@@ -1,4 +1,4 @@
-#include "ConfigUtil.h"
+﻿#include "ConfigUtil.h"
 #include "JsonReader.h"
 
 #include <QDebug>
@@ -103,6 +103,10 @@ void ConfigUtil::restoreWindowGeometry(const QString &groupName, QWidget *window
 
 QString ConfigUtil::getLoginUrl() const {
     return config->getString("loginUrl");
+}
+
+QString ConfigUtil::getCameraUrl() const {
+    return config->getString("cameraUrl");
 }
 
 QString ConfigUtil::getTimeServiceUrl() const {

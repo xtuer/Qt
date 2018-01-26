@@ -1,4 +1,4 @@
-#ifndef CONFIGUTIL_H
+﻿#ifndef CONFIGUTIL_H
 #define CONFIGUTIL_H
 
 #define ConfigUtilInstance Singleton<ConfigUtil>::getInstance()
@@ -52,6 +52,7 @@ public:
     /// 其它
     ////////////////////////////////////////////////////////////////////////////
     QString getLoginUrl() const;
+    QString getCameraUrl() const;
     QString getTimeServiceUrl() const;
     bool isDebug() const;
 

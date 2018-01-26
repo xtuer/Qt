@@ -45,6 +45,7 @@ public:
 
         debug = ConfigUtilInstance.isDebug();
         loginUrl = ConfigUtilInstance.getLoginUrl();
+        cameraUrl = ConfigUtilInstance.getCameraUrl();
         timeServiceUrl = ConfigUtilInstance.getTimeServiceUrl();
         deltaTimeBetweenClientAndServer = 100000000;
 
@@ -111,6 +112,7 @@ public:
 
     CardReaderThread *readerThread;
     QString loginUrl;
+    QString cameraUrl;
     QString timeServiceUrl;
     QNetworkAccessManager *networkManager;
     QPushButton *loginDetailsButton;
@@ -197,39 +199,36 @@ void MainWidget::handleEvents() {
     });
 
     // 照片拍好后，显示预览，保存到文件，然后上传到服务器
-    connect(d->imageCapture, &QCameraImageCapture::imageCaptured, [=](int id, const QImage &image) {
+    connect(d->imageCapture, &QCameraImageCapture::imageCaptured, [this](int id, const QImage &image) {
         Q_UNUSED(id)
-        // 图片名字
-        QString pictureName = "ABC.jpg"; //uploadCameraPictureName();
-        if (pictureName.isEmpty()) {
+        qint64 time     = QDateTime::currentMSecsSinceEpoch() / 1000 + d->deltaTimeBetweenClientAndServer;
+        QString cardNum = ui->cardIdLabel->text();
+        if (cardNum.isEmpty()) {
+            showInfo("请先刷身份证", true);
             return;
         }
-
-        showInfo("", true);
 
         // 显示预览图
         QImage scaledImage = image.scaled(ui->previewLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
         ui->previewLabel->setPixmap(QPixmap::fromImage(scaledImage));
 
         // 保存到本地
-        QString path = QString("student-camera-picture/%1").arg(pictureName);
+        QString path = QString("student-camera-picture/%1.jpg").arg(cardNum); //uploadCameraPictureName();
         QImage userImage = image.scaled(500, 500, Qt::KeepAspectRatio, Qt::SmoothTransformation);
         userImage.save(path, "jpg", 50);
 
         // 上传到服务器
-        /*QString url = d->serverUrl + Urls::UPLOAD_PHOTO;
-        HttpClient(url).manager(d->networkManager).debug(true).upload(path, [=](const QString &response) {
-            if (response == "true") {
-                showInfo(ui->nameLabel->text() + "的照片上传成功", false);
-                qDebug() << QString("%1 上传成功").arg(pictureName);
-            } else {
-                showInfo(response, true);
-                qDebug() << response;
-            }
+        //QString url = d->loginUrl;
+        HttpClient(d->cameraUrl).manager(d->networkManager).debug(true)
+                .param("cardNum", cardNum)
+                .param("time", QString::number(time))
+                .upload(path, [=](const QString &response) {
+            qDebug() << response;
+            showInfo(response);
         }, [=](const QString &error) {
             showInfo(error, true);
             qDebug() << error;
-        });*/
+        });
     });
 }
 

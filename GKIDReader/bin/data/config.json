@@ -1,5 +1,6 @@
 {
     "loginUrl": "http://ilearning.edu-edu.com.cn/index.php?r=operation/AutoExamCdcard/IndexExamCard",
+	"cameraUrl": "http://ilearning.edu-edu.com.cn/index.php?r=operation/AutoExamCdcard/IndexExamCardImg",
 	"timeServiceUrl": "http://ilearning.edu-edu.com.cn/index.php?r=operation/AutoExamCdcard/CurrentTime",
 	"debug": true,
     "database": {
