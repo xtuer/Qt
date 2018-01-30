@@ -22,9 +22,9 @@
 
 #titleBarWidget {
 	background-color: lightgray;
-	background-image: url(:/icon/title-bar-1.png);
-	border-top-left-radius: 4px;
-	border-top-right-radius: 4px;
+	background-image: url(:/icon/title-bar.png);
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
 	min-height: 72px;
 	max-height: 72px;
 }
