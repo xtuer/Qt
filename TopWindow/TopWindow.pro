@@ -1,16 +1,19 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2016-06-30T17:44:13
+# Project created by QtCreator 2018-02-13T21:07:40
 #
 #-------------------------------------------------
 
-QT       += core gui network xmlpatterns charts sql multimedia multimediawidgets
+QT      += core gui
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET   = Gui
+TARGET   = TopWindow
 TEMPLATE = app
-ICON     = AppIcon.icns
+
 CONFIG  -= app_bundle
+DEFINES += QT_MESSAGELOGCONTEXT
+DEFINES += QT_DEPRECATED_WARNINGS
 
 # Output directory
 CONFIG(debug, debug|release) {
@@ -26,22 +29,11 @@ MOC_DIR     = $$output
 RCC_DIR     = $$output
 UI_DIR      = $$output
 
-include (/usr/local/qwt-6.1.3/features/qwt.prf)
+include(gui/gui.pri)
+include(util/util.pri)
 
 SOURCES += \
-    main.cpp \
-    Widget.cpp \
-    Pandora.cpp \
-    ImageWidget.cpp \
-    ImageEffects.cpp
+        main.cpp
 
-FORMS += \
-    ImageWidget.ui \
-    Form.ui
-
-HEADERS += \
-    Widget.h \
-    Pandora.h \
-    ImageWidget.h \
-    ImageEffects.h
-
+RESOURCES += \
+    top-window-resources.qrc

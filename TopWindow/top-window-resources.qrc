@@ -1,0 +1,33 @@
+<RCC>
+    <qresource prefix="/">
+        <file>image/close-hover.png</file>
+        <file>image/close-pressed.png</file>
+        <file>image/close.png</file>
+        <file>image/colorful-border.jpg</file>
+        <file>image/colorful-border.png</file>
+        <file>image/max-hover.png</file>
+        <file>image/max-pressed.png</file>
+        <file>image/max.png</file>
+        <file>image/min-hover.png</file>
+        <file>image/min-pressed.png</file>
+        <file>image/min.png</file>
+        <file>image/restore-hover.png</file>
+        <file>image/restore-pressed.png</file>
+        <file>image/restore.png</file>
+        <file>image/shadow.png</file>
+        <file>image/stroke.png</file>
+        <file>image/toolbar-close-hover.png</file>
+        <file>image/toolbar-close-pressed.png</file>
+        <file>image/toolbar-close.png</file>
+        <file>image/toolbar-max-hover.png</file>
+        <file>image/toolbar-max-pressed.png</file>
+        <file>image/toolbar-max.png</file>
+        <file>image/toolbar-min-hover.png</file>
+        <file>image/toolbar-min-pressed.png</file>
+        <file>image/toolbar-min.png</file>
+        <file>image/toolbar-restore-hover.png</file>
+        <file>image/toolbar-restore-pressed.png</file>
+        <file>image/toolbar-restore.png</file>
+        <file>image/size-grip.png</file>
+    </qresource>
+</RCC>

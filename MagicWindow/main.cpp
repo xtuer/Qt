@@ -1,6 +1,7 @@
 #include "MagicWindow.h"
 #include <QApplication>
 #include <QPushButton>
+#include <QDebug>
 #include <QLayout>
 
 int main(int argc, char *argv[]) {
@@ -28,6 +29,7 @@ int main(int argc, char *argv[]) {
         dialog->setResizable(false);
         dialog->setAttribute(Qt::WA_DeleteOnClose);
         dialog->showModal();
+        qDebug() << "Modaled ?";
     });
 
     return a.exec();
