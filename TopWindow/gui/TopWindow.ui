@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>296</width>
-    <height>102</height>
+    <width>236</width>
+    <height>85</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -26,61 +26,63 @@
 
 #titleBar QPushButton  {
     border: none;
-    width: 25px;
-    height: 27px;
+    min-width: 25px;
+    max-width: 25px;
+    min-height: 27px;
+    max-height: 27px;
     padding: 0;
     margin: 0;
     border-width: 0 0 0 0;
 }
 
 #titleBar #minButton {
-    border-image: url(:/image/min.png) 0 0 0 0 stretch stretch;
+    border-image: url(:/image/top-window/min.png) 0 0 0 0 stretch stretch;
 }
 #titleBar #minButton:hover {
-    border-image: url(:/image/min-hover.png) 0 0 0 0 stretch stretch;
+    border-image: url(:/image/top-window/min-hover.png) 0 0 0 0 stretch stretch;
 }
 #titleBar #minButton:pressed {
-    border-image: url(:/image/min-pressed.png) 0 0 0 0 stretch stretch;
+    border-image: url(:/image/top-window/min-pressed.png) 0 0 0 0 stretch stretch;
 }
 
 #titleBar #maxButton {
-    border-image: url(:/image/max.png) 0 0 0 0 stretch stretch;
+    border-image: url(:/image/top-window/max.png) 0 0 0 0 stretch stretch;
 }
 #titleBar #maxButton:hover {
-    border-image: url(:/image/max-hover.png) 0 0 0 0 stretch stretch;
+    border-image: url(:/image/top-window/max-hover.png) 0 0 0 0 stretch stretch;
 }
 
 #titleBar #maxButton:pressed {
-    border-image: url(:/image/max-pressed.png) 0 0 0 0 stretch stretch;
+    border-image: url(:/image/top-window/max-pressed.png) 0 0 0 0 stretch stretch;
 }
 
 #titleBar #restoreButton {
-    border-image: url(:/image/restore.png) 0 0 0 0 stretch stretch;
+    border-image: url(:/image/top-window/restore.png) 0 0 0 0 stretch stretch;
 }
 #titleBar #restoreButton:hover {
-    border-image: url(:/image/restore-hover.png) 0 0 0 0 stretch stretch;
+    border-image: url(:/image/top-window/restore-hover.png) 0 0 0 0 stretch stretch;
 }
 
 #titleBar #restoreButton:pressed {
-    border-image: url(:/image/restore-pressed.png) 0 0 0 0 stretch stretch;
+    border-image: url(:/image/top-window/restore-pressed.png) 0 0 0 0 stretch stretch;
 }
 
 #titleBar #closeButton {
-    border-image: url(:/image/close.png) 0 0 0 0 stretch stretch;
+    border-image: url(:/image/top-window/close.png) 0 0 0 0 stretch stretch;
 }
 #titleBar #closeButton:hover {
-    border-image: url(:/image/close-hover.png) 0 0 0 0 stretch stretch;
+    border-image: url(:/image/top-window/close-hover.png) 0 0 0 0 stretch stretch;
 }
 
 #titleBar #closeButton:pressed {
-    border-image: url(:/image/close-pressed.png) 0 0 0 0 stretch stretch;
+    border-image: url(:/image/top-window/close-pressed.png) 0 0 0 0 stretch stretch;
 }
 
 QSizeGrip {
     width: 12px;
     height: 12px;
     border-width: 0 0 0 0;
-    border-image: url(:/image/size-grip.png) 0 0 0 0 stretch stretch;
+    border-image: url(:/image/top-window/size-grip.png) 0 0 0 0 stretch stretch;
 }
 </string>
   </property>

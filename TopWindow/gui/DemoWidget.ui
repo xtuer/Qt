@@ -6,168 +6,225 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>550</width>
-    <height>300</height>
+    <width>668</width>
+    <height>363</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <property name="leftMargin">
-    <number>0</number>
-   </property>
-   <property name="topMargin">
-    <number>0</number>
-   </property>
-   <property name="rightMargin">
-    <number>0</number>
-   </property>
-   <property name="bottomMargin">
-    <number>0</number>
-   </property>
-   <item row="2" column="0">
-    <widget class="QRadioButton" name="radioButton">
-     <property name="text">
-      <string>RadioButton</string>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>各种按钮</string>
      </property>
-    </widget>
-   </item>
-   <item row="0" column="0">
-    <widget class="QPushButton" name="pushButton">
-     <property name="text">
-      <string>PushButton</string>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="2">
+       <widget class="QPushButton" name="complexMessageButton">
+        <property name="text">
+         <string>复杂消息</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="4">
+       <widget class="QCheckBox" name="checkBox_3">
+        <property name="text">
+         <string>CheckBox</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="5">
+       <widget class="QCheckBox" name="checkBox_4">
+        <property name="text">
+         <string>CheckBox</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QPushButton" name="closeButton">
+        <property name="text">
+         <string>关闭窗口</string>
+        </property>
+        <property name="autoDefault">
+         <bool>true</bool>
+        </property>
+        <property name="default">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QPushButton" name="simpleMessageButton">
+        <property name="text">
+         <string>简单消息</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QPushButton" name="modalDialogButton">
+        <property name="text">
+         <string>模态对话框</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
-   <item row="2" column="2">
-    <widget class="QCheckBox" name="checkBox">
-     <property name="text">
-      <string>CheckBox</string>
-     </property>
-    </widget>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_5">
+     <item>
+      <widget class="QLineEdit" name="lineEdit_3">
+       <property name="text">
+        <string>大圣，此去欲何</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEdit_4">
+       <property name="text">
+        <string>踏南天，碎凌霄</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="comboBox_2">
+       <property name="minimumSize">
+        <size>
+         <width>120</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maxVisibleItems">
+        <number>20</number>
+       </property>
+       <item>
+        <property name="text">
+         <string>北京</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>天津</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>南京</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>望京</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>西京</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>牛津</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>河北</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>涿州</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>贵州</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>山西</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>湖南</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>湖北</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+    </layout>
    </item>
-   <item row="2" column="1">
-    <widget class="QComboBox" name="comboBox">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
-      <property name="text">
-       <string>1</string>
-      </property>
+      <widget class="QListView" name="listView_2"/>
      </item>
      <item>
-      <property name="text">
-       <string>New Item</string>
-      </property>
+      <widget class="QSlider" name="verticalSlider_2">
+       <property name="maximum">
+        <number>100</number>
+       </property>
+       <property name="value">
+        <number>30</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
      </item>
      <item>
-      <property name="text">
-       <string>New Item</string>
-      </property>
+      <widget class="QTableView" name="tableView_2">
+       <property name="showGrid">
+        <bool>false</bool>
+       </property>
+      </widget>
      </item>
-     <item>
-      <property name="text">
-       <string>New Item</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>New Item</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>New Item</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>New Item</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>New Item</string>
-      </property>
-     </item>
-    </widget>
+    </layout>
    </item>
-   <item row="0" column="2">
-    <widget class="QPushButton" name="pushButton_2">
-     <property name="text">
-      <string>PushButton</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="3">
-    <widget class="QPushButton" name="pushButton_3">
-     <property name="text">
-      <string>PushButton</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0" colspan="4">
-    <widget class="QListWidget" name="listWidget">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_6">
      <item>
-      <property name="text">
-       <string>New Item</string>
-      </property>
+      <widget class="QSlider" name="horizontalSlider_2">
+       <property name="maximum">
+        <number>100</number>
+       </property>
+       <property name="value">
+        <number>30</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
      </item>
      <item>
-      <property name="text">
-       <string>New Item</string>
-      </property>
+      <widget class="QProgressBar" name="progressBar_3">
+       <property name="value">
+        <number>1</number>
+       </property>
+      </widget>
      </item>
      <item>
-      <property name="text">
-       <string>New Item</string>
-      </property>
+      <widget class="QProgressBar" name="progressBar_4">
+       <property name="value">
+        <number>24</number>
+       </property>
+      </widget>
      </item>
-     <item>
-      <property name="text">
-       <string>New Item</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>New Item</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>New Item</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>New Item</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>New Item</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>New Item</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>New Item</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>New Item</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>New Item</string>
-      </property>
-     </item>
-    </widget>
+    </layout>
    </item>
   </layout>
  </widget>

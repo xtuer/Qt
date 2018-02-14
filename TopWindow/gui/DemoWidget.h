@@ -14,6 +14,8 @@ public:
     explicit DemoWidget(QWidget *parent = 0);
     ~DemoWidget();
 
+    QString getStatus() { return "I'm OK"; }
+
 private:
     Ui::DemoWidget *ui;
 };
