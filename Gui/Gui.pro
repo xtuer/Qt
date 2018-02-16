@@ -33,7 +33,8 @@ SOURCES += \
     Widget.cpp \
     Pandora.cpp \
     ImageWidget.cpp \
-    ImageEffects.cpp
+    ImageEffects.cpp \
+    Form.cpp
 
 FORMS += \
     ImageWidget.ui \
@@ -43,5 +44,6 @@ HEADERS += \
     Widget.h \
     Pandora.h \
     ImageWidget.h \
-    ImageEffects.h
+    ImageEffects.h \
+    Form.h
 

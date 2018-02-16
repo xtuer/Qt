@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>image/estas.jpg</file>
+    </qresource>
+</RCC>

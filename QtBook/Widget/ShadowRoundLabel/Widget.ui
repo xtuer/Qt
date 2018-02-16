@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>Widget</class>
+ <widget class="QWidget" name="Widget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -32,12 +32,19 @@ QLabel {
 
     border-radius: 50px;
     border-width: 0 0 0 0;
-    border-image: url(/Users/Biao/Desktop/estas.jpg) 0 0 0 0 stretch strectch;
+    border-image: url(:/image/estas.jpg) 0 0 0 0 stretch strectch;
 }</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="0" column="0">
     <widget class="QLabel" name="commonLabel">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QLabel" name="shadowLabel">
      <property name="text">
       <string/>
      </property>
@@ -93,15 +100,9 @@ QLabel {
      </layout>
     </widget>
    </item>
-   <item row="0" column="1">
-    <widget class="QLabel" name="shadowLabel">
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
   </layout>
  </widget>
+ <layoutdefault spacing="6" margin="11"/>
  <resources/>
  <connections/>
 </ui>
