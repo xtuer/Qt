@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>470</width>
-    <height>134</height>
+    <width>610</width>
+    <height>154</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -33,9 +33,26 @@ QLabel {
     border-radius: 50px;
     border-width: 0 0 0 0;
     border-image: url(:/image/estas.jpg) 0 0 0 0 stretch strectch;
+}
+
+.HolderWidget {
+    min-width: 130px;
+    max-width: 130px;
+    min-height: 130px;
+    max-height: 130px;
+    border-radius: 0;
+}
+
+.BorderWidget {
+    min-width:   96px;
+    max-width:  96px;
+    min-height:  96px;
+    max-height: 96px;
+    border-radius: 54px;
+    border: 6px solid gray;
 }</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_2">
+  <layout class="QGridLayout" name="gridLayout_4">
    <item row="0" column="0">
     <widget class="QLabel" name="commonLabel">
      <property name="text">
@@ -92,6 +109,34 @@ QLabel {
       </property>
       <item row="0" column="0">
        <widget class="QLabel" name="blurLabel">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="4">
+    <widget class="QWidget" name="widget" native="true">
+     <property name="class" stdset="0">
+      <string>HolderWidget</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QLabel" name="innerLabel">
         <property name="text">
          <string/>
         </property>
