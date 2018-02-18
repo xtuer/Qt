@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>image/top-window/shadow.png</file>
+    </qresource>
+</RCC>
