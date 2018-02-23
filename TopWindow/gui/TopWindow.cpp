@@ -1,5 +1,5 @@
-#include "TopWindow.h"
 #include "ui_TopWindow.h"
+#include "TopWindow.h"
 #include "util/NinePatchPainter.h"
 
 #include <QDebug>
