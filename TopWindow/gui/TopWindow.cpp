@@ -6,8 +6,6 @@
 #include <QSizeGrip>
 #include <QPainter>
 #include <QMouseEvent>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
 
 class TopWindowPrivate {
 public:
@@ -70,8 +68,6 @@ TopWindow::TopWindow(QWidget *centralWidget,
 TopWindow::~TopWindow() {
     delete ui;
     delete d;
-
-    qDebug() << "~TopWindow()";
 }
 
 void TopWindow::setTitle(const QString &title) {
@@ -131,6 +127,17 @@ void TopWindow::showModal() {
     loop->exec();
 }
 
+// 查找 widget 所在的顶级窗口
+QWidget *TopWindow::findWindow(QWidget *widget) {
+    QWidget *p = widget;
+
+    while (NULL != p->parentWidget()) {
+        p = p->parentWidget();
+    }
+
+    return p;
+}
+
 // 使用九宫格的方式绘制背景
 void TopWindow::paintEvent(QPaintEvent *event) {
     Q_UNUSED(event);
@@ -184,42 +191,3 @@ void TopWindow::handleEvents() {
         close(); // 关闭窗口
     });
 }
-
-void TopWindow::message(const QString  &msg, int width, int height,
-                        const QMargins &windowPaddings,
-                        const QMargins &borderImageBorders,
-                        const QString  &borderImagePath,
-                        bool  borderImageHorizontalStretch,
-                        bool  borderImageVerticalStretch) {
-    QLabel *messageLabel   = new QLabel(msg);
-    QPushButton *okButton  = new QPushButton("确定");
-    QWidget *centralWidget = new QWidget();
-    centralWidget->setStyleSheet(".QWidget {background: white;} ");
-    messageLabel->setAlignment(Qt::AlignTop | Qt::AlignLeft);
-    messageLabel->setAttribute(Qt::WA_TransparentForMouseEvents);
-
-    // 布局组件
-    QGridLayout *l = new QGridLayout();
-    l->addWidget(messageLabel, 0, 0, 1, 2);
-    l->addWidget(okButton, 1, 1);
-    l->setColumnStretch(0, 10);
-    centralWidget->setLayout(l);
-
-    // 使用自定义窗口
-    TopWindow *window = new TopWindow(centralWidget, windowPaddings, borderImageBorders, borderImagePath,
-                                      borderImageHorizontalStretch, borderImageVerticalStretch);
-    window->setTitleBarVisible(false);
-    window->setResizable(false);
-    window->setWindowFlags(Qt::Dialog | Qt::Popup | Qt::FramelessWindowHint);
-    window->setWindowModality(Qt::ApplicationModal);
-    window->setAttribute(Qt::WA_DeleteOnClose);
-    window->resize(width, height);
-    window->show();
-
-    // 点击确定按钮关闭窗口
-    connect(okButton, &QPushButton::clicked, [=] {
-        window->close();
-    });
-}
-
-

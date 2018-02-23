@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>668</width>
+    <width>724</width>
     <height>363</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>自定义窗口演示</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -23,27 +23,17 @@
       <set>Qt::AlignCenter</set>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="0" column="2">
-       <widget class="QPushButton" name="complexMessageButton">
+      <item row="0" column="3">
+       <widget class="QPushButton" name="confirmButton">
         <property name="text">
-         <string>复杂消息</string>
+         <string>确认对话框</string>
         </property>
        </widget>
       </item>
       <item row="0" column="4">
-       <widget class="QCheckBox" name="checkBox_3">
+       <widget class="QPushButton" name="modalDialogButton">
         <property name="text">
-         <string>CheckBox</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="5">
-       <widget class="QCheckBox" name="checkBox_4">
-        <property name="text">
-         <string>CheckBox</string>
+         <string>模态对话框</string>
         </property>
        </widget>
       </item>
@@ -60,17 +50,17 @@
         </property>
        </widget>
       </item>
+      <item row="0" column="2">
+       <widget class="QPushButton" name="complexMessageButton">
+        <property name="text">
+         <string>复杂消息</string>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="1">
        <widget class="QPushButton" name="simpleMessageButton">
         <property name="text">
          <string>简单消息</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="3">
-       <widget class="QPushButton" name="modalDialogButton">
-        <property name="text">
-         <string>模态对话框</string>
         </property>
        </widget>
       </item>
