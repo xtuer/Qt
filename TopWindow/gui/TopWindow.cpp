@@ -118,13 +118,11 @@ void TopWindow::showModal() {
     setWindowModality(Qt::ApplicationModal);
     show();
 
-    // 进入局部事件循环，阻塞代码继续往下走，窗口关闭时结束此局部事件循环
-    QEventLoop *loop = new QEventLoop();
-    connect(this, &TopWindow::aboutClose, [=] {
-        loop->exit(); // After this function has been called, the event loop returns from the call to exec().
-        loop->deleteLater();
-    });
-    loop->exec();
+    // 进入局部事件循环，阻塞代码继续往下走，窗口关闭时结束此局部事件循环，控制权交还给 QApplication
+    // The event loop returns from the call to quit().
+    QEventLoop loop;
+    connect(this, &TopWindow::aboutClose, &loop, &QEventLoop::quit);
+    loop.exec();
 }
 
 // 查找 widget 所在的顶级窗口
