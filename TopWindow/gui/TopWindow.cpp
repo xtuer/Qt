@@ -58,6 +58,7 @@ TopWindow::TopWindow(QWidget *centralWidget,
     centralWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     delete l->replaceWidget(ui->centralWidget, centralWidget);
     delete ui->centralWidget;
+    setTitle(centralWidget->windowTitle()); // 默认使用 centralWidget 的标题
 
     // 添加 size grip 到窗口右下角
     l->addWidget(d->sizeGrip, 1, 0, Qt::AlignRight | Qt::AlignBottom);
