@@ -62,5 +62,3 @@ void MessageBox::setWindowForMessageBox(TopWindow *window, int width, int height
     window->setWindowModality(Qt::ApplicationModal);
     window->resize(width, height);
 }
-
-
