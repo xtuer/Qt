@@ -1,4 +1,4 @@
-#include "LoginStatusWidget.h"
+﻿#include "LoginStatusWidget.h"
 #include "ui_LoginStatusWidget.h"
 #include "bean/Student.h"
 #include <QStandardItem>

@@ -1,4 +1,4 @@
-#include <QDebug>
+﻿#include <QDebug>
 #include <QTextCodec>
 #include <QApplication>
 
@@ -32,7 +32,8 @@ int main(int argc, char *argv[]) {
     w->show();
 
     MagicWindow *window = new MagicWindow(w, QMargins(1, 1, 1, 1), QMargins(3, 3, 3, 3), ":/img/solid.png", true);
-    window->resize(700, 500);
+    // window->resize(700, 500); // 显示摄像头拍照时的大小
+    window->resize(560, 500);
     window->setResizable(false);
     window->setTitle("");
     window->setTitleBarButtonsVisible(false, false, true);

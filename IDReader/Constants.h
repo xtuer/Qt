@@ -1,4 +1,4 @@
-#ifndef CONSTANTS_H
+﻿#ifndef CONSTANTS_H
 #define CONSTANTS_H
 
 class QString;
@@ -10,6 +10,7 @@ namespace Constants {
 
 namespace Urls {
     extern const QString SIGN_IN;
+    extern const QString MANUAL_SIGN_IN;
     extern const QString INITIALIZE_ROOM;
     extern const QString GET_ROOM_ENROLLMENT;
     extern const QString TIMESTAMP;

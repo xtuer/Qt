@@ -1,6 +1,7 @@
-#include "MainWidget.h"
+﻿#include "MainWidget.h"
 #include "ui_MainWidget.h"
 #include "LoginStatusWidget.h"
+#include "InputDialog.h"
 #include "magic/MagicWindow.h"
 #include "Constants.h"
 #include "bean/Person.h"
@@ -143,6 +144,7 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::MainWidget
 
     setAttribute(Qt::WA_StyledBackground, true);
     d = new MainWidgetPrivate(this);
+    ui->cameraWidget->hide(); // 隐藏摄像头拍照部分
 
     // 添加详情按钮
     QHBoxLayout *l = new QHBoxLayout();
@@ -263,6 +265,11 @@ void MainWidget::handleEvents() {
             showInfo(error, true);
             qDebug() << error;
         });
+    });
+
+    // 手动签到
+    connect(ui->manualSignInButton, &QPushButton::clicked, [this] {
+        showManualLoginWidget();
     });
 }
 
@@ -517,4 +524,58 @@ void MainWidget::showLoginStatusWidget(const QList<Student> &students) {
     window->setWindowModality(Qt::ApplicationModal);
 
     window->show();
+}
+
+void MainWidget::showManualLoginWidget() {
+    QString siteCode = ui->siteComboBox->currentData().toString();
+    QString roomCode = ui->roomComboBox->currentData().toString();
+    QString periodUnitCode = ui->periodUnitComboBox->currentData().toString();
+
+    if (periodUnitCode.isEmpty()) {
+        showInfo("请选择考期", true);
+        return;
+    }
+
+    if (siteCode.isEmpty()) {
+        showInfo("请选择考点", true);
+        return;
+    }
+
+    if (roomCode.isEmpty()) {
+        showInfo("请选择考场", true);
+        return;
+    }
+
+    InputDialog dlg(this);
+    if (QDialog::Accepted != dlg.exec()) {
+        return;
+    }
+
+    QString examineeName = dlg.getExamineeName();
+    QString idCardNo     = dlg.getIdCardNo();
+
+    QString signAt = QString::number(QDateTime::currentMSecsSinceEpoch() - d->timeDiff);
+    QString sign = Util::md5(QString("%1%2").arg(idCardNo).arg(signAt).toUtf8());
+    QString url = d->serverUrl + Urls::MANUAL_SIGN_IN;
+    HttpClient(url).debug(true).manager(d->networkManager)
+            .param("idCardNo", idCardNo)
+            .param("examineeName", examineeName)
+            .param("siteCode", siteCode)
+            .param("roomCode", roomCode)
+            .param("periodUnitCode", periodUnitCode)
+            .param("signAt", signAt)
+            .param("sign", sign)
+            .post([=](const QString &response) {
+        JsonReader json(response.toUtf8());
+
+        if (1 != json.getInt("statusCode")) {
+            showInfo(json.getString("message"), true);
+            return;
+        }
+
+        showInfo("签到成功");
+        loginSuccess(idCardNo);
+    }, [this](const QString &error) {
+        showInfo(error, true);
+    });
 }

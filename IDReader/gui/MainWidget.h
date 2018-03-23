@@ -1,4 +1,4 @@
-#ifndef MAINWIDGET_H
+﻿#ifndef MAINWIDGET_H
 #define MAINWIDGET_H
 
 #include <QWidget>
@@ -49,6 +49,7 @@ private:
 
     void mocLoadStudents();
     void showLoginStatusWidget(const QList<Student> &students); // 可视化的显示登陆状态
+    void showManualLoginWidget();
     void showPerson(const Person &p);
     QString uploadCameraPictureName(); // 上传的考生照片的名字
 

@@ -1,4 +1,4 @@
-#include "Constants.h"
+﻿#include "Constants.h"
 
 #include <QString>
 
@@ -9,6 +9,7 @@ namespace Constants {
 
 namespace Urls {
     const QString SIGN_IN             = "/signIn";
+    const QString MANUAL_SIGN_IN      = "/invigilatorSignIn";
     const QString INITIALIZE_ROOM     = "/initializeRoom";
     const QString GET_ROOM_ENROLLMENT = "/getRoomEnrollment";
     const QString TIMESTAMP           = "/timestamp";
