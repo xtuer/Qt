@@ -1,10 +1,9 @@
+#include "Widget.h"
 #include <QApplication>
-#include "MyWidget.h"
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
-
-    MyWidget w;
+    Widget w;
     w.resize(800, 600);
     w.show();
 

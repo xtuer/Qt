@@ -34,16 +34,28 @@ SOURCES += \
     Pandora.cpp \
     ImageWidget.cpp \
     ImageEffects.cpp \
-    Form.cpp
+    Form.cpp \
+    MyLayoutItem.cpp \
+    MyWidget.cpp \
+    SelectionWidget.cpp \
+    Chart.cpp \
+    ChartView.cpp
 
 FORMS += \
     ImageWidget.ui \
-    Form.ui
+    Form.ui \
+    MyWidget.ui
 
 HEADERS += \
     Widget.h \
     Pandora.h \
     ImageWidget.h \
     ImageEffects.h \
-    Form.h
+    Form.h \
+    MyLayoutItem.h \
+    MyWidget.h \
+    Job.h \
+    SelectionWidget.h \
+    Chart.h \
+    ChartView.h
 

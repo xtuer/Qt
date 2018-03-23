@@ -10,6 +10,4 @@ public:
 
 protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
-
-    int age = 12;
 };
