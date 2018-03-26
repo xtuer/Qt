@@ -547,6 +547,7 @@ void MainWidget::showManualLoginWidget() {
     }
 
     InputDialog dlg(this);
+    dlg.setWindowFlags(dlg.windowFlags() ^ Qt::WindowContextHelpButtonHint);
     if (QDialog::Accepted != dlg.exec()) {
         return;
     }

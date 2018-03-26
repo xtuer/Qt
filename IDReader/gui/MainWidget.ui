@@ -554,7 +554,7 @@
          <item row="9" column="0">
           <widget class="QPushButton" name="manualSignInButton">
            <property name="text">
-            <string>手动签到</string>
+            <string>人工签到</string>
            </property>
           </widget>
          </item>
