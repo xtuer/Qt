@@ -404,6 +404,10 @@ void MainWidget::loadRoom(const QString &siteCode) {
     foreach (const Room &room, s.rooms) {
         ui->roomComboBox->addItem(room.roomCode, room.roomCode);
     }
+
+    if (s.rooms.size() > 0) {
+        ui->roomComboBox->addItem("机动", "x");
+    }
 }
 
 // 刷卡后发送学生信息到服务器

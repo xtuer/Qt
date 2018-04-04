@@ -62,7 +62,17 @@ public:
         delete widget->ui->cameraWidget->layout()->replaceWidget(widget->ui->placeholderLabel, viewfinder);
         delete widget->ui->placeholderLabel;
         camera->setViewfinder(viewfinder); // camera 使用 viewfinder 实时显示图像
-        camera->start();
+
+        // 摄像头状态
+        QObject::connect(camera, &QCamera::statusChanged, [](QCamera::Status status) {
+            qDebug() << "Camera status: " << status;
+        });
+
+        QObject::connect(camera, QOverload<QCamera::Error>::of(&QCamera::error), [=](QCamera::Error error) {
+            qDebug() << "Camera error: " << error;
+        });
+
+        camera->start(); // 启动摄像头
     }
 
     ~MainWidgetPrivate() {

@@ -1,4 +1,4 @@
-#include "SelectableChartView.h"
+﻿#include "SelectableChartView.h"
 
 #include <QDebug>
 #include <QMouseEvent>
@@ -101,11 +101,11 @@ void SelectableChartView::createSelection() {
         } else if (QAbstractAxis::AxisTypeDateTime == axis->type()) {
             // 计算时间轴的范围
             QDateTimeAxis *timeAxis = qobject_cast<QDateTimeAxis*>(axis);
-            qint64 min   = timeAxis->min().toMSecsSinceEpoch();
-            qint64 max   = timeAxis->max().toMSecsSinceEpoch();
-            qint64 unit  = (max-min) / plotRect.width();
-            qint64 start = min   + unit * selectRect.x();
-            qint64 end   = start + unit * selectRect.width();
+            qreal min   = timeAxis->min().toMSecsSinceEpoch();
+            qreal max   = timeAxis->max().toMSecsSinceEpoch();
+            qreal unit  = (max-min) / plotRect.width();
+            qreal start = min   + unit * selectRect.x();
+            qreal end   = start + unit * selectRect.width();
 
             currentRanges.append({timeAxis, timeAxis->min(), timeAxis->max()});
             selectedRanges.append({timeAxis, QDateTime::fromMSecsSinceEpoch(start), QDateTime::fromMSecsSinceEpoch(end)});
@@ -149,9 +149,12 @@ void SelectableChartView::createSelectionLabel(QList<AxisRange> ranges, QRect ge
         bool right  = (range.axis->alignment() & Qt::AlignRight)  != 0;
         bool isDtx = QAbstractAxis::AxisTypeDateTime == range.axis->type(); // 时间坐标轴
         QString temp = QString("%1: %2, %3\n").arg(range.axis->objectName())
-                .arg(isDtx ? range.min.toDateTime().toString("yyyy-MM-dd HH:ss:mm") : QString::number(range.min.toReal()))
-                .arg(isDtx ? range.max.toDateTime().toString("yyyy-MM-dd HH:ss:mm") : QString::number(range.max.toReal()));
+                .arg(isDtx ? range.min.toDateTime().toString("yyyy-MM-dd HH:mm:ss") : QString::number(range.min.toReal()))
+                .arg(isDtx ? range.max.toDateTime().toString("yyyy-MM-dd HH:mm:ss") : QString::number(range.max.toReal()));
 
+        if (isDtx) {
+            qDebug() << range.min.toDateTime().toMSecsSinceEpoch() << range.max.toDateTime().toMSecsSinceEpoch();
+        }
         // 上下的都是水平坐标轴，左右的都是纵坐标轴
         if (xAction->isChecked() && (top || bottom)) {
             // 只取横坐标轴的

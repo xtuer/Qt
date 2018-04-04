@@ -1,4 +1,4 @@
-#include "Widget.h"
+﻿#include "Widget.h"
 #include "ui_Widget.h"
 #include "SelectableChartView.h"
 
@@ -28,7 +28,7 @@ void Widget::createChart() {
     lineSeries->setName("Line");
 
     qint64 current = QDateTime::currentDateTime().toMSecsSinceEpoch();
-    for (int i = 0; i < 100; ++i, current += 3600*24*1000) {
+    for (int i = 0; i < 100; ++i, current += 600) {
         // splineSeries->append(QPoint(i, qrand() % 100));
         // lineSeries->append(QPoint(i, qrand() % 100 - 30));
         splineSeries->append(current, qrand() % 100);
@@ -45,7 +45,7 @@ void Widget::createChart() {
     QDateTimeAxis *axisX = new QDateTimeAxis;
     axisX->setFormat("yyyy-MM-dd HH:mm:ss");
     axisX->setTitleText("时间");
-    axisX->setLabelsAngle(70);
+    axisX->setLabelsAngle(90);
     axisX->setTickCount(8);
     chart->addAxis(axisX, Qt::AlignBottom);
     splineSeries->attachAxis(axisX);
