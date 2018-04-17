@@ -17,8 +17,8 @@
    <string notr="true">#titleBarWidget {
 	background-color: lightgray;
 	background-image: url(:/icon/title-bar-2.png);
-	border-top-left-radius: 4px;
-	border-top-right-radius: 4px;
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
 	min-height: 72px;
 	max-height: 72px;
 }
@@ -32,7 +32,7 @@
 }
 
 #closeButton {
-	border-top-right-radius: 3px;
+	border-top-right-radius: 0px;
 }
 
 #minButton {
