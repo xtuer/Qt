@@ -375,7 +375,7 @@ void MainWidget::loadSiteAndPeriodUnit() {
         ui->siteComboBox->addItem("请选择", "");
 
         foreach (const Site &s, d->sites) {
-            ui->siteComboBox->addItem(s.siteName, s.siteCode);
+            ui->siteComboBox->addItem(s.siteCode + "-" + s.siteName, s.siteCode);
         }
 
         // 解析考期 PeriodUnit
@@ -384,7 +384,7 @@ void MainWidget::loadSiteAndPeriodUnit() {
         ui->periodUnitComboBox->addItem("请选择", "");
 
         foreach (const PeriodUnit &pu, d->periodUnits) {
-            ui->periodUnitComboBox->addItem(pu.period + "-" + pu.unit, pu.periodUnitCode);
+            ui->periodUnitComboBox->addItem(pu.period + "-" + pu.unit + " 单元", pu.periodUnitCode);
         }
 
         showInfo("初始化完成，请选择考期、考点、考场", false);

@@ -317,7 +317,7 @@
       <item>
        <widget class="QPushButton" name="personLabel">
         <property name="text">
-         <string>学员身份证</string>
+         <string>考生身份证信息</string>
         </property>
         <property name="flat">
          <bool>true</bool>
