@@ -1,13 +1,9 @@
-.SettingWidget {
-    background: white;
-}
-
-.WidgetsShower {
-    background: white;
-}
-
 .CentralWidget {
     background: #80848f;
+}
+
+.WidgetsShower, .SettingWidget, .BookEditor {
+    background: white;
 }
 
 QWidget {
