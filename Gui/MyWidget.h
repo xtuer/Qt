@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QLabel>
 
+class MessageShower;
+
 namespace Ui {
 class MyWidget;
 }
@@ -15,15 +17,12 @@ public:
     explicit MyWidget(QWidget *parent = 0);
     ~MyWidget();
 
-protected:
-    bool eventFilter(QObject *watched, QEvent *event) Q_DECL_OVERRIDE;
-    void contextMenuEvent(QContextMenuEvent *event) Q_DECL_OVERRIDE;
-
 private:
     void initializeUi();
     void handleEvents();
 
     Ui::MyWidget *ui;
+    MessageShower *messageShower;
 };
 
 #endif // MYWIDGET_H

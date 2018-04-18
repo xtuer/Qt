@@ -8,6 +8,7 @@
 #include <QDateTime>
 #include <QValueAxis>
 #include <QDateTimeAxis>
+#include <QDebug>
 
 Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
     ui->setupUi(this);
@@ -28,7 +29,7 @@ void Widget::createChart() {
     lineSeries->setName("Line");
 
     qint64 current = QDateTime::currentDateTime().toMSecsSinceEpoch();
-    for (int i = 0; i < 100; ++i, current += 600) {
+    for (int i = 0; i < 100; ++i, current += 600000) {
         // splineSeries->append(QPoint(i, qrand() % 100));
         // lineSeries->append(QPoint(i, qrand() % 100 - 30));
         splineSeries->append(current, qrand() % 100);
@@ -45,7 +46,7 @@ void Widget::createChart() {
     QDateTimeAxis *axisX = new QDateTimeAxis;
     axisX->setFormat("yyyy-MM-dd HH:mm:ss");
     axisX->setTitleText("时间");
-    axisX->setLabelsAngle(90);
+    axisX->setLabelsAngle(-60);
     axisX->setTickCount(8);
     chart->addAxis(axisX, Qt::AlignBottom);
     splineSeries->attachAxis(axisX);
@@ -61,11 +62,20 @@ void Widget::createChart() {
     axisY->setObjectName("温度");
 //    axisY->hide();
 
-    // 显示图标的 view
+    // 1. chartView 声明和定义都要使用 SelectableChartView
     chartView = new SelectableChartView(chart);
     layout()->replaceWidget(ui->widget, chartView);
+
+    // 2. 设置灭菌的相关参数
+    chartView->setSterilizationParams(QDateTime::currentDateTime().addSecs(5000),
+                                      QDateTime::currentDateTime().addSecs(50000),
+                                      85);
+    // 3. 设置显示灭菌辅助线，默认是隐藏的
+    chartView->setSterilizationMarkersVisible(true);
 }
 
 void Widget::handleEvents() {
-
+    connect(ui->pushButton, &QPushButton::clicked, [this] {
+        chartView->getDateTimeAxis()->setRange(QDateTime::currentDateTime(), QDateTime::currentDateTime().addDays(10));
+    });
 }

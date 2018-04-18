@@ -12,12 +12,19 @@
 #include <QActionGroup>
 #include <QLegendMarker>
 #include <QDateTime>
+#include <QPainter>
 
 SelectableChartView::SelectableChartView(QChart *chart) : QChartView(chart) {
     // TODO: 会选择选区内的点，点多时效率比较低，业务不需要，可以优化, 改为 QRubberBand
     setDragMode(QGraphicsView::RubberBandDrag);
     setRenderHint(QPainter::Antialiasing);
     chart->installEventFilter(this);
+
+    // 灭菌辅助线 widget
+    sterilizationMarkerWidget = new QWidget(this);
+    sterilizationMarkerWidget->setAttribute(Qt::WA_TransparentForMouseEvents);
+    sterilizationMarkerWidget->installEventFilter(this);
+    sterilizationMarkerWidget->setVisible(false);
 
     createContextMenu();
     handleLegend();
@@ -35,11 +42,73 @@ void SelectableChartView::clearSelections() {
     }
 }
 
+// 获取水平时间轴的最小值
+QDateTime SelectableChartView::getMinDateTime() const {
+    QDateTimeAxis *axis = getDateTimeAxis();
+    return (NULL != axis) ? axis->min() : QDateTime();
+}
+
+// 获取水平时间轴的最大值
+QDateTime SelectableChartView::getMaxDateTime() const {
+    QDateTimeAxis *axis = getDateTimeAxis();
+    return (NULL != axis) ? axis->max() : QDateTime();
+}
+
+// 获取左边垂直坐标轴的最小温度
+double SelectableChartView::getMinTemperature() const {
+    QValueAxis *axis = getTemperatureAxis();
+    return (NULL != axis) ? axis->min() : INT_MAX;
+}
+
+// 获取左边垂直坐标轴的最高温度
+double SelectableChartView::getMaxTemperature() const {
+    QValueAxis *axis = getTemperatureAxis();
+    return (NULL != axis) ? axis->max() : INT_MIN;
+}
+
+// 获取水平的时间坐标轴
+QDateTimeAxis *SelectableChartView::getDateTimeAxis() const {
+    QList<QAbstractAxis*> axes = chart()->axes(Qt::Horizontal);
+
+    if (axes.size() > 0 && QAbstractAxis::AxisTypeDateTime == axes[0]->type()) {
+        return qobject_cast<QDateTimeAxis*>(axes[0]);
+    }
+
+    return NULL;
+}
+
+// 获取左边垂直坐标轴的温度坐标轴
+QValueAxis *SelectableChartView::getTemperatureAxis() const {
+    QList<QAbstractAxis*> axes = chart()->axes(Qt::Vertical);
+
+    if (axes.size() > 0 && QAbstractAxis::AxisTypeValue == axes[0]->type()) {
+        return qobject_cast<QValueAxis*>(axes[0]);
+    }
+
+    return NULL;
+}
+
+// 设置灭菌参数
+void SelectableChartView::setSterilizationParams(const QDateTime &sterilizeStartTime,
+                                                 const QDateTime &sterilizeEndTime,
+                                                 double sterilizeTemperature) {
+    this->sterilizeStartTime = sterilizeStartTime;
+    this->sterilizeEndTime = sterilizeEndTime;
+    this->sterilizeTemperature = sterilizeTemperature;
+}
+
+// 设置是否显示灭菌的辅助线
+void SelectableChartView::setSterilizationMarkersVisible(bool visible) {
+    this->sterilizationMarkerWidget->setVisible(visible);
+}
+
 bool SelectableChartView::eventFilter(QObject *watched, QEvent *event) {
     // 在 QChart 上按下鼠标时保存按下的坐标
     if (watched == chart() && event->type() == QEvent::GraphicsSceneMousePress) {
         QGraphicsSceneMouseEvent *me = static_cast<QGraphicsSceneMouseEvent*>(event);
         pressedPointAtChart = QPoint(me->pos().x(), me->pos().y());
+    } else if (watched == sterilizationMarkerWidget && event->type() == QEvent::Paint) {
+        drawSterilizationMarkers();
     }
 
     return QChartView::eventFilter(watched, event);
@@ -68,6 +137,14 @@ void SelectableChartView::mouseReleaseEvent(QMouseEvent *event) {
 
     // 让父类处理事件
     QChartView::mouseReleaseEvent(event);
+}
+
+void SelectableChartView::resizeEvent(QResizeEvent *event) {
+    QChartView::resizeEvent(event);
+
+    if (chart()) {
+        sterilizationMarkerWidget->setGeometry(chart()->plotArea().toRect());
+    }
 }
 
 // 创建选区
@@ -271,4 +348,51 @@ void SelectableChartView::handleLegend(QChart *chart) {
             marker->setPen(pen);
         });
     }
+}
+
+// 绘制灭菌辅助线
+void SelectableChartView::drawSterilizationMarkers() {
+    QPainter painter(sterilizationMarkerWidget);
+    painter.setPen(QPen(Qt::darkGray, 2, Qt::DashLine));
+
+    // 加粗字体
+    QFont font = painter.font();
+    font.setBold(true);
+    painter.setFont(font);
+
+    int w = sterilizationMarkerWidget->width();
+    int h = sterilizationMarkerWidget->height();
+
+    double tMin = getMinTemperature();
+    double tMax = getMaxTemperature();
+
+    // 绘制温度辅助线
+    int ty = h - (sterilizeTemperature-tMin) / (tMax - tMin) * h;
+    painter.drawLine(0, ty, width(), ty);
+    painter.drawText(10, ty+15, "灭菌设定温度");
+
+
+    qint64 dMin = getMinDateTime().toMSecsSinceEpoch();
+    qint64 dMax = getMaxDateTime().toMSecsSinceEpoch();
+    qint64 s = sterilizeStartTime.toMSecsSinceEpoch();
+    qint64 e = sterilizeEndTime.toMSecsSinceEpoch();
+
+    int sx = (double)(s-dMin)/(dMax-dMin) * w; // 灭菌开始的横坐标
+    int ex = (double)(e-dMin)/(dMax-dMin) * w; // 灭菌结束的横坐标
+
+    // 绘制灭菌开始的辅助线
+    painter.save();
+    painter.drawLine(sx, 0, sx, h);
+    painter.translate(sx, 0);
+    painter.rotate(90);
+    painter.drawText(5, -5, getMinDateTime().toString("平衡灭菌开始 yyyy-MM-dd HH:mm:ss"));
+    painter.restore();
+
+    // 绘制灭菌结束的辅助线
+    painter.save();
+    painter.drawLine(ex, 0, ex, h);
+    painter.translate(ex, 0);
+    painter.rotate(90);
+    painter.drawText(5, -5, getMaxDateTime().toString("灭菌结束时间 yyyy-MM-dd HH:mm:ss"));
+    painter.restore();
 }

@@ -39,12 +39,14 @@ SOURCES += \
     MyWidget.cpp \
     SelectionWidget.cpp \
     Chart.cpp \
-    ChartView.cpp
+    ChartView.cpp \
+    MessageShower.cpp
 
 FORMS += \
     ImageWidget.ui \
     Form.ui \
-    MyWidget.ui
+    MyWidget.ui \
+    MessageShower.ui
 
 HEADERS += \
     Widget.h \
@@ -57,5 +59,6 @@ HEADERS += \
     Job.h \
     SelectionWidget.h \
     Chart.h \
-    ChartView.h
+    ChartView.h \
+    MessageShower.h
 

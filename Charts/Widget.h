@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+class SelectableChartView;
+
 namespace Ui {
 class Widget;
 }
@@ -25,7 +27,7 @@ private:
 
     Ui::Widget *ui;
     QtCharts::QChart *chart;
-    QtCharts::QChartView *chartView;
+    SelectableChartView *chartView;
 };
 
 #endif // WIDGET_H
