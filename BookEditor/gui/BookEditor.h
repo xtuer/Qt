@@ -28,8 +28,8 @@ private:
     void handleEvents(); // 事件处理
     void createBooksContextMenu();    // 创建左侧教材树的右键菜单
     void createChaptersContextMenu(); // 创建中间章节树的右键菜单
-    void openBook(const QString &path);  // 打开教材显示到右边
-    void openBooks(const QString &path); // 打开教材显示到左侧的教材目录树中
+    void openBook(const QString &path);  // 打开教材内容显示到右边
+    void openBooks(const QString &path); // 打开教材结构显示到左侧的教材目录树中
     void resetBook();  // 重置右边的教材信息
     bool validate() const; // 校验教材和章节的编码是否唯一未被重复使用
 

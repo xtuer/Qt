@@ -99,7 +99,7 @@ void BookEditor::handleEvents() {
 
             QFileInfo bookFileInfo(booksDir, bookCode + ".json"); // 教材文件信息
             openBook(bookFileInfo.absoluteFilePath()); // 打开教材
-            originalBookCode = bookCode; // 保存加载时候的教材编码
+            originalBookCode = bookCode; // 加载教材时保存教材的编码
         }
     });
 
@@ -335,7 +335,7 @@ void BookEditor::createChaptersContextMenu() {
     });
 }
 
-// 打开教材显示到右边
+// 打开教材内容显示到右边
 void BookEditor::openBook(const QString &path) {
     QFile file(path);
     if (!file.exists()) {
@@ -359,7 +359,7 @@ void BookEditor::openBook(const QString &path) {
     originalBookCode = ui->bookCodeEdit->text().trimmed(); // 保存打开时候的教材编码
 }
 
-// 打开教材显示到左侧的教材目录树中
+// 打开教材结构显示到左侧的教材目录树中
 void BookEditor::openBooks(const QString &path) {
     resetBook();
     bookService->openBooks(path);
@@ -379,90 +379,118 @@ void BookEditor::resetBook() {
 // 校验教材和章节的编码是否唯一未被重复使用
 bool BookEditor::validate() const {
     // 校验逻辑:
-    // 1. 需要选择教材版本
-    // 2. 教材的学科不能为空
-    // 3. 教材的版本不能为空
-    // 4. 教材的编码不能为空
-    // 5. 教材编码不能重复使用
-    // 6. 章节编码不能在当前教材中重复使用
+    // 1. 没选择教材则只校验教材结构
+    // 2. 选择教材不但要校验教材结构，还要校验教材内容
+    //    2.1 教材的学科不能为空
+    //    2.2 教材的版本不能为空
+    //    2.3 教材的编码不能为空
+    //    2.4 教材编码不能重复使用
+    //    2.5 章节编码不能在当前教材中重复使用
 
-    // [1] 需要选择教材版本
     if (!bookService->isBookIndex(currentBookIndex)) {
-        MessageBox::message("请先选择 <font color='red'>教材版本</font>");
-        return false;
+        // [1] 没选择教材则只校验教材结构
+        QString error;
+        bool ok = bookService->validateBooks(currentBookIndex, ui->bookCodeEdit->text().trimmed(), &error);
+
+        if (!ok) {
+            error.replace("\n", "<br>");
+            error = QString("<center><font color='red'>校验失败:</font></center><br>%1").arg(error);
+
+            MessageBox::message(error, 400, 300);
+        }
+
+        return ok;
+    } else {
+        // [2] 选择教材不但要校验教材结构，还要校验教材内容
+        // [2.1] 教材的学科不能为空
+        if (ui->bookSubjectEdit->text().trimmed().isEmpty()) {
+            MessageBox::message("教材的 <font color='red'>学科</font> 不能为空");
+            return false;
+        }
+
+        // [2.2] 教材的版本不能为空
+        if (ui->bookVersionEdit->text().trimmed().isEmpty()) {
+            MessageBox::message("教材的 <font color='red'>版本</font> 不能为空");
+            return false;
+        }
+
+        // [2.3] 教材的编码不能为空
+        if (ui->bookCodeEdit->text().trimmed().isEmpty()) {
+            MessageBox::message("教材的 <font color='red'>编码</font> 不能为空");
+            return false;
+        }
+
+        // [2.4] 教材编码不能重复使用
+        // [2.5] 章节编码不能在当前教材中重复使用
+        QString error1;
+        QString error2;
+        bool ok1 = bookService->validateBooks(currentBookIndex, ui->bookCodeEdit->text().trimmed(), &error1);
+        bool ok2 = bookService->validateChapters(&error2);
+
+        if (!ok1) { error1.prepend("教材:\n"); }
+        if (!ok2) { error2.prepend("章节:\n"); }
+
+        if (!ok1 || !ok2) {
+            QString error = error1 + "\n" + error2;
+            error.replace("\n", "<br>");
+            error = QString("<center><font color='red'>校验失败: 编码被重复使用</font></center><br>%1").arg(error);
+
+            MessageBox::message(error, 400, 300);
+        }
+
+        return ok1 && ok2;
     }
-
-    // [2] 教材的学科不能为空
-    if (ui->bookSubjectEdit->text().trimmed().isEmpty()) {
-        MessageBox::message("教材的 <font color='red'>学科</font> 不能为空");
-        return false;
-    }
-
-    // [3] 教材的版本不能为空
-    if (ui->bookVersionEdit->text().trimmed().isEmpty()) {
-        MessageBox::message("教材的 <font color='red'>版本</font> 不能为空");
-        return false;
-    }
-
-    // [4] 教材的编码不能为空
-    if (ui->bookCodeEdit->text().trimmed().isEmpty()) {
-        MessageBox::message("教材的 <font color='red'>编码</font> 不能为空");
-        return false;
-    }
-
-    // [5] 教材编码不能重复使用
-    // [6] 章节编码不能在当前教材中重复使用
-    QString error1;
-    QString error2;
-    bool ok1 = bookService->validateBooks(currentBookIndex, ui->bookCodeEdit->text().trimmed(), &error1);
-    bool ok2 = bookService->validateChapters(&error2);
-
-    if (!ok1) { error1.prepend("教材:\n"); }
-    if (!ok2) { error2.prepend("章节:\n"); }
-
-    if (!ok1 || !ok2) {
-        QString error = error1 + "\n" + error2;
-        error.replace("\n", "<br>");
-        error = QString("<center><font color='red'>校验失败: 编码被重复使用</font></center><br>%1").arg(error);
-
-        MessageBox::message(error, 400, 300);
-    }
-
-    return ok1 && ok2;
 }
 
 void BookEditor::save() {
-    // 逻辑:
+    // 保存逻辑:
     // 1. 验证不通过不进行保存
-    // 2. 删除旧的教材文件 ${originalBookCode}.json
-    // 3. 保存当前的教材到 ${bookCode}.json
-    // 4. originalBookCode 赋值为 bookCode
+    // 2. 没选择教材则只保存教材结构到 books.json
+    // 3. 选择教材不但要保存教材结构，还要保存教材内容
+    //    3.1 更新 bookCode 到教材结构中选中的教材，originalBookCode 赋值为 bookCode，用于下次更新删除无效教材文件
+    //    3.2 删除旧的教材文件 ${originalBookCode}.json
+    //    3.3 保存教材结构到 books.json
+    //    3.4 保存当前的教材到 ${bookCode}.json
 
     // [1] 验证不通过不进行保存
     if (!validate()) { return; }
 
-    QString bookCode        = ui->bookCodeEdit->text().trimmed();
-    QString bookSubject     = ui->bookSubjectEdit->text().trimmed();
-    QString bookVersion     = ui->bookVersionEdit->text().trimmed();
-    QString bookCover       = ui->bookCoverEdit->text().trimmed();
-    QString bookRequirement = ui->bookRequirementEdit->text().trimmed();
+    if (!bookService->isBookIndex(currentBookIndex)) {
+        // [2] 没选择教材则只保存教材结构到 books.json
+        bool ok = bookService->saveBooks(booksDir);
 
-    // [2] 删除旧的教材文件 ${originalBookCode}.json
-    if (originalBookCode != bookCode) {
-        QFile::remove(booksDir.filePath(originalBookCode + ".json"));
-    }
-
-    // [3] 保存当前的教材到 ${bookCode}.json
-    // [4] originalBookCode 赋值为 bookCode
-    booksModel->setData(currentBookIndex, bookCode, ROLE_CODE);
-    bool ok1 = bookService->saveBook(bookCode, bookSubject, bookVersion, bookRequirement, bookCover, booksDir);
-    bool ok2 = bookService->saveBooks(booksDir);
-    originalBookCode = bookCode;
-
-    if (ok1 && ok2) {
-        MessageBox::message("<font color='green'>保存成功</fong>");
+        if (ok) {
+            MessageBox::message("<font color='green'>保存成功</fong>");
+        } else {
+            MessageBox::message("<font color='red'>保存失败</fong>");
+        }
     } else {
-        MessageBox::message("<font color='red'>保存失败</fong>");
+        // [3] 选择教材不但要保存教材结构，还要保存教材内容
+        QString bookCode        = ui->bookCodeEdit->text().trimmed();
+        QString bookSubject     = ui->bookSubjectEdit->text().trimmed();
+        QString bookVersion     = ui->bookVersionEdit->text().trimmed();
+        QString bookCover       = ui->bookCoverEdit->text().trimmed();
+        QString bookRequirement = ui->bookRequirementEdit->text().trimmed();
+
+        // [3.1] 更新 bookCode 到教材结构中选中的教材
+        booksModel->setData(currentBookIndex, bookCode, ROLE_CODE);
+
+        // [3.2] 删除旧的教材文件 ${originalBookCode}.json
+        if (originalBookCode != bookCode) {
+            QFile::remove(booksDir.filePath(originalBookCode + ".json"));
+        }
+        originalBookCode = bookCode;
+
+        // [3.3] 保存教材结构到 books.json
+        // [3.4] 保存当前的教材到 ${bookCode}.json
+        bool ok1 = bookService->saveBooks(booksDir);
+        bool ok2 = bookService->saveBook(bookCode, bookSubject, bookVersion, bookRequirement, bookCover, booksDir);
+
+        if (ok1 && ok2) {
+            MessageBox::message("<font color='green'>保存成功</fong>");
+        } else {
+            MessageBox::message("<font color='red'>保存失败</fong>");
+        }
     }
 }
 
