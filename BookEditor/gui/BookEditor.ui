@@ -6,49 +6,56 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>478</width>
-    <height>577</height>
+    <width>484</width>
+    <height>401</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_4">
-   <item row="0" column="0">
+   <item row="0" column="1">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>书本信息</string>
+      <string>教材信息</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="2">
-       <widget class="QLabel" name="label_2">
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_5">
         <property name="text">
-         <string>教材版本</string>
+         <string>封面</string>
         </property>
-       </widget>
-      </item>
-      <item row="0" column="3">
-       <widget class="QLineEdit" name="bookVersionEdit"/>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>课程</string>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QLineEdit" name="bookNameEdit"/>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>编码</string>
+       <widget class="QLineEdit" name="bookSubjectEdit">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+        <property name="placeholderText">
+         <string/>
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="bookCodeEdit"/>
+      <item row="2" column="1" colspan="3">
+       <widget class="QLineEdit" name="bookCoverEdit">
+        <property name="placeholderText">
+         <string>封面的 URL</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QLineEdit" name="bookVersionEdit">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+        <property name="placeholderText">
+         <string/>
+        </property>
+       </widget>
       </item>
       <item row="1" column="2">
        <widget class="QLabel" name="label_4">
@@ -60,48 +67,67 @@
         </property>
        </widget>
       </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>版本</string>
+        </property>
+       </widget>
+      </item>
       <item row="1" column="3">
-       <widget class="QLineEdit" name="bookEditionEdit">
+       <widget class="QLineEdit" name="bookRequirementEdit">
         <property name="text">
-         <string>必修一</string>
+         <string/>
+        </property>
+        <property name="placeholderText">
+         <string>必修选修</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_5">
-        <property name="text">
-         <string>封面</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="bookCodeEdit">
+        <property name="placeholderText">
+         <string>编码不能重复、不能为空</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="1" colspan="3">
-       <widget class="QLineEdit" name="bookLogoEdit"/>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>编码</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>学科</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
    </item>
-   <item row="1" column="0">
-    <widget class="QGroupBox" name="groupBox_2">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
+   <item row="1" column="1">
+    <widget class="QTreeView" name="chaptersTreeView"/>
+   </item>
+   <item row="0" column="0" rowspan="2">
+    <widget class="QTreeView" name="booksTreeView">
+     <property name="minimumSize">
+      <size>
+       <width>100</width>
+       <height>0</height>
+      </size>
      </property>
-     <property name="title">
-      <string>章节信息</string>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>16777215</height>
+      </size>
      </property>
-     <layout class="QGridLayout" name="gridLayout_3">
-      <item row="0" column="0" rowspan="2">
-       <widget class="QTreeView" name="treeView"/>
-      </item>
-     </layout>
     </widget>
    </item>
-   <item row="2" column="0">
+   <item row="2" column="0" colspan="2">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QPushButton" name="openButton">
@@ -135,6 +161,12 @@
        <property name="text">
         <string>保存</string>
        </property>
+       <property name="autoDefault">
+        <bool>true</bool>
+       </property>
+       <property name="default">
+        <bool>true</bool>
+       </property>
       </widget>
      </item>
     </layout>
@@ -142,12 +174,11 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>bookNameEdit</tabstop>
+  <tabstop>bookSubjectEdit</tabstop>
   <tabstop>bookVersionEdit</tabstop>
   <tabstop>bookCodeEdit</tabstop>
-  <tabstop>bookEditionEdit</tabstop>
-  <tabstop>bookLogoEdit</tabstop>
-  <tabstop>treeView</tabstop>
+  <tabstop>bookRequirementEdit</tabstop>
+  <tabstop>bookCoverEdit</tabstop>
   <tabstop>openButton</tabstop>
   <tabstop>checkButton</tabstop>
   <tabstop>saveButton</tabstop>

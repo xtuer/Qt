@@ -3,9 +3,13 @@
 
 #include <QString>
 #include <QStringList>
+#include <QSettings>
+#include <QTextCodec>
 
 Config::Config() {
     json = new Json("data/config.json", true); // 配置文件路径
+    appSettings = new QSettings("app.data", QSettings::IniFormat);
+    appSettings->setIniCodec(QTextCodec::codecForName("UTF8"));
 }
 
 Config::~Config() {
@@ -13,8 +17,16 @@ Config::~Config() {
 }
 
 void Config::destroy() {
+    // 保存配置到文件
+    if (NULL != appSettings) {
+        appSettings->sync();
+    }
+
     delete json;
+    delete appSettings;
+
     json = NULL;
+    appSettings = NULL;
 }
 
 QString Config::getDatabaseType() const {
@@ -67,4 +79,12 @@ QStringList Config::getDatabaseSqlFiles() const {
 
 QStringList Config::getQssFiles() const {
     return json->getStringList("qss_files");
+}
+
+QString Config::getBooksDir() const {
+    return appSettings->value("booksDir").toString();
+}
+
+void Config::setBooksDir(const QString &booksDir) {
+    appSettings->setValue("booksDir", booksDir);
 }

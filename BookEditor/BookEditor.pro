@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT += core gui
+QT += core gui network
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET   = BookEditor
@@ -31,9 +31,7 @@ UI_DIR      = $$output
 include(gui/gui.pri)
 include(util/util.pri)
 include(bean/bean.pri)
+include(service/service.pri)
 
 SOURCES += \
         main.cpp
-
-RESOURCES += \
-    top-window-resources.qrc

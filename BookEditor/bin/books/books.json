@@ -1,0 +1,71 @@
+{
+    "phases": [
+        {
+            "name": "高中",
+            "subjects": [
+                {
+                    "books": [
+                        {
+                            "code": "gzywbdb",
+                            "version": "猴子版"
+                        },
+                        {
+                            "code": "gzywbdb-12",
+                            "version": "北大版"
+                        }
+                    ],
+                    "name": "高中文学"
+                },
+                {
+                    "books": [
+                        {
+                            "code": "gzsxtsb",
+                            "version": "泰山版"
+                        },
+                        {
+                            "code": "gzsxbdb",
+                            "version": "北大版"
+                        }
+                    ],
+                    "name": "高中数学"
+                }
+            ]
+        },
+        {
+            "name": "初中",
+            "subjects": [
+                {
+                    "books": [
+                        {
+                            "code": "czywqhb",
+                            "version": "清华版"
+                        },
+                        {
+                            "code": "czywbdb",
+                            "version": "北大版"
+                        }
+                    ],
+                    "name": "初中语文"
+                },
+                {
+                    "books": [
+                        {
+                            "code": "czsxgrb",
+                            "version": "工人版"
+                        },
+                        {
+                            "code": "czsxbdb",
+                            "version": "北大版"
+                        }
+                    ],
+                    "name": "初中数学"
+                }
+            ]
+        },
+        {
+            "name": "小学",
+            "subjects": [
+            ]
+        }
+    ]
+}

@@ -2,6 +2,7 @@
 #include "gui/TopWindow.h"
 #include "gui/LoginWidget.h"
 #include "util/UiUtil.h"
+#include "util/Config.h"
 #include "util/LogHandler.h"
 
 #include <QApplication>
@@ -18,8 +19,10 @@ int main(int argc, char *argv[]) {
 
     // [1] 主窗口使用自定义窗口显示
     TopWindow window(new CentralWidget());
-    window.setTitle("普通窗口");
+    window.setTitle("教材编辑");
     window.resize(700, 700);
+    window.setResizable(false);
+//    window.setTitleBarButtonsVisible(false, false, true);
     UiUtil::centerWindow(&window);
     window.show();
 
@@ -58,4 +61,5 @@ static void initialize() {
  */
 static void finalize() {
     LogHandlerInstance.uninstallMessageHandler(); // 程序结束时释放 LogHandler 的资源，例如刷新并关闭日志文件
+    ConfigInstance.destroy();
 }

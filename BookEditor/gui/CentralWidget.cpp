@@ -53,6 +53,7 @@ CentralWidget::~CentralWidget() {
 void CentralWidget::initializeUi() {
     ui->setupUi(this);
     setAttribute(Qt::WA_StyledBackground);
+    ui->sideBarWidget->hide();
 
     // 去掉窗口和侧边栏的 padding 和 margin
     UiUtil::setWidgetPaddingAndSpacing(this, 0, 0);

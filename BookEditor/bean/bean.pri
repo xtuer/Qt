@@ -1,5 +1,5 @@
 HEADERS += \
-    $$PWD/Device.h
+    $$PWD/Book.h
 
 SOURCES += \
-    $$PWD/Device.cpp
+    $$PWD/Book.cpp

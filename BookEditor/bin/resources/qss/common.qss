@@ -6,24 +6,30 @@
     background: white;
 }
 
-QWidget {
-    color: #495060;
+.BookEditor #booksTreeView {
+    min-width: 200px;
+    max-width: 200px;
 }
 
-QWidget:focus {
-    outline: none; /* 去掉得到焦点时的虚线框 */
+.BookEditor #previewButton {
+    min-width:  16px;
+    max-width:  16px;
+    min-height: 16px;
+    max-height: 16px;
+    padding: 0;
+    margin-right: 4px;
+    border-width: 0;
+    border-image: url(image/common/preview.png) 0;
 }
 
-QLineEdit {
-    height: 24px;
-    font-size: 12px;
-    border: 1px solid #dddee1;
-    border-radius: 4px;
-    color: #495060;
-    background-color: #fff;
-    padding: 0 4px;
+.BookEditor #previewButton:hover {
+    border-image: url(image/common/preview-hover.png) 0;
 }
 
-QLineEdit:focus {
-    border-color: #57a3f3;
+.BookEditor #previewButton:pressed {
+    border-image: url(image/common/preview-pressed.png) 0;
+}
+
+.BookEditor #bookCoverEdit {
+    padding-right: 22px;
 }

@@ -5,9 +5,10 @@
 
 #define ConfigInstance Singleton<Config>::getInstance()
 
+class Json;
 class QString;
 class QStringList;
-class Json;
+class QSettings;
 
 /**
  * 用于读写配置文件:
@@ -38,8 +39,12 @@ public:
     // 其它
     QStringList getQssFiles() const; // QSS 样式表文件, 可以是多个
 
+    // 教材目录
+    QString getBooksDir() const;
+    void setBooksDir(const QString &booksDir);
 private:
     Json *json;
+    QSettings *appSettings;
 };
 
 #endif // CONFIG_H

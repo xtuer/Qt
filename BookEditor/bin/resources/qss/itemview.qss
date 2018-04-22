@@ -65,7 +65,8 @@ QHeaderView::section:horizontal {
     height: 24px;
 }
 
-QHeaderView::section:horizontal:first {
+QHeaderView::section:horizontal:first,
+QHeaderView::section:horizontal:only-one {
     border-left: 0px solid #dddee1;
 }
 
@@ -118,11 +119,11 @@ QTreeView::branch:has-siblings:!adjoins-item {
  QTreeView::branch:has-children:!has-siblings:closed,
  QTreeView::branch:closed:has-children:has-siblings {
          border-image: none;
-         image: url(image/treeview/branch-closed.png);
+         image: url(image/treeview/branch-close.png) 0;
  }
 
  QTreeView::branch:open:has-children:!has-siblings,
  QTreeView::branch:open:has-children:has-siblings  {
          border-image: none;
-         image: url(image/treeview/branch-open.png);
+         image: url(image/treeview/branch-open.png) 0;
  }
