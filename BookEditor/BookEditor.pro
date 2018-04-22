@@ -14,6 +14,9 @@ CONFIG  -= app_bundle
 DEFINES += QT_MESSAGELOGCONTEXT
 DEFINES += QT_DEPRECATED_WARNINGS
 
+ICON = AppIcon.icns
+RC_ICONS = AppIcon.ico
+
 # Output directory
 CONFIG(debug, debug|release) {
     output = debug
