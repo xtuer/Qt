@@ -1,8 +1,9 @@
-#include "Util.h"
+﻿#include "Util.h"
 
 #include <QDebug>
 #include <QFile>
 #include <QTextStream>
+#include <QTextCodec>
 
 bool Util::writeStringToFile(const QString &content, const QString &path, QString *error) {
     QFile file(path);
@@ -19,6 +20,7 @@ bool Util::writeStringToFile(const QString &content, const QString &path, QStrin
     }
 
     QTextStream ts(&file);
+    ts.setCodec(QTextCodec::codecForName("UTF8"));
     ts << content;
     file.flush();
     file.close();

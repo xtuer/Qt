@@ -1,4 +1,4 @@
-#include "Config.h"
+﻿#include "Config.h"
 #include "Json.h"
 
 #include <QString>
@@ -8,7 +8,7 @@
 
 Config::Config() {
     json = new Json("data/config.json", true); // 配置文件路径
-    appSettings = new QSettings("app.data", QSettings::IniFormat);
+    appSettings = new QSettings("data/app.data", QSettings::IniFormat);
     appSettings->setIniCodec(QTextCodec::codecForName("UTF8"));
 }
 
