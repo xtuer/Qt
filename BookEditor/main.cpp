@@ -60,6 +60,6 @@ static void initialize() {
  * 程序结束时释放回收资源，例如释放日志资源，释放数据库连接池资源等
  */
 static void finalize() {
-    LogHandlerInstance.uninstallMessageHandler(); // 程序结束时释放 LogHandler 的资源，例如刷新并关闭日志文件
     ConfigInstance.destroy();
+    LogHandlerInstance.uninstallMessageHandler(); // 程序结束时释放 LogHandler 的资源，例如刷新并关闭日志文件
 }
