@@ -40,13 +40,15 @@ SOURCES += \
     SelectionWidget.cpp \
     Chart.cpp \
     ChartView.cpp \
-    MessageShower.cpp
+    MessageShower.cpp \
+    DragAndDropTreeView.cpp
 
 FORMS += \
     ImageWidget.ui \
     Form.ui \
     MyWidget.ui \
-    MessageShower.ui
+    MessageShower.ui \
+    DragAndDropTreeView.ui
 
 HEADERS += \
     Widget.h \
@@ -60,5 +62,6 @@ HEADERS += \
     SelectionWidget.h \
     Chart.h \
     ChartView.h \
-    MessageShower.h
+    MessageShower.h \
+    DragAndDropTreeView.h
 

@@ -1,6 +1,8 @@
 #include <QApplication>
 #include "MessageShower.h"
 #include "MyWidget.h"
+#include "DragAndDropTreeView.h"
+
 #include <QTimer>
 #include <QDateTime>
 #include <QShortcut>
@@ -11,7 +13,9 @@ void showMessageWidget();
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
-    showMessageWidget();
+//    showMessageWidget();
+    DragAndDropTreeView view;
+    view.show();
 
     return a.exec();
 }

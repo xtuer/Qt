@@ -48,15 +48,28 @@ void BookEditor::initialize() {
     setAttribute(Qt::WA_StyledBackground);
 
     // 左侧教材的树
-    booksModel = new QStandardItemModel();
+    booksModel = new QStandardItemModel(this);
     booksModel->setHorizontalHeaderLabels(QStringList() << "教材 (阶段 > 学科 > 版本)");
     ui->booksTreeView->setModel(booksModel);
 
     // 教材章节目录的树
-    chaptersModel = new QStandardItemModel();
+    chaptersModel = new QStandardItemModel(this);
     chaptersModel->setHorizontalHeaderLabels(QStringList() << "章节" << "编码");
     ui->chaptersTreeView->setModel(chaptersModel);
     ui->chaptersTreeView->setColumnWidth(0, 250);
+
+    // 启用拖拽
+    ui->booksTreeView->setDragEnabled(true);
+    ui->booksTreeView->setAcceptDrops(true);
+    ui->booksTreeView->setDropIndicatorShown(true);
+    ui->booksTreeView->setDragDropMode(QAbstractItemView::InternalMove);
+    ui->booksTreeView->setSelectionMode(QAbstractItemView::SingleSelection);
+
+    ui->chaptersTreeView->setDragEnabled(true);
+    ui->chaptersTreeView->setAcceptDrops(true);
+    ui->chaptersTreeView->setDropIndicatorShown(true);
+    ui->chaptersTreeView->setDragDropMode(QAbstractItemView::InternalMove);
+    ui->chaptersTreeView->setSelectionMode(QAbstractItemView::SingleSelection);
 
     previewButton = UiUtil::createLineEditRightButton(ui->bookCoverEdit); // 创建封面预览按钮
     previewButton->setObjectName("previewButton");

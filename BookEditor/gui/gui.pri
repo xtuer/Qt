@@ -12,7 +12,8 @@ HEADERS += \
     $$PWD/TopWindow.h \
     $$PWD/LoginWidget.h \
     $$PWD/MessageBox.h \
-    $$PWD/BookEditor.h
+    $$PWD/BookEditor.h \
+    $$PWD/ChapterModel.h
 
 SOURCES += \
     $$PWD/CentralWidget.cpp \
@@ -20,4 +21,5 @@ SOURCES += \
     $$PWD/TopWindow.cpp \
     $$PWD/LoginWidget.cpp \
     $$PWD/MessageBox.cpp \
-    $$PWD/BookEditor.cpp
+    $$PWD/BookEditor.cpp \
+    $$PWD/ChapterModel.cpp
