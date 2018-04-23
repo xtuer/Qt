@@ -154,7 +154,7 @@ void BookEditor::handleEvents() {
     // 校验
     connect(ui->checkButton, &QPushButton::clicked, [this] {
         if (validate()) {
-            MessageBox::message("<font color='green'>验证通过</fong>");
+            MessageBox::message("<center><font color='green'>验证通过</font></center>");
         }
     });
 
