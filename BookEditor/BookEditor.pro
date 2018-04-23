@@ -34,6 +34,7 @@ UI_DIR      = $$output
 include(gui/gui.pri)
 include(util/util.pri)
 include(bean/bean.pri)
+include(model/model.pri)
 include(service/service.pri)
 
 SOURCES += \

@@ -3,6 +3,8 @@
 #include "MessageBox.h"
 
 #include "bean/Book.h"
+#include "model/BooksModel.h"
+#include "model/ChaptersModel.h"
 
 #include "util/Json.h"
 #include "util/UiUtil.h"
@@ -48,12 +50,12 @@ void BookEditor::initialize() {
     setAttribute(Qt::WA_StyledBackground);
 
     // 左侧教材的树
-    booksModel = new QStandardItemModel(this);
+    booksModel = new BooksModel(this);
     booksModel->setHorizontalHeaderLabels(QStringList() << "教材 (阶段 > 学科 > 版本)");
     ui->booksTreeView->setModel(booksModel);
 
     // 教材章节目录的树
-    chaptersModel = new QStandardItemModel(this);
+    chaptersModel = new ChaptersModel(this);
     chaptersModel->setHorizontalHeaderLabels(QStringList() << "章节" << "编码");
     ui->chaptersTreeView->setModel(chaptersModel);
     ui->chaptersTreeView->setColumnWidth(0, 250);
