@@ -12,6 +12,10 @@ public:
     bool canDropMimeData(const QMimeData *data, Qt::DropAction action,
                          int row, int column,
                          const QModelIndex &parent) const override;
+    QMimeData* mimeData(const QModelIndexList &indexes) const override;
+
+private:
+    QModelIndex draggedIndex;
 };
 
 #endif // BOOKSMODEL_H

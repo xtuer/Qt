@@ -14,10 +14,36 @@ bool BooksModel::canDropMimeData(const QMimeData *data, Qt::DropAction action,
     Q_UNUSED(row);
     Q_UNUSED(column);
 
-    // 不允许拖放到教材的节点上
-    if (parent.isValid() && parent.data(ROLE_TYPE).toString() == TYPE_BOOK) {
-        return false;
-    } else {
-        return true;
+    if (false) {
+        // parent.isValid() 为 false 时说明拖拽到了 root 上，此时 row, column 为 -1
+        qDebug() << QString("Current: [%1, %2], Parent: [%3, %4]-%5 - %6")
+                    .arg(row).arg(column)
+                    .arg(parent.row()).arg(parent.column())
+                    .arg(parent.data().toString()).arg(parent.isValid() ? "true" : "false");
     }
+
+    QString parentType  = parent.data(ROLE_TYPE).toString();
+    QString currentType = draggedIndex.data(ROLE_TYPE).toString();
+
+    // 1. 阶段只允许拖拽到根节点上
+    // 2. 学科只允许拖拽到阶段上
+    // 3. 教材只允许拖拽到学科上
+
+    if (TYPE_PHASE == currentType && !parent.isValid()) {
+        return true;
+    } else if (TYPE_SUBJECT == currentType && TYPE_PHASE == parentType) {
+        return true;
+    } else if (TYPE_BOOK == currentType && TYPE_SUBJECT == parentType) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+QMimeData *BooksModel::mimeData(const QModelIndexList &indexes) const {
+    // 记住被拖拽的 index
+    BooksModel *self = const_cast<BooksModel*>(this);
+    self->draggedIndex = indexes.size() > 0 ? indexes[0] : QModelIndex();
+
+    return QStandardItemModel::mimeData(indexes);
 }
