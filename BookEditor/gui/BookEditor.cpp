@@ -1,4 +1,4 @@
-#include "ui_BookEditor.h"
+﻿#include "ui_BookEditor.h"
 #include "BookEditor.h"
 #include "MessageBox.h"
 
@@ -501,9 +501,9 @@ void BookEditor::save() {
         bool ok = bookService->saveBooks(booksDir);
 
         if (ok) {
-            MessageBox::message("<font color='green'>保存成功</fong>");
+            MessageBox::message("<center><font color='green'>保存成功</fong></center>");
         } else {
-            MessageBox::message("<font color='red'>保存失败</fong>");
+            MessageBox::message("<center><font color='red'>保存失败</fong></center>");
         }
     } else {
         // [3] 选择教材不但要保存教材结构，还要保存教材内容
@@ -528,9 +528,9 @@ void BookEditor::save() {
         bool ok2 = bookService->saveBook(bookCode, bookSubject, bookVersion, bookRequirement, bookCover, booksDir);
 
         if (ok1 && ok2) {
-            MessageBox::message("<font color='green'>保存成功</fong>");
+            MessageBox::message("<center><font color='green'>保存成功</fong></center>");
         } else {
-            MessageBox::message("<font color='red'>保存失败</fong>");
+            MessageBox::message("<center><font color='red'>保存失败</fong></center>");
         }
     }
 }
