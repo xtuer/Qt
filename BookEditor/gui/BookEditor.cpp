@@ -243,13 +243,39 @@ void BookEditor::createBooksContextMenu() {
 
     // 删除操作
     connect(deleteAction, &QAction::triggered, [this] {
-        // TODO
-        if (bookService->isBookIndex(currentBookIndex)) {
-            booksModel->removeRow(currentBookIndex.row(), currentBookIndex.parent());
+        if (!currentBookIndex.isValid()) { return; }
+
+        QString name = currentBookIndex.data().toString();
+        int rowCount = booksModel->itemFromIndex(currentBookIndex)->rowCount();
+
+        if (bookService->isPhaseIndex(currentBookIndex)) {
+            // 删除阶段
+            // 阶段下还有学科时不能被删除
+            if (rowCount > 0) {
+                MessageBox::message(QString("<font color='darkred'>%1</font> 下还有学科，不能删除").arg(name));
+                return;
+            }
+
+            if (MessageBox::confirm(QString("确定要删除阶段 <font color='darkred'>%1</font> 吗?").arg(name))) {
+                booksModel->removeRow(currentBookIndex.row(), currentBookIndex.parent());
+            }
         } else if (bookService->isSubjectIndex(currentBookIndex)) {
-            booksModel->removeRow(currentBookIndex.row(), currentBookIndex.parent());
-        } else if (bookService->isPhaseIndex(currentBookIndex)) {
-            booksModel->removeRow(currentBookIndex.row(), currentBookIndex.parent());
+            // 删除学科
+            // 学科下还有教材时不能被删除
+            if (rowCount > 0) {
+                MessageBox::message(QString("<font color='darkred'>%1</font> 下还有教材，不能删除").arg(name));
+                return;
+            }
+
+            if (MessageBox::confirm(QString("确定要删除学科 <font color='darkred'>%1</font> 吗?").arg(name))) {
+                booksModel->removeRow(currentBookIndex.row(), currentBookIndex.parent());
+            }
+        } else if (bookService->isBookIndex(currentBookIndex)) {
+            // 删除教材
+            if (MessageBox::confirm(QString("确定要删除版本 <font color='darkred'>%1</font> 吗?").arg(name))) {
+                booksModel->removeRow(currentBookIndex.row(), currentBookIndex.parent());
+                resetBook();
+            }
         }
     });
 
