@@ -42,7 +42,8 @@ SOURCES += \
     ChartView.cpp \
     MessageShower.cpp \
     DragAndDropTreeView.cpp \
-    TreeModel.cpp
+    TreeModel.cpp \
+    RegionModel.cpp
 
 FORMS += \
     ImageWidget.ui \
@@ -65,5 +66,6 @@ HEADERS += \
     ChartView.h \
     MessageShower.h \
     DragAndDropTreeView.h \
-    TreeModel.h
+    TreeModel.h \
+    RegionModel.h
 
