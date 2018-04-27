@@ -28,6 +28,7 @@ public:
     bool isBookIndex(const QModelIndex &index) const;    // 判断 index 是否教材对应的 index
     bool isPhaseIndex(const QModelIndex &index) const;   // 判断 index 是否阶段对应的 index
     bool isSubjectIndex(const QModelIndex &index) const; // 判断 index 是否阶段对应的 index
+    bool isVersionIndex(const QModelIndex &index) const; // 判断 index 是否版本对应的 index
 
     void openBooks(const QString &path); // 打开教材显示到教材目录树中
     void openChapters(const Json &json); // 打开教材的章节目录
@@ -54,7 +55,7 @@ public:
     bool saveBook(const QString &bookCode,
                   const QString &bookSubject,
                   const QString &bookVersion,
-                  const QString &bookRequirement,
+                  const QString &bookName,
                   const QString &bookCover,
                   const QDir &bookDir);
     bool saveBooks(const QDir &bookDir); // 保存教材结构

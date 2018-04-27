@@ -20,6 +20,47 @@
       <string>教材信息</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="3">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>版本</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLineEdit" name="bookSubjectEdit">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+        <property name="placeholderText">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>学科</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2" colspan="3">
+       <widget class="QLineEdit" name="bookCoverEdit">
+        <property name="placeholderText">
+         <string>封面的 URL</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="4">
+       <widget class="QLineEdit" name="bookVersionEdit">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+        <property name="placeholderText">
+         <string/>
+        </property>
+       </widget>
+      </item>
       <item row="2" column="0">
        <widget class="QLabel" name="label_5">
         <property name="text">
@@ -30,78 +71,40 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="bookSubjectEdit">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-        <property name="placeholderText">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1" colspan="3">
-       <widget class="QLineEdit" name="bookCoverEdit">
-        <property name="placeholderText">
-         <string>封面的 URL</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="3">
-       <widget class="QLineEdit" name="bookVersionEdit">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-        <property name="placeholderText">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QLabel" name="label_4">
-        <property name="text">
-         <string>必修</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>版本</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="3">
-       <widget class="QLineEdit" name="bookRequirementEdit">
-        <property name="text">
-         <string/>
-        </property>
-        <property name="placeholderText">
-         <string>必修选修</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
+      <item row="1" column="4">
        <widget class="QLineEdit" name="bookCodeEdit">
         <property name="placeholderText">
          <string>编码不能重复、不能为空</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
+      <item row="1" column="2">
+       <widget class="QLineEdit" name="bookNameEdit">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+        <property name="placeholderText">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
        <widget class="QLabel" name="label_3">
         <property name="text">
          <string>编码</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label">
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_4">
         <property name="text">
-         <string>学科</string>
+         <string>名字</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
        </widget>
       </item>
@@ -176,8 +179,6 @@
  <tabstops>
   <tabstop>bookSubjectEdit</tabstop>
   <tabstop>bookVersionEdit</tabstop>
-  <tabstop>bookCodeEdit</tabstop>
-  <tabstop>bookRequirementEdit</tabstop>
   <tabstop>bookCoverEdit</tabstop>
   <tabstop>openButton</tabstop>
   <tabstop>checkButton</tabstop>

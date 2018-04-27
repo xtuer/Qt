@@ -14,30 +14,7 @@
    <string>MyWidget</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QPushButton {
-	border: none;
-	min-height: 24px;
-	max-height: 24px;
-	background: gray;
-	color: white;
-	padding: 0 10px;
-}
-
-QPushButton[index=&quot;first&quot;] {
-	border-top-left-radius: 12px;
-    border-bottom-left-radius: 12px;
-}
-
-QPushButton[index=&quot;last&quot;] {
-	border-top-right-radius: 12px;
-    border-bottom-right-radius: 12px;
-}
-
-QPushButton:checked {
-	background: #999;
-}
-
-</string>
+   <string notr="true"/>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="0" column="0">

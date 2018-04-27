@@ -105,12 +105,14 @@ void BookEditor::handleEvents() {
         currentBookIndex = index;
 
         if (bookService->isBookIndex(index)) {
-            QString subjectName = index.parent().data().toString();
-            QString versionName = index.data().toString();
+            QString subjectName = index.parent().parent().data().toString();
+            QString versionName = index.parent().data().toString();
+            QString bookName = index.data().toString();
             QString bookCode    = index.data(ROLE_CODE).toString();
             ui->bookSubjectEdit->setText(subjectName);
             ui->bookVersionEdit->setText(versionName);
             ui->bookCodeEdit->setText(bookCode);
+            ui->bookNameEdit->setText(bookName);
 
             QFileInfo bookFileInfo(booksDir, bookCode + ".json"); // 教材文件信息
             openBook(bookFileInfo.absoluteFilePath()); // 打开教材
@@ -121,8 +123,8 @@ void BookEditor::handleEvents() {
     // 编辑教材树上教材节点的名字时，更新右边的教材名字
     connect(booksModel, &QStandardItemModel::itemChanged, [this] (QStandardItem *item) {
         if (bookService->isBookIndex(item->index())) {
-            QString bookVersion = item->data(Qt::DisplayRole).toString();
-            ui->bookVersionEdit->setText(bookVersion);
+            QString bookName = item->data(Qt::DisplayRole).toString();
+            ui->bookNameEdit->setText(bookName);
         }
     });
 
@@ -169,6 +171,7 @@ void BookEditor::createBooksContextMenu() {
     // 左侧教材树的右键菜单: 阶段 > 学科 > 教材
     QAction *phaseAction    = new QAction("新建阶段", this);
     QAction *subjectAction  = new QAction("新建学科", this);
+    QAction *versionAction  = new QAction("新建版本", this);
     QAction *bookAction     = new QAction("新建教材", this);
     QAction *deleteAction   = new QAction("删除操作", this);
     QAction *expandAction   = new QAction("全部展开", this);
@@ -194,6 +197,10 @@ void BookEditor::createBooksContextMenu() {
             menu.addAction(deleteAction);
         } else if (bookService->isSubjectIndex(index)) {
             deleteAction->setText("删除学科");
+            menu.addAction(versionAction); // [2] 显示新建版本
+            menu.addAction(deleteAction);
+        } else if (bookService->isVersionIndex(index)) {
+            deleteAction->setText("删除版本");
             menu.addAction(bookAction); // [2] 显示新建教材
             menu.addAction(deleteAction);
         } else if (bookService->isBookIndex(index)) {
@@ -229,14 +236,26 @@ void BookEditor::createBooksContextMenu() {
         ui->booksTreeView->expand(currentBookIndex);
     });
 
-    // 创建新的教材
-    connect(bookAction, &QAction::triggered, [this] {
+    // 创建新的版本
+    connect(versionAction, &QAction::triggered, [this] {
         if (!bookService->isSubjectIndex(currentBookIndex)) { return; }
 
         QStandardItem *subjectItem = booksModel->itemFromIndex(currentBookIndex);
+        QStandardItem *versionItem = new QStandardItem("新建版本");
+        versionItem->setData(TYPE_VERSION, ROLE_TYPE); // 表示版本
+        subjectItem->appendRow(versionItem);
+
+        ui->booksTreeView->expand(currentBookIndex);
+    });
+
+    // 创建新的教材
+    connect(bookAction, &QAction::triggered, [this] {
+        if (!bookService->isVersionIndex(currentBookIndex)) { return; }
+
+        QStandardItem *versionItem = booksModel->itemFromIndex(currentBookIndex);
         QStandardItem *bookItem = new QStandardItem("新建教材");
         bookItem->setData(TYPE_BOOK, ROLE_TYPE); // 表示教材
-        subjectItem->appendRow(bookItem);
+        versionItem->appendRow(bookItem);
 
         ui->booksTreeView->expand(currentBookIndex);
     });
@@ -263,11 +282,22 @@ void BookEditor::createBooksContextMenu() {
             // 删除学科
             // 学科下还有教材时不能被删除
             if (rowCount > 0) {
-                MessageBox::message(QString("<font color='darkred'>%1</font> 下还有教材，不能删除").arg(name));
+                MessageBox::message(QString("<font color='darkred'>%1</font> 下还有版本，不能删除").arg(name));
                 return;
             }
 
             if (MessageBox::confirm(QString("确定要删除学科 <font color='darkred'>%1</font> 吗?").arg(name))) {
+                booksModel->removeRow(currentBookIndex.row(), currentBookIndex.parent());
+            }
+        } else if (bookService->isVersionIndex(currentBookIndex)) {
+            // 删除版本
+            // 版本下还有教材时不能被删除
+            if (rowCount > 0) {
+                MessageBox::message(QString("<font color='darkred'>%1</font> 下还有教材，不能删除").arg(name));
+                return;
+            }
+
+            if (MessageBox::confirm(QString("确定要删除版本 <font color='darkred'>%1</font> 吗?").arg(name))) {
                 booksModel->removeRow(currentBookIndex.row(), currentBookIndex.parent());
             }
         } else if (bookService->isBookIndex(currentBookIndex)) {
@@ -390,7 +420,7 @@ void BookEditor::openBook(const QString &path) {
 
     Json json(path, true);
     ui->bookCoverEdit->setText(json.getString("cover"));
-    ui->bookRequirementEdit->setText(json.getString("requirement"));
+    ui->bookNameEdit->setText(json.getString("name"));
     // ui->bookCodeEdit->setText(json.getString("code"));       // 编码由左侧的教材树提供
     // ui->bookSubjectEdit->setText(json.getString("subject")); // 学科由左侧的教材树提供
     // ui->bookVersionEdit->setText(json.getString("version")); // 版本由左侧的教材树提供
@@ -413,7 +443,7 @@ void BookEditor::resetBook() {
     ui->bookSubjectEdit->setText("");
     ui->bookCoverEdit->setText("");
     ui->bookVersionEdit->setText("");
-    ui->bookRequirementEdit->setText("");
+    ui->bookNameEdit->setText("");
     chaptersModel->removeRows(0, chaptersModel->rowCount());
 }
 
@@ -507,11 +537,11 @@ void BookEditor::save() {
         }
     } else {
         // [3] 选择教材不但要保存教材结构，还要保存教材内容
-        QString bookCode        = ui->bookCodeEdit->text().trimmed();
-        QString bookSubject     = ui->bookSubjectEdit->text().trimmed();
-        QString bookVersion     = ui->bookVersionEdit->text().trimmed();
-        QString bookCover       = ui->bookCoverEdit->text().trimmed();
-        QString bookRequirement = ui->bookRequirementEdit->text().trimmed();
+        QString bookCode    = ui->bookCodeEdit->text().trimmed();
+        QString bookSubject = ui->bookSubjectEdit->text().trimmed();
+        QString bookVersion = ui->bookVersionEdit->text().trimmed();
+        QString bookCover   = ui->bookCoverEdit->text().trimmed();
+        QString bookName    = ui->bookNameEdit->text().trimmed();
 
         // [3.1] 更新 bookCode 到教材结构中选中的教材
         booksModel->setData(currentBookIndex, bookCode, ROLE_CODE);
@@ -525,7 +555,7 @@ void BookEditor::save() {
         // [3.3] 保存教材结构到 books.json
         // [3.4] 保存当前的教材到 ${bookCode}.json
         bool ok1 = bookService->saveBooks(booksDir);
-        bool ok2 = bookService->saveBook(bookCode, bookSubject, bookVersion, bookRequirement, bookCover, booksDir);
+        bool ok2 = bookService->saveBook(bookCode, bookSubject, bookVersion, bookName, bookCover, booksDir);
 
         if (ok1 && ok2) {
             MessageBox::message("<center><font color='green'>保存成功</fong></center>");

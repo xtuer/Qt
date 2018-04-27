@@ -46,11 +46,21 @@ bool BookService::isSubjectIndex(const QModelIndex &index) const {
     return TYPE_SUBJECT == index.data(ROLE_TYPE).toString();
 }
 
+// 判断 index 是否版本对应的 index
+bool BookService::isVersionIndex(const QModelIndex &index) const {
+    if (!index.isValid()) {
+        return false;
+    }
+
+    return TYPE_VERSION == index.data(ROLE_TYPE).toString();
+}
+
 // 打开教材显示到左侧的教材目录树中
 void BookService::openBooks(const QString &path) {
     // 1. 创建教学阶段
     // 2. 创建每个教学阶段下的学科
-    // 3. 创建每个学科下的教材
+    // 3. 创建每个学科下的版本
+    // 4. 创建每个版本下的教材
     // *  每个 item 都设定一个 ROLE_TYPE 的类型数据，用于判断显示对应的右键菜单
 
     booksModel->removeRows(0, booksModel->rowCount());
@@ -75,16 +85,26 @@ void BookService::openBooks(const QString &path) {
             subjectItem->setData(TYPE_SUBJECT, ROLE_TYPE); // 表示学科
             phaseItem->appendRow(subjectItem);
 
-            // [3] 创建学科下的教材
-            QJsonArray books = json.getJsonArray("books", subject);
-            for (QJsonArray::const_iterator biter = books.begin(); biter != books.end(); ++biter) {
-                QJsonObject book = biter->toObject();
-                QString bookVersion = json.getString("version", "", book);
-                QString bookCode = json.getString("code", "", book);
-                QStandardItem *bookItem = new QStandardItem(bookVersion);
-                bookItem->setData(bookCode, ROLE_CODE);  // 教材的编码
-                bookItem->setData(TYPE_BOOK, ROLE_TYPE); // 表示教材
-                subjectItem->appendRow(bookItem);
+            // [3] 创建学科下的版本
+            QJsonArray versions = json.getJsonArray("versions", subject);
+            for (QJsonArray::const_iterator viter = versions.begin(); viter != versions.end(); ++viter) {
+                QJsonObject version = viter->toObject();
+                QString versionName = json.getString("name", "", version);
+                QStandardItem *versionItem = new QStandardItem(versionName);
+                versionItem->setData(TYPE_VERSION, ROLE_TYPE);
+                subjectItem->appendRow(versionItem);
+
+                // 4. 创建版本下的教材
+                QJsonArray books = json.getJsonArray("books", version);
+                for (QJsonArray::const_iterator biter = books.begin(); biter != books.end(); ++biter) {
+                    QJsonObject book = biter->toObject();
+                    QString bookName = json.getString("name", "", book);
+                    QString bookCode = json.getString("code", "", book);
+                    QStandardItem *bookItem = new QStandardItem(bookName);
+                    bookItem->setData(bookCode, ROLE_CODE);  // 教材的编码
+                    bookItem->setData(TYPE_BOOK, ROLE_TYPE); // 表示教材
+                    versionItem->appendRow(bookItem);
+                }
             }
         }
     }
@@ -171,23 +191,36 @@ bool BookService::validateBooks(const QModelIndex &currentBookIndex,
             }
 
             for (int k = 0; k < subjectItem->rowCount(); ++k) {
-                // 教材
-                QStandardItem *bookItem = subjectItem->child(k, 0);
-                QString bookCode    = bookItem->data(ROLE_CODE).toString();
-                QString bookVersion = bookItem->data(Qt::DisplayRole).toString();
-                QString bookInfo    = QString("%1 > %2 > %3").arg(phaseName).arg(subjectName).arg(bookVersion);
+                // 版本
+                QStandardItem *versionItem = subjectItem->child(k, 0);
+                QString versionName = versionItem->data(Qt::DisplayRole).toString();
 
-                if (bookVersion.trimmed().isEmpty()) {
+                if (versionName.trimmed().isEmpty()) {
                     error->append("版本不能为空\n");
                     return false;
                 }
 
-                // 选中的教材的 code 更新为编辑的教材 code，这样就能够判断当前编辑的 code 是否可用
-                if (currentBookIndex.isValid() && booksModel->itemFromIndex(currentBookIndex) == bookItem) {
-                    bookCode = editingBookCode.trimmed();
-                }
+                for (int m = 0; m < versionItem->rowCount(); ++m) {
+                    // 教材
+                    QStandardItem *bookItem = versionItem->child(m, 0);
+                    QString bookCode    = bookItem->data(ROLE_CODE).toString();
+                    QString bookVersion = bookItem->data(Qt::DisplayRole).toString();
+                    QString bookInfo    = QString("%1 > %2 > %3 > %4")
+                            .arg(phaseName).arg(subjectName)
+                            .arg(versionName).arg(bookVersion);
 
-                booksInfo.append(CodeInfo(bookCode, bookInfo));
+                    if (bookVersion.trimmed().isEmpty()) {
+                        error->append("教材名字不能为空\n");
+                        return false;
+                    }
+
+                    // 选中的教材的 code 更新为编辑的教材 code，这样就能够判断当前编辑的 code 是否可用
+                    if (currentBookIndex.isValid() && booksModel->itemFromIndex(currentBookIndex) == bookItem) {
+                        bookCode = editingBookCode.trimmed();
+                    }
+
+                    booksInfo.append(CodeInfo(bookCode, bookInfo));
+                }
             }
         }
     }
@@ -301,7 +334,7 @@ void BookService::travelChapter(QStandardItem *chapterNameItem,
 bool BookService::saveBook(const QString &bookCode,
                            const QString &bookSubject,
                            const QString &bookVersion,
-                           const QString &bookRequirement,
+                           const QString &bookName,
                            const QString &bookCover,
                            const QDir &bookDir) {
     QJsonArray chaptersJson;
@@ -316,7 +349,7 @@ bool BookService::saveBook(const QString &bookCode,
     book.insert("code",     bookCode);
     book.insert("subject",  bookSubject);
     book.insert("version",  bookVersion);
-    book.insert("requirement", bookRequirement);
+    book.insert("name",     bookName);
     book.insert("cover",    bookCover);
     book.insert("chapters", chaptersJson);
 
@@ -339,22 +372,34 @@ bool BookService::saveBooks(const QDir &bookDir) {
             QStandardItem *subjectItem = phaseItem->child(j, 0);
             QString subjectName = subjectItem->data(Qt::DisplayRole).toString();
 
-            QJsonArray books;
+            QJsonArray versions;
             for (int k = 0; k < subjectItem->rowCount(); ++k) {
-                // 教材
-                QStandardItem *bookItem = subjectItem->child(k, 0);
-                QString bookCode = bookItem->data(ROLE_CODE).toString();
-                QString bookVersion = bookItem->data(Qt::DisplayRole).toString();
+                // 版本
+                QStandardItem *versionItem = subjectItem->child(k, 0);
+                QString versionName =  versionItem->data(Qt::DisplayRole).toString();
 
-                QJsonObject book;
-                book.insert("code", bookCode);
-                book.insert("version", bookVersion);
-                books.append(book);
+                QJsonArray books;
+                for (int m = 0; m < versionItem->rowCount(); ++m) {
+                    // 教材
+                    QStandardItem *bookItem = versionItem->child(m, 0);
+                    QString bookName = bookItem->data(Qt::DisplayRole).toString();
+                    QString bookCode = bookItem->data(ROLE_CODE).toString();
+
+                    QJsonObject book;
+                    book.insert("name", bookName);
+                    book.insert("code", bookCode);
+                    books.append(book);
+                }
+
+                QJsonObject version;
+                version.insert("name", versionName);
+                version.insert("books", books);
+                versions.append(version);
             }
 
             QJsonObject subject;
             subject.insert("name", subjectName);
-            subject.insert("books", books);
+            subject.insert("versions", versions);
             subjects.append(subject);
         }
 

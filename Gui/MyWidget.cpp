@@ -8,10 +8,11 @@
 
 MyWidget::MyWidget(QWidget *parent) : QWidget(parent), ui(new Ui::MyWidget) {
     initializeUi();
-    handleEvents();
+//    handleEvents();
 }
 
 MyWidget::~MyWidget() {
+    qDebug() << "~MyWidget()";
     delete ui;
 }
 
