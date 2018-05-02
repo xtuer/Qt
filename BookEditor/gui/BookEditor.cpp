@@ -107,7 +107,7 @@ void BookEditor::handleEvents() {
         if (bookService->isBookIndex(index)) {
             QString subjectName = index.parent().parent().data().toString();
             QString versionName = index.parent().data().toString();
-            QString bookName = index.data().toString();
+            QString bookName    = index.data().toString();
             QString bookCode    = index.data(ROLE_CODE).toString();
             ui->bookSubjectEdit->setText(subjectName);
             ui->bookVersionEdit->setText(versionName);
@@ -420,7 +420,7 @@ void BookEditor::openBook(const QString &path) {
 
     Json json(path, true);
     ui->bookCoverEdit->setText(json.getString("cover"));
-    ui->bookNameEdit->setText(json.getString("name"));
+    // ui->bookNameEdit->setText(json.getString("name"));
     // ui->bookCodeEdit->setText(json.getString("code"));       // 编码由左侧的教材树提供
     // ui->bookSubjectEdit->setText(json.getString("subject")); // 学科由左侧的教材树提供
     // ui->bookVersionEdit->setText(json.getString("version")); // 版本由左侧的教材树提供
