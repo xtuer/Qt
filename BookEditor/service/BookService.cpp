@@ -70,7 +70,7 @@ void BookService::openBooks(const QString &path) {
     for (QJsonArray::const_iterator iter = phases.begin(); iter != phases.end(); ++iter) {
         // [1] 创建教学阶段的节点
         QJsonObject phase = iter->toObject();
-        QString phaseName = json.getString("name", "", phase);
+        QString phaseName = json.getString("title", "", phase);
         QStandardItem *phaseItem = new QStandardItem(phaseName);
         phaseItem->setData(TYPE_PHASE, ROLE_TYPE); // 表示教学阶段
         booksModel->appendRow(phaseItem);
@@ -80,7 +80,7 @@ void BookService::openBooks(const QString &path) {
         for (QJsonArray::const_iterator siter = subjects.begin(); siter != subjects.end(); ++siter) {
             // 创建学科
             QJsonObject subject = siter->toObject();
-            QString subjectName = json.getString("name", "", subject);
+            QString subjectName = json.getString("title", "", subject);
             QStandardItem *subjectItem = new QStandardItem(subjectName);
             subjectItem->setData(TYPE_SUBJECT, ROLE_TYPE); // 表示学科
             phaseItem->appendRow(subjectItem);
@@ -89,7 +89,7 @@ void BookService::openBooks(const QString &path) {
             QJsonArray versions = json.getJsonArray("versions", subject);
             for (QJsonArray::const_iterator viter = versions.begin(); viter != versions.end(); ++viter) {
                 QJsonObject version = viter->toObject();
-                QString versionName = json.getString("name", "", version);
+                QString versionName = json.getString("title", "", version);
                 QStandardItem *versionItem = new QStandardItem(versionName);
                 versionItem->setData(TYPE_VERSION, ROLE_TYPE);
                 subjectItem->appendRow(versionItem);
@@ -98,7 +98,7 @@ void BookService::openBooks(const QString &path) {
                 QJsonArray books = json.getJsonArray("books", version);
                 for (QJsonArray::const_iterator biter = books.begin(); biter != books.end(); ++biter) {
                     QJsonObject book = biter->toObject();
-                    QString bookName = json.getString("name", "", book);
+                    QString bookName = json.getString("title", "", book);
                     QString bookCode = json.getString("code", "", book);
                     QStandardItem *bookItem = new QStandardItem(bookName);
                     bookItem->setData(bookCode, ROLE_CODE);  // 教材的编码
@@ -131,7 +131,7 @@ void BookService::createChapters(const Json &json,
                                  const QJsonObject &currentChapter,
                                  QStandardItem *parentChapterNameItem) {
     // 注：每个章节目录都包含 2 列：名字和编码
-    QString name = json.getString("name", "", currentChapter);
+    QString name = json.getString("title", "", currentChapter);
     QString code = json.getString("code", "", currentChapter);
     QList<QStandardItem*> childColumns;
 
@@ -349,7 +349,7 @@ bool BookService::saveBook(const QString &bookCode,
     book.insert("code",     bookCode);
     book.insert("subject",  bookSubject);
     book.insert("version",  bookVersion);
-    book.insert("name",     bookName);
+    book.insert("title",     bookName);
     book.insert("cover",    bookCover);
     book.insert("chapters", chaptersJson);
 
@@ -386,25 +386,25 @@ bool BookService::saveBooks(const QDir &bookDir) {
                     QString bookCode = bookItem->data(ROLE_CODE).toString();
 
                     QJsonObject book;
-                    book.insert("name", bookName);
+                    book.insert("title", bookName);
                     book.insert("code", bookCode);
                     books.append(book);
                 }
 
                 QJsonObject version;
-                version.insert("name", versionName);
+                version.insert("title", versionName);
                 version.insert("books", books);
                 versions.append(version);
             }
 
             QJsonObject subject;
-            subject.insert("name", subjectName);
+            subject.insert("title", subjectName);
             subject.insert("versions", versions);
             subjects.append(subject);
         }
 
         QJsonObject phase;
-        phase.insert("name", phaseName);
+        phase.insert("title", phaseName);
         phase.insert("subjects", subjects);
         phases.append(phase);
     }
@@ -431,7 +431,7 @@ QJsonObject BookService::createChapterJson(QStandardItem *chapterNameItem, QStan
     }
 
     QJsonObject chapterJson;
-    chapterJson.insert("name", chapterName);
+    chapterJson.insert("title", chapterName);
     chapterJson.insert("code", chapterCode);
     chapterJson.insert("children", childrenChapters);
 
