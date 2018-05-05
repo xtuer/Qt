@@ -23,6 +23,9 @@ public:
     explicit BookEditor(QWidget *parent = 0);
     ~BookEditor();
 
+protected:
+    bool eventFilter(QObject *watched, QEvent *event) override;
+
 private:
     void initialize();   // 初始化
     void handleEvents(); // 事件处理
@@ -34,6 +37,7 @@ private:
     bool validate() const; // 校验教材和章节的编码是否唯一未被重复使用
 
     void save();      // 调用 saveBook() and saveBoos()
+    void showMessage(const QString &message);
 
     Ui::BookEditor     *ui = NULL;
     QStandardItemModel *booksModel    = NULL; // 教材的 model

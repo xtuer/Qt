@@ -5,6 +5,7 @@
 
 extern const int ROLE_TYPE;        // 表示类型的 role
 extern const int ROLE_CODE;        // 表示编码的 role
+extern const int ROLE_COVER;       // 表示封面的 role
 extern const QString TYPE_PHASE;   // 教学阶段
 extern const QString TYPE_SUBJECT; // 学科
 extern const QString TYPE_VERSION; // 版本

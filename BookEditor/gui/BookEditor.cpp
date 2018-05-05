@@ -22,6 +22,7 @@
 #include <QList>
 #include <algorithm>
 #include <QRegularExpressionValidator>
+#include <QTimer>
 
 BookEditor::BookEditor(QWidget *parent) : QWidget(parent), ui(new Ui::BookEditor) {
     initialize();
@@ -44,10 +45,20 @@ BookEditor::~BookEditor() {
     delete bookService;
 }
 
+bool BookEditor::eventFilter(QObject *watched, QEvent *event) {
+    if (watched == ui->messageLabel && event->type() == QEvent::Show) {
+        QTimer::singleShot(2000, ui->messageLabel, SLOT(hide()));
+    }
+
+    return QWidget::eventFilter(watched, event);
+}
+
 // 初始化 Ui
 void BookEditor::initialize() {
     ui->setupUi(this);
     setAttribute(Qt::WA_StyledBackground);
+    ui->messageLabel->hide();
+    ui->messageLabel->installEventFilter(this);
 
     // 左侧教材的树
     booksModel = new BooksModel(this);
@@ -128,6 +139,11 @@ void BookEditor::handleEvents() {
         }
     });
 
+    connect(chaptersModel, &QStandardItemModel::itemChanged, [this] (QStandardItem *item) {
+        Q_UNUSED(item);
+        ui->saveButton->click(); // TODO
+    });
+
     // // 编辑教材名字时，更新到树当前选择的教材节点
     // connect(ui->bookVersionEdit, &QLineEdit::editingFinished, [this] {
     //     if (bookService->isBookIndex(currentBookIndex)) {
@@ -143,6 +159,13 @@ void BookEditor::handleEvents() {
     //         booksModel->setData(currentBookIndex, bookCode, ROLE_CODE);
     //     }
     // });
+
+     connect(ui->bookCoverEdit, &QLineEdit::editingFinished, [this] {
+         if (bookService->isBookIndex(currentBookIndex)) {
+             QString bookCover = ui->bookCoverEdit->text().trimmed();
+             booksModel->setData(currentBookIndex, bookCover, ROLE_COVER);
+         }
+     });
 
     // 预览封面
     connect(previewButton, &QPushButton::clicked, [this] {
@@ -531,9 +554,11 @@ void BookEditor::save() {
         bool ok = bookService->saveBooks(booksDir);
 
         if (ok) {
-            MessageBox::message("<center><font color='green'>保存成功</fong></center>");
+            // MessageBox::message("<center><font color='green'>保存成功</fong></center>");
+            showMessage("<center><font color='green'>保存成功</fong></center>");
         } else {
-            MessageBox::message("<center><font color='red'>保存失败</fong></center>");
+            // MessageBox::message("<center><font color='red'>保存失败</fong></center>");
+            showMessage("<center><font color='red'>保存失败</fong></center>");
         }
     } else {
         // [3] 选择教材不但要保存教材结构，还要保存教材内容
@@ -558,10 +583,17 @@ void BookEditor::save() {
         bool ok2 = bookService->saveBook(bookCode, bookSubject, bookVersion, bookName, bookCover, booksDir);
 
         if (ok1 && ok2) {
-            MessageBox::message("<center><font color='green'>保存成功</fong></center>");
+            // MessageBox::message("<center><font color='green'>保存成功</fong></center>");
+            showMessage("<center><font color='green'>保存成功</fong></center>");
         } else {
-            MessageBox::message("<center><font color='red'>保存失败</fong></center>");
+            // MessageBox::message("<center><font color='red'>保存失败</fong></center>");
+            showMessage("<center><font color='red'>保存失败</fong></center>");
         }
     }
+}
+
+void BookEditor::showMessage(const QString &message) {
+    ui->messageLabel->setText(message);
+    ui->messageLabel->show();
 }
 

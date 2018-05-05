@@ -97,12 +97,14 @@ void BookService::openBooks(const QString &path) {
                 // 4. 创建版本下的教材
                 QJsonArray books = json.getJsonArray("books", version);
                 for (QJsonArray::const_iterator biter = books.begin(); biter != books.end(); ++biter) {
-                    QJsonObject book = biter->toObject();
-                    QString bookName = json.getString("title", "", book);
-                    QString bookCode = json.getString("code", "", book);
+                    QJsonObject book  = biter->toObject();
+                    QString bookName  = json.getString("title", "", book);
+                    QString bookCode  = json.getString("code", "", book);
+                    QString bookCover = json.getString("cover", "", book);
                     QStandardItem *bookItem = new QStandardItem(bookName);
-                    bookItem->setData(bookCode, ROLE_CODE);  // 教材的编码
-                    bookItem->setData(TYPE_BOOK, ROLE_TYPE); // 表示教材
+                    bookItem->setData(bookCode,  ROLE_CODE);  // 教材的编码
+                    bookItem->setData(bookCover, ROLE_COVER); // 教材的封面
+                    bookItem->setData(TYPE_BOOK, ROLE_TYPE);  // 表示教材节点
                     versionItem->appendRow(bookItem);
                 }
             }
@@ -382,12 +384,14 @@ bool BookService::saveBooks(const QDir &bookDir) {
                 for (int m = 0; m < versionItem->rowCount(); ++m) {
                     // 教材
                     QStandardItem *bookItem = versionItem->child(m, 0);
-                    QString bookName = bookItem->data(Qt::DisplayRole).toString();
-                    QString bookCode = bookItem->data(ROLE_CODE).toString();
+                    QString bookName  = bookItem->data(Qt::DisplayRole).toString();
+                    QString bookCode  = bookItem->data(ROLE_CODE).toString();
+                    QString bookCover = bookItem->data(ROLE_COVER).toString();
 
                     QJsonObject book;
                     book.insert("title", bookName);
-                    book.insert("code", bookCode);
+                    book.insert("code",  bookCode);
+                    book.insert("cover", bookCover);
                     books.append(book);
                 }
 
