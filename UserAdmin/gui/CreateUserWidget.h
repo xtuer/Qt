@@ -8,12 +8,12 @@ namespace Ui {
 class CreateUserWidget;
 }
 
-class AddUserWidget : public QWidget {
+class CreateUserWidget : public QWidget {
     Q_OBJECT
 
 public:
-    explicit AddUserWidget(QWidget *parent = 0);
-    ~AddUserWidget();
+    explicit CreateUserWidget(QWidget *parent = 0);
+    ~CreateUserWidget();
 
 signals:
     void userCreated(const QString &username); // 创建用户后发射的信号

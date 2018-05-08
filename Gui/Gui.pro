@@ -44,16 +44,14 @@ SOURCES += \
     DragAndDropTreeView.cpp \
     TreeModel.cpp \
     RegionModel.cpp \
-    Permission.cpp \
-    AddUserWidget.cpp
+    Permission.cpp
 
 FORMS += \
     ImageWidget.ui \
     Form.ui \
     MyWidget.ui \
     MessageShower.ui \
-    DragAndDropTreeView.ui \
-    AddUserWidget.ui
+    DragAndDropTreeView.ui
 
 HEADERS += \
     Widget.h \
@@ -71,6 +69,5 @@ HEADERS += \
     DragAndDropTreeView.h \
     TreeModel.h \
     RegionModel.h \
-    Permission.h \
-    AddUserWidget.h
+    Permission.h
 

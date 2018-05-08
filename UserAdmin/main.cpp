@@ -11,9 +11,6 @@ int main(int argc, char *argv[]) {
     UsersWidget w;
     w.show();
 
-    Permission p(PermissionFlag::ADMIN);
-    qDebug() << p.hasPermission(PermissionFlag::CHECK);
-
     int ret = a.exec();
     ConnectionPoolInstance.destroy();
 

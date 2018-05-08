@@ -45,12 +45,12 @@ void UsersWidget::initialize() {
 void UsersWidget::handleEvents() {
     // 创建用户
     connect(ui->createButton, &QPushButton::clicked, [this] {
-        AddUserWidget *w = new AddUserWidget;
+        CreateUserWidget *w = new CreateUserWidget;
         w->setAttribute(Qt::WA_DeleteOnClose);
         w->show();
 
         // 创建用户后显示到用户列表里
-        connect(w, &AddUserWidget::userCreated, [this] (const QString &username) {
+        connect(w, &CreateUserWidget::userCreated, [this] (const QString &username) {
             User user = UserDao::findUserByUsername(username);
 
             if (0 != user.id) {

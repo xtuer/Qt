@@ -6,9 +6,9 @@ const QMap<PermissionFlag, QString> Permission::PERMISSIONS {
     { PermissionFlag::MODIFY_SECURITY, "更改安全选项" },
     { PermissionFlag::MODIFY_SETTINGS, "更改一般设置" },
     { PermissionFlag::AUDIT_TRAIL,     "显示审计追踪" },
-    { PermissionFlag::SIGNATURE, "电子签名" },
-    { PermissionFlag::QUIT,      "退出程序" },
-    { PermissionFlag::CHECK,     "检测" },
+    { PermissionFlag::SIGNATURE,       "电子签名" },
+    { PermissionFlag::QUIT,            "退出程序" },
+    { PermissionFlag::CHECK,           "检测" },
 };
 
 Permission::Permission(PermissionFlags permissions) :permissions(permissions) {

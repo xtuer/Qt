@@ -7,13 +7,14 @@
 #include <QAction>
 #include <QDebug>
 #include "Permission.h"
-#include "AddUserWidget.h"
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
-    AddUserWidget w;
-    w.show();
+//    AddUserWidget w;
+//    w.show();
+
+    qDebug() << QString("你好 China 滚蛋").toUtf8().toBase64();
 
     return a.exec();
 //    Permission p(PermissionFlags(1223));

@@ -14,10 +14,10 @@ enum PermissionFlag {
     READ_RECORD     = 0x04, // 读取记录器
     MODIFY_SECURITY = 0x08, // 更改安全选项
     MODIFY_SETTINGS = 0x10, // 更改一般设置
-    AUDIT_TRAIL = 0x20, // 显示审计追踪
-    SIGNATURE   = 0x40, // 电子签名
-    QUIT        = 0x80, // 退出程序
-    CHECK       = 0x100 // 检测
+    AUDIT_TRAIL     = 0x20, // 显示审计追踪
+    SIGNATURE       = 0x40, // 电子签名
+    QUIT            = 0x80, // 退出程序
+    CHECK           = 0x100 // 检测
 };
 
 // PermissionFlags fs(7);    // int to Flags

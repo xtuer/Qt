@@ -8,17 +8,17 @@
 #include <QMessageBox>
 #include <QStandardItem>
 
-AddUserWidget::AddUserWidget(QWidget *parent) : QWidget(parent), ui(new Ui::CreateUserWidget) {
+CreateUserWidget::CreateUserWidget(QWidget *parent) : QWidget(parent), ui(new Ui::CreateUserWidget) {
     initialize();
     handleEvents();
 }
 
-AddUserWidget::~AddUserWidget() {
+CreateUserWidget::~CreateUserWidget() {
     delete ui;
 }
 
 // 初始化
-void AddUserWidget::initialize() {
+void CreateUserWidget::initialize() {
     ui->setupUi(this);
 
     // 存储权限信息的 model
@@ -40,12 +40,12 @@ void AddUserWidget::initialize() {
 }
 
 // 信号槽事件处理
-void AddUserWidget::handleEvents() {
-    connect(ui->createButton, &QPushButton::clicked, this, &AddUserWidget::createUser);
+void CreateUserWidget::handleEvents() {
+    connect(ui->createButton, &QPushButton::clicked, this, &CreateUserWidget::createUser);
 }
 
 // 创建用户，成功创建后发射信号 userCreated
-void AddUserWidget::createUser() {
+void CreateUserWidget::createUser() {
     // 1. 校验账号、密码: 账号不能为空，密码不能为空，2 次输入的密码必须一致
     // 2. 获取权限
     // 3. 创建用户
