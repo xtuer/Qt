@@ -144,7 +144,7 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::MainWidget
 
     setAttribute(Qt::WA_StyledBackground, true);
     d = new MainWidgetPrivate(this);
-    ui->cameraWidget->hide(); // 隐藏摄像头拍照部分
+    // ui->cameraWidget->hide(); // 隐藏摄像头拍照部分
 
     // 添加详情按钮
     QHBoxLayout *l = new QHBoxLayout();
@@ -248,14 +248,14 @@ void MainWidget::handleEvents() {
 
         // 保存到本地
         QString path = QString("student-camera-picture/%1").arg(pictureName);
-        QImage userImage = image.scaled(500, 500, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        userImage.save(path, "jpg", 50);
+        QImage userImage = image.scaled(600, 600, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        userImage.save(path, "jpg", 80);
 
         // 上传到服务器
         QString url = d->serverUrl + Urls::UPLOAD_PHOTO;
         HttpClient(url).manager(d->networkManager).debug(true).upload(path, [=](const QString &response) {
             if (response == "true") {
-                showInfo(ui->nameLabel->text() + "的照片上传成功", false);
+                showInfo(ui->nameLabel->text() + "的笔迹照片上传成功", false);
                 qDebug() << QString("%1 上传成功").arg(pictureName);
             } else {
                 showInfo(response, true);
