@@ -1,4 +1,4 @@
-#include "ConfigUtil.h"
+﻿#include "ConfigUtil.h"
 #include "JsonReader.h"
 
 #include <QDebug>
@@ -77,6 +77,10 @@ bool ConfigUtil::isDatabaseDebug() const {
 
 QStringList ConfigUtil::getDatabaseSqlFiles() const {
     return config->getStringList("database.sql_files");
+}
+
+bool ConfigUtil::isSignInWithFace() const {
+    return config->getBool("signInWithFace", false);
 }
 
 QStringList ConfigUtil::getQssFiles() const {

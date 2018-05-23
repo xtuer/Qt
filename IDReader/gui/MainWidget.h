@@ -2,6 +2,7 @@
 #define MAINWIDGET_H
 
 #include <QWidget>
+#include <QCameraImageCapture>
 
 class Site;
 class Person;
@@ -34,9 +35,11 @@ public:
 
 private slots:
     void personReady(const Person &p); // 得到学生的信息
-    void login(const Person &p); // 发送学生信息到服务器签到
+    void signIn(const Person &p); // 发送学生信息到服务器签到
+    void signInWithFace(const QString &idCardPicturePath, const QString &cameraPicture); // 人脸识别签到
     void showInfo(const QString &info, bool error = false); // 显示信息, error 为 true 时以红色显示
     void setReadButtonText(const QString &text);
+    void cameraError(int id, QCameraImageCapture::Error error, const QString &errorString);
 
 private:
     void handleEvents(); // 事件处理
@@ -51,7 +54,8 @@ private:
     void showLoginStatusWidget(const QList<Student> &students); // 可视化的显示登陆状态
     void showManualLoginWidget();
     void showPerson(const Person &p);
-    QString uploadCameraPictureName(); // 上传的考生照片的名字
+    QString getCameraPicturePath(); // 摄像头拍下的照片的名字
+    QString getIdCardPicturePath(); // 身份证照片
 
     friend class MainWidgetPrivate;
 

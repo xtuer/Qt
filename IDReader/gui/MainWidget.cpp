@@ -46,6 +46,7 @@ public:
         serverUrl = Singleton<ConfigUtil>::getInstance().getServerUrl();
         loginDetailsButton = new QPushButton("详情");
         loginDetailsButton->setFlat(true);
+        signInWithFace = Singleton<ConfigUtil>::getInstance().isSignInWithFace();
 
         initServerTime(); // 请求服务器的时间
 
@@ -134,6 +135,7 @@ public:
     QCameraImageCapture *imageCapture;
 
     qint64 timeDiff; // 客户端和服务器的时间差，单位为毫秒
+    bool signInWithFace;
 };
 
 /***********************************************************************************************************************
@@ -234,43 +236,69 @@ void MainWidget::handleEvents() {
     // 照片拍好后，显示预览，保存到文件，然后上传到服务器
     connect(d->imageCapture, &QCameraImageCapture::imageCaptured, [=](int id, const QImage &image) {
         Q_UNUSED(id)
+        showInfo("", true);
+
         // 图片名字
-        QString pictureName = uploadCameraPictureName();
-        if (pictureName.isEmpty()) {
+        QString idCardPicturePath = getIdCardPicturePath(); // 身份证上的照片
+        QFile::copy("person.bmp", idCardPicturePath);
+
+        QString cameraPicturePath = getCameraPicturePath(); // 摄像头拍摄的照片
+
+        if (cameraPicturePath.isEmpty()) {
+            showInfo("没有拍照", true);
             return;
         }
-
-        showInfo("", true);
 
         // 显示预览图
         QImage scaledImage = image.scaled(ui->previewLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
         ui->previewLabel->setPixmap(QPixmap::fromImage(scaledImage));
 
         // 保存到本地
-        QString path = QString("student-camera-picture/%1").arg(pictureName);
         QImage userImage = image.scaled(600, 600, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        userImage.save(path, "jpg", 80);
+        userImage.save(cameraPicturePath, "jpg", 100);
 
-        // 上传到服务器
-        QString url = d->serverUrl + Urls::UPLOAD_PHOTO;
-        HttpClient(url).manager(d->networkManager).debug(true).upload(path, [=](const QString &response) {
-            if (response == "true") {
-                showInfo(ui->nameLabel->text() + "的笔迹照片上传成功", false);
-                qDebug() << QString("%1 上传成功").arg(pictureName);
-            } else {
-                showInfo(response, true);
-                qDebug() << response;
-            }
-        }, [=](const QString &error) {
-            showInfo(error, true);
-            qDebug() << error;
-        });
+        if (d->signInWithFace) {
+            // 人脸识别登陆
+            signInWithFace(idCardPicturePath, cameraPicturePath);
+        } else {
+            // 上传到服务器
+            QString url = d->serverUrl + Urls::UPLOAD_PHOTO;
+            HttpClient(url).manager(d->networkManager).debug(true).upload(cameraPicturePath, [=](const QString &response) {
+                if (response == "true") {
+                    showInfo(ui->nameLabel->text() + "的笔迹照片上传成功", false);
+                    qDebug() << QString("%1 上传成功").arg(cameraPicturePath);
+                } else {
+                    showInfo(response, true);
+                    qDebug() << response;
+                }
+            }, [=](const QString &error) {
+                showInfo(error, true);
+                qDebug() << error;
+            });
+        }
     });
+
+//    connect(d->imageCapture, &QCameraImageCapture::error,
+//            [=](int id, int error, const QString &errorString) {
+//        //qDebug() << errorString;
+//    });
+
+    // 摄像头拍照出错
+    connect(d->imageCapture, SIGNAL(error(int, QCameraImageCapture::Error, QString)),
+            this, SLOT(cameraError(int, QCameraImageCapture::Error, QString)));
+
 
     // 手动签到
     connect(ui->manualSignInButton, &QPushButton::clicked, [this] {
         showManualLoginWidget();
     });
+}
+
+void MainWidget::cameraError(int id, QCameraImageCapture::Error error, const QString &errorString) {
+    Q_UNUSED(id)
+    Q_UNUSED(error);
+
+    showInfo(errorString, true);
 }
 
 void MainWidget::showInfo(const QString &info, bool error) {
@@ -286,7 +314,11 @@ void MainWidget::setReadButtonText(const QString &text) {
 
 void MainWidget::personReady(const Person &p) {
     showPerson(p); // 显示身份证信息
-    login(p); // 登陆
+
+    // 不使用人脸识别登录时扫描好身份证就进行登陆
+    if (!d->signInWithFace) {
+        signIn(p); // 登陆
+    }
 }
 
 void MainWidget::showPerson(const Person &p) {
@@ -302,7 +334,7 @@ void MainWidget::showPerson(const Person &p) {
     ui->pictureLabel->setPixmap(QPixmap(CardReader::personImagePath()));
 }
 
-QString MainWidget::uploadCameraPictureName() {
+QString MainWidget::getCameraPicturePath() {
     QString siteCode = ui->siteComboBox->currentData().toString();
     QString roomCode = ui->roomComboBox->currentData().toString();
     QString periodUnitCode = ui->periodUnitComboBox->currentData().toString();
@@ -328,7 +360,18 @@ QString MainWidget::uploadCameraPictureName() {
         return "";
     }
 
-    return QString("%1-%2-%3-%4.jpg").arg(periodUnitCode).arg(siteCode).arg(roomCode).arg(cardId);
+    return QString("student-camera-picture/%1-%2-%3-%4.jpg").arg(periodUnitCode).arg(siteCode).arg(roomCode).arg(cardId);
+}
+
+QString MainWidget::getIdCardPicturePath() {
+    QString cardId = ui->cardIdLabel->text().trimmed();
+
+    if (cardId.isEmpty()) {
+        showInfo("请先刷身份证", true);
+        return "";
+    }
+
+    return QString("student-id-picture/%1.bmp").arg(cardId);
 }
 
 // 加载考场的学生信息
@@ -411,7 +454,7 @@ void MainWidget::loadRoom(const QString &siteCode) {
 }
 
 // 刷卡后发送学生信息到服务器
-void MainWidget::login(const Person &p) {
+void MainWidget::signIn(const Person &p) {
     QString siteCode = ui->siteComboBox->currentData().toString();
     QString roomCode = ui->roomComboBox->currentData().toString();
     QString periodUnitCode = ui->periodUnitComboBox->currentData().toString();
@@ -458,6 +501,63 @@ void MainWidget::login(const Person &p) {
 
         showInfo("刷卡成功");
         loginSuccess(p.cardId);
+    }, [this](const QString &error) {
+        showInfo(error, true);
+    });
+}
+
+void MainWidget::signInWithFace(const QString &idCardPicture, const QString &cameraPicture) {
+    QString siteCode = ui->siteComboBox->currentData().toString();
+    QString roomCode = ui->roomComboBox->currentData().toString();
+    QString periodUnitCode = ui->periodUnitComboBox->currentData().toString();
+    QString cardId = ui->cardIdLabel->text();
+    QString name = ui->nameLabel->text();
+
+    if (periodUnitCode.isEmpty()) {
+        showInfo("请选择考期", true);
+        return;
+    }
+
+    if (siteCode.isEmpty()) {
+        showInfo("请选择考点", true);
+        return;
+    }
+
+    if (roomCode.isEmpty()) {
+        showInfo("请选择考场", true);
+        return;
+    }
+
+    if (cardId.isEmpty()) {
+        showInfo("请先刷身份证", true);
+        return;
+    }
+
+    QStringList pictures = QStringList() << idCardPicture << cameraPicture;
+
+    // http://192.168.10.85:8080/signIn/?idCardNo=5225********414&examineeName=黄彪&siteCode=S001
+    // &roomCode=001&periodUnitCode=160901&signAt=1232142&sign=asdfasdf123
+    QString signAt = QString::number(QDateTime::currentMSecsSinceEpoch() - d->timeDiff);
+    QString sign = Util::md5(QString("%1%2").arg(cardId).arg(signAt).toUtf8());
+    QString url = d->serverUrl + Urls::SIGN_IN_WITH_FACE;
+    HttpClient(url).debug(true).manager(d->networkManager)
+            .param("idCardNo", cardId)
+            .param("examineeName", name)
+            .param("siteCode", siteCode)
+            .param("roomCode", roomCode)
+            .param("periodUnitCode", periodUnitCode)
+            .param("signAt", signAt)
+            .param("sign", sign)
+            .upload(pictures, [=](const QString &response) {
+        JsonReader json(response.toUtf8());
+
+        if (1 != json.getInt("statusCode")) {
+            showInfo(json.getString("message"), true);
+            return;
+        }
+
+        showInfo("刷卡成功");
+        loginSuccess(cardId);
     }, [this](const QString &error) {
         showInfo(error, true);
     });
