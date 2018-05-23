@@ -278,10 +278,11 @@ void MainWidget::handleEvents() {
         }
     });
 
-//    connect(d->imageCapture, &QCameraImageCapture::error,
-//            [=](int id, int error, const QString &errorString) {
-//        //qDebug() << errorString;
-//    });
+    // 奇怪：这个信号不能使用 Lambda
+    // connect(d->imageCapture, &QCameraImageCapture::error,
+    //         [=](int id, int error, const QString &errorString) {
+    //     //qDebug() << errorString;
+    // });
 
     // 摄像头拍照出错
     connect(d->imageCapture, SIGNAL(error(int, QCameraImageCapture::Error, QString)),
