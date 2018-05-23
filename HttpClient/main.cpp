@@ -37,7 +37,9 @@ int main(int argc, char *argv[]) {
         HttpClient(url).debug(true).remove([](const QString &response) {
             qDebug().noquote() << response;
         });
+    }
 
+    {
         // [[6]] 下载: 直接保存到文件
         HttpClient("http://xtuer.github.io/img/dog.png").debug(true).download("/Users/Biao/Desktop/dog-1.png");
 
@@ -57,7 +59,9 @@ int main(int argc, char *argv[]) {
             file->deleteLater();
             file = NULL;
         }
+    }
 
+    {
         // [[8]] 上传文件
         HttpClient("http://localhost:8080/upload").debug(true).upload(QString("/Users/Biao/Pictures/ade.jpg"));
 
@@ -71,10 +75,15 @@ int main(int argc, char *argv[]) {
         dataFile.open(QIODevice::ReadOnly);
         QByteArray data = dataFile.readAll();
         HttpClient("http://localhost:8080/upload").debug(true).upload(data);
+
+        // [[11]] 上传多个文件文件
+        QStringList paths;
+        paths << "/Users/Biao/Desktop/photo.jpg" << "/Users/Biao/Desktop/project.numbers";
+        HttpClient("http://localhost:8080/uploads").debug(true).upload(paths);
     }
 
     {
-        // [[11]] 共享 QNetworkAccessManager
+        // [[12]] 共享 QNetworkAccessManager
         // 每创建一个 QNetworkAccessManager 对象都会创建一个线程，当频繁的访问网络时，为了节省线程资源，调用 manager()
         // 使用共享的 QNetworkAccessManager，它不会被 HttpClient 删除，需要我们自己不用的时候删除它。
         // 如果下面的代码不传入 QNetworkAccessManager，从任务管理器里可以看到创建了几千个线程。

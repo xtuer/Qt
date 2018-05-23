@@ -43,6 +43,8 @@ DemoWidget::DemoWidget(QWidget *parent) : QWidget(parent), ui(new Ui::DemoWidget
         bool result = MessageBox::confirm("确认要删除吗?");
         qDebug() << result;
     });
+
+    qDebug() << "DemoWidget()";
 }
 
 DemoWidget::~DemoWidget() {
