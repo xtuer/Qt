@@ -240,7 +240,9 @@ void MainWidget::handleEvents() {
 
         // 图片名字
         QString idCardPicturePath = getIdCardPicturePath(); // 身份证上的照片
-        QFile::copy("person.bmp", idCardPicturePath);
+        // QFile::copy("person.bmp", idCardPicturePath);
+        QPixmap personBmp("person.bmp");
+        personBmp.save(idCardPicturePath); // BMP 保存为 jpg
 
         QString cameraPicturePath = getCameraPicturePath(); // 摄像头拍摄的照片
 
@@ -372,7 +374,7 @@ QString MainWidget::getIdCardPicturePath() {
         return "";
     }
 
-    return QString("student-id-picture/%1.bmp").arg(cardId);
+    return QString("student-id-picture/%1.jpg").arg(cardId);
 }
 
 // 加载考场的学生信息
