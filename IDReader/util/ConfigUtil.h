@@ -1,4 +1,4 @@
-#ifndef CONFIGUTIL_H
+﻿#ifndef CONFIGUTIL_H
 #define CONFIGUTIL_H
 
 #include "util/Singleton.h"
@@ -35,6 +35,7 @@ public:
     int  getDatabasePort() const;                // 数据库的端口号
     bool isDatabaseDebug() const;                // 是否打印出执行的 SQL 语句和参数
     QStringList getDatabaseSqlFiles() const;     // SQL 语句文件, 可以是多个
+    bool isSignInWithFace() const;               // 是否使用人脸识别登陆
 
     ////////////////////////////////////////////////////////////////////////////
     /// UI

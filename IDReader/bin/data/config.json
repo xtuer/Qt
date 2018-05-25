@@ -1,5 +1,5 @@
 {
-    "serverUrl": "http://hnexam.edu-edu.com",
+    "serverUrl": "https://jk.edu-edu.com",
     "database": {
         "debug": true,
         "type": "QSQLITE",
@@ -19,6 +19,7 @@
             "resources/sql/Course.sql"
         ]
     },
+	"signInWithFace": true,
 
     "qss_files": [
         "resources/qss/sidebar.css",
