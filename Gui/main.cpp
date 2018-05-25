@@ -1,50 +1,56 @@
 #include <QApplication>
-#include <QWidget>
-#include <QButtonGroup>
+#include <QDebug>
+#include <QCamera>
+#include <QCameraViewfinder>
+#include <QCameraImageCapture>
+#include <QImage>
+#include <QPixmap>
+#include <QVBoxLayout>
 #include <QPushButton>
-#include <QHBoxLayout>
-#include <QFile>
-#include <QStringList>
+#include <QLabel>
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
+    a.setStyleSheet("QCameraViewfinder, QLabel { border: 2px dashed grey;}");
+    QCamera *camera = new QCamera(); // 摄像头对象
+    QCameraViewfinder *viewfinder = new QCameraViewfinder(); // 用于实时显示摄像头图像
+    QCameraImageCapture *imageCapture = new QCameraImageCapture(camera); // 用于截取摄像头图像
+    camera->setViewfinder(viewfinder); // camera 使用 viewfinder 实时显示图像
+    viewfinder->setAttribute(Qt::WA_StyledBackground, true); // 使 viewfinder 能够使用 QSS
 
-    // [1] 加载样式
-    {
-        QFile qssFile("/Users/Biao/Desktop/style.qss");
-        qssFile.open(QIODevice::ReadOnly);
-        a.setStyleSheet(qssFile.readAll());
-    }
+    QLabel *previewLabel = new QLabel(""); // 拍照预览的 label
+    QPushButton *captureButton = new QPushButton("拍照"); // 点击拍照的按钮
+    viewfinder->setFixedHeight(150);
+    previewLabel->setFixedHeight(150);
+    previewLabel->setMinimumWidth(150);
+    previewLabel->setAlignment(Qt::AlignCenter);
 
-    // [2] 创建按钮
-    QStringList names = QStringList() << "Java" << "C++" << "Python" << "PHP" << "Qt";
-    QButtonGroup *buttonGroup = new QButtonGroup();
+    // 布局 widgets
+    QVBoxLayout *layout = new QVBoxLayout();
+    layout->addWidget(viewfinder);
+    layout->addWidget(previewLabel);
+    layout->addWidget(captureButton);
+    layout->addStretch();
 
-    for (int i = 0; i < names.length(); ++i) {
-        QPushButton *button = new QPushButton(names.at(i));
-        button->setProperty("class", "GroupButton");
-        button->setCheckable(true);
-        buttonGroup->addButton(button);
-    }
+    QWidget *window = new QWidget();
+    window->setLayout(layout);
 
-    buttonGroup->setExclusive(true);
-    buttonGroup->buttons().at(0)->setChecked(true);
-    buttonGroup->buttons().at(0)->setProperty("position", "first");
-    buttonGroup->buttons().at(names.length() - 1)->setProperty("position", "last");
+    QLabel *mask = new QLabel(window);
+    mask->setGeometry(60, 70, 90, 60);
+    mask->setStyleSheet("background: #99FFFFFF; border-radius: 6px;");
 
-    // [3] 布局按钮
-    QHBoxLayout *layout = new QHBoxLayout();
-    layout->setSpacing(0);
+    window->show();
+    camera->start();
 
-    for (QAbstractButton *button : buttonGroup->buttons()) {
-        layout->addWidget(button);
-    }
-
-    // [4] 显示窗口
-    QWidget window;
-    window.setLayout(layout);
-    window.resize(500, 150);
-    window.show();
-
+    // 点击拍照
+    QObject::connect(captureButton, &QPushButton::clicked, [=] {
+        imageCapture->capture("capture.jpg"); // 如果不传入截图文件的路径，则会使用默认的路径，每次截图生成一个图片
+    });
+    // 拍照完成后的槽函数，可以把 image 保存到自己想要的位置
+    QObject::connect(imageCapture, &QCameraImageCapture::imageCaptured, [=](int id, const QImage &image) {
+        Q_UNUSED(id)
+        QImage scaledImage = image.scaled(previewLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        previewLabel->setPixmap(QPixmap::fromImage(scaledImage));
+    });
     return a.exec();
 }
