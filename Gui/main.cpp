@@ -34,6 +34,8 @@ int main(int argc, char *argv[]) {
 
     QWidget *window = new QWidget();
     window->setLayout(layout);
+    window->setWindowFlags(Qt::FramelessWindowHint);
+    window->setAttribute(Qt::WA_TranslucentBackground);
 
     QLabel *mask = new QLabel(window);
     mask->setGeometry(60, 70, 90, 60);
