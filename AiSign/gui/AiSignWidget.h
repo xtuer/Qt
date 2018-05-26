@@ -15,6 +15,9 @@ public:
     ~AiSignWidget();
 
 private:
+    void initialize();   // 初始化
+    void handleEvents(); // 信号槽事件处理
+
     Ui::AiSignWidget *ui;
 };
 

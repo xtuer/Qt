@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -30,6 +30,7 @@ RCC_DIR     = $$output
 UI_DIR      = $$output
 
 include(gui/gui.pri)
+include(util/util.pri)
 
 SOURCES += main.cpp
 

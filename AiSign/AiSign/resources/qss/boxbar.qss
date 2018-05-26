@@ -1,0 +1,149 @@
+/******************************************************************************
+ *                                   QComboBox
+ *****************************************************************************/
+QComboBox {
+    height: 24px;
+    min-width: 90px;
+    font-size: 12px;
+    border: 0px solid #dddee1;
+    background: transparent;
+    border-radius: 4px;
+    color: #495060;
+    background-color: #fff;
+    padding: 0 4px;
+}
+
+QComboBox:focus {
+    border-color: #57a3f3;
+}
+
+QComboBox::drop-down {
+    width: 12px;
+    height: 12px;
+	margin-right: 2px;
+    margin-top: 2px;
+    subcontrol-origin: border;
+    subcontrol-position: right center;
+    border-width: 0 0 0 0;
+    border-image: url(image/common/arrow-down.png) 0 0 0 0 stretch stretch;
+}
+
+QComboBox::drop-down:hover {
+    border-image: url(image/common/arrow-down-hover.png) 0 0 0 0 stretch stretch;
+}
+
+QComboBox QAbstractItemView {
+    margin-top: 0px;
+    padding-bottom: 0px;
+    border: 1px solid #dddee1;
+}
+
+/******************************************************************************
+ *                  QSpinBox, QDateEdit, QTimeEdit, QDateTimeEdit
+ *****************************************************************************/
+QAbstractSpinBox {
+    height: 24px;
+    min-width: 60px;
+    font-size: 12px;
+    border: 1px solid #dddee1;
+    border-radius: 4px;
+    color: #495060;
+    background-color: #fff;
+    padding: 0 1px;
+}
+
+QAbstractSpinBox:focus {
+    border-color: #57a3f3;
+}
+
+QAbstractSpinBox::down-button, QAbstractSpinBox::up-button {
+    subcontrol-origin: border;
+    width: 16px;
+    height: 16px;
+    border-width: 0 0 0 0;
+}
+QAbstractSpinBox::down-button {
+    subcontrol-position: center left;
+    margin-left: 5px;
+    border-image: url(image/common/minus.png) 0 0 0 0 stretch stretch;
+}
+QAbstractSpinBox::up-button {
+    subcontrol-position: center right;
+    margin-right: 5px;
+    border-image: url(image/common/plus.png) 0 0 0 0 stretch stretch;
+}
+
+/******************************************************************************
+ *                                   QGroupBox
+ *****************************************************************************/
+QGroupBox {
+    border: 1px solid #dddee1;
+    border-radius: 4px;
+    margin-top: 10px; /* leave space at the top for the title */
+	font-size: 14px;
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top center; /* position at the top center */
+    padding: 2px 3px;
+    margin-top: 0px;
+    /* background: #80848f; */
+    /* color: white; */
+    /* border-radius: 3px; */
+    /* spacing: 5px; */
+}
+
+/******************************************************************************
+ *                                 QProgressBar
+ *****************************************************************************/
+QProgressBar {
+    border: none;
+    background-color: #e9eaec;
+    text-align: center;
+    max-height: 13px;
+    min-height: 13px;
+}
+
+QProgressBar::chunk {
+    background-color: #57a3f3;
+    /* width: 20px; */
+}
+
+/******************************************************************************
+ *                                   QScrollBar
+ *****************************************************************************/
+QScrollBar:vertical {
+    width: 6px;
+    background: #e9eaec;
+    padding-bottom: 0px;
+}
+
+QScrollBar:horizontal {
+    height: 6px;
+    background: #e9eaec;
+}
+
+QScrollBar::handle:vertical,
+QScrollBar::handle:horizontal {
+    background: #AAA;
+}
+
+QScrollBar::handle:vertical {
+    min-height: 50px;
+}
+
+QScrollBar::handle:horizontal {
+    min-width: 50px;
+}
+
+QScrollBar::handle:vertical:hover,
+QScrollBar::handle:horizontal:hover {
+    background: #888;
+}
+
+QScrollBar::sub-line:vertical, QScrollBar::add-line:vertical,
+QScrollBar::sub-line:horizontal, QScrollBar::add-line:horizontal {
+    width: 0;
+    height: 0;
+}

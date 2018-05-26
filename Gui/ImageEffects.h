@@ -1,6 +1,7 @@
 #ifndef IMAGEEFFECTS_H
 #define IMAGEEFFECTS_H
 #include <QImage>
+#include <functional>
 
 class ImageEffects {
 public:
