@@ -1,6 +1,7 @@
 #include "ui_AiSignWidget.h"
 #include "AiSignWidget.h"
 
+#include <QDebug>
 #include <QCamera>
 #include <QCameraViewfinder>
 #include <QCameraImageCapture>
@@ -69,7 +70,16 @@ void AiSignWidget::handleEvents() {
     // [Camera] 拍照完成后的槽函数，可以把 image 保存到自己想要的位置
     QObject::connect(d->cameraImageCapture, &QCameraImageCapture::imageCaptured, [this](int id, const QImage &image) {
         Q_UNUSED(id)
-        QImage scaledImage = image.scaled(ui->previewLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        ui->previewLabel->setPixmap(QPixmap::fromImage(scaledImage));
+        // 1. 显示预览图
+        // 2. 保存到系统
+        // 3. 签到
+        QImage previewImage1 = image.scaled(ui->previewLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        ui->previewLabel->setPixmap(QPixmap::fromImage(previewImage1));
+
+        QImage previewImage2 = image.scaledToHeight(ui->cameraPictureLabel->size().height(), Qt::SmoothTransformation);
+        int x = (previewImage2.width() - ui->cameraPictureLabel->width()) / 2;
+        int w = ui->cameraPictureLabel->width();
+        int h = ui->cameraPictureLabel->height();
+        ui->cameraPictureLabel->setPixmap(QPixmap::fromImage(previewImage2.copy(x, 0, w, h)));
     });
 }

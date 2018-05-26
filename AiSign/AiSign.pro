@@ -31,6 +31,8 @@ UI_DIR      = $$output
 
 include(gui/gui.pri)
 include(util/util.pri)
+include(bean/bean.pri)
+include(lib/lib.pri)
 
 SOURCES += main.cpp
 
