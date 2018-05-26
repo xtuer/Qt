@@ -4,14 +4,14 @@
 #include <QString>
 
 /**
- * 考期单元
+ * 考期
  */
-class PeriodUnit {
+class Period {
 public:
-    PeriodUnit();
+    Period();
     QString toString() const;
 
-    QString periodUnitCode;
+    QString periodCode;
     QString period;
     QString unit;
     QString startTime;
