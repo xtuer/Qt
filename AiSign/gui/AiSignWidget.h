@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+struct AiSignWidgetPrivate;
+
 namespace Ui {
 class AiSignWidget;
 }
@@ -19,6 +21,9 @@ private:
     void handleEvents(); // 信号槽事件处理
 
     Ui::AiSignWidget *ui;
+    AiSignWidgetPrivate *d;
+
+    friend struct AiSignWidgetPrivate;
 };
 
 #endif // AISIGNWIDGET_H

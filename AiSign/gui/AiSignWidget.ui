@@ -428,7 +428,7 @@
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QLabel" name="label_34">
+             <widget class="QLabel" name="nameLabel">
               <property name="text">
                <string/>
               </property>
@@ -448,7 +448,7 @@
              </widget>
             </item>
             <item row="1" column="1">
-             <widget class="QLabel" name="label_35">
+             <widget class="QLabel" name="genderLabel">
               <property name="text">
                <string/>
               </property>
@@ -468,7 +468,7 @@
              </widget>
             </item>
             <item row="2" column="1">
-             <widget class="QLabel" name="label_36">
+             <widget class="QLabel" name="birthdayLabel">
               <property name="text">
                <string/>
               </property>
@@ -488,7 +488,7 @@
              </widget>
             </item>
             <item row="3" column="1">
-             <widget class="QLabel" name="label_37">
+             <widget class="QLabel" name="idCardNoLabel">
               <property name="text">
                <string/>
               </property>
@@ -511,7 +511,7 @@
              </widget>
             </item>
             <item row="4" column="1">
-             <widget class="QLabel" name="label_38">
+             <widget class="QLabel" name="startDateLabel">
               <property name="text">
                <string/>
               </property>
@@ -528,7 +528,7 @@
              </widget>
             </item>
             <item row="5" column="1">
-             <widget class="QLabel" name="label_39">
+             <widget class="QLabel" name="endDateLabel">
               <property name="text">
                <string/>
               </property>
@@ -547,7 +547,7 @@
               </property>
               <layout class="QGridLayout" name="gridLayout_16">
                <item row="0" column="3">
-                <widget class="QLabel" name="label_41">
+                <widget class="QLabel" name="cameraPictureLabel">
                  <property name="text">
                   <string/>
                  </property>
@@ -557,7 +557,7 @@
                 </widget>
                </item>
                <item row="0" column="1">
-                <widget class="QLabel" name="label_40">
+                <widget class="QLabel" name="idCardPictureLabel">
                  <property name="text">
                   <string/>
                  </property>
@@ -1035,19 +1035,42 @@
            <property name="class" stdset="0">
             <string>ContainerContentWidget</string>
            </property>
-           <widget class="QLabel" name="label_22">
-            <property name="geometry">
-             <rect>
-              <x>10</x>
-              <y>10</y>
-              <width>221</width>
-              <height>16</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>正在刷卡，请把身份证放到刷卡器上</string>
-            </property>
-           </widget>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <item>
+             <widget class="QLabel" name="label_31">
+              <property name="text">
+               <string>摄像头</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_28">
+              <property name="text">
+               <string>身份证刷卡器</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_22">
+              <property name="text">
+               <string>考试数据初始化</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="verticalSpacer_3">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>5</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
           </widget>
          </item>
         </layout>
