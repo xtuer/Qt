@@ -28,13 +28,5 @@ void MyWidget::handleEvents() {
         messageShower->showMessage(QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss"));
     });
     timer->start(100);
-
-    connect(ui->pushButton, &QPushButton::clicked, [=] {
-       timer->stop();
-    });
-
-    connect(ui->pushButton_2, &QPushButton::clicked, [=] {
-       timer->start();
-    });
 }
 

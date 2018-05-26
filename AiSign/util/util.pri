@@ -6,7 +6,8 @@ HEADERS += \
     $$PWD/LogHandler.h \
     $$PWD/NinePatchPainter.h \
     $$PWD/HttpClient.h \
-    $$PWD/Util.h
+    $$PWD/Util.h \
+    $$PWD/ResponseUtil.h
 
 SOURCES += \
     $$PWD/Json.cpp \
@@ -15,4 +16,5 @@ SOURCES += \
     $$PWD/LogHandler.cpp \
     $$PWD/NinePatchPainter.cpp \
     $$PWD/HttpClient.cpp \
-    $$PWD/Util.cpp
+    $$PWD/Util.cpp \
+    $$PWD/ResponseUtil.cpp

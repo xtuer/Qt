@@ -1,4 +1,6 @@
 {
+    "serverUrl": "https://jk.edu-edu.com",
+    "signInWithFace": true,
     "database": {
         "debug": true,
         "type": "QMYSQL",
@@ -27,5 +29,9 @@
         "resources/qss/slider.qss",
         "resources/qss/login.qss",
         "resources/qss/TopWindow.qss"
-    ]
+    ],
+    "ui": {
+        "padding": 5,
+        "spacing": 5
+    }
 }

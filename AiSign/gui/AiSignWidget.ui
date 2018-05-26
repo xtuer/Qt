@@ -6,99 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>866</width>
-    <height>702</height>
+    <width>744</width>
+    <height>595</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>AiSignWidget</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">.Container {
-	border: 0px solid darkred;
-    border-radius: 10px;
-}
-
-.Container QPushButton {
-    color: #DDD;
-    border: 0px solid red;
-    border-radius: 4px;
-    background: rgb(27, 104, 222);
-    padding: 0px 10px;
-    min-height: 30px;
-    max-height: 30px;
-    font-size: 16px;
-}
-
-.Container QPushButton:hover {
-    color: #CCC;
-}
-
-.Container QPushButton:pressed {
-    color: #FFF;
-}
-
-.ContainerTitlebar QPushButton {
-    margin-right: 10px;
-}
-
-.ContainerTitlebar {
-	min-height: 50px;
-    max-height: 50px;
-    background: rgb(48, 143, 238);
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-}
-
-.ContainerTitlebar QLabel {
-    font-size: 16px;
-    color: rgb(36, 59, 139);
-}
-
-.ContainerTitlebar QLabel.TitleIcon {
-    min-width:  30px;
-    max-width:  30px;
-    min-height: 30px;
-    max-height: 30px;
-    border-width: 0 0 0 0;
-    margin-left: 10px;
-}
-
-.ContainerContentWidget {
-    background: rgb(37, 133, 230);
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-}
-
-.ContainerContentWidget QLabel {
-    font-size: 15px;
-    color: #DDD;
-}
-
-.ContainerContentWidget QLabel.Info {
-    color: #DDD;
-}
-
-.ContainerContentWidget QLabel.IdCardInfo {
-    color: #DDD;
-    border: 0px solid red;
-    border-bottom: 1px solid #DDD;
-}
-
-.ContainerContentWidget QLabel.VS {
-    font-size: 30px;
-    font-style: italic;
-}
-
-.ContainerContentWidget QLabel.Picture {
-    background: #CCC;
-    border-radius: 4px;
-    min-width: 102px;
-    max-width: 102px;
-    min-height: 126px;
-    max-height: 126px;
-}
-</string>
+   <string notr="true"/>
   </property>
   <layout class="QGridLayout" name="gridLayout_18">
    <property name="leftMargin">
@@ -138,7 +54,7 @@
        <widget class="QWidget" name="widget" native="true">
         <property name="minimumSize">
          <size>
-          <width>250</width>
+          <width>270</width>
           <height>0</height>
          </size>
         </property>
@@ -182,13 +98,6 @@
             <property name="horizontalSpacing">
              <number>10</number>
             </property>
-            <item row="0" column="1">
-             <widget class="QLabel" name="label">
-              <property name="text">
-               <string>配置信息</string>
-              </property>
-             </widget>
-            </item>
             <item row="0" column="0">
              <widget class="QLabel" name="settingsLabel">
               <property name="minimumSize">
@@ -204,7 +113,7 @@
                </size>
               </property>
               <property name="text">
-               <string/>
+               <string>配置信息</string>
               </property>
               <property name="class" stdset="0">
                <string>TitleIcon</string>
@@ -231,10 +140,13 @@
               <property name="text">
                <string>考期:</string>
               </property>
+              <property name="class" stdset="0">
+               <string>Info</string>
+              </property>
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QComboBox" name="comboBox">
+             <widget class="QComboBox" name="periodComboBox">
               <item>
                <property name="text">
                 <string>New Item</string>
@@ -272,20 +184,26 @@
               <property name="text">
                <string>考点:</string>
               </property>
+              <property name="class" stdset="0">
+               <string>Info</string>
+              </property>
              </widget>
             </item>
             <item row="1" column="1">
-             <widget class="QComboBox" name="comboBox_2"/>
+             <widget class="QComboBox" name="siteComboBox"/>
             </item>
             <item row="2" column="0">
              <widget class="QLabel" name="label_15">
               <property name="text">
                <string>考场:</string>
               </property>
+              <property name="class" stdset="0">
+               <string>Info</string>
+              </property>
              </widget>
             </item>
             <item row="2" column="1">
-             <widget class="QComboBox" name="comboBox_3"/>
+             <widget class="QComboBox" name="roomComboBox"/>
             </item>
             <item row="3" column="1">
              <spacer name="verticalSpacer">
@@ -360,6 +278,19 @@
             <property name="horizontalSpacing">
              <number>10</number>
             </property>
+            <item row="0" column="1">
+             <widget class="QPushButton" name="signInManualButton">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>人工签到</string>
+              </property>
+             </widget>
+            </item>
             <item row="0" column="0">
              <widget class="QLabel" name="idCardLabel">
               <property name="minimumSize">
@@ -370,35 +301,15 @@
               </property>
               <property name="maximumSize">
                <size>
-                <width>40</width>
-                <height>30</height>
+                <width>400</width>
+                <height>300</height>
                </size>
               </property>
               <property name="text">
-               <string/>
+               <string>身份证信息</string>
               </property>
               <property name="class" stdset="0">
                <string>TitleIcon</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLabel" name="label_2">
-              <property name="text">
-               <string>身份证信息</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="2">
-             <widget class="QPushButton" name="pushButton">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>人工签到</string>
               </property>
              </widget>
             </item>
@@ -425,6 +336,9 @@
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
+              <property name="class" stdset="0">
+               <string>Info</string>
+              </property>
              </widget>
             </item>
             <item row="0" column="1">
@@ -444,6 +358,9 @@
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+              <property name="class" stdset="0">
+               <string>Info</string>
               </property>
              </widget>
             </item>
@@ -465,6 +382,9 @@
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
+              <property name="class" stdset="0">
+               <string>Info</string>
+              </property>
              </widget>
             </item>
             <item row="2" column="1">
@@ -484,6 +404,9 @@
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+              <property name="class" stdset="0">
+               <string>Info</string>
               </property>
              </widget>
             </item>
@@ -508,6 +431,9 @@
               <property name="text">
                <string>开始日期:</string>
               </property>
+              <property name="class" stdset="0">
+               <string>Info</string>
+              </property>
              </widget>
             </item>
             <item row="4" column="1">
@@ -524,6 +450,9 @@
              <widget class="QLabel" name="label_33">
               <property name="text">
                <string>结束日期:</string>
+              </property>
+              <property name="class" stdset="0">
+               <string>Info</string>
               </property>
              </widget>
             </item>
@@ -686,13 +615,6 @@
             <property name="horizontalSpacing">
              <number>10</number>
             </property>
-            <item row="0" column="1">
-             <widget class="QLabel" name="label_3">
-              <property name="text">
-               <string>摄像头</string>
-              </property>
-             </widget>
-            </item>
             <item row="0" column="0">
              <widget class="QLabel" name="cameraLabel">
               <property name="minimumSize">
@@ -703,12 +625,12 @@
               </property>
               <property name="maximumSize">
                <size>
-                <width>40</width>
-                <height>30</height>
+                <width>400</width>
+                <height>300</height>
                </size>
               </property>
               <property name="text">
-               <string/>
+               <string>摄像头</string>
               </property>
               <property name="class" stdset="0">
                <string>TitleIcon</string>
@@ -836,6 +758,19 @@
             <property name="horizontalSpacing">
              <number>10</number>
             </property>
+            <item row="0" column="1">
+             <widget class="QPushButton" name="pushButton_2">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>详情</string>
+              </property>
+             </widget>
+            </item>
             <item row="0" column="0">
              <widget class="QLabel" name="statisticLabel">
               <property name="minimumSize">
@@ -846,35 +781,15 @@
               </property>
               <property name="maximumSize">
                <size>
-                <width>40</width>
-                <height>30</height>
+                <width>400</width>
+                <height>300</height>
                </size>
               </property>
               <property name="text">
-               <string/>
+               <string>数据统计</string>
               </property>
               <property name="class" stdset="0">
                <string>TitleIcon</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLabel" name="label_4">
-              <property name="text">
-               <string>数据统计</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="2">
-             <widget class="QPushButton" name="pushButton_2">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>详情</string>
               </property>
              </widget>
             </item>
@@ -888,7 +803,7 @@
            </property>
            <layout class="QGridLayout" name="gridLayout_14">
             <item row="0" column="1">
-             <widget class="QLabel" name="label_19">
+             <widget class="QLabel" name="signInStudentCountLabel">
               <property name="text">
                <string>0</string>
               </property>
@@ -908,6 +823,9 @@
               <property name="text">
                <string>已刷卡:</string>
               </property>
+              <property name="class" stdset="0">
+               <string>Info</string>
+              </property>
              </widget>
             </item>
             <item row="1" column="0">
@@ -915,10 +833,13 @@
               <property name="text">
                <string>未刷卡:</string>
               </property>
+              <property name="class" stdset="0">
+               <string>Info</string>
+              </property>
              </widget>
             </item>
             <item row="2" column="1">
-             <widget class="QLabel" name="label_21">
+             <widget class="QLabel" name="totalStudentCountLabel">
               <property name="text">
                <string>0</string>
               </property>
@@ -932,10 +853,13 @@
               <property name="text">
                <string>总人数:</string>
               </property>
+              <property name="class" stdset="0">
+               <string>Info</string>
+              </property>
              </widget>
             </item>
             <item row="1" column="1">
-             <widget class="QLabel" name="label_20">
+             <widget class="QLabel" name="unsignInStudentCountLabel">
               <property name="text">
                <string>0</string>
               </property>
@@ -998,13 +922,6 @@
             <property name="horizontalSpacing">
              <number>10</number>
             </property>
-            <item row="0" column="1">
-             <widget class="QLabel" name="label_5">
-              <property name="text">
-               <string>系统状态</string>
-              </property>
-             </widget>
-            </item>
             <item row="0" column="0">
              <widget class="QLabel" name="statusLabel">
               <property name="minimumSize">
@@ -1015,12 +932,12 @@
               </property>
               <property name="maximumSize">
                <size>
-                <width>40</width>
-                <height>30</height>
+                <width>400</width>
+                <height>300</height>
                </size>
               </property>
               <property name="text">
-               <string/>
+               <string>系统状态</string>
               </property>
               <property name="class" stdset="0">
                <string>TitleIcon</string>
@@ -1118,13 +1035,6 @@
             <property name="horizontalSpacing">
              <number>10</number>
             </property>
-            <item row="0" column="1">
-             <widget class="QLabel" name="label_6">
-              <property name="text">
-               <string>反馈结果</string>
-              </property>
-             </widget>
-            </item>
             <item row="0" column="0">
              <widget class="QLabel" name="feedbackLabel">
               <property name="minimumSize">
@@ -1135,12 +1045,12 @@
               </property>
               <property name="maximumSize">
                <size>
-                <width>40</width>
-                <height>30</height>
+                <width>400</width>
+                <height>300</height>
                </size>
               </property>
               <property name="text">
-               <string/>
+               <string>反馈结果</string>
               </property>
               <property name="class" stdset="0">
                <string>TitleIcon</string>
@@ -1152,12 +1062,18 @@
          </item>
          <item row="1" column="0">
           <widget class="QWidget" name="widget_17" native="true">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="class" stdset="0">
             <string>ContainerContentWidget</string>
            </property>
            <layout class="QGridLayout" name="gridLayout_15">
             <item row="0" column="0">
-             <widget class="QLabel" name="label_23">
+             <widget class="QLabel" name="infoLabel">
               <property name="text">
                <string>初始化成功</string>
               </property>

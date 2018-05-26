@@ -1,8 +1,9 @@
 #ifndef UTIL_H
 #define UTIL_H
 
-class QString;
 class QFile;
+class QString;
+class QByteArray;
 
 class Util {
 public:
@@ -15,6 +16,15 @@ public:
      * @return 保存成功返回 true，保存失败返回 false
      */
     static bool writeStringToFile(const QString &content, const QString &path, QString *error = 0);
+
+    // 格式化时间
+    // 把 yyyyMMdd 的时间格式化为 yyyy 年 MM 月 dd 日
+    static QString formatDate(const QString &date);
+
+    // 注册自定义类型
+    static void registerTypes();
+
+    static QByteArray md5(const QByteArray &data);
 };
 
 #endif // UTIL_H

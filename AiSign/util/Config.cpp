@@ -1,82 +1,135 @@
-#include "Config.h"
+﻿#include "Config.h"
 #include "Json.h"
 
+#include <QDebug>
+#include <QFile>
+#include <QDataStream>
 #include <QString>
 #include <QStringList>
 #include <QSettings>
-#include <QTextCodec>
+#include <QWidget>
 
 Config::Config() {
-    json = new Json("data/config.json", true); // 配置文件路径
-    appSettings = new QSettings("data/app.data", QSettings::IniFormat);
-    appSettings->setIniCodec(QTextCodec::codecForName("UTF8"));
+    config      = new Json("data/config.json", true); // 配置文件路径
+    appSettings = new QSettings("data/app.ini", QSettings::IniFormat);
+    appSettings->setIniCodec("UTF-8");
 }
 
 Config::~Config() {
-    destroy();
+
 }
 
 void Config::destroy() {
-    // 保存配置到文件
+    delete config;
+    config = NULL;
+
     if (NULL != appSettings) {
-        appSettings->sync();
+        appSettings->sync(); // 保存配置
     }
 
-    delete json;
     delete appSettings;
-
-    json = NULL;
     appSettings = NULL;
 }
 
 QString Config::getDatabaseType() const {
-    return json->getString("database.type");
+    return config->getString("database.type");
 }
 
 QString Config::getDatabaseHost() const {
-    return json->getString("database.host");
+    return config->getString("database.host");
 }
 
 QString Config::getDatabaseName() const {
-    return json->getString("database.database_name");
+    return config->getString("database.database_name");
 }
 
 QString Config::getDatabaseUsername() const {
-    return json->getString("database.username");
+    return config->getString("database.username");
 }
 
 QString Config::getDatabasePassword() const {
-    return json->getString("database.password");
+    return config->getString("database.password");
 }
 
 bool Config::getDatabaseTestOnBorrow() const {
-    return json->getBool("database.test_on_borrow", false);
+    return config->getBool("database.test_on_borrow", false);
 }
 
 QString Config::getDatabaseTestOnBorrowSql() const {
-    return json->getString("database.test_on_borrow_sql", "SELECT 1");
+    return config->getString("database.test_on_borrow_sql", "SELECT 1");
 }
 
 int Config::getDatabaseMaxWaitTime() const {
-    return json->getInt("database.max_wait_time", 5000);
+    return config->getInt("database.max_wait_time", 5000);
 }
 
 int Config::getDatabaseMaxConnectionCount() const {
-    return json->getInt("database.max_connection_count", 5);
+    return config->getInt("database.max_connection_count", 5);
 }
 
 int Config::getDatabasePort() const {
-    return json->getInt("database.port", 0);
+    return config->getInt("database.port", 0);
 }
 
 bool Config::isDatabaseDebug() const {
-    return json->getBool("database.debug", false);
+    return config->getBool("database.debug", false);
 }
 
 QStringList Config::getDatabaseSqlFiles() const {
-    return json->getStringList("database.sql_files");
+    return config->getStringList("database.sql_files");
+}
+
+bool Config::isSignInWithFace() const {
+    return config->getBool("signInWithFace", false);
 }
 
 QStringList Config::getQssFiles() const {
-    return json->getStringList("qss_files");
+    return config->getStringList("qss_files");
+}
+
+int Config::getLayoutPadding() const {
+    return config->getInt("ui.padding", 10);
+}
+
+int Config::getLayoutSpacing() const {
+    return config->getInt("ui.spacing", 5);
+}
+
+void Config::saveWindowGeometry(const QString &groupName, QWidget *window) {
+    setGuiValue(groupName, "pos", window->pos());
+    setGuiValue(groupName, "size", window->rect().size());
+}
+
+void Config::restoreWindowGeometry(const QString &groupName, QWidget *window) {
+    window->move(getGuiValue(groupName, "pos", QPoint(0, 0)).toPoint());
+    window->resize(getGuiValue(groupName, "size", QSize(600, 400)).toSize());
+}
+
+QString Config::getServerUrl() const {
+    return config->getString("serverUrl");
+}
+
+QVariant Config::getGuiValue(const QString& groupName, const QString& name, const QVariant& def) {
+    return getValue(appSettings, groupName, name, def);
+}
+
+void Config::setGuiValue(const QString& groupName, const QString& name, const QVariant& value) {
+    setValue(appSettings, groupName, name, value);
+}
+
+QVariant Config::getValue(QSettings* settings, const QString& groupName, const QString& settingName, const QVariant &def) {
+    QVariant var;
+
+    settings->beginGroup(groupName);
+    var = settings->value(settingName, def);
+    settings->endGroup();
+
+    return var;
+}
+
+void Config::setValue(QSettings* settings, const QString& groupName, const QString& name, const QVariant& value) {
+    settings->beginGroup(groupName);
+    settings->setValue(name, value);
+    settings->endGroup();
+    settings->sync();
 }

@@ -34,5 +34,9 @@ include(util/util.pri)
 include(bean/bean.pri)
 include(lib/lib.pri)
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    Constants.cpp
+
+HEADERS += \
+    Constants.h
 

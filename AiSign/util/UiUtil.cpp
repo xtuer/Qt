@@ -29,7 +29,7 @@
 
 // 为整个应用程序加载 QSS
 void UiUtil::loadQss() {
-    QStringList qssFileNames = Singleton<Config>::getInstance().getQssFiles();
+    QStringList qssFileNames = ConfigInstance.getQssFiles();
     QString qss;
 
     for (const QString &name : qssFileNames) {
