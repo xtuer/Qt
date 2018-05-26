@@ -178,22 +178,24 @@ void AiSignWidget::loadPeriodUnitAndSiteAndRoom() {
     // http://192.168.10.85:8080/initializeRoom
     QString url = d->serverUrl + Urls::INITIALIZE_ROOM;
     HttpClient(url).debug(true).manager(d->networkManager).get([this](const QString &jsonResponse) {
-        // 解析考点 Site
-        d->sites = ResponseUtil::responseToSites(jsonResponse);
-        ui->siteComboBox->clear();
-        ui->siteComboBox->addItem("请选择", "");
-
-        foreach (const Site &s, d->sites) {
-            ui->siteComboBox->addItem(s.siteCode + "-" + s.siteName, s.siteCode);
-        }
-
-        // 解析考期 PeriodUnit
+        // 解析考期 Period
         d->periods = ResponseUtil::responseToPeroids(jsonResponse);
         ui->periodComboBox->clear();
         ui->periodComboBox->addItem("请选择", "");
 
         foreach (const Period &pu, d->periods) {
             ui->periodComboBox->addItem(pu.period + "-" + pu.unit + " 单元", pu.periodCode);
+        }
+
+        // 解析考点 Site
+        d->sites = ResponseUtil::responseToSites(jsonResponse);
+        ui->siteComboBox->clear();
+        ui->siteComboBox->addItem("请选择", "");
+
+        foreach (const Site &s, d->sites) {
+            QString text = s.siteCode + "-" + s.siteName;
+            ui->siteComboBox->addItem(text, s.siteCode);
+            ui->siteComboBox->setItemData(ui->siteComboBox->count() - 1, text, Qt::ToolTipRole);
         }
 
         showInfo("初始化完成，请选择考期、考点、考场", false);
