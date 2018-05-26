@@ -29,14 +29,21 @@ AiSignWidgetPrivate::AiSignWidgetPrivate(AiSignWidget *aiSignWidget) {
 
 // 初始化摄像头
 void AiSignWidgetPrivate::initializeCamera(AiSignWidget *aiSignWidget) {
+    QGridLayout *layout = qobject_cast<QGridLayout *>(aiSignWidget->ui->cameraContainer->layout());
+
     camera = new QCamera(aiSignWidget);
     cameraViewfinder = new QCameraViewfinder(aiSignWidget);
     cameraImageCapture = new QCameraImageCapture(camera);
     cameraViewfinder->setProperty("class", "CameraWidget");
-    aiSignWidget->ui->cameraContainer->layout()->replaceWidget(aiSignWidget->ui->cameraPlaceholderLabel, cameraViewfinder);
+    layout->replaceWidget(aiSignWidget->ui->cameraPlaceholderLabel, cameraViewfinder);
     aiSignWidget->ui->cameraPlaceholderLabel->hide();
     camera->setViewfinder(cameraViewfinder);
     camera->start();
+
+    QLabel *facePositionLabel = new QLabel();
+    facePositionLabel->setObjectName("facePositionLabel");
+    layout->addWidget(facePositionLabel, 0, 0);
+    layout->setAlignment(facePositionLabel, Qt::AlignCenter);
 }
 
 /*-----------------------------------------------------------------------------|
@@ -71,15 +78,20 @@ void AiSignWidget::handleEvents() {
     QObject::connect(d->cameraImageCapture, &QCameraImageCapture::imageCaptured, [this](int id, const QImage &image) {
         Q_UNUSED(id)
         // 1. 显示预览图
+        // 1.1 预览图显示到右边
+        // 1.2 预览图显示到中间，和身份证照片进行比较: 按高度缩放，然后截取中间部分
         // 2. 保存到系统
         // 3. 签到
-        QImage previewImage1 = image.scaled(ui->previewLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        ui->previewLabel->setPixmap(QPixmap::fromImage(previewImage1));
 
-        QImage previewImage2 = image.scaledToHeight(ui->cameraPictureLabel->size().height(), Qt::SmoothTransformation);
-        int x = (previewImage2.width() - ui->cameraPictureLabel->width()) / 2;
+        // [1.1] 预览图显示到右边
+        QImage rightImage = image.scaled(ui->previewLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        ui->previewLabel->setPixmap(QPixmap::fromImage(rightImage));
+
+        // [1.2] 预览图显示到中间，和身份证照片进行比较: 按高度缩放，然后截取中间部分
+        QImage centerImage = image.scaledToHeight(ui->cameraPictureLabel->size().height(), Qt::SmoothTransformation);
+        int x = (centerImage.width() - ui->cameraPictureLabel->width()) / 2;
         int w = ui->cameraPictureLabel->width();
         int h = ui->cameraPictureLabel->height();
-        ui->cameraPictureLabel->setPixmap(QPixmap::fromImage(previewImage2.copy(x, 0, w, h)));
+        ui->cameraPictureLabel->setPixmap(QPixmap::fromImage(centerImage.copy(x, 0, w, h)));
     });
 }
