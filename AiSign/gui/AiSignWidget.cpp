@@ -4,6 +4,8 @@
 #include <QCamera>
 #include <QCameraViewfinder>
 #include <QCameraImageCapture>
+#include <QPixmap>
+#include <QImage>
 
 /*-----------------------------------------------------------------------------|
  |                             AiSignWidgetPrivate                             |
@@ -59,5 +61,15 @@ void AiSignWidget::initialize() {
 
 // 信号槽事件处理
 void AiSignWidget::handleEvents() {
+    // [Camera] 点击拍照上传按钮进行拍照
+    connect(ui->captureAndUploadButton, &QPushButton::clicked, [this] {
+        d->cameraImageCapture->capture("capture.jpg"); // 如果不传入截图文件的路径，则会使用默认的路径，每次截图生成一个图片
+    });
 
+    // [Camera] 拍照完成后的槽函数，可以把 image 保存到自己想要的位置
+    QObject::connect(d->cameraImageCapture, &QCameraImageCapture::imageCaptured, [this](int id, const QImage &image) {
+        Q_UNUSED(id)
+        QImage scaledImage = image.scaled(ui->previewLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        ui->previewLabel->setPixmap(QPixmap::fromImage(scaledImage));
+    });
 }
