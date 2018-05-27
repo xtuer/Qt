@@ -15,6 +15,7 @@ struct JsonPrivate {
     void setValue(QJsonObject &parent, const QString &path, const QJsonValue &newValue);
     QJsonValue getValue(const QString &path, const QJsonObject &fromNode) const;
 
+    bool valid = true;
     QJsonObject root; // Json 的根节点
 };
 
@@ -40,6 +41,7 @@ JsonPrivate::JsonPrivate(const QString &jsonOrJsonFilePath, bool fromFile) {
     root = jsonDocument.object();
 
     if (QJsonParseError::NoError != error.error) {
+        valid = false;
         qDebug() << error.errorString() << ", Offset: " << error.offset;
     }
 }
@@ -161,4 +163,8 @@ void Json::save(const QString &path, QJsonDocument::JsonFormat format) {
 
 QString Json::toString(QJsonDocument::JsonFormat format) const {
     return QJsonDocument(d->root).toJson(format);
+}
+
+bool Json::isValid() const {
+    return d->valid;
 }

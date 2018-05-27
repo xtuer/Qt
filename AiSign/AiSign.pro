@@ -14,6 +14,7 @@ TEMPLATE = app
 CONFIG  -= app_bundle
 DEFINES += QT_MESSAGELOGCONTEXT
 DEFINES += QT_DEPRECATED_WARNINGS
+RC_ICONS = App.ico
 
 # Output directory
 CONFIG(debug, debug|release) {
@@ -33,6 +34,10 @@ include(gui/gui.pri)
 include(util/util.pri)
 include(bean/bean.pri)
 include(lib/lib.pri)
+include(reader/reader.pri)
+include(service/service.pri)
+
+LIBS += $$PWD/lib/cardapi3.dll
 
 SOURCES += main.cpp \
     Constants.cpp

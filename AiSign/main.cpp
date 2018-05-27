@@ -1,5 +1,6 @@
 #include "gui/AiSignWidget.h"
 #include "gui/TopWindow.h"
+#include "util/Util.h"
 #include "util/UiUtil.h"
 #include "util/Config.h"
 #include "util/LogHandler.h"
@@ -21,7 +22,7 @@ int main(int argc, char *argv[]) {
     TopWindow *window = new TopWindow(aiSignWidget, {0, 0, 0, 0}, {0, 0, 0, 0});
     window->setTitle("");
     window->setResizable(false);
-    window->resize(860, 700);
+    window->setFixedSize(860, 700);
     window->setTitleBarButtonsVisible(false, false, true);
     UiUtil::installLoadQssShortcut(window);
     UiUtil::centerWindow(window);
@@ -43,6 +44,9 @@ static void initialize() {
 
     // 安装日志处理工具
     LogHandlerInstance.installMessageHandler();
+
+    // 注册自定义类型，跨线程信号槽使用
+    Util::registerTypes();
 
     // 设置界面样式
     UiUtil::loadQss();

@@ -4,7 +4,7 @@
 class QString;
 
 namespace Constants {
-    extern const int CODE_READ_READY;
+    extern const int     CODE_READ_READY;
     extern const QString INFO_READ_READY;
 }
 

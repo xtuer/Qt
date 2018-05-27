@@ -8,6 +8,12 @@
 #include "bean/Site.h"
 #include "bean/Room.h"
 #include "bean/Student.h"
+#include "bean/Person.h"
+#include "bean/SignInInfo.h"
+
+#include "reader/CardReader.h"
+#include "reader/CardReaderThread.h"
+#include "service/SignInService.h"
 
 #include "util/Util.h"
 #include "util/Json.h"
@@ -28,10 +34,9 @@
  |                             AiSignWidgetPrivate                             |
  |----------------------------------------------------------------------------*/
 struct AiSignWidgetPrivate {
-    AiSignWidgetPrivate(AiSignWidget *aiSignWidget);
+    AiSignWidgetPrivate();
     ~AiSignWidgetPrivate();
 
-    void initializeCamera(AiSignWidget *aiSignWidget); // 初始化摄像头
     Site findSite(const QString &siteCode) const; // 使用 siteCode 从 sites 里查找第一个有相同 siteCode 的 site
 
     // 摄像头
@@ -47,45 +52,26 @@ struct AiSignWidgetPrivate {
     bool    signInWithFace; // 使用人脸识别签名
     QString serverUrl;      // 服务器的 URL
     qint64  timeDiff;       // 客户端和服务器的时间差，单位为毫秒
+    SignInMode signInMode;  // 签到模式
+
+    CardReaderThread *readerThread; // 身份证刷卡器
     QNetworkAccessManager *networkManager;
 };
 
-AiSignWidgetPrivate::AiSignWidgetPrivate(AiSignWidget *aiSignWidget) {
-    initializeCamera(aiSignWidget); // 初始化摄像头
-
+AiSignWidgetPrivate::AiSignWidgetPrivate() {
     serverUrl = ConfigInstance.getServerUrl();
     signInWithFace = ConfigInstance.isSignInWithFace();
     networkManager = new QNetworkAccessManager();
+    readerThread   = new CardReaderThread();
 }
 
 AiSignWidgetPrivate::~AiSignWidgetPrivate() {
     camera->stop();
+    readerThread->stop();
+    readerThread->wait();
+
+    delete readerThread;
     delete networkManager;
-}
-
-// 初始化摄像头
-void AiSignWidgetPrivate::initializeCamera(AiSignWidget *aiSignWidget) {
-    // 1. 创建设置摄像头相关的对象
-    // 2. 启动摄像头
-    // 3. 增加定位人脸在摄像头图像的 label
-    QGridLayout *layout = qobject_cast<QGridLayout *>(aiSignWidget->ui->cameraContainer->layout());
-
-    // [1] 创建设置摄像头相关的对象
-    // [2] 启动摄像头
-    camera = new QCamera(aiSignWidget);
-    cameraViewfinder = new QCameraViewfinder(aiSignWidget);
-    cameraImageCapture = new QCameraImageCapture(camera);
-    cameraViewfinder->setProperty("class", "CameraWidget");
-    layout->replaceWidget(aiSignWidget->ui->cameraPlaceholderLabel, cameraViewfinder);
-    aiSignWidget->ui->cameraPlaceholderLabel->hide();
-    camera->setViewfinder(cameraViewfinder);
-//    camera->start();
-
-    // [3] 定位人脸在摄像头图像的 label
-    QLabel *facePositionLabel = new QLabel();
-    facePositionLabel->setObjectName("facePositionLabel");
-    layout->addWidget(facePositionLabel, 0, 0);
-    layout->setAlignment(facePositionLabel, Qt::AlignCenter);
 }
 
 // 使用 siteCode 从 sites 里查找第一个有相同 siteCode 的 site
@@ -116,22 +102,30 @@ AiSignWidget::~AiSignWidget() {
 // 初始化
 void AiSignWidget::initialize() {
     setAttribute(Qt::WA_StyledBackground);
+    d = new AiSignWidgetPrivate();
     ui->cameraContainer->layout()->setAlignment(ui->captureAndUploadButton, Qt::AlignHCenter); // 按钮居中
 
-    d = new AiSignWidgetPrivate(this);
-    loadPeriodUnitAndSiteAndRoom();
-    loadServerTime();
+    // 状态默认为错误
+    updateSystemStatus(ui->cameraStatusLabel, false);
+    updateSystemStatus(ui->idCardReaderStatusLabel, false);
+    updateSystemStatus(ui->examStatusLabel, false);
+
+    loadPeriodUnitAndSiteAndRoom(); // 加载服务器考期、考点、考场
+    loadServerTime();    // 加载服务器的时间
+    startIdCardReader(); // 启动身份证刷卡器
+    startCamera();       // 启动摄像头
 }
 
 // 信号槽事件处理
 void AiSignWidget::handleEvents() {
     // [Camera] 点击拍照上传按钮进行拍照
     connect(ui->captureAndUploadButton, &QPushButton::clicked, [this] {
+        d->signInMode = SignInMode::SIGN_IN_WRITTING;
         d->cameraImageCapture->capture("capture.jpg"); // 如果不传入截图文件的路径，则会使用默认的路径，每次截图生成一个图片
     });
 
     // [Camera] 拍照完成后的槽函数，可以把 image 保存到自己想要的位置
-    QObject::connect(d->cameraImageCapture, &QCameraImageCapture::imageCaptured, [this](int id, const QImage &image) {
+    connect(d->cameraImageCapture, &QCameraImageCapture::imageCaptured, [this](int id, const QImage &image) {
         Q_UNUSED(id)
         // 1. 显示预览图
         // 1.1 预览图显示到右边
@@ -139,16 +133,41 @@ void AiSignWidget::handleEvents() {
         // 2. 保存到系统
         // 3. 签到
 
-        // [1.1] 预览图显示到右边
-        QImage rightImage = image.scaled(ui->previewLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        ui->previewLabel->setPixmap(QPixmap::fromImage(rightImage));
+        // 获取签到的学生信息
+        SignInInfo info = getSignInInfo();
+        if (!info.valid) { return; }
 
-        // [1.2] 预览图显示到中间，和身份证照片进行比较: 按高度缩放，然后截取中间部分
-        QImage centerImage = image.scaledToHeight(ui->cameraPictureLabel->size().height(), Qt::SmoothTransformation);
-        int x = (centerImage.width() - ui->cameraPictureLabel->width()) / 2;
-        int w = ui->cameraPictureLabel->width();
-        int h = ui->cameraPictureLabel->height();
-        ui->cameraPictureLabel->setPixmap(QPixmap::fromImage(centerImage.copy(x, 0, w, h)));
+        if (SignInMode::SIGN_IN_WRITTING == d->signInMode) {
+            {
+                // 保存手写笔迹
+                image.scaled(600, 600, Qt::KeepAspectRatio, Qt::SmoothTransformation)
+                      .save(info.writePicturePath, "jpg", 80);
+            }
+
+            // [1.1] 预览图显示到右边: 手写笔记
+            QImage rightImage = image.scaled(ui->previewLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            ui->previewLabel->setPixmap(QPixmap::fromImage(rightImage));
+            ui->facePictureLabel->setPixmap(QPixmap());
+
+            signIn(info, d->signInMode);
+        } else if (SignInMode::SIGN_IN_WITH_FACE == d->signInMode) {
+            {
+                // 保存人脸照片
+                image.scaled(600, 600, Qt::KeepAspectRatio, Qt::SmoothTransformation)
+                     .save(info.facePicturePath, "jpg", 80);
+            }
+
+            // [1.2] 预览图显示到中间，和身份证照片进行比较: 按高度缩放，然后截取中间部分
+            QImage centerImage = image.scaledToHeight(ui->facePictureLabel->size().height(), Qt::SmoothTransformation);
+            int x = (centerImage.width() - ui->facePictureLabel->width()) / 2;
+            int w = ui->facePictureLabel->width();
+            int h = ui->facePictureLabel->height();
+            ui->facePictureLabel->setPixmap(QPixmap::fromImage(centerImage.copy(x, 0, w, h)));
+            ui->previewLabel->setPixmap(QPixmap());
+            ui->previewLabel->setText("预览");
+
+            signIn(info, d->signInMode);
+        }
     });
 
     // [考试信息] 当 Period 变化时，取消 Room 的选择
@@ -169,15 +188,126 @@ void AiSignWidget::handleEvents() {
 
     // [签到] 手动签到
     connect(ui->signInManualButton, &QPushButton::clicked, [this] {
-        signInManually();
+        SignInInfo info = getSignInInfo(false);
+
+        // 没有选择考期等则返回
+        if (!info.valid) {
+            return;
+        }
+
+        InputDialog dlg(this);
+        dlg.setWindowFlags(dlg.windowFlags() ^ Qt::WindowContextHelpButtonHint);
+        if (QDialog::Accepted != dlg.exec()) {
+            return;
+        }
+
+        // 名字和身份证号码通过输入
+        info.name     = dlg.getExamineeName();
+        info.idCardNo = dlg.getIdCardNo();
+
+        // 人工签到
+        SignInService::signInManually(d->serverUrl + Urls::SIGN_IN_MANUAL, info, this, d->networkManager);
     });
+
+    // [身份证刷卡器] 读取到身份证信息，Reader 线程
+    connect(d->readerThread, &CardReaderThread::personReady, [this](const Person &p) {
+        // 显示和发送学生信息到服务器: 使用 invokeMethod() 解决不同线程问题，
+        // 因为当前上下文环境属于 ReadThread，不属于 GUI 线程
+        QMetaObject::invokeMethod(this, "updateSystemStatus",
+                                  Q_ARG(QWidget*, ui->idCardReaderStatusLabel),
+                                  Q_ARG(bool, true));
+        QMetaObject::invokeMethod(this, "personReady", Q_ARG(Person, p));
+    });
+
+    // [身份证刷卡器] 读卡线程信息，Reader 线程
+    connect(d->readerThread, &CardReaderThread::info, [this](int code, const QString &message) {
+        // qDebug() << "----------" << code << message;
+        if (Constants::CODE_READ_READY == code) {
+            updateSystemStatus(ui->idCardReaderStatusLabel, true);
+            // 正确：为 10000 时连接身份证刷卡器成功
+            QMetaObject::invokeMethod(this, "updateSystemStatus",
+                                      Q_ARG(QWidget*, ui->idCardReaderStatusLabel),
+                                      Q_ARG(bool, true));
+            QMetaObject::invokeMethod(this, "showInfo", Q_ARG(QString, Constants::INFO_READ_READY));
+        } else if (11 == code){
+            // 正确：为 11 时则定时读卡，但是没有卡
+            QMetaObject::invokeMethod(this, "updateSystemStatus",
+                                      Q_ARG(QWidget*, ui->idCardReaderStatusLabel),
+                                      Q_ARG(bool, true));
+        } else {
+            // 错误：其他为错误状态
+            // 1 端口打开失败
+            QMetaObject::invokeMethod(this, "updateSystemStatus",
+                                      Q_ARG(QWidget*, ui->idCardReaderStatusLabel),
+                                      Q_ARG(bool, false));
+            qDebug() << message;
+        }
+    });
+}
+
+// 启动身份证刷卡器
+void AiSignWidget::startIdCardReader() {
+    // 启动身份证刷卡器线程
+    if (!d->readerThread->isRunning()) {
+        d->readerThread->start();
+    } else {
+        // d->readerThread->stop();
+        // d->readerThread->wait();
+        showInfo("身份证刷卡器已经启动");
+    }
+}
+
+// 启动摄像头
+void AiSignWidget::startCamera() {
+    // 1. 创建设置摄像头相关的对象
+    // 2. 启动摄像头
+    // 3. 增加定位人脸在摄像头图像的 label
+    QGridLayout *layout = qobject_cast<QGridLayout *>(ui->cameraContainer->layout());
+
+    // [1] 创建设置摄像头相关的对象
+    // [2] 启动摄像头
+    d->camera = new QCamera(this);
+    d->cameraViewfinder = new QCameraViewfinder(this);
+    d->cameraImageCapture = new QCameraImageCapture(d->camera);
+    d->cameraViewfinder->setProperty("class", "CameraWidget");
+    layout->replaceWidget(ui->cameraPlaceholderLabel, d->cameraViewfinder);
+    ui->cameraPlaceholderLabel->hide();
+    d->camera->setViewfinder(d->cameraViewfinder);
+
+    connect(d->camera, &QCamera::stateChanged, [this] (QCamera::State state) {
+        qDebug() << "Camera State" << state;
+    });
+
+    // [Camera] 摄像头状态改变
+    connect(d->camera, &QCamera::statusChanged, [this] (QCamera::Status status) {
+        qDebug() << "Camera Status" << status;
+
+        if (status == QCamera::ActiveStatus) {
+            updateSystemStatus(ui->cameraStatusLabel, true);
+        }
+    });
+
+    connect(d->camera, QOverload<QCamera::Error>::of(&QCamera::error), [this] (QCamera::Error value) {
+        qDebug() << "Camera Error" << value;
+        if (QCamera::NoError != value) {
+            updateSystemStatus(ui->cameraStatusLabel, false);
+        }
+    });
+
+    d->camera->start();
+
+    // [3] 定位人脸在摄像头图像的 label
+    QLabel *facePositionLabel = new QLabel();
+    facePositionLabel->setObjectName("facePositionLabel");
+    layout->addWidget(facePositionLabel, 0, 0);
+    layout->setAlignment(facePositionLabel, Qt::AlignCenter);
 }
 
 // 从服务器加载考期、考点、考场
 void AiSignWidget::loadPeriodUnitAndSiteAndRoom() {
     // http://192.168.10.85:8080/initializeRoom
     QString url = d->serverUrl + Urls::INITIALIZE_ROOM;
-    HttpClient(url).debug(true).manager(d->networkManager).get([this](const QString &jsonResponse) {
+    HttpClient(url).debug(false).manager(d->networkManager).get([this](const QString &jsonResponse) {
         // 解析考期 Period
         d->periods = ResponseUtil::responseToPeroids(jsonResponse);
         ui->periodComboBox->clear();
@@ -198,7 +328,8 @@ void AiSignWidget::loadPeriodUnitAndSiteAndRoom() {
             ui->siteComboBox->setItemData(ui->siteComboBox->count() - 1, text, Qt::ToolTipRole);
         }
 
-        showInfo("初始化完成，请选择考期、考点、考场", false);
+        // showInfo("初始化完成，请选择考期、考点、考场", false);
+        updateSystemStatus(ui->examStatusLabel, true);
     }, [this](const QString &error) {
         showInfo(error, true);
     });
@@ -263,62 +394,6 @@ void AiSignWidget::loadServerTime() {
     });
 }
 
-// 人工签到
-void AiSignWidget::signInManually() {
-    QString siteCode = ui->siteComboBox->currentData().toString();
-    QString roomCode = ui->roomComboBox->currentData().toString();
-    QString periodUnitCode = ui->periodComboBox->currentData().toString();
-
-    if (periodUnitCode.isEmpty()) {
-        showInfo("请选择考期", true);
-        return;
-    }
-
-    if (siteCode.isEmpty()) {
-        showInfo("请选择考点", true);
-        return;
-    }
-
-    if (roomCode.isEmpty()) {
-        showInfo("请选择考场", true);
-        return;
-    }
-
-    InputDialog dlg(this);
-    dlg.setWindowFlags(dlg.windowFlags() ^ Qt::WindowContextHelpButtonHint);
-    if (QDialog::Accepted != dlg.exec()) {
-        return;
-    }
-
-    QString examineeName = dlg.getExamineeName();
-    QString idCardNo     = dlg.getIdCardNo();
-
-    QString signAt = QString::number(QDateTime::currentMSecsSinceEpoch() - d->timeDiff);
-    QString sign   = Util::md5(QString("%1%2").arg(idCardNo).arg(signAt).toUtf8());
-    QString url    = d->serverUrl + Urls::SIGN_IN_MANUAL;
-    HttpClient(url).debug(true).manager(d->networkManager)
-            .param("idCardNo", idCardNo)
-            .param("examineeName", examineeName)
-            .param("siteCode", siteCode)
-            .param("roomCode", roomCode)
-            .param("periodUnitCode", periodUnitCode)
-            .param("signAt", signAt)
-            .param("sign", sign)
-            .post([=](const QString &response) {
-        Json json(response.toUtf8());
-
-        if (1 != json.getInt("statusCode")) {
-            showInfo(QString("%1 %2").arg(examineeName).arg(json.getString("message")), true);
-            return;
-        }
-
-        showInfo(QString("%1 签到成功").arg(examineeName));
-//        loginSuccess(idCardNo);
-    }, [this](const QString &error) {
-        showInfo(error, true);
-    });
-}
-
 // 更新学生的签到信息
 void AiSignWidget::updateSignInStatus(const QList<Student> &students) {
     int totalStudentCount = students.size();
@@ -336,9 +411,135 @@ void AiSignWidget::updateSignInStatus(const QList<Student> &students) {
     ui->totalStudentCountLabel->setText(QString::number(totalStudentCount));
 }
 
-void AiSignWidget::showInfo(const QString &info, bool error) {
-    ui->infoLabel->setProperty("error", error);
-    ui->infoLabel->setText(info);
+// 显示信息, error 为 true 时以红色显示
+void AiSignWidget::showInfo(const QString &info, bool ok) const {
+    QString okImage    = "image/common/ok.png";
+    QString errorImage = "image/common/error.png";
+    ui->infoLabel->setProperty("ok", ok);
+    ui->infoLabel->setText(QString("<img src='%1' width=20 height=20> %2")
+                           .arg(ok ? okImage : errorImage).arg(info));
 
     UiUtil::updateQss(ui->infoLabel);
+}
+
+// 身份证信息读取成功
+void AiSignWidget::personReady(const Person &p) {
+    showPerson(p);
+
+    SignInInfo info = getSignInInfo();
+    if (!info.valid) { return; }
+
+    // 保存身份证图片
+    {
+        QImage idCardPicture("idcard.bmp");
+        idCardPicture.save(info.idCardPicturePath);
+    }
+
+    if (true) {
+        d->signInMode = SignInMode::SIGN_IN_WITH_FACE;
+        d->cameraImageCapture->capture("capture.jpg"); // 拍照
+    } else {
+        d->signInMode = SignInMode::SIGN_IN;
+        signIn(info, d->signInMode);
+    }
+}
+
+// 显示考生的身份证信息
+void AiSignWidget::showPerson(const Person &p) {
+    ui->nameLabel->setText(p.name);
+    ui->genderLabel->setText(p.gender);
+    ui->birthdayLabel->setText(Util::formatDate(p.birthday));
+    ui->idCardNoLabel->setText(p.cardId);
+    ui->startDateLabel->setText(Util::formatDate(p.validStart));
+    ui->endDateLabel->setText(Util::formatDate(p.validEnd));
+    ui->idCardPictureLabel->setPixmap(QPixmap(CardReader::personImagePath()));
+}
+
+// 获取签到的学生的信息, 如果 validateIdCard 为 true，则要先刷身份证
+SignInInfo AiSignWidget::getSignInInfo(bool validateIdCard) const {
+    SignInInfo info;
+    info.periodCode = ui->periodComboBox->currentData().toString();
+    info.siteCode   = ui->siteComboBox->currentData().toString();
+    info.roomCode   = ui->roomComboBox->currentData().toString();
+    info.name       = ui->nameLabel->text();
+    info.idCardNo   = ui->idCardNoLabel->text();
+    info.signAt     = QString::number(QDateTime::currentMSecsSinceEpoch() - d->timeDiff);
+    info.idCardPicturePath = getIdCardPicturePath(info);
+    info.facePicturePath = getFacePicturePath(info);
+    info.writePicturePath  = getWritePicturePath(info);
+
+    if (info.periodCode.isEmpty()) {
+        info.valid = false;
+        showInfo("请选择考期", false);
+        return info;
+    }
+
+    if (info.siteCode.isEmpty()) {
+        info.valid = false;
+        showInfo("请选择考点", false);
+        return info;
+    }
+
+    if (info.roomCode.isEmpty()) {
+        info.valid = false;
+        showInfo("请选择考场", false);
+        return info;
+    }
+
+    if (validateIdCard && info.idCardNo.isEmpty()) {
+        info.valid = false;
+        showInfo("请先刷身份证", false);
+        return info;
+    }
+
+    return info;
+}
+
+// 获取签到的学生的身份证照片路径
+QString AiSignWidget::getIdCardPicturePath(const SignInInfo &info) const {
+    return QString("picture-idcard/%1-%2-%3-%4.jpg")
+            .arg(info.periodCode)
+            .arg(info.siteCode)
+            .arg(info.roomCode)
+            .arg(info.idCardNo);
+}
+
+// 获取签到的学生的摄像头照片路径
+QString AiSignWidget::getFacePicturePath(const SignInInfo &info) const {
+    return QString("picture-face/%1-%2-%3-%4.jpg")
+            .arg(info.periodCode)
+            .arg(info.siteCode)
+            .arg(info.roomCode)
+            .arg(info.idCardNo);
+}
+
+// 获取签到的学生手写笔记照片路径
+QString AiSignWidget::getWritePicturePath(const SignInInfo &info) const {
+    return QString("picture-write/%1-%2-%3-%4.jpg")
+            .arg(info.periodCode)
+            .arg(info.siteCode)
+            .arg(info.roomCode)
+            .arg(info.idCardNo);
+}
+
+// // 更新系统状态
+void AiSignWidget::updateSystemStatus(QWidget *w, bool ok) {
+    w->setProperty("ok", ok);
+    UiUtil::updateQss(w);
+}
+
+// 签到成功
+void AiSignWidget::signInSuccess(const SignInInfo &info) const {
+    showInfo(QString("%1 签到成功").arg(info.name));
+}
+
+// 签到
+void AiSignWidget::signIn(const SignInInfo &info, SignInMode mode) const {
+    if (SignInMode::SIGN_IN == mode) {
+        SignInService::signIn(d->serverUrl + Urls::SIGN_IN, info, this, d->networkManager);
+    } else if (SignInMode::SIGN_IN_WITH_FACE == mode) {
+        SignInService::signInWithFace(d->serverUrl + Urls::SIGN_IN_WITH_FACE, info, this, d->networkManager);
+    } else if (SignInMode::SIGN_IN_WRITTING == mode) {
+        // TODO: 上传手写笔迹
+    }
 }

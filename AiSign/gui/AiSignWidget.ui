@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>744</width>
-    <height>595</height>
+    <width>850</width>
+    <height>621</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -99,7 +99,7 @@
              <number>10</number>
             </property>
             <item row="0" column="0">
-             <widget class="QLabel" name="statusLabel">
+             <widget class="QLabel" name="systemStatusLabel">
               <property name="minimumSize">
                <size>
                 <width>40</width>
@@ -109,7 +109,7 @@
               <property name="maximumSize">
                <size>
                 <width>400</width>
-                <height>300</height>
+                <height>30</height>
                </size>
               </property>
               <property name="text">
@@ -130,23 +130,35 @@
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <item>
-             <widget class="QLabel" name="label_31">
+             <widget class="QLabel" name="cameraStatusLabel">
               <property name="text">
                <string>摄像头</string>
               </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_28">
-              <property name="text">
-               <string>身份证刷卡器</string>
+              <property name="class" stdset="0">
+               <string>SystemStatusLabel</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_22">
+             <widget class="QLabel" name="idCardReaderStatusLabel">
               <property name="text">
-               <string>考试数据初始化</string>
+               <string>身份证刷卡器</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
+              <property name="class" stdset="0">
+               <string>SystemStatusLabel</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="examStatusLabel">
+              <property name="text">
+               <string>考试配置信息</string>
+              </property>
+              <property name="class" stdset="0">
+               <string>SystemStatusLabel</string>
               </property>
              </widget>
             </item>
@@ -241,7 +253,7 @@
               <property name="maximumSize">
                <size>
                 <width>400</width>
-                <height>300</height>
+                <height>30</height>
                </size>
               </property>
               <property name="text">
@@ -392,7 +404,7 @@
               <property name="maximumSize">
                <size>
                 <width>400</width>
-                <height>300</height>
+                <height>30</height>
                </size>
               </property>
               <property name="text">
@@ -560,7 +572,7 @@
               <property name="maximumSize">
                <size>
                 <width>4000</width>
-                <height>300</height>
+                <height>30</height>
                </size>
               </property>
               <property name="text">
@@ -586,14 +598,45 @@
             <string>ContainerContentWidget</string>
            </property>
            <layout class="QGridLayout" name="gridLayout_15">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
             <item row="0" column="0">
-             <widget class="QLabel" name="infoLabel">
-              <property name="text">
-               <string>初始化成功</string>
+             <widget class="QScrollArea" name="scrollArea">
+              <property name="widgetResizable">
+               <bool>true</bool>
               </property>
-              <property name="alignment">
-               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-              </property>
+              <widget class="QWidget" name="scrollAreaWidgetContents">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>0</y>
+                 <width>533</width>
+                 <height>128</height>
+                </rect>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_20">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="infoLabel">
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
              </widget>
             </item>
            </layout>
@@ -673,7 +716,7 @@
               <property name="maximumSize">
                <size>
                 <width>400</width>
-                <height>300</height>
+                <height>30</height>
                </size>
               </property>
               <property name="text">
@@ -835,7 +878,7 @@
               <property name="maximumSize">
                <size>
                 <width>400</width>
-                <height>300</height>
+                <height>30</height>
                </size>
               </property>
               <property name="text">
@@ -1009,7 +1052,7 @@
               </property>
               <layout class="QGridLayout" name="gridLayout_16">
                <item row="0" column="3">
-                <widget class="QLabel" name="cameraPictureLabel">
+                <widget class="QLabel" name="facePictureLabel">
                  <property name="text">
                   <string/>
                  </property>

@@ -3,7 +3,7 @@
 #include <QString>
 
 namespace Constants {
-    const int CODE_READ_READY = 10000;
+    const int     CODE_READ_READY = 10000;
     const QString INFO_READ_READY = "开始刷卡";
 }
 

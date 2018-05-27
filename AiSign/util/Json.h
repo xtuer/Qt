@@ -85,6 +85,8 @@ public:
 
     QString toString(QJsonDocument::JsonFormat format = QJsonDocument::Indented) const;
 
+    bool isValid() const;
+
 public:
     JsonPrivate *d;
 };
