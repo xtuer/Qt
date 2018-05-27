@@ -1,0 +1,206 @@
+.AiSignWidget {
+    background: rgb(33, 93, 201);
+}
+
+.ContainerContentWidget .CameraWidget {
+    min-width:  200px;
+    max-width:  200px;
+    min-height: 150px;
+    max-height: 150px;
+    background: rgba(00, 00, 00, 0.4);
+}
+
+.Container {
+	border: 0px solid darkred;
+    border-radius: 10px;
+}
+
+.Container QPushButton {
+    color: white;
+    border: 0px solid red;
+    border-radius: 4px;
+    background: #5cadff;
+    padding: 0px 10px 2px 10px;
+    min-height: 30px;
+    max-height: 30px;
+    font-size: 16px;
+}
+
+.Container QPushButton:hover {
+    color: #DDD;
+}
+
+.Container QPushButton:pressed {
+    color: #333;
+}
+
+.ContainerTitlebar QPushButton {
+    margin-right: 10px;
+}
+
+.Container QPushButton.GroupButton {
+	color: #333;
+    background: white;
+	height: 24px;
+    min-height: 24px;
+    max-height: 24px;
+    border: none;
+	border-radius: 0;
+    border-left: 1px solid #dddee1;
+}
+.Container QPushButton.GroupButton:hover {
+	color: #000;
+}
+.Container QPushButton.GroupButton:checked {
+	color: white;
+	background: #5cadff;
+}
+.Container QPushButton.GroupButton[position='first'] {
+    border-top-left-radius:     12px;
+    border-bottom-left-radius:  12px;
+    border-left-width: 0;
+}
+.Container QPushButton.GroupButton[position='last'] {
+	border-top-right-radius:    12px;
+    border-bottom-right-radius: 12px;
+}
+
+.ContainerTitlebar {
+	min-height: 50px;
+    max-height: 50px;
+    background: rgb(48, 143, 238);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.ContainerTitlebar QLabel {
+    font-size: 16px;
+    color: rgb(36, 59, 139);
+}
+
+.ContainerTitlebar QLabel.TitleIcon {
+    min-height: 30px;
+    max-height: 30px;
+    border-width: 0 0 0 30px;
+    margin-left: 10px;
+}
+
+/* 每个内容块的标题栏对应的图标 */
+.ContainerTitlebar QLabel.TitleIcon#settingsLabel {
+    border-image: url(image/common/settings.png) 0 0 0 128 stretch stretch;
+}
+
+.ContainerTitlebar QLabel.TitleIcon#idCardLabel {
+    border-image: url(image/common/people.png) 0 0 0 128 stretch stretch;
+}
+
+.ContainerTitlebar QLabel.TitleIcon#cameraLabel {
+    border-image: url(image/common/camera-alt.png) 0 0 0 128 stretch stretch;
+}
+
+.ContainerTitlebar QLabel.TitleIcon#feedbackLabel {
+    border-image: url(image/common/tag-faces.png) 0 0 0 128 stretch stretch;
+}
+
+.ContainerTitlebar QLabel.TitleIcon#statisticLabel {
+    border-image: url(image/common/satellite.png) 0 0 0 128 stretch stretch;
+}
+
+.ContainerTitlebar QLabel.TitleIcon#systemStatusLabel {
+    border-image: url(image/common/brightness-auto.png) 0 0 0 128 stretch stretch;
+}
+
+/* 每个内容块的内容部分的 Widget */
+.ContainerContentWidget {
+    background: rgb(37, 133, 230);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.ContainerContentWidget QLabel {
+    font-size: 16px;
+}
+
+.ContainerContentWidget QLabel.Info {
+    color: #DDD;
+    border: 0px solid red;
+    border-bottom: 1px solid transparent;
+}
+
+/* 身份证信息 */
+.ContainerContentWidget QLabel.IdCardInfo {
+    color: #DDD;
+    border: 0px solid red;
+    border-bottom: 1px solid #CCC;
+}
+
+.ContainerContentWidget QLabel.VS {
+    font-size: 30px;
+    font-style: italic;
+}
+
+.ContainerContentWidget QLabel.FacePicture {
+    background: #CCC;
+    border-radius: 4px;
+    min-width:  102px;
+    max-width:  102px;
+    min-height: 126px;
+    max-height: 126px;
+	border-image: url(image/common/person-2.jpg) 0 0 0 0;
+}
+
+
+/* 信息 Label 的样式 */
+.ContainerContentWidget QLabel#infoLabel {
+	font-size: 28px;
+}
+
+/* 正确信息样式 */
+.ContainerContentWidget QLabel#infoLabel[ok=true] {
+    color: rgb(0, 100, 0);
+}
+
+/* 错误信息样式 */
+.ContainerContentWidget QLabel#infoLabel[ok=false] {
+	color: rgb(220, 0, 0);
+}
+
+/* 摄像头图像中人脸位置 */
+#facePositionLabel {
+    min-width:  102px;
+    max-width:  102px;
+    min-height: 126px;
+    max-height: 126px;
+    border: 2px dashed #CCC;
+    border-radius: 4px;
+}
+
+#previewLabel {
+    color: #DDD;
+}
+
+/* 显示系统状态的 Label */
+.SystemStatusLabel {
+	color: #DDD;
+	min-height: 25px;
+	max-height: 25px;
+	border-width: 0 0 0 25px;
+}
+
+.SystemStatusLabel[ok=true] {
+	border-image: url(image/common/ok.png) 0 0 0 128;
+}
+
+.SystemStatusLabel[ok=false] {
+	border-image: url(image/common/error.png) 0 0 0 128;
+}
+
+.QScrollArea {
+	border: none;
+    background: transparent;
+}
+
+.QScrollArea #scrollAreaWidgetContents {
+	background: transparent;
+}
+

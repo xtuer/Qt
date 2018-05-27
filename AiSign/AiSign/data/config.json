@@ -20,7 +20,7 @@
     },
 
     "qss_files": [
-        "resources/qss/common.qss",
+        "resources/qss/AiSignWidget.qss",
         "resources/qss/widget.qss",
         "resources/qss/button.qss",
         "resources/qss/sidebar.qss",
