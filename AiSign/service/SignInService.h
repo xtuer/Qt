@@ -1,4 +1,4 @@
-﻿#ifndef SIGNINSERVICE_H
+#ifndef SIGNINSERVICE_H
 #define SIGNINSERVICE_H
 
 class QString;
@@ -16,10 +16,10 @@ public:
      * @param asw  AiSignWidget
      * @param networkManager
      */
-    static void signIn(const QString &url,
-                       const SignInInfo &info,
-                       const AiSignWidget *asw,
-                       QNetworkAccessManager *networkManager);
+    static void signInSimple(const QString &url,
+                             const SignInInfo &info,
+                             const AiSignWidget *asw,
+                             QNetworkAccessManager *networkManager);
 
     /**
      * 人脸识别签到
@@ -46,6 +46,10 @@ public:
                                const SignInInfo &info,
                                const AiSignWidget *asw,
                                QNetworkAccessManager *networkManager);
+
+private:
+    static void successHandler(const SignInInfo &info, const QString &response, const AiSignWidget *asw);
+    static void failHandler(const SignInInfo &info, const QString &error, const AiSignWidget *asw);
 };
 
 #endif // SIGNINSERVICE_H

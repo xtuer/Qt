@@ -435,12 +435,14 @@ void AiSignWidget::personReady(const Person &p) {
         idCardPicture.save(info.idCardPicturePath);
     }
 
-    if (true) {
+    if (ui->signInModeSimpleButton->isChecked()) {
+        // 简单签到
+        d->signInMode = SignInMode::SIGN_IN_SIMPLE;
+        signIn(info, d->signInMode);
+    } else if (ui->signInModeWithFaceButton->isChecked()) {
+        // 人脸识别签到
         d->signInMode = SignInMode::SIGN_IN_WITH_FACE;
         d->cameraImageCapture->capture("capture.jpg"); // 拍照
-    } else {
-        d->signInMode = SignInMode::SIGN_IN;
-        signIn(info, d->signInMode);
     }
 }
 
@@ -535,8 +537,8 @@ void AiSignWidget::signInSuccess(const SignInInfo &info) const {
 
 // 签到
 void AiSignWidget::signIn(const SignInInfo &info, SignInMode mode) const {
-    if (SignInMode::SIGN_IN == mode) {
-        SignInService::signIn(d->serverUrl + Urls::SIGN_IN, info, this, d->networkManager);
+    if (SignInMode::SIGN_IN_SIMPLE == mode) {
+        SignInService::signInSimple(d->serverUrl + Urls::SIGN_IN, info, this, d->networkManager);
     } else if (SignInMode::SIGN_IN_WITH_FACE == mode) {
         SignInService::signInWithFace(d->serverUrl + Urls::SIGN_IN_WITH_FACE, info, this, d->networkManager);
     } else if (SignInMode::SIGN_IN_WRITTING == mode) {

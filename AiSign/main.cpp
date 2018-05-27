@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
     TopWindow *window = new TopWindow(aiSignWidget, {0, 0, 0, 0}, {0, 0, 0, 0});
     window->setTitle("");
     window->setResizable(false);
-    window->setFixedSize(860, 700);
+    window->setFixedSize(880, 700);
     window->setTitleBarButtonsVisible(false, false, true);
     UiUtil::installLoadQssShortcut(window);
     UiUtil::centerWindow(window);

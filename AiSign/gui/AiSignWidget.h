@@ -14,7 +14,7 @@ class AiSignWidget;
 
 // 签到模式
 enum SignInMode {
-    SIGN_IN,           // 普通签到模式: 上传身份证照片
+    SIGN_IN_SIMPLE,    // 普通签到模式: 上传身份证照片
     SIGN_IN_WITH_FACE, // 人脸识别签到: 上传身份证照片和摄像头照片
     SIGN_IN_MANUALLY,  // 人工签到模式: 不上传照片
     SIGN_IN_WRITTING   // 上传手写签名: 上传摄像头照片

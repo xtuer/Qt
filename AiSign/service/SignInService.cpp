@@ -9,10 +9,10 @@
 #include <QStringList>
 
 // 普通签到
-void SignInService::signIn(const QString &url,
-                           const SignInInfo &info,
-                           const AiSignWidget *asw,
-                           QNetworkAccessManager *networkManager) {
+void SignInService::signInSimple(const QString &url,
+                                 const SignInInfo &info,
+                                 const AiSignWidget *asw,
+                                 QNetworkAccessManager *networkManager) {
     QString sign = Util::md5(QString("%1%2").arg(info.idCardNo).arg(info.signAt).toUtf8());
 
     HttpClient(url).debug(true).manager(networkManager)
@@ -24,21 +24,9 @@ void SignInService::signIn(const QString &url,
             .param("signAt", info.signAt)
             .param("sign", sign)
             .upload(info.idCardPicturePath, [=](const QString &response) {
-        Json json(response.toUtf8());
-
-        if (!json.isValid()) {
-            asw->showInfo(response, false);
-            return;
-        }
-
-        // statusCode 为 1 表示成功
-        if (1 != json.getInt("statusCode")) {
-            asw->showInfo(json.getString("message"), false);
-        } else {
-            asw->signInSuccess(info);
-        }
+        SignInService::successHandler(info, response, asw);
     }, [=](const QString &error) {
-        asw->showInfo(error, false);
+        SignInService::failHandler(info, error, asw);
     });
 }
 
@@ -59,22 +47,9 @@ void SignInService::signInWithFace(const QString &url,
             .param("signAt", info.signAt)
             .param("sign", sign)
             .upload(pictures, [=](const QString &response) {
-
-        Json json(response.toUtf8());
-
-        if (!json.isValid()) {
-            asw->showInfo(response, false);
-            return;
-        }
-
-        // statusCode 为 1 表示成功
-        if (1 != json.getInt("statusCode")) {
-            asw->showInfo(json.getString("message"), false);
-        } else {
-            asw->signInSuccess(info);
-        }
+        SignInService::successHandler(info, response, asw);
     }, [=](const QString &error) {
-        asw->showInfo(error, false);
+        SignInService::failHandler(info, error, asw);
     });
 }
 
@@ -94,20 +69,28 @@ void SignInService::signInManually(const QString &url,
             .param("signAt", info.signAt)
             .param("sign", sign)
             .post([=](const QString &response) {
-        Json json(response.toUtf8());
-
-        if (!json.isValid()) {
-            asw->showInfo(response, false);
-            return;
-        }
-
-        // statusCode 为 1 表示成功
-        if (1 != json.getInt("statusCode")) {
-            asw->showInfo(QString("%1 %2").arg(info.name).arg(json.getString("message")), false);
-        } else {
-            asw->signInSuccess(info);
-        }
+        SignInService::successHandler(info, response, asw);
     }, [=](const QString &error) {
-        asw->showInfo(error, false);
+        SignInService::failHandler(info, error, asw);
     });
+}
+
+void SignInService::successHandler(const SignInInfo &info, const QString &response, const AiSignWidget *asw) {
+    Json json(response.toUtf8());
+
+    if (!json.isValid()) {
+        asw->showInfo(response, false);
+        return;
+    }
+
+    // statusCode 为 1 表示成功
+    if (1 != json.getInt("statusCode")) {
+        asw->showInfo(QString("%1 %2").arg(info.name).arg(json.getString("message")), false);
+    } else {
+        asw->signInSuccess(info);
+    }
+}
+
+void SignInService::failHandler(const SignInInfo &info, const QString &error, const AiSignWidget *asw) {
+    asw->showInfo(error, false);
 }
