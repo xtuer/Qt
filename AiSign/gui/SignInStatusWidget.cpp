@@ -56,7 +56,7 @@ void SignInStatusWidget::handleEvents() {
             return;
         }
 
-        QToolTip::showText(QCursor::pos(), index.data(Qt::UserRole + 1).toString());
+        QToolTip::showText(QCursor::pos(), index.data(ROLE_TOOL_TIP).toString());
     });
 
     // 双击复制准考证号
