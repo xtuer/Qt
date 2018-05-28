@@ -21,7 +21,8 @@ int main(int argc, char *argv[]) {
     AiSignWidget *aiSignWidget = new AiSignWidget();
     TopWindow *window = new TopWindow(aiSignWidget, {0, 0, 0, 0}, {0, 0, 0, 0});
     window->setTitle("");
-    window->resize(1180, 700);
+    window->showMaximized();
+    // window->resize(1180, 700);
     // window->setResizable(false);
     // window->setFixedSize(880, 700);
     window->setTitleBarButtonsVisible(false, false, true);

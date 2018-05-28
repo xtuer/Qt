@@ -27,6 +27,7 @@ public slots:
 private:
     void initialize();   // 初始化
     void handleEvents(); // 信号槽事件处理
+    Student findStudent(const SignInInfo &info) const; // 查找学生
 
     Ui::SignInStatusWidget *ui;
     QStandardItemModel *model;

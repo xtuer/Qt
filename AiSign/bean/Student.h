@@ -11,7 +11,7 @@ public:
     Student();
     QString toString() const;
 
-    QString examUid;        // 考生 ID
+    QString examUid;        // 考生 ID，又叫考籍号
     QString examineeName;   // 考生名字
     QString idCardNo;       // 考生身份证号码
     QString subjectCode;    // 考试科目代号

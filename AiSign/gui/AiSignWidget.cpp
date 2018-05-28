@@ -107,8 +107,8 @@ AiSignWidget::AiSignWidget(QWidget *parent) : QWidget(parent), ui(new Ui::AiSign
 }
 
 AiSignWidget::~AiSignWidget() {
-    delete ui;
     delete d;
+    delete ui;
 }
 
 // 初始化
@@ -150,9 +150,10 @@ void AiSignWidget::handleEvents() {
 
         // 获取签到的学生信息
         SignInInfo info = getSignInInfo();
+        info.signInMode = d->signInMode;
         if (!info.valid) { return; }
 
-        if (SignInMode::SIGN_IN_WRITTING == d->signInMode) {
+        if (SignInMode::SIGN_IN_WRITTING == info.signInMode) {
             {
                 // 保存手写笔迹
                 image.scaled(600, 600, Qt::KeepAspectRatio, Qt::SmoothTransformation)
@@ -164,8 +165,8 @@ void AiSignWidget::handleEvents() {
             ui->previewLabel->setPixmap(QPixmap::fromImage(rightImage));
             ui->facePictureLabel->setPixmap(QPixmap());
 
-            signIn(info, d->signInMode);
-        } else if (SignInMode::SIGN_IN_WITH_FACE == d->signInMode) {
+            signIn(info);
+        } else if (SignInMode::SIGN_IN_WITH_FACE == info.signInMode) {
             {
                 // 保存人脸照片
                 image.scaled(600, 600, Qt::KeepAspectRatio, Qt::SmoothTransformation)
@@ -181,7 +182,7 @@ void AiSignWidget::handleEvents() {
             ui->previewLabel->setPixmap(QPixmap());
             ui->previewLabel->setText("拍照预览");
 
-            signIn(info, d->signInMode);
+            signIn(info);
         }
     });
 
@@ -204,6 +205,7 @@ void AiSignWidget::handleEvents() {
     // [签到] 手动签到
     connect(ui->signInManualButton, &QPushButton::clicked, [this] {
         SignInInfo info = getSignInInfo(false);
+        info.signInMode = SignInMode::SIGN_IN_MANUALLY;
 
         // 没有选择考期等则返回
         if (!info.valid) {
@@ -216,9 +218,9 @@ void AiSignWidget::handleEvents() {
             return;
         }
 
-        // 名字和身份证号码通过输入
-        info.name     = dlg.getExamineeName();
-        info.idCardNo = dlg.getIdCardNo();
+        // 名字和考籍号 (examUid) 通过输入
+        info.name    = dlg.getExamineeName();
+        info.examUid = dlg.getExamUid();
 
         // 人工签到
         SignInService::signInManually(d->serverUrl + Urls::SIGN_IN_MANUAL, info, this, d->networkManager);
@@ -473,7 +475,8 @@ void AiSignWidget::personReady(const Person &p) {
     if (ui->signInModeSimpleButton->isChecked()) {
         // 简单签到
         d->signInMode = SignInMode::SIGN_IN_SIMPLE;
-        signIn(info, d->signInMode);
+        info.signInMode = SignInMode::SIGN_IN_SIMPLE;
+        signIn(info);
     } else if (ui->signInModeWithFaceButton->isChecked()) {
         // 人脸识别签到
         d->signInMode = SignInMode::SIGN_IN_WITH_FACE;
@@ -572,12 +575,12 @@ void AiSignWidget::signInSuccess(const SignInInfo &info) const {
 }
 
 // 签到
-void AiSignWidget::signIn(const SignInInfo &info, SignInMode mode) const {
-    if (SignInMode::SIGN_IN_SIMPLE == mode) {
+void AiSignWidget::signIn(const SignInInfo &info) const {
+    if (SignInMode::SIGN_IN_SIMPLE == info.signInMode) {
         SignInService::signInSimple(d->serverUrl + Urls::SIGN_IN, info, this, d->networkManager);
-    } else if (SignInMode::SIGN_IN_WITH_FACE == mode) {
+    } else if (SignInMode::SIGN_IN_WITH_FACE == info.signInMode) {
         SignInService::signInWithFace(d->serverUrl + Urls::SIGN_IN_WITH_FACE, info, this, d->networkManager);
-    } else if (SignInMode::SIGN_IN_WRITTING == mode) {
+    } else if (SignInMode::SIGN_IN_WRITTING == info.signInMode) {
         // TODO: 上传手写笔迹
     }
 }

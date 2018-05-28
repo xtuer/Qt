@@ -2,6 +2,7 @@
 #include "SignInStatusWidget.h"
 #include "bean/Student.h"
 #include "bean/SignInInfo.h"
+#include "Constants.h"
 
 #include <QDebug>
 #include <QListView>
@@ -11,10 +12,12 @@
 #include <QToolTip>
 #include <QClipboard>
 #include <QApplication>
+#include <algorithm>
 
-static const int ROLE_TOOL_TIP = Qt::UserRole + 1;
-static const int ROLE_EXAM_UID = Qt::UserRole + 2;
-static const int ROLE_ID_CARD_NO = Qt::UserRole + 3;
+static const int ROLE_NAME       = Qt::UserRole + 1;
+static const int ROLE_TOOL_TIP   = Qt::UserRole + 2;
+static const int ROLE_EXAM_UID   = Qt::UserRole + 3;
+static const int ROLE_ID_CARD_NO = Qt::UserRole + 4;
 
 SignInStatusWidget::SignInStatusWidget(QWidget *parent) : QWidget(parent), ui(new Ui::SignInStatusWidget) {
     initialize();
@@ -63,26 +66,47 @@ void SignInStatusWidget::handleEvents() {
             return;
         }
 
-        QString examName = index.data().toString();
-        QString examUid = index.data(Qt::UserRole + 2).toString();
-        QApplication::clipboard()->setText(examUid);
-        QToolTip::showText(QCursor::pos(), QString("成功复制%1的准考证号: %2").arg(examName).arg(examUid));
+        QString examName = index.data(ROLE_NAME).toString();
+        QString examUid = index.data(ROLE_EXAM_UID).toString();
+        QApplication::clipboard()->setText(examName + " " + examUid);
+        QToolTip::showText(QCursor::pos(), QString("成功复制 %1 的准考证号: %2").arg(examName).arg(examUid));
     });
+}
+
+// 查找学生
+Student SignInStatusWidget::findStudent(const SignInInfo &info) const {
+    for (const Student &student : students) {
+        if (SignInMode::SIGN_IN_MANUALLY == info.signInMode && student.examUid == info.examUid) {
+            // 人工签到时使用的是学籍号
+            return student;
+        } else if (student.idCardNo == info.idCardNo) {
+            // 其他签到时使用的是身份证号
+            return student;
+        }
+    }
+
+    return Student();
 }
 
 void SignInStatusWidget::setStudents(const QList<Student> &students) {
     this->students = students;
+
+    // 按座位排序
+    std::sort(this->students.begin(), this->students.end(), [](const Student &a, const Student &b) -> bool {
+        return a.seatCode < b.seatCode;
+    });
+
     model->clear();
-    int count = 0;
 
     foreach (const Student &student, students) {
         QIcon icon = student.signedAt.isEmpty() ? offlineIcon : onlineIcon;
-        QString text = QString("%1\n%2").arg(++count).arg(student.examineeName);
+        QString text = QString("%1\n%2").arg(student.seatCode).arg(student.examineeName);
         QString toolTip = QString("姓名: %1<br>准考证号: %2<br>身份证号: %3<br>签到时间: %4")
                 .arg(student.examineeName).arg(student.examUid)
                 .arg(student.idCardNo).arg(student.signedAt);
         QStandardItem *item = new QStandardItem(icon, text);
 
+        item->setData(student.examineeName, ROLE_NAME); // 名字
         item->setData(toolTip, ROLE_TOOL_TIP); // 提示信息
         item->setData(student.examUid, ROLE_EXAM_UID); // 准考证号
         item->setData(student.idCardNo, ROLE_ID_CARD_NO); // 身份证号
@@ -95,27 +119,27 @@ void SignInStatusWidget::setStudents(const QList<Student> &students) {
 // 签到成功
 void SignInStatusWidget::signInSuccess(const SignInInfo &info) const {
     qDebug() << info.idCardNo << "签到成功";
-    Student signInStudent;
-    bool found = false;
-
-    for (const Student &student : students) {
-        if (student.idCardNo == info.idCardNo) {
-            signInStudent = student;
-            signInStudent.signedAt = info.signAt;
-            found = true;
-        }
-    }
+    Student signInStudent = findStudent(info);
 
     // 学生不存在则返回
-    if (!found) { return; }
+    if (signInStudent.examUid.isEmpty()) { return; }
 
     int count = model->rowCount();
     for (int i = 0; i < count; ++i) {
         QStandardItem *item = model->item(i, 0);
+        QString examUid  = item->data(ROLE_EXAM_UID).toString();
         QString idCardNo = item->data(ROLE_ID_CARD_NO).toString();
 
         // 找到签到成功学生的 item，设置其 icon 为在线状态 icon，并更新签到时间到 tool tip
-        if (idCardNo == info.idCardNo) {
+        if (SignInMode::SIGN_IN_MANUALLY == info.signInMode && examUid == info.examUid) {
+            QString toolTip = QString("姓名: %1<br>准考证号: %2<br>身份证号: %3<br>签到时间: %4")
+                    .arg(signInStudent.examineeName).arg(signInStudent.examUid)
+                    .arg(signInStudent.idCardNo).arg(signInStudent.signedAt);
+
+            item->setData(toolTip, ROLE_TOOL_TIP); // 提示信息
+            item->setIcon(onlineIcon);
+            break;
+        } else if (idCardNo == info.idCardNo) {
             QString toolTip = QString("姓名: %1<br>准考证号: %2<br>身份证号: %3<br>签到时间: %4")
                     .arg(signInStudent.examineeName).arg(signInStudent.examUid)
                     .arg(signInStudent.idCardNo).arg(signInStudent.signedAt);
