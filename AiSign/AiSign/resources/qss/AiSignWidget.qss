@@ -68,6 +68,19 @@
     border-bottom-right-radius: 12px;
 }
 
+.Container .ContainerTitlebar QPushButton {
+	color: #555;
+	height: 20px;
+	min-height: 20px;
+	max-height: 20px;
+	padding: 0 0 1px 0;
+	font-size: 12px;
+}
+
+.Container .ContainerTitlebar QPushButton:hover {
+	color: #DDD;
+}
+
 .ContainerTitlebar {
 	min-height: 50px;
     max-height: 50px;

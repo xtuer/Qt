@@ -67,6 +67,7 @@ AiSignWidgetPrivate::AiSignWidgetPrivate() {
     signInWithFace = ConfigInstance.isSignInWithFace();
     networkManager = new QNetworkAccessManager();
     readerThread   = new CardReaderThread();
+    signInMode     = SignInMode::SIGN_IN_WITH_FACE;
 
     signInStatusWidget = new SignInStatusWidget();
     // signInStatusTopWindow = new TopWindow(signInStatusWidget, {0, 0, 0, 0}, {0, 0, 0, 0});
@@ -119,6 +120,10 @@ void AiSignWidget::initialize() {
     ui->signInStatusContentContainer->layout()->replaceWidget(ui->signInStatusPlaceholder, d->signInStatusWidget);
     ui->signInStatusPlaceholder->hide();
     ui->signInStatusButton->hide();
+
+    ui->signInManualButton->hide();
+    ui->signInModeSimpleButton->hide();
+    ui->signInModeWithFaceButton->hide();
 
     // 状态默认为错误
     updateSystemStatus(ui->cameraStatusLabel, false);
@@ -203,7 +208,7 @@ void AiSignWidget::handleEvents() {
     });
 
     // [签到] 手动签到
-    connect(ui->signInManualButton, &QPushButton::clicked, [this] {
+    connect(ui->signInManualButton2, &QPushButton::clicked, [this] {
         SignInInfo info = getSignInInfo(false);
         info.signInMode = SignInMode::SIGN_IN_MANUALLY;
 
@@ -472,12 +477,23 @@ void AiSignWidget::personReady(const Person &p) {
         idCardPicture.save(info.idCardPicturePath);
     }
 
-    if (ui->signInModeSimpleButton->isChecked()) {
+    /*if (ui->signInModeSimpleButton->isChecked()) {
         // 简单签到
         d->signInMode = SignInMode::SIGN_IN_SIMPLE;
         info.signInMode = SignInMode::SIGN_IN_SIMPLE;
         signIn(info);
     } else if (ui->signInModeWithFaceButton->isChecked()) {
+        // 人脸识别签到
+        d->signInMode = SignInMode::SIGN_IN_WITH_FACE;
+        d->cameraImageCapture->capture("capture.jpg"); // 拍照
+    }*/
+
+    if (ui->signInModeComboBox->currentIndex() == 1) {
+        // 简单签到
+        d->signInMode = SignInMode::SIGN_IN_SIMPLE;
+        info.signInMode = SignInMode::SIGN_IN_SIMPLE;
+        signIn(info);
+    } else if (ui->signInModeComboBox->currentIndex() == 0) {
         // 人脸识别签到
         d->signInMode = SignInMode::SIGN_IN_WITH_FACE;
         d->cameraImageCapture->capture("capture.jpg"); // 拍照
