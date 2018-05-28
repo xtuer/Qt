@@ -2,6 +2,9 @@
     background: rgb(33, 93, 201);
 }
 
+.SignInStatusWidget {
+}
+
 .ContainerContentWidget .CameraWidget {
     min-width:  200px;
     max-width:  200px;
@@ -98,6 +101,10 @@
     border-image: url(image/common/camera-alt.png) 0 0 0 128 stretch stretch;
 }
 
+.ContainerTitlebar QLabel.TitleIcon#signInLabel {
+    border-image: url(image/common/signin.png) 0 0 0 128 stretch stretch;
+}
+
 .ContainerTitlebar QLabel.TitleIcon#feedbackLabel {
     border-image: url(image/common/tag-faces.png) 0 0 0 128 stretch stretch;
 }
@@ -141,7 +148,7 @@
 
 .ContainerContentWidget QLabel.FacePicture {
     background: #CCC;
-    border-radius: 4px;
+    border-radius: 2px;
     min-width:  102px;
     max-width:  102px;
     min-height: 126px;
@@ -204,3 +211,24 @@
 	background: transparent;
 }
 
+/* 签到状态 list view */
+QAbstractItemView {
+    border: none;
+	background: transparent;
+	font-size: 14px;
+}
+
+QAbstractItemView::item {
+    border: 0px;
+    color: #EEE;
+	width: 65px;
+	margin-bottom: 15px;
+}
+
+QAbstractItemView::item:hover {
+    color: #333;
+}
+
+QAbstractItemView::item:selected {
+    background: rgb(248, 248, 248);
+}

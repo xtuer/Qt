@@ -21,8 +21,9 @@ int main(int argc, char *argv[]) {
     AiSignWidget *aiSignWidget = new AiSignWidget();
     TopWindow *window = new TopWindow(aiSignWidget, {0, 0, 0, 0}, {0, 0, 0, 0});
     window->setTitle("");
-    window->setResizable(false);
-    window->setFixedSize(880, 700);
+    window->resize(1180, 700);
+    // window->setResizable(false);
+    // window->setFixedSize(880, 700);
     window->setTitleBarButtonsVisible(false, false, true);
     UiUtil::installLoadQssShortcut(window);
     UiUtil::centerWindow(window);
@@ -30,6 +31,7 @@ int main(int argc, char *argv[]) {
 
     // [3] 进入 Qt 事件队列
     int code = app.exec();
+    delete window;
     ::finalize();
     return code;
 }

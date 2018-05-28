@@ -2,6 +2,7 @@
 #define AISIGNWIDGET_H
 
 #include <QWidget>
+#include <QList>
 
 class Person;
 class Student;
@@ -32,6 +33,9 @@ public slots:
     void personReady(const Person &p); // 身份证信息读取成功
     void updateSystemStatus(QWidget *w, bool ok = true); // 更新系统状态
     void signInSuccess(const SignInInfo &info) const;   // 签到成功
+
+signals:
+    void studentsReady(const QList<Student> &students);
 
 private:
     void initialize();        // 初始化

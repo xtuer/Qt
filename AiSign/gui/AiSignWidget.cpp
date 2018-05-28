@@ -1,6 +1,8 @@
 #include "ui_AiSignWidget.h"
 #include "AiSignWidget.h"
 #include "InputDialog.h"
+#include "SignInStatusWidget.h"
+#include "TopWindow.h"
 
 #include "Constants.h"
 
@@ -56,6 +58,8 @@ struct AiSignWidgetPrivate {
 
     CardReaderThread *readerThread; // 身份证刷卡器
     QNetworkAccessManager *networkManager;
+    SignInStatusWidget *signInStatusWidget;
+    TopWindow *signInStatusTopWindow = NULL;
 };
 
 AiSignWidgetPrivate::AiSignWidgetPrivate() {
@@ -63,6 +67,13 @@ AiSignWidgetPrivate::AiSignWidgetPrivate() {
     signInWithFace = ConfigInstance.isSignInWithFace();
     networkManager = new QNetworkAccessManager();
     readerThread   = new CardReaderThread();
+
+    signInStatusWidget = new SignInStatusWidget();
+    // signInStatusTopWindow = new TopWindow(signInStatusWidget, {0, 0, 0, 0}, {0, 0, 0, 0});
+    // signInStatusTopWindow->setTitle("");
+    // signInStatusTopWindow->setResizable(false);
+    // signInStatusTopWindow->resize(380, 700);
+    // signInStatusTopWindow->setTitleBarButtonsVisible(false, false, true);
 }
 
 AiSignWidgetPrivate::~AiSignWidgetPrivate() {
@@ -72,6 +83,7 @@ AiSignWidgetPrivate::~AiSignWidgetPrivate() {
 
     delete readerThread;
     delete networkManager;
+    delete signInStatusTopWindow;
 }
 
 // 使用 siteCode 从 sites 里查找第一个有相同 siteCode 的 site
@@ -104,6 +116,9 @@ void AiSignWidget::initialize() {
     setAttribute(Qt::WA_StyledBackground);
     d = new AiSignWidgetPrivate();
     ui->cameraContainer->layout()->setAlignment(ui->captureAndUploadButton, Qt::AlignHCenter); // 按钮居中
+    ui->signInStatusContentContainer->layout()->replaceWidget(ui->signInStatusPlaceholder, d->signInStatusWidget);
+    ui->signInStatusPlaceholder->hide();
+    ui->signInStatusButton->hide();
 
     // 状态默认为错误
     updateSystemStatus(ui->cameraStatusLabel, false);
@@ -164,7 +179,7 @@ void AiSignWidget::handleEvents() {
             int h = ui->facePictureLabel->height();
             ui->facePictureLabel->setPixmap(QPixmap::fromImage(centerImage.copy(x, 0, w, h)));
             ui->previewLabel->setPixmap(QPixmap());
-            ui->previewLabel->setText("预览");
+            ui->previewLabel->setText("拍照预览");
 
             signIn(info, d->signInMode);
         }
@@ -243,6 +258,23 @@ void AiSignWidget::handleEvents() {
             qDebug() << message;
         }
     });
+
+    // 显示签到状态窗口
+    connect(ui->signInStatusButton, &QPushButton::clicked, [this] {
+        // d->signInStatusTopWindow->show();
+        if (ui->signInStatusContainer->isHidden()) {
+            QWidget *window = UiUtil::findWindow(this);
+            window->resize(1180, window->height());
+            ui->signInStatusContainer->show();
+        } else {
+            ui->signInStatusContainer->hide();
+            QWidget *window = UiUtil::findWindow(this);
+            window->resize(850, window->height());
+        }
+    });
+
+    // 更换考场后更新此考场的学生登陆状态
+    connect(this, SIGNAL(studentsReady(QList<Student>)), d->signInStatusWidget, SLOT(setStudents(QList<Student>)));
 }
 
 // 启动身份证刷卡器
@@ -380,6 +412,7 @@ void AiSignWidget::loadStudents() {
 
         // 显示学生信息
         d->students = ResponseUtil::responseToStudents(jsonResponse);
+
         updateSignInStatus(d->students);
     }, [this](const QString &error) {
         showInfo(error, true);
@@ -409,6 +442,8 @@ void AiSignWidget::updateSignInStatus(const QList<Student> &students) {
     ui->signInStudentCountLabel->setText(QString::number(totalStudentCount - unsignInStudentCount));
     ui->unsignInStudentCountLabel->setText(QString::number(unsignInStudentCount));
     ui->totalStudentCountLabel->setText(QString::number(totalStudentCount));
+
+    emit studentsReady(d->students);
 }
 
 // 显示信息, error 为 true 时以红色显示
@@ -533,6 +568,7 @@ void AiSignWidget::updateSystemStatus(QWidget *w, bool ok) {
 // 签到成功
 void AiSignWidget::signInSuccess(const SignInInfo &info) const {
     showInfo(QString("%1 签到成功").arg(info.name));
+    d->signInStatusWidget->signInSuccess(info);
 }
 
 // 签到

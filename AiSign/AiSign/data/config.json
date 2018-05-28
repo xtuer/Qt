@@ -24,7 +24,6 @@
         "resources/qss/widget.qss",
         "resources/qss/button.qss",
         "resources/qss/sidebar.qss",
-        "resources/qss/itemview.qss",
         "resources/qss/boxbar.qss",
         "resources/qss/slider.qss",
         "resources/qss/login.qss",
