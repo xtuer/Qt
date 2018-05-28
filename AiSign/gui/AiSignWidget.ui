@@ -158,7 +158,7 @@
                  <x>0</x>
                  <y>0</y>
                  <width>408</width>
-                 <height>128</height>
+                 <height>286</height>
                 </rect>
                </property>
                <layout class="QGridLayout" name="gridLayout_20">
@@ -437,6 +437,9 @@
             <string>ContainerContentWidget</string>
            </property>
            <layout class="QGridLayout" name="gridLayout_13">
+            <item row="1" column="1">
+             <widget class="QComboBox" name="siteComboBox"/>
+            </item>
             <item row="0" column="0">
              <widget class="QLabel" name="label_13">
               <property name="sizePolicy">
@@ -447,6 +450,19 @@
               </property>
               <property name="text">
                <string>考期:</string>
+              </property>
+              <property name="class" stdset="0">
+               <string>Info</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QComboBox" name="roomComboBox"/>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_15">
+              <property name="text">
+               <string>考场:</string>
               </property>
               <property name="class" stdset="0">
                <string>Info</string>
@@ -465,22 +481,6 @@
                <string>Info</string>
               </property>
              </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QComboBox" name="siteComboBox"/>
-            </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="label_15">
-              <property name="text">
-               <string>考场:</string>
-              </property>
-              <property name="class" stdset="0">
-               <string>Info</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QComboBox" name="roomComboBox"/>
             </item>
             <item row="3" column="1">
              <spacer name="verticalSpacer">
@@ -504,9 +504,9 @@
       <item row="2" column="0">
        <widget class="QWidget" name="widget_5" native="true">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
+         <sizepolicy hsizetype="Ignored" vsizetype="Expanding">
           <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
+          <verstretch>100</verstretch>
          </sizepolicy>
         </property>
         <property name="minimumSize">
@@ -708,19 +708,6 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="previewLabel">
-              <property name="text">
-               <string>拍照预览</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-              <property name="class" stdset="0">
-               <string>CameraWidget</string>
-              </property>
-             </widget>
-            </item>
             <item row="2" column="0">
              <widget class="QPushButton" name="captureAndUploadButton">
               <property name="sizePolicy">
@@ -734,18 +721,18 @@
               </property>
              </widget>
             </item>
-            <item row="3" column="0">
-             <spacer name="verticalSpacer_2">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
+            <item row="1" column="0">
+             <widget class="QLabel" name="previewLabel">
+              <property name="text">
+               <string>拍照预览</string>
               </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>322</height>
-               </size>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
               </property>
-             </spacer>
+              <property name="class" stdset="0">
+               <string>CameraWidget</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -900,13 +887,23 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="label_26">
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_25">
               <property name="text">
-               <string>出生:</string>
+               <string>性别:</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+              <property name="class" stdset="0">
+               <string>Info</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="0">
+             <widget class="QLabel" name="label_33">
+              <property name="text">
+               <string>结束日期:</string>
               </property>
               <property name="class" stdset="0">
                <string>Info</string>
@@ -923,20 +920,10 @@
               </property>
              </widget>
             </item>
-            <item row="5" column="0">
-             <widget class="QLabel" name="label_33">
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_26">
               <property name="text">
-               <string>结束日期:</string>
-              </property>
-              <property name="class" stdset="0">
-               <string>Info</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="0">
-             <widget class="QLabel" name="label_27">
-              <property name="text">
-               <string>身份证号:</string>
+               <string>出生:</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -946,8 +933,8 @@
               </property>
              </widget>
             </item>
-            <item row="4" column="1">
-             <widget class="QLabel" name="startDateLabel">
+            <item row="2" column="1">
+             <widget class="QLabel" name="birthdayLabel">
               <property name="text">
                <string/>
               </property>
@@ -956,8 +943,44 @@
               </property>
              </widget>
             </item>
+            <item row="0" column="1">
+             <widget class="QLabel" name="nameLabel">
+              <property name="text">
+               <string/>
+              </property>
+              <property name="class" stdset="0">
+               <string>IdCardInfo</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_32">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>开始日期:</string>
+              </property>
+              <property name="class" stdset="0">
+               <string>Info</string>
+              </property>
+             </widget>
+            </item>
             <item row="3" column="1">
              <widget class="QLabel" name="idCardNoLabel">
+              <property name="text">
+               <string/>
+              </property>
+              <property name="class" stdset="0">
+               <string>IdCardInfo</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QLabel" name="startDateLabel">
               <property name="text">
                <string/>
               </property>
@@ -985,20 +1008,10 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="1">
-             <widget class="QLabel" name="birthdayLabel">
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_27">
               <property name="text">
-               <string/>
-              </property>
-              <property name="class" stdset="0">
-               <string>IdCardInfo</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="label_25">
-              <property name="text">
-               <string>性别:</string>
+               <string>身份证号:</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1006,101 +1019,6 @@
               <property name="class" stdset="0">
                <string>Info</string>
               </property>
-             </widget>
-            </item>
-            <item row="4" column="0">
-             <widget class="QLabel" name="label_32">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>开始日期:</string>
-              </property>
-              <property name="class" stdset="0">
-               <string>Info</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLabel" name="nameLabel">
-              <property name="text">
-               <string/>
-              </property>
-              <property name="class" stdset="0">
-               <string>IdCardInfo</string>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="0" colspan="2">
-             <widget class="QWidget" name="widget_19" native="true">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <layout class="QGridLayout" name="gridLayout_16">
-               <item row="0" column="2">
-                <widget class="QLabel" name="facePictureLabel">
-                 <property name="minimumSize">
-                  <size>
-                   <width>50</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="class" stdset="0">
-                  <string>FacePicture</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="0">
-                <widget class="QLabel" name="idCardPictureLabel">
-                 <property name="minimumSize">
-                  <size>
-                   <width>50</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="class" stdset="0">
-                  <string>FacePicture</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="1">
-                <widget class="QLabel" name="label_42">
-                 <property name="minimumSize">
-                  <size>
-                   <width>30</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>50</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>VS </string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignCenter</set>
-                 </property>
-                 <property name="class" stdset="0">
-                  <string>VS</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
              </widget>
             </item>
             <item row="8" column="0" colspan="2">
@@ -1202,18 +1120,74 @@
               </layout>
              </widget>
             </item>
-            <item row="9" column="0">
-             <spacer name="verticalSpacer_4">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
+            <item row="6" column="0" colspan="2">
+             <widget class="QWidget" name="widget_19" native="true">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
               </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
+              <layout class="QGridLayout" name="gridLayout_16">
+               <item row="0" column="2">
+                <widget class="QLabel" name="facePictureLabel">
+                 <property name="minimumSize">
+                  <size>
+                   <width>50</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="class" stdset="0">
+                  <string>FacePicture</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="idCardPictureLabel">
+                 <property name="minimumSize">
+                  <size>
+                   <width>50</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="class" stdset="0">
+                  <string>FacePicture</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLabel" name="label_42">
+                 <property name="minimumSize">
+                  <size>
+                   <width>30</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>50</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>VS </string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                 <property name="class" stdset="0">
+                  <string>VS</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
             </item>
            </layout>
           </widget>
