@@ -178,11 +178,13 @@
 /* 正确信息样式 */
 .ContainerContentWidget QLabel#infoLabel[ok=true] {
     color: rgb(0, 100, 0);
+	color: white;
 }
 
 /* 错误信息样式 */
 .ContainerContentWidget QLabel#infoLabel[ok=false] {
 	color: rgb(220, 0, 0);
+	color: white;
 }
 
 /* 摄像头图像中人脸位置 */
