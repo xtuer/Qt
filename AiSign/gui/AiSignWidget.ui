@@ -1130,7 +1130,7 @@
                   </sizepolicy>
                  </property>
                  <property name="text">
-                  <string>普通签到</string>
+                  <string>身份证签到</string>
                  </property>
                  <property name="checkable">
                   <bool>true</bool>
@@ -1161,7 +1161,7 @@
                   </sizepolicy>
                  </property>
                  <property name="text">
-                  <string>人脸识别签到</string>
+                  <string>人证对比签到</string>
                  </property>
                  <property name="checkable">
                   <bool>true</bool>
