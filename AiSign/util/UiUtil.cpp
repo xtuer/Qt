@@ -26,6 +26,7 @@
 #include <QModelIndex>
 #include <QShortcut>
 #include <QDesktopWidget>
+#include <QFontDatabase>
 
 // 为整个应用程序加载 QSS
 void UiUtil::loadQss() {
@@ -47,6 +48,15 @@ void UiUtil::loadQss() {
 
     if (!qss.isEmpty()) {
         qApp->setStyleSheet(qss);
+    }
+}
+
+// 加载字体
+void UiUtil::loadFonts() {
+    QStringList paths = ConfigInstance.getFontFiles();
+
+    for (const QString &path : paths) {
+        QFontDatabase::addApplicationFont(path);
     }
 }
 

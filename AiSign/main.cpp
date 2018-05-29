@@ -37,7 +37,6 @@ int main(int argc, char *argv[]) {
     return code;
 }
 
-
 /**
  * 程序启动时进行初始化
  */
@@ -54,10 +53,8 @@ static void initialize() {
     // 设置界面样式
     UiUtil::loadQss();
 
-    // 设置默认字体
-    QFont font = qApp->font();
-    font.setFamily("微软雅黑");
-    qApp->setFont(font);
+    // 加载字体库
+    UiUtil::loadFonts();
 }
 
 /**

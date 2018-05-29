@@ -1,4 +1,4 @@
-﻿#include "Config.h"
+#include "Config.h"
 #include "Json.h"
 
 #include <QDebug>
@@ -85,6 +85,10 @@ bool Config::isSignInWithFace() const {
 
 QStringList Config::getQssFiles() const {
     return config->getStringList("qss_files");
+}
+
+QStringList Config::getFontFiles() const {
+    return config->getStringList("font_files");
 }
 
 int Config::getLayoutPadding() const {

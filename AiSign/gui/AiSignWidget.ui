@@ -901,7 +901,7 @@
             <item>
              <widget class="QPushButton" name="signInManualButton2">
               <property name="text">
-               <string>人工签到</string>
+               <string/>
               </property>
              </widget>
             </item>
@@ -960,7 +960,7 @@
             <item row="2" column="0">
              <widget class="QLabel" name="label_26">
               <property name="text">
-               <string>出生:</string>
+               <string>出生日期:</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

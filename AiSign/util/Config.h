@@ -1,4 +1,4 @@
-﻿#ifndef CONFIG_H
+#ifndef CONFIG_H
 #define CONFIG_H
 
 #define ConfigInstance Singleton<Config>::getInstance()
@@ -42,7 +42,8 @@ public:
     ////////////////////////////////////////////////////////////////////////////
     /// UI
     ////////////////////////////////////////////////////////////////////////////
-    QStringList getQssFiles() const; // QSS 样式表文件, 可以是多个
+    QStringList getQssFiles() const;  // QSS 样式表文件, 可以是多个
+    QStringList getFontFiles() const; // 字体文件
     int getLayoutPadding() const; // Widget 布局的 padding
     int getLayoutSpacing() const; // Widget 中子 Widget 之间的 spacing
 
