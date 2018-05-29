@@ -66,6 +66,7 @@ void SignInService::signInManually(const QString &url,
             .param("periodUnitCode", info.periodCode)
             .param("siteCode", info.siteCode)
             .param("roomCode", info.roomCode)
+            .param("password", info.password)
             .param("signAt", info.signAt)
             .param("sign", sign)
             .post([=](const QString &response) {

@@ -224,8 +224,9 @@ void AiSignWidget::handleEvents() {
         }
 
         // 名字和考籍号 (examUid) 通过输入
-        info.name    = dlg.getExamineeName();
-        info.examUid = dlg.getExamUid();
+        info.name     = dlg.getExamineeName();
+        info.examUid  = dlg.getExamUid();
+        info.password = dlg.getPassword();
 
         // 人工签到
         SignInService::signInManually(d->serverUrl + Urls::SIGN_IN_MANUAL, info, this, d->networkManager);

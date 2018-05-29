@@ -21,6 +21,7 @@ public:
     QString facePicturePath;   // 人脸的照片的路径
     QString writePicturePath;  // 手写笔迹照片路径
     QString signAt;            // 签到时间
+    QString password;          // 人工签到时需要的密码
 
     bool valid = true;     // 签到信息是否有效
     SignInMode signInMode; // 签到模式

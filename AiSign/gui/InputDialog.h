@@ -19,6 +19,7 @@ public:
 
     QString getExamineeName() const; // 考生姓名
     QString getExamUid() const;      // 考籍号
+    QString getPassword() const;     // 密码
 
 private:
     void handleEvents();
@@ -26,6 +27,7 @@ private:
 
     QString examineeName;
     QString examUid;
+    QString password;
 };
 
 #endif // INPUTDIALOG_H
