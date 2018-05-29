@@ -86,7 +86,7 @@ QWidget {
 	padding: 0;
 	background: transparent;
     border-width: 0 0 0 0;
-	border-image: url(image/common/hand.png) 0 0 0 0 stretch stretch;
+	border-image: url(image/common/signin-manual.png) 0 0 0 0 stretch stretch;
 }
 
 .ContainerTitlebar {
