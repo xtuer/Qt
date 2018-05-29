@@ -9,6 +9,10 @@ QWidget {
 .SignInStatusWidget {
 }
 
+#idCardContainer {
+	min-width: 400px;
+}
+
 .ContainerContentWidget .CameraWidget {
     min-width:  200px;
     max-width:  200px;
@@ -169,7 +173,7 @@ QWidget {
 
 .ContainerContentWidget QLabel.FacePicture {
     background: #CCC;
-    border-radius: 2px;
+    border-radius: 5px;
     min-width:  102px;
     max-width:  102px;
     min-height: 126px;
