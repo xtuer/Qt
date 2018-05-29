@@ -177,6 +177,7 @@ QWidget {
 }
 
 .ContainerContentWidget QLabel.FacePicture {
+	margin-top: 20px;
     background: #CCC;
     border-radius: 5px;
     min-width:  102px;
