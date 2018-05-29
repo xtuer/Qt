@@ -10,7 +10,7 @@ QWidget {
 }
 
 #idCardContainer {
-	min-width: 400px;
+	max-width: 350px;
 }
 
 .ContainerContentWidget .CameraWidget {
@@ -19,6 +19,11 @@ QWidget {
     min-height: 150px;
     max-height: 150px;
     background: rgba(00, 00, 00, 0.4);
+	
+	min-width:  250px;
+    max-width:  250px;
+    min-height: 188px;
+    max-height: 188px;
 }
 
 .Container {
