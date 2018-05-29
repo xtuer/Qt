@@ -98,7 +98,7 @@ void SignInStatusWidget::setStudents(const QList<Student> &students) {
 
     model->clear();
 
-    foreach (const Student &student, students) {
+    foreach (const Student &student, this->students) {
         QIcon icon = student.signedAt.isEmpty() ? offlineIcon : onlineIcon;
         QString text = QString("%1\n%2").arg(student.seatCode).arg(student.examineeName);
         QString toolTip = QString("姓名: %1<br>准考证号: %2<br>身份证号: %3<br>签到时间: %4")
