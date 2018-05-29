@@ -1,3 +1,7 @@
+QWidget {
+	font-family: 微软雅黑; /* 设置默认字体 */
+}
+
 .AiSignWidget {
     background: rgb(33, 93, 201);
 }
@@ -68,17 +72,21 @@
     border-bottom-right-radius: 12px;
 }
 
-.Container .ContainerTitlebar QPushButton {
-	color: #555;
-	height: 20px;
-	min-height: 20px;
-	max-height: 20px;
-	padding: 0 0 1px 0;
-	font-size: 12px;
-}
-
 .Container .ContainerTitlebar QPushButton:hover {
 	color: #DDD;
+}
+
+.Container .ContainerTitlebar QPushButton#signInManualButton2 {
+	width:  25px;
+	height: 25px;
+	min-width:  20px;
+	max-width:  20px;
+	min-height: 20px;
+	max-height: 20px;
+	padding: 0;
+	background: transparent;
+    border-width: 0 0 0 0;
+	border-image: url(image/common/hand.png) 0 0 0 0 stretch stretch;
 }
 
 .ContainerTitlebar {
@@ -172,7 +180,8 @@
 
 /* 信息 Label 的样式 */
 .ContainerContentWidget QLabel#infoLabel {
-	font-size: 28px;
+	font-size: 22px;
+	font-family: 云书法手书罗西硬笔行楷;
 }
 
 /* 正确信息样式 */
