@@ -58,14 +58,15 @@ void SignInService::signInManually(const QString &url,
                                    const SignInInfo &info,
                                    const AiSignWidget *asw,
                                    QNetworkAccessManager *networkManager) {
-    QString sign = Util::md5(QString("%1%2").arg(info.idCardNo).arg(info.signAt).toUtf8());
+    QString sign = Util::md5(QString("%1%2").arg(info.examUid).arg(info.signAt).toUtf8());
 
     HttpClient(url).debug(true).manager(networkManager)
-            .param("idCardNo", info.idCardNo)
+            .param("examUId", info.examUid)
             .param("examineeName", info.name)
             .param("periodUnitCode", info.periodCode)
             .param("siteCode", info.siteCode)
             .param("roomCode", info.roomCode)
+            .param("password", info.password)
             .param("signAt", info.signAt)
             .param("sign", sign)
             .post([=](const QString &response) {

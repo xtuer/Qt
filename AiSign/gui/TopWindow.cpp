@@ -99,7 +99,7 @@ void TopWindow::setResizable(bool resizable) {
 void TopWindow::showMaximized() {
     layout()->setContentsMargins(0, 0, 0, 0); // 最大化窗口时不需要阴影，所以去掉窗口的 padding
     ui->maxButton->hide();
-    ui->restoreButton->show();
+    ui->restoreButton->hide(); // [*] 故意取消恢复按钮
     d->sizeGrip->setVisible(false);
 
     QWidget::showMaximized();

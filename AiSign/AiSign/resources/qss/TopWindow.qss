@@ -4,7 +4,7 @@
     border-top-right-radius: 4px;
     min-height: 72px;
     max-height: 72px;
-    background: url(image/common/titlebar-bg-2.png);
+    background: url(image/common/titlebar-bg.png);
 }
 
 .TopWindow #titleBar #titleLabel {

@@ -24,12 +24,14 @@
         "resources/qss/widget.qss",
         "resources/qss/button.qss",
         "resources/qss/sidebar.qss",
-        "resources/qss/itemview.qss",
         "resources/qss/boxbar.qss",
         "resources/qss/slider.qss",
         "resources/qss/login.qss",
         "resources/qss/TopWindow.qss"
     ],
+	"font_files": [
+		"font/云书法手书罗西硬笔行楷.ttf"
+	],
     "ui": {
         "padding": 5,
         "spacing": 5

@@ -1,4 +1,4 @@
-﻿#ifndef INPUTDIALOG_H
+#ifndef INPUTDIALOG_H
 #define INPUTDIALOG_H
 
 #include <QDialog>
@@ -18,14 +18,16 @@ public:
     ~InputDialog();
 
     QString getExamineeName() const; // 考生姓名
-    QString getIdCardNo() const;     // 考籍号
+    QString getExamUid() const;      // 考籍号
+    QString getPassword() const;     // 密码
 
 private:
     void handleEvents();
     Ui::InputDialog *ui;
 
     QString examineeName;
-    QString idCardNo;
+    QString examUid;
+    QString password;
 };
 
 #endif // INPUTDIALOG_H

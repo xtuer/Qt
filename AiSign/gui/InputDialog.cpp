@@ -1,4 +1,4 @@
-﻿#include "InputDialog.h"
+#include "InputDialog.h"
 #include "ui_InputDialog.h"
 #include <QMessageBox>
 
@@ -18,22 +18,32 @@ QString InputDialog::getExamineeName() const {
     return examineeName;
 }
 
-QString InputDialog::getIdCardNo() const {
-    return idCardNo;
+QString InputDialog::getExamUid() const {
+    return examUid;
+}
+
+QString InputDialog::getPassword() const {
+    return password;
 }
 
 void InputDialog::handleEvents() {
     connect(ui->signInButton, &QPushButton::clicked, [this] {
         examineeName = ui->nameLineEdit->text().trimmed();
-        idCardNo = ui->idCardNoLineEdit->text().trimmed();
+        examUid      = ui->idCardNoLineEdit->text().trimmed();
+        password     = ui->passwordLineEdit->text();
 
         if (examineeName.isEmpty()) {
             QMessageBox::warning(this, "错误", "考生姓名不能为空");
             return;
         }
 
-        if (idCardNo.isEmpty()) {
+        if (examUid.isEmpty()) {
             QMessageBox::warning(this, "错误", "证件号码不能为空");
+            return;
+        }
+
+        if (password.isEmpty()) {
+            QMessageBox::warning(this, "错误", "密码不能为空");
             return;
         }
 

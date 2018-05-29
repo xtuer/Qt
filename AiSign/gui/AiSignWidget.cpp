@@ -1,6 +1,8 @@
 #include "ui_AiSignWidget.h"
 #include "AiSignWidget.h"
 #include "InputDialog.h"
+#include "SignInStatusWidget.h"
+#include "TopWindow.h"
 
 #include "Constants.h"
 
@@ -56,6 +58,8 @@ struct AiSignWidgetPrivate {
 
     CardReaderThread *readerThread; // 身份证刷卡器
     QNetworkAccessManager *networkManager;
+    SignInStatusWidget *signInStatusWidget;
+    TopWindow *signInStatusTopWindow = NULL;
 };
 
 AiSignWidgetPrivate::AiSignWidgetPrivate() {
@@ -63,6 +67,14 @@ AiSignWidgetPrivate::AiSignWidgetPrivate() {
     signInWithFace = ConfigInstance.isSignInWithFace();
     networkManager = new QNetworkAccessManager();
     readerThread   = new CardReaderThread();
+    signInMode     = SignInMode::SIGN_IN_WITH_FACE;
+
+    signInStatusWidget = new SignInStatusWidget();
+    // signInStatusTopWindow = new TopWindow(signInStatusWidget, {0, 0, 0, 0}, {0, 0, 0, 0});
+    // signInStatusTopWindow->setTitle("");
+    // signInStatusTopWindow->setResizable(false);
+    // signInStatusTopWindow->resize(380, 700);
+    // signInStatusTopWindow->setTitleBarButtonsVisible(false, false, true);
 }
 
 AiSignWidgetPrivate::~AiSignWidgetPrivate() {
@@ -72,6 +84,7 @@ AiSignWidgetPrivate::~AiSignWidgetPrivate() {
 
     delete readerThread;
     delete networkManager;
+    delete signInStatusTopWindow;
 }
 
 // 使用 siteCode 从 sites 里查找第一个有相同 siteCode 的 site
@@ -95,8 +108,8 @@ AiSignWidget::AiSignWidget(QWidget *parent) : QWidget(parent), ui(new Ui::AiSign
 }
 
 AiSignWidget::~AiSignWidget() {
-    delete ui;
     delete d;
+    delete ui;
 }
 
 // 初始化
@@ -104,6 +117,13 @@ void AiSignWidget::initialize() {
     setAttribute(Qt::WA_StyledBackground);
     d = new AiSignWidgetPrivate();
     ui->cameraContainer->layout()->setAlignment(ui->captureAndUploadButton, Qt::AlignHCenter); // 按钮居中
+    ui->signInStatusContentContainer->layout()->replaceWidget(ui->signInStatusPlaceholder, d->signInStatusWidget);
+    ui->signInStatusPlaceholder->hide();
+    ui->signInStatusButton->hide();
+
+    ui->signInManualButton->hide();
+    ui->signInModeSimpleButton->hide();
+    ui->signInModeWithFaceButton->hide();
 
     // 状态默认为错误
     updateSystemStatus(ui->cameraStatusLabel, false);
@@ -135,9 +155,10 @@ void AiSignWidget::handleEvents() {
 
         // 获取签到的学生信息
         SignInInfo info = getSignInInfo();
+        info.signInMode = d->signInMode;
         if (!info.valid) { return; }
 
-        if (SignInMode::SIGN_IN_WRITTING == d->signInMode) {
+        if (SignInMode::SIGN_IN_WRITTING == info.signInMode) {
             {
                 // 保存手写笔迹
                 image.scaled(600, 600, Qt::KeepAspectRatio, Qt::SmoothTransformation)
@@ -149,8 +170,8 @@ void AiSignWidget::handleEvents() {
             ui->previewLabel->setPixmap(QPixmap::fromImage(rightImage));
             ui->facePictureLabel->setPixmap(QPixmap());
 
-            signIn(info, d->signInMode);
-        } else if (SignInMode::SIGN_IN_WITH_FACE == d->signInMode) {
+            signIn(info);
+        } else if (SignInMode::SIGN_IN_WITH_FACE == info.signInMode) {
             {
                 // 保存人脸照片
                 image.scaled(600, 600, Qt::KeepAspectRatio, Qt::SmoothTransformation)
@@ -164,9 +185,9 @@ void AiSignWidget::handleEvents() {
             int h = ui->facePictureLabel->height();
             ui->facePictureLabel->setPixmap(QPixmap::fromImage(centerImage.copy(x, 0, w, h)));
             ui->previewLabel->setPixmap(QPixmap());
-            ui->previewLabel->setText("预览");
+            ui->previewLabel->setText("拍照预览");
 
-            signIn(info, d->signInMode);
+            signIn(info);
         }
     });
 
@@ -187,8 +208,9 @@ void AiSignWidget::handleEvents() {
     });
 
     // [签到] 手动签到
-    connect(ui->signInManualButton, &QPushButton::clicked, [this] {
+    connect(ui->signInManualButton2, &QPushButton::clicked, [this] {
         SignInInfo info = getSignInInfo(false);
+        info.signInMode = SignInMode::SIGN_IN_MANUALLY;
 
         // 没有选择考期等则返回
         if (!info.valid) {
@@ -201,9 +223,10 @@ void AiSignWidget::handleEvents() {
             return;
         }
 
-        // 名字和身份证号码通过输入
+        // 名字和考籍号 (examUid) 通过输入
         info.name     = dlg.getExamineeName();
-        info.idCardNo = dlg.getIdCardNo();
+        info.examUid  = dlg.getExamUid();
+        info.password = dlg.getPassword();
 
         // 人工签到
         SignInService::signInManually(d->serverUrl + Urls::SIGN_IN_MANUAL, info, this, d->networkManager);
@@ -243,6 +266,23 @@ void AiSignWidget::handleEvents() {
             qDebug() << message;
         }
     });
+
+    // 显示签到状态窗口
+    connect(ui->signInStatusButton, &QPushButton::clicked, [this] {
+        // d->signInStatusTopWindow->show();
+        if (ui->signInStatusContainer->isHidden()) {
+            QWidget *window = UiUtil::findWindow(this);
+            window->resize(1180, window->height());
+            ui->signInStatusContainer->show();
+        } else {
+            ui->signInStatusContainer->hide();
+            QWidget *window = UiUtil::findWindow(this);
+            window->resize(850, window->height());
+        }
+    });
+
+    // 更换考场后更新此考场的学生登陆状态
+    connect(this, SIGNAL(studentsReady(QList<Student>)), d->signInStatusWidget, SLOT(setStudents(QList<Student>)));
 }
 
 // 启动身份证刷卡器
@@ -380,6 +420,7 @@ void AiSignWidget::loadStudents() {
 
         // 显示学生信息
         d->students = ResponseUtil::responseToStudents(jsonResponse);
+
         updateSignInStatus(d->students);
     }, [this](const QString &error) {
         showInfo(error, true);
@@ -409,6 +450,8 @@ void AiSignWidget::updateSignInStatus(const QList<Student> &students) {
     ui->signInStudentCountLabel->setText(QString::number(totalStudentCount - unsignInStudentCount));
     ui->unsignInStudentCountLabel->setText(QString::number(unsignInStudentCount));
     ui->totalStudentCountLabel->setText(QString::number(totalStudentCount));
+
+    emit studentsReady(d->students);
 }
 
 // 显示信息, error 为 true 时以红色显示
@@ -416,7 +459,7 @@ void AiSignWidget::showInfo(const QString &info, bool ok) const {
     QString okImage    = "image/common/ok.png";
     QString errorImage = "image/common/error.png";
     ui->infoLabel->setProperty("ok", ok);
-    ui->infoLabel->setText(QString("<img src='%1' width=20 height=20> %2")
+    ui->infoLabel->setText(QString("<img src='%1' width=16 height=16> %2")
                            .arg(ok ? okImage : errorImage).arg(info));
 
     UiUtil::updateQss(ui->infoLabel);
@@ -435,11 +478,23 @@ void AiSignWidget::personReady(const Person &p) {
         idCardPicture.save(info.idCardPicturePath);
     }
 
-    if (ui->signInModeSimpleButton->isChecked()) {
+    /*if (ui->signInModeSimpleButton->isChecked()) {
         // 简单签到
         d->signInMode = SignInMode::SIGN_IN_SIMPLE;
-        signIn(info, d->signInMode);
+        info.signInMode = SignInMode::SIGN_IN_SIMPLE;
+        signIn(info);
     } else if (ui->signInModeWithFaceButton->isChecked()) {
+        // 人脸识别签到
+        d->signInMode = SignInMode::SIGN_IN_WITH_FACE;
+        d->cameraImageCapture->capture("capture.jpg"); // 拍照
+    }*/
+
+    if (ui->signInModeComboBox->currentIndex() == 1) {
+        // 简单签到
+        d->signInMode = SignInMode::SIGN_IN_SIMPLE;
+        info.signInMode = SignInMode::SIGN_IN_SIMPLE;
+        signIn(info);
+    } else if (ui->signInModeComboBox->currentIndex() == 0) {
         // 人脸识别签到
         d->signInMode = SignInMode::SIGN_IN_WITH_FACE;
         d->cameraImageCapture->capture("capture.jpg"); // 拍照
@@ -533,15 +588,16 @@ void AiSignWidget::updateSystemStatus(QWidget *w, bool ok) {
 // 签到成功
 void AiSignWidget::signInSuccess(const SignInInfo &info) const {
     showInfo(QString("%1 签到成功").arg(info.name));
+    d->signInStatusWidget->signInSuccess(info);
 }
 
 // 签到
-void AiSignWidget::signIn(const SignInInfo &info, SignInMode mode) const {
-    if (SignInMode::SIGN_IN_SIMPLE == mode) {
+void AiSignWidget::signIn(const SignInInfo &info) const {
+    if (SignInMode::SIGN_IN_SIMPLE == info.signInMode) {
         SignInService::signInSimple(d->serverUrl + Urls::SIGN_IN, info, this, d->networkManager);
-    } else if (SignInMode::SIGN_IN_WITH_FACE == mode) {
+    } else if (SignInMode::SIGN_IN_WITH_FACE == info.signInMode) {
         SignInService::signInWithFace(d->serverUrl + Urls::SIGN_IN_WITH_FACE, info, this, d->networkManager);
-    } else if (SignInMode::SIGN_IN_WRITTING == mode) {
+    } else if (SignInMode::SIGN_IN_WRITTING == info.signInMode) {
         // TODO: 上传手写笔迹
     }
 }

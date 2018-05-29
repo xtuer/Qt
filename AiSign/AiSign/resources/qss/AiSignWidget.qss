@@ -1,5 +1,12 @@
+QWidget {
+	font-family: 微软雅黑; /* 设置默认字体 */
+}
+
 .AiSignWidget {
     background: rgb(33, 93, 201);
+}
+
+.SignInStatusWidget {
 }
 
 .ContainerContentWidget .CameraWidget {
@@ -65,6 +72,23 @@
     border-bottom-right-radius: 12px;
 }
 
+.Container .ContainerTitlebar QPushButton:hover {
+	color: #DDD;
+}
+
+.Container .ContainerTitlebar QPushButton#signInManualButton2 {
+	width:  25px;
+	height: 25px;
+	min-width:  20px;
+	max-width:  20px;
+	min-height: 20px;
+	max-height: 20px;
+	padding: 0;
+	background: transparent;
+    border-width: 0 0 0 0;
+	border-image: url(image/common/hand.png) 0 0 0 0 stretch stretch;
+}
+
 .ContainerTitlebar {
 	min-height: 50px;
     max-height: 50px;
@@ -96,6 +120,10 @@
 
 .ContainerTitlebar QLabel.TitleIcon#cameraLabel {
     border-image: url(image/common/camera-alt.png) 0 0 0 128 stretch stretch;
+}
+
+.ContainerTitlebar QLabel.TitleIcon#signInLabel {
+    border-image: url(image/common/signin.png) 0 0 0 128 stretch stretch;
 }
 
 .ContainerTitlebar QLabel.TitleIcon#feedbackLabel {
@@ -141,7 +169,7 @@
 
 .ContainerContentWidget QLabel.FacePicture {
     background: #CCC;
-    border-radius: 4px;
+    border-radius: 2px;
     min-width:  102px;
     max-width:  102px;
     min-height: 126px;
@@ -152,17 +180,20 @@
 
 /* 信息 Label 的样式 */
 .ContainerContentWidget QLabel#infoLabel {
-	font-size: 28px;
+	font-size: 22px;
+	font-family: 云书法手书罗西硬笔行楷;
 }
 
 /* 正确信息样式 */
 .ContainerContentWidget QLabel#infoLabel[ok=true] {
     color: rgb(0, 100, 0);
+	color: #DDD;
 }
 
 /* 错误信息样式 */
 .ContainerContentWidget QLabel#infoLabel[ok=false] {
 	color: rgb(220, 0, 0);
+	color: #DDD;
 }
 
 /* 摄像头图像中人脸位置 */
@@ -204,3 +235,24 @@
 	background: transparent;
 }
 
+/* 签到状态 list view */
+QAbstractItemView {
+    border: none;
+	background: transparent;
+	font-size: 14px;
+}
+
+QAbstractItemView::item {
+    border: 0px;
+    color: #EEE;
+	width: 65px;
+	margin-bottom: 15px;
+}
+
+QAbstractItemView::item:hover {
+    color: #333;
+}
+
+QAbstractItemView::item:selected {
+    background: rgb(248, 248, 248);
+}
