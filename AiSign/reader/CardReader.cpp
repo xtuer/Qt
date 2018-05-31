@@ -1,4 +1,4 @@
-﻿#include "CardReader.h"
+#include "CardReader.h"
 #include "bean/Person.h"
 
 extern "C" {
