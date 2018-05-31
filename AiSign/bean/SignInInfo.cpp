@@ -1,4 +1,4 @@
-﻿#include "SignInInfo.h"
+#include "SignInInfo.h"
 
 SignInInfo::SignInInfo() {
 

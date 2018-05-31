@@ -1,4 +1,4 @@
-﻿#ifndef CARDREADERTHREAD_H
+#ifndef CARDREADERTHREAD_H
 #define CARDREADERTHREAD_H
 
 #include <QThread>

@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
     window->setTitleBarButtonsVisible(false, false, true);
     UiUtil::installLoadQssShortcut(window);
     // UiUtil::centerWindow(window);
-    // window->show();
+    window->show();
     window->showMaximized();
 
     // [3] 进入 Qt 事件队列

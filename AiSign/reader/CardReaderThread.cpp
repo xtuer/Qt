@@ -1,4 +1,4 @@
-﻿#include "CardReaderThread.h"
+#include "CardReaderThread.h"
 #include "bean/Person.h"
 #include "Constants.h"
 #include "reader/CardReader.h"
