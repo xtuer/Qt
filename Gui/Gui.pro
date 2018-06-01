@@ -44,7 +44,9 @@ SOURCES += \
     DragAndDropTreeView.cpp \
     TreeModel.cpp \
     RegionModel.cpp \
-    Permission.cpp
+    Permission.cpp \
+    Scatter.cpp \
+    ScatterMap.cpp
 
 FORMS += \
     ImageWidget.ui \
@@ -69,5 +71,7 @@ HEADERS += \
     DragAndDropTreeView.h \
     TreeModel.h \
     RegionModel.h \
-    Permission.h
+    Permission.h \
+    Scatter.h \
+    ScatterMap.h
 
