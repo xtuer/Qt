@@ -41,6 +41,17 @@ QList<QPoint> ScatterMap::getScatterPositions() const {
     return positions;
 }
 
+// 获取所有 scatter 在 parentWidget 上的坐标
+QList<QPoint> ScatterMap::getScatterPositionsInParentWidget() const {
+    QList<QPoint> positions;
+
+    for (Scatter *scatter : scatters) {
+        positions.append(scatter->pos());
+    }
+
+    return positions;
+}
+
 void ScatterMap::paintEvent(QPaintEvent *event) {
     Q_UNUSED(event)
     QPainter painter(this);

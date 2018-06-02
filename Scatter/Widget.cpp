@@ -3,6 +3,12 @@
 #include "ScatterMap.h"
 #include "Scatter.h"
 
+#include "heatmap/heatmapper.h"
+#include "heatmap/gradientpalette.h"
+#include <QRadialGradient>
+#include <QImage>
+#include <QMouseEvent>
+
 #include <QDebug>
 #include <QPixmap>
 #include <QGridLayout>
@@ -15,7 +21,7 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
 
     // TODO: 模拟创建一些随机的点，可以是从文件读取的
     QRandomGenerator random(QDateTime::currentDateTime().toMSecsSinceEpoch());
-    for (int i = 0; i < 3; ++i) {
+    for (int i = 0; i < 30; ++i) {
         scatterMap->addScatter(random.bounded(0.8), random.bounded(0.8));
     }
 }
@@ -69,5 +75,30 @@ void Widget::handleEvents() {
     connect(ui->captureButton, &QPushButton::clicked, [this] {
         QPixmap pixmap = scatterMap->grab();
         pixmap.save("scatter.png");
+    });
+
+    // 点击保存热力图
+    connect(ui->heatMapButton, &QPushButton::clicked, [this] {
+        int w = scatterMap->width();
+        int h = scatterMap->height();
+
+        GradientPalette palette(w);
+        palette.setColorAt(0.45, Qt::blue);
+        palette.setColorAt(0.55, Qt::cyan);
+        palette.setColorAt(0.65, Qt::green);
+        palette.setColorAt(0.85, Qt::yellow);
+        palette.setColorAt(1.0, Qt::red);
+
+        QImage heatMapCanvas(w, h, QImage::Format_ARGB32);
+        heatMapCanvas.fill(QColor(0, 0, 0, 0));
+        HeatMapper heatMapper(&heatMapCanvas, &palette, 60, 128);
+
+        for (QPoint p : scatterMap->getScatterPositionsInParentWidget()) {
+            heatMapper.addPoint(p.x(), p.y());
+        }
+
+        heatMapper.save("heatmap.png");
+
+        ui->heatMapLabel->setPixmap(QPixmap::fromImage(heatMapCanvas));
     });
 }

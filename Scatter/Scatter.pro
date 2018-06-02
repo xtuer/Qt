@@ -28,6 +28,8 @@ MOC_DIR     = $$output
 RCC_DIR     = $$output
 UI_DIR      = $$output
 
+include(heatmap/heatmap.pri)
+
 SOURCES += \
         main.cpp \
     Scatter.cpp \

@@ -18,6 +18,7 @@ public:
     void setScatterMapHeight(int height); // 设置布点地图的高
 
     QList<QPoint> getScatterPositions() const; // 获取所有 scatter 的坐标
+    QList<QPoint> getScatterPositionsInParentWidget() const; // 获取所有 scatter 在 parentWidget 上的坐标
 
 signals:
     void scatterPositionChanged(Scatter *scatter, QPoint pos);
