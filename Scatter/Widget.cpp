@@ -4,6 +4,7 @@
 #include "Scatter.h"
 
 #include <QDebug>
+#include <QPixmap>
 #include <QGridLayout>
 #include <QDateTime>
 #include <QRandomGenerator>
@@ -62,5 +63,11 @@ void Widget::handleEvents() {
 
     connect(ui->heightLineEdit, &QLineEdit::textChanged, [this] {
         scatterMap->setScatterMapHeight(ui->heightLineEdit->text().trimmed().toInt());
+    });
+
+    // 点击截图按钮进行截图
+    connect(ui->captureButton, &QPushButton::clicked, [this] {
+        QPixmap pixmap = scatterMap->grab();
+        pixmap.save("scatter.png");
     });
 }

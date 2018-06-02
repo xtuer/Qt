@@ -46,8 +46,21 @@ void ScatterMap::paintEvent(QPaintEvent *event) {
     QPainter painter(this);
     int w = width();
     int h = height();
+    double deltaX = w / 10.0;
+    double deltaY = h / 10.0;
 
     painter.setPen(QPen(Qt::gray, 0));
+
+    // 画横线
+    for (double y = deltaY; y < h-1; y += deltaY) {
+        painter.drawLine(QPointF(0, y), QPointF(w, y));
+    }
+
+    // 画纵线
+    for (double x = deltaX; x < w-1; x += deltaX) {
+        painter.drawLine(QPointF(x, 0), QPointF(x, h));
+    }
+
     painter.drawRect(0, 0, w-1, h-1);
 }
 
