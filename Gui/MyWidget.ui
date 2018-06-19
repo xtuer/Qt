@@ -19,6 +19,25 @@ min-height: 30px;
 max-height: 30px;
 border-width: 0 0 0 30px;
 border-image: url(/Users/Biao/Temp/Qt/AiSign/AiSign/image/common/brightness-auto.png) 0 0 0 128;
+}
+
+QCheckBox::indicator {
+	border-width: 0 0 0 0px;
+    border-image: url(/Users/Biao/Temp/Qt/AiSign/AiSign/image/common/brightness-auto.png) 0 0 0 0;
+}
+
+QCheckBox::indicator:checked {
+	border-width: 0 0 0 0px;
+    border-image: url(/Users/Biao/Temp/Qt/AiSign/AiSign/image/common/brightness-auto-2.png) 0 0 0 0;
+}
+
+QPushButton {
+	border-width: 0;
+    border-image: url(/Users/Biao/Desktop/button.png) 0 240 0 0;
+}
+
+QPushButton:hover {
+    border-image: url(/Users/Biao/Desktop/button.png) 0 180 0 60;
 }</string>
   </property>
   <widget class="QLabel" name="label">
@@ -32,6 +51,44 @@ border-image: url(/Users/Biao/Temp/Qt/AiSign/AiSign/image/common/brightness-auto
    </property>
    <property name="text">
     <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="checkBox">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>230</y>
+     <width>51</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>170</y>
+     <width>60</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>60</width>
+     <height>24</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>60</width>
+     <height>24</height>
+    </size>
+   </property>
+   <property name="text">
+    <string>B</string>
    </property>
   </widget>
  </widget>

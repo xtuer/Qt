@@ -8,21 +8,23 @@
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QLabel>
-#include "ScatterMap.h"
+#include "ImageWidget.h"
+#include <QFile>
+#include <QTextStream>
 
 int main(int argc, char *argv[]) {
-    QApplication a(argc, argv);
+//    QApplication a(argc, argv);
+
+//    ImageWidget w;
+//    w.show();
+
+//    return a.exec();
+    double x = 134.97232;
+
+    for (int i = 1; i < 7; ++i) {
+        qDebug() << QString("%1").arg(x, 0, 'f', i, '0');
+    }
 
 
-    ScatterMap *scatterMap = new ScatterMap();
-    QLayout *layout = new QVBoxLayout();
-    layout->addWidget(scatterMap);
-
-    QWidget window;
-    window.setLayout(layout);
-    window.resize(500, 400);
-    window.setStyleSheet(".Scatter { background: #2b85e4; border-radius: 10px; min-width: 20px; max-width: 20px; min-height: 20px; max-height: 20px; }");
-    window.show();
-
-    return a.exec();
+    return 0;
 }
