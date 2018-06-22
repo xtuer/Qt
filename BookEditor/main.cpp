@@ -20,9 +20,10 @@ int main(int argc, char *argv[]) {
 
     // [1] 主窗口使用自定义窗口显示
     TopWindow window(new CentralWidget());
-    window.setTitle("教材编辑");
-    window.resize(700, 700);
+    window.setTitle("教材 | 知识点 • 编辑器");
+    window.resize(900, 700);
     window.setResizable(false);
+//    window.setTitleBarVisible(false);
 //    window.setTitleBarButtonsVisible(false, false, true);
     UiUtil::centerWindow(&window);
     window.show();

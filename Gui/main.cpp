@@ -11,20 +11,13 @@
 #include "ImageWidget.h"
 #include <QFile>
 #include <QTextStream>
+#include "Form.h"
 
 int main(int argc, char *argv[]) {
 //    QApplication a(argc, argv);
 
-//    ImageWidget w;
-//    w.show();
+    qDebug() << __DATE__ << __TIME__;
 
 //    return a.exec();
-    double x = 134.97232;
-
-    for (int i = 1; i < 7; ++i) {
-        qDebug() << QString("%1").arg(x, 0, 'f', i, '0');
-    }
-
-
     return 0;
 }

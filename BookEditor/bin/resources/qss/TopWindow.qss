@@ -1,5 +1,6 @@
 .TopWindow #titleBar {
     background: #ff9900;
+    background: white;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
 }

@@ -1,7 +1,7 @@
 .SideBarWidget {
     background: gray;
-    min-width: 200px;
-    max-width: 200px;
+    min-width: 165px;
+    max-width: 165px;
     padding: 0px;
     background: rgb(73, 80, 95);
 }
@@ -48,10 +48,10 @@
     qproperty-icon: url(image/sidebar/warn.png);
 }
 #itemButton1 {
-    qproperty-icon: url(image/sidebar/add.png);
+    qproperty-icon: url(image/sidebar/audit.png);
 }
 #itemButton2 {
-    qproperty-icon: url(image/sidebar/user.png);
+    qproperty-icon: url(image/sidebar/version.png);
 }
 #itemButton3 {
     qproperty-icon: url(image/sidebar/curve.png);

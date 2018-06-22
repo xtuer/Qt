@@ -6,101 +6,45 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>470</width>
-    <height>134</height>
+    <width>324</width>
+    <height>306</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>带阴影的圆形 Label</string>
+   <string>异形按钮</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">.QWidget {
-    min-width: 100px;
-    max-width: 100px;
-    min-height: 100px;
-    max-height: 100px;
-    border-radius: 55px;
-    border: 6px solid gray;
-    padding: -1px;
-}
-
-QLabel {
-    min-width:  100px;
-    max-width:  100px;
-    min-height: 100px;
-    max-height: 100px;
-
-    border-radius: 50px;
-    border-width: 0 0 0 0;
-    border-image: url(/Users/Biao/Desktop/estas.jpg) 0 0 0 0 stretch strectch;
+   <string notr="true">QPushButton {
+    border: 0px solid gray;
+    border-image: url(/Users/Biao/Pictures/bridge.jpg) 0;
+    border-radius: 20px;
 }</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_2">
-   <item row="0" column="0">
-    <widget class="QLabel" name="commonLabel">
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="2">
-    <widget class="QWidget" name="borderWidget" native="true">
-     <layout class="QGridLayout" name="gridLayout">
-      <property name="leftMargin">
-       <number>0</number>
-      </property>
-      <property name="topMargin">
-       <number>0</number>
-      </property>
-      <property name="rightMargin">
-       <number>0</number>
-      </property>
-      <property name="bottomMargin">
-       <number>0</number>
-      </property>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="0" column="3">
-    <widget class="QWidget" name="blurWidget" native="true">
-     <layout class="QGridLayout" name="gridLayout_3">
-      <property name="leftMargin">
-       <number>0</number>
-      </property>
-      <property name="topMargin">
-       <number>0</number>
-      </property>
-      <property name="rightMargin">
-       <number>0</number>
-      </property>
-      <property name="bottomMargin">
-       <number>0</number>
-      </property>
-      <item row="0" column="0">
-       <widget class="QLabel" name="blurLabel">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="0" column="1">
-    <widget class="QLabel" name="shadowLabel">
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-  </layout>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>70</y>
+     <width>191</width>
+     <height>141</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>16777215</width>
+     <height>16777215</height>
+    </size>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>
