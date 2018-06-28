@@ -15,7 +15,7 @@ extern const QString TYPE_BOOK;    // 教材
 class CodeInfo {
 public:
     QString code;
-    QString info; // 阶段 > 学科 > 版本
+    QString info; // 阶段 > 学科 > 版本 > 教材
 
     CodeInfo(const QString &code, const QString &info);
 };

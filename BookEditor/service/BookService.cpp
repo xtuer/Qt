@@ -1,14 +1,8 @@
 #include "BookService.h"
-#include "gui/MessageBox.h"
+#include "CodeInfoService.h"
 #include "bean/Book.h"
 #include "util/Json.h"
 #include "util/Util.h"
-
-#include <QDebug>
-#include <QDir>
-#include <QFile>
-#include <QTextStream>
-#include <QStandardItemModel>
 
 /**
  * 创建 BookService 对象
@@ -37,7 +31,7 @@ bool BookService::isPhaseIndex(const QModelIndex &index) const {
     return TYPE_PHASE == index.data(ROLE_TYPE).toString();
 }
 
-// 判断 index 是否阶段对应的 index
+// 判断 index 是否学科对应的 index
 bool BookService::isSubjectIndex(const QModelIndex &index) const {
     if (!index.isValid()) {
         return false;
@@ -55,8 +49,8 @@ bool BookService::isVersionIndex(const QModelIndex &index) const {
     return TYPE_VERSION == index.data(ROLE_TYPE).toString();
 }
 
-// 打开教材显示到左侧的教材目录树中
-void BookService::openBooks(const QString &path) {
+// 读取教材显示到左侧的教材目录树中
+void BookService::readBooks(const QString &path) {
     // 1. 创建教学阶段
     // 2. 创建每个教学阶段下的学科
     // 3. 创建每个学科下的版本
@@ -112,9 +106,15 @@ void BookService::openBooks(const QString &path) {
     }
 }
 
-// 打开教材的章节目录
-void BookService::openChapters(const Json &json) {
+// 读取教材的章节目录
+void BookService::readChapters(const QString &path) {
+    QFile file(path);
+    if (!file.exists()) {
+        return;
+    }
+
     chaptersModel->removeRows(0, chaptersModel->rowCount());
+    Json json(path, true);
     QJsonArray chapters = json.getJsonArray("chapters");
 
     for (QJsonArray::const_iterator iter = chapters.begin(); iter != chapters.end(); ++iter) {
@@ -169,6 +169,8 @@ void BookService::createChapters(const Json &json,
 bool BookService::validateBooks(const QModelIndex &currentBookIndex,
                                 const QString &editingBookCode,
                                 QString *error) const {
+    // 1. 遍历教材信息的树，对每一个教材生成一个 CodeInfo 对象，info 为: 阶段 > 学科 > 版本 > 教材，生成 booksInfo 列表
+    // 2. 校验 booksInfo 中的 code，看是否被使用过
     QList<CodeInfo> booksInfo;
 
     // 逐层遍历访问得到教材信息，保存到数组 booksInfo 中
@@ -221,13 +223,16 @@ bool BookService::validateBooks(const QModelIndex &currentBookIndex,
                         bookCode = editingBookCode.trimmed();
                     }
 
-                    booksInfo.append(CodeInfo(bookCode, bookInfo));
+                    // 编码为非空的才参与校验
+                    if (!bookCode.isEmpty()) {
+                        booksInfo.append(CodeInfo(bookCode, bookInfo));
+                    }
                 }
             }
         }
     }
 
-    return validateCodeInfos(&booksInfo, error);
+    return CodeInfoService::validateCodeInfos(&booksInfo, error);
 }
 
 /**
@@ -237,100 +242,8 @@ bool BookService::validateBooks(const QModelIndex &currentBookIndex,
  * @return 校验通过返回 true，不通过返回 false
  */
 bool BookService::validateChapters(QString *error) const {
-    QList<CodeInfo> chaptersInfo;
-
-    for (int i = 0; i < chaptersModel->rowCount(); ++i) {
-        QStandardItem *chapterNameItem = chaptersModel->item(i, 0);
-        QStandardItem *chapterCodeItem = chaptersModel->item(i, 1);
-
-        travelChapter(chapterNameItem, chapterCodeItem, &chaptersInfo);
-    }
-
-    return validateCodeInfos(&chaptersInfo, error);
-}
-
-/**
- * 校验 CodeInfo 数组中的 code 是否被重复使用，如果有重复使用时返回 false 并且 error 中记录重复使用的 code:info 数据
- *
- * @param codeInfos CodeInfo 数组
- * @param error 校验不通过的错误信息，不能为 NULL
- * @return 校验通过返回 true，不通过返回 false
- */
-bool BookService::validateCodeInfos(QList<CodeInfo> *codeInfos, QString *error) const {
-    // 1. 先排序：先根据 code 排序，code 相同再根据 info 排序
-    // 2. 对有序数组进行扫描，找出重复的数据
-
-    // [1] 先排序：先根据 code 排序，code 相同再根据 info 排序
-    std::sort(codeInfos->begin(), codeInfos->end(), [](const CodeInfo & a, const CodeInfo & b) -> bool {
-        if (a.code == b.code) {
-            return a.info < b.info;
-        } else {
-            return a.code < b.code;
-        }
-    });
-
-    // 打印出所有的 CodeInfo 信息，便于调试查看
-    for (const CodeInfo &ci : *codeInfos) {
-        qDebug().noquote() << QString("%1 - %2").arg(ci.code).arg(ci.info);
-    }
-
-    // [2] 对有序数组进行扫描，找出重复的数据
-    // 逻辑:
-    //     1. j 初始化为 i+1，从 i 下一个开始进行比较
-    //     2. 当第 j 个和第 i 个相同时，记录数据，继续 j 所在的循环
-    //     3. 当第 j 行和第 i 个不同时，结束 j 所在循环，并赋值 i 为 j，进行 i 所在的循环
-    bool ok = true;
-    int length = codeInfos->size();
-    for (int i = 0, j = 0; i < length; i = j) {
-        bool    first = true;
-        QString firstCode = codeInfos->at(i).code;
-        QString firstInfo = codeInfos->at(i).info;
-
-        for (j = i+1; j < codeInfos->size(); ++j) {
-            QString currentCode = codeInfos->at(j).code;
-            QString currentInfo = codeInfos->at(j).info;
-
-            if (currentCode != firstCode) {
-                // 找到不同数据，结束循环
-                break;
-            } else {
-                // 找到相同数据，记录重复数据信息
-                ok = false;
-
-                if (first) {
-                    first = false;
-                    error->append(QString("%1 - %2\n").arg(firstCode).arg(firstInfo));
-                }
-
-                error->append(QString("%1 - %2\n").arg(currentCode).arg(currentInfo));
-            }
-        }
-    }
-
-    return ok;
-}
-
-/**
- * 遍历教材的章节目录，把所有的章节信息保存到 chaptersInfo
- *
- * @param chapterNameItem 章节名字的 item
- * @param chapterCodeItem 章节编码的 item
- * @param chaptersInfo 保存章节信息的数组
- */
-void BookService::travelChapter(QStandardItem *chapterNameItem,
-                                QStandardItem *chapterCodeItem,
-                                QList<CodeInfo> *chaptersInfo) const {
-    if (NULL == chapterNameItem || NULL == chapterCodeItem) { return; }
-    QString chapterName = chapterNameItem->data(Qt::DisplayRole).toString();
-    QString chapterCode = chapterCodeItem->data(Qt::DisplayRole).toString();
-    chaptersInfo->append(CodeInfo(chapterCode, chapterName));
-
-    // 递归遍历子章节
-    for (int i = 0; i < chapterNameItem->rowCount(); ++i) {
-        QStandardItem *childChapterNameItem = chapterNameItem->child(i, 0);
-        QStandardItem *childChapterCodeItem = chapterNameItem->child(i, 1);
-        travelChapter(childChapterNameItem, childChapterCodeItem, chaptersInfo);
-    }
+    QList<CodeInfo> chaptersInfo = CodeInfoService::getCodeInfos(chaptersModel);
+    return CodeInfoService::validateCodeInfos(&chaptersInfo, error);
 }
 
 bool BookService::saveBook(const QString &bookCode,
@@ -440,6 +353,5 @@ QJsonObject BookService::createChapterJson(QStandardItem *chapterNameItem, QStan
     chapterJson.insert("children", childrenChapters);
 
     return chapterJson;
-
 }
 

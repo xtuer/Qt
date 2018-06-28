@@ -12,11 +12,20 @@
 #include <QFile>
 #include <QTextStream>
 #include "Form.h"
+#include <QMap>
 
 int main(int argc, char *argv[]) {
 //    QApplication a(argc, argv);
 
-    qDebug() << __DATE__ << __TIME__;
+    QMap<QString, QString> map = {
+        { "1", "One" },
+        { "2", "Two" },
+        { "3", "Three" },
+    };
+
+    map.insert("4", "Four");
+
+    qDebug() << map;
 
 //    return a.exec();
     return 0;

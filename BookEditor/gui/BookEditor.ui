@@ -133,9 +133,9 @@
    <item row="2" column="0" colspan="2">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="openButton">
+      <widget class="QPushButton" name="reopenButton">
        <property name="text">
-        <string>打开</string>
+        <string>重新加载</string>
        </property>
       </widget>
      </item>
@@ -197,12 +197,16 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>bookCodeEdit</tabstop>
+  <tabstop>bookCoverEdit</tabstop>
   <tabstop>bookSubjectEdit</tabstop>
   <tabstop>bookVersionEdit</tabstop>
-  <tabstop>bookCoverEdit</tabstop>
-  <tabstop>openButton</tabstop>
-  <tabstop>checkButton</tabstop>
+  <tabstop>bookNameEdit</tabstop>
   <tabstop>saveButton</tabstop>
+  <tabstop>chaptersTreeView</tabstop>
+  <tabstop>booksTreeView</tabstop>
+  <tabstop>reopenButton</tabstop>
+  <tabstop>checkButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>

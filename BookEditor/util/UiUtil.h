@@ -12,6 +12,7 @@ class QModelIndex;
 class QPoint;
 class QPushButton;
 class QLineEdit;
+class QLabel;
 
 template<typename ScheduleItem> class QList;
 
@@ -54,6 +55,9 @@ public:
 
     // 给 QLineEdit 最右边创建一个按钮
     static QPushButton* createLineEditRightButton(QLineEdit *edit);
+
+    // 在 label 上显示信息，ok 为 true 时显示为绿色，ok 为 false 时显示为红色
+    static void showMessage(QLabel *label, const QString &message, bool ok = true);
 };
 
 #endif // UIUTIL_H

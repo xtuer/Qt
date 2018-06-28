@@ -26,6 +26,7 @@
 #include <QModelIndex>
 #include <QShortcut>
 #include <QDesktopWidget>
+#include <QScreen>
 
 // 为整个应用程序加载 QSS
 void UiUtil::loadQss() {
@@ -157,7 +158,8 @@ void UiUtil::centerWindow(QWidget *window) {
     window->layout()->invalidate();
     window->hide();
 
-    QSize size = qApp->desktop()->availableGeometry().size() - window->size();
+    // QSize size = qApp->desktop()->availableGeometry().size() - window->size();
+    QSize size = qApp->primaryScreen()->availableSize() - window->size();
     int x = qMax(0, size.width() / 2);
     int y = qMax(0, size.height() / 2);
     window->move(x, y);
@@ -224,4 +226,15 @@ QPushButton *UiUtil::createLineEditRightButton(QLineEdit *edit) {
     UiUtil::setWidgetPaddingAndSpacing(edit, 0, 0);
 
     return button;
+}
+
+// 在 label 上显示信息，ok 为 true 时显示为绿色，ok 为 false 时显示为红色
+void UiUtil::showMessage(QLabel *label, const QString &message, bool ok) {
+    if (ok) {
+        label->setText(QString("<center><font color='green'>%1</font></center>").arg(message));
+    } else {
+        label->setText(QString("<center><font color='red'>%1</font></center>").arg(message));
+    }
+
+    label->show();
 }

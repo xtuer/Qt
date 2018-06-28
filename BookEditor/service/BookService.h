@@ -2,15 +2,15 @@
 #define BOOKSERVICE_H
 
 #include <QList>
+#include <QDebug>
+#include <QDir>
+#include <QFile>
+#include <QTextStream>
+#include <QStandardItemModel>
+#include <QJsonObject>
 
-class QDir;
-class CodeInfo;
 class Json;
-class QJsonObject;
-class QString;
-class QStandardItem;
-class QModelIndex;
-class QStandardItemModel;
+class CodeInfo;
 
 /**
  * 提供教材需要的服务功能，例如判断树节点的类型，打开教材的描述文件创建教材、创建章节的树，
@@ -27,11 +27,22 @@ public:
 
     bool isBookIndex(const QModelIndex &index) const;    // 判断 index 是否教材对应的 index
     bool isPhaseIndex(const QModelIndex &index) const;   // 判断 index 是否阶段对应的 index
-    bool isSubjectIndex(const QModelIndex &index) const; // 判断 index 是否阶段对应的 index
+    bool isSubjectIndex(const QModelIndex &index) const; // 判断 index 是否学科对应的 index
     bool isVersionIndex(const QModelIndex &index) const; // 判断 index 是否版本对应的 index
 
-    void openBooks(const QString &path); // 打开教材显示到教材目录树中
-    void openChapters(const Json &json); // 打开教材的章节目录
+    void readBooks(const QString &path); // 读取教材显示到教材目录树中
+    void readChapters(const QString &path); // 读取教材的章节目录
+
+    // 保存教材内容
+    bool saveBook(const QString &bookCode,
+                  const QString &bookSubject,
+                  const QString &bookVersion,
+                  const QString &bookName,
+                  const QString &bookCover,
+                  const QDir &bookDir);
+
+    // 保存教材结构
+    bool saveBooks(const QDir &bookDir);
 
     /**
      * 如果教材的编码都是唯一的，则验证通过返回 true，如果编码被重复使用验证不通过返回 false
@@ -51,16 +62,6 @@ public:
      */
     bool validateChapters(QString *error) const;
 
-    // 保存教材内容
-    bool saveBook(const QString &bookCode,
-                  const QString &bookSubject,
-                  const QString &bookVersion,
-                  const QString &bookName,
-                  const QString &bookCover,
-                  const QDir &bookDir);
-    bool saveBooks(const QDir &bookDir); // 保存教材结构
-    QJsonObject createChapterJson(QStandardItem *chapterNameItem, QStandardItem *chapterCodeItem);
-
 private:
     /**
      * 创建教程的章节目录
@@ -71,26 +72,7 @@ private:
     void createChapters(const Json &json,
                         const QJsonObject &currentChapter,
                         QStandardItem *parentChapterNameItem);
-
-    /**
-     * 校验 CodeInfo 数组中的 code 是否被重复使用，如果有重复使用时返回 false 并且 error 中记录重复使用的 code:info 数据
-     *
-     * @param codeInfos CodeInfo 数组
-     * @param error 校验不通过的错误信息，不能为 NULL
-     * @return 校验通过返回 true，不通过返回 false
-     */
-    bool validateCodeInfos(QList<CodeInfo> *codeInfos, QString *error) const;
-
-    /**
-     * 遍历教材的章节目录，把所有的章节信息保存到 chaptersInfo
-     *
-     * @param chapterNameItem 章节名字的 item
-     * @param chapterCodeItem 章节编码的 item
-     * @param chaptersInfo 保存章节信息的数组
-     */
-    void travelChapter(QStandardItem *chapterNameItem,
-                       QStandardItem *chapterCodeItem,
-                       QList<CodeInfo> *chaptersInfo) const;
+    QJsonObject createChapterJson(QStandardItem *chapterNameItem, QStandardItem *chapterCodeItem);
 
     QStandardItemModel *booksModel    = 0; // 教材的 model
     QStandardItemModel *chaptersModel = 0; // 章节的 model

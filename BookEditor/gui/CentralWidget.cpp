@@ -4,6 +4,7 @@
 #include "MessageBox.h"
 #include "WidgetsShower.h"
 #include "BookEditor.h"
+#include "KpEditor.h"
 #include "util/UiUtil.h"
 
 #include <QDebug>
@@ -39,7 +40,7 @@ CentralWidget::CentralWidget(QWidget *parent) : QWidget(parent), ui(new Ui::Cent
 
     // TODO: 显示第一个按钮对应的 widget，这里只是为了演示
     ui->groupButton1->click();
-    ui->itemButton2->click();
+    ui->itemButton1->click();
 }
 
 CentralWidget::~CentralWidget() {
@@ -139,7 +140,7 @@ void CentralWidget::createWidgetInContentStackedWidget(QAbstractButton *button) 
     // TODO: 创建 widget，需要根据实际的 widget 类来创建
     if (button == ui->itemButton1) {
         // [1] 创建 widget
-        QWidget *w = new WidgetsShower();
+        QWidget *w = new KpEditor();
         d->buttonWidgetHash.insert(ui->itemButton1, w);
 
         // [2] 添加 widget 到窗口中
