@@ -2,11 +2,11 @@
     background: #80848f;
 }
 
-.WidgetsShower, .SettingWidget, .BookEditor {
+.WidgetsShower, .SettingWidget, .BookEditor, .KpEditor {
     background: white;
 }
 
-.BookEditor #booksTreeView {
+.BookEditor #booksTreeView, .KpEditor #subjectsTreeView {
     min-width: 200px;
     max-width: 200px;
 }
