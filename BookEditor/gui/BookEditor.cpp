@@ -54,7 +54,7 @@ void BookEditor::initialize() {
     // 创建 books 文件夹
     booksDir = QDir("data/books");
     if (!booksDir.exists()) {
-        QDir("data").mkdir("books");
+        booksDir.mkpath(".");
     }
 
     // 左侧教材的树
@@ -96,15 +96,10 @@ void BookEditor::initialize() {
 
 // 事件处理
 void BookEditor::handleEvents() {
-    // 点击打开按钮，加载所有的教材信息
-    connect(ui->reopenButton, &QPushButton::clicked, [this] {
-        openBooks();
-    });
-
-    // 点击教材树上的节点，如果是教材类型的话打开对应的教材
-    connect(ui->booksTreeView, &QTreeView::clicked, [this] (const QModelIndex &index) {
+    // 教材树上的当前节点变化时，如果是教材类型的话打开对应的教材
+    connect(ui->booksTreeView->selectionModel(), &QItemSelectionModel::currentChanged,
+            [this](const QModelIndex &index) {
         resetBook();
-        currentLeftIndex = index;
 
         if (bookService->isBookIndex(index)) {
             QString subjectName = index.parent().parent().data().toString();
@@ -171,6 +166,11 @@ void BookEditor::handleEvents() {
         }
     });
 
+    // 点击打开按钮，加载所有的教材信息
+    connect(ui->reopenButton, &QPushButton::clicked, [this] {
+        openBooks();
+    });
+
     // 保存
     connect(ui->saveButton, &QPushButton::clicked, [this] {
         save();
@@ -200,7 +200,6 @@ void BookEditor::createBooksContextMenu() {
 
         QMenu menu;
         QModelIndex index = UiUtil::indexAt(ui->booksTreeView, QCursor::pos());
-        currentLeftIndex = index;
 
         if (bookService->isPhaseIndex(index)) {
             deleteAction->setText("删除阶段");
@@ -237,48 +236,48 @@ void BookEditor::createBooksContextMenu() {
 
     // 创建新的学科
     connect(subjectAction, &QAction::triggered, [this] {
-        if (!bookService->isPhaseIndex(currentLeftIndex)) { return; }
+        if (!bookService->isPhaseIndex(currentLeftIndex())) { return; }
 
-        QStandardItem *phaseItem = booksModel->itemFromIndex(currentLeftIndex);
+        QStandardItem *phaseItem = booksModel->itemFromIndex(currentLeftIndex());
         QStandardItem *subjectItem = new QStandardItem("新建学科");
         subjectItem->setData(TYPE_SUBJECT, ROLE_TYPE); // 表示学科
         phaseItem->appendRow(subjectItem);
 
-        ui->booksTreeView->expand(currentLeftIndex);
+        ui->booksTreeView->expand(currentLeftIndex());
     });
 
     // 创建新的版本
     connect(versionAction, &QAction::triggered, [this] {
-        if (!bookService->isSubjectIndex(currentLeftIndex)) { return; }
+        if (!bookService->isSubjectIndex(currentLeftIndex())) { return; }
 
-        QStandardItem *subjectItem = booksModel->itemFromIndex(currentLeftIndex);
+        QStandardItem *subjectItem = booksModel->itemFromIndex(currentLeftIndex());
         QStandardItem *versionItem = new QStandardItem("新建版本");
         versionItem->setData(TYPE_VERSION, ROLE_TYPE); // 表示版本
         subjectItem->appendRow(versionItem);
 
-        ui->booksTreeView->expand(currentLeftIndex);
+        ui->booksTreeView->expand(currentLeftIndex());
     });
 
     // 创建新的教材
     connect(bookAction, &QAction::triggered, [this] {
-        if (!bookService->isVersionIndex(currentLeftIndex)) { return; }
+        if (!bookService->isVersionIndex(currentLeftIndex())) { return; }
 
-        QStandardItem *versionItem = booksModel->itemFromIndex(currentLeftIndex);
+        QStandardItem *versionItem = booksModel->itemFromIndex(currentLeftIndex());
         QStandardItem *bookItem = new QStandardItem("新建教材");
         bookItem->setData(TYPE_BOOK, ROLE_TYPE); // 表示教材
         versionItem->appendRow(bookItem);
 
-        ui->booksTreeView->expand(currentLeftIndex);
+        ui->booksTreeView->expand(currentLeftIndex());
     });
 
     // 删除操作
     connect(deleteAction, &QAction::triggered, [this] {
-        if (!currentLeftIndex.isValid()) { return; }
+        if (!currentLeftIndex().isValid()) { return; }
 
-        QString name = currentLeftIndex.data().toString();
-        int rowCount = booksModel->itemFromIndex(currentLeftIndex)->rowCount();
+        QString name = currentLeftIndex().data().toString();
+        int rowCount = booksModel->itemFromIndex(currentLeftIndex())->rowCount();
 
-        if (bookService->isPhaseIndex(currentLeftIndex)) {
+        if (bookService->isPhaseIndex(currentLeftIndex())) {
             // 删除阶段
             // 阶段下还有学科时不能被删除
             if (rowCount > 0) {
@@ -287,9 +286,9 @@ void BookEditor::createBooksContextMenu() {
             }
 
             if (MessageBox::confirm(QString("确定要删除阶段 <font color='darkred'>%1</font> 吗?").arg(name))) {
-                booksModel->removeRow(currentLeftIndex.row(), currentLeftIndex.parent());
+                booksModel->removeRow(currentLeftIndex().row(), currentLeftIndex().parent());
             }
-        } else if (bookService->isSubjectIndex(currentLeftIndex)) {
+        } else if (bookService->isSubjectIndex(currentLeftIndex())) {
             // 删除学科
             // 学科下还有教材时不能被删除
             if (rowCount > 0) {
@@ -298,9 +297,9 @@ void BookEditor::createBooksContextMenu() {
             }
 
             if (MessageBox::confirm(QString("确定要删除学科 <font color='darkred'>%1</font> 吗?").arg(name))) {
-                booksModel->removeRow(currentLeftIndex.row(), currentLeftIndex.parent());
+                booksModel->removeRow(currentLeftIndex().row(), currentLeftIndex().parent());
             }
-        } else if (bookService->isVersionIndex(currentLeftIndex)) {
+        } else if (bookService->isVersionIndex(currentLeftIndex())) {
             // 删除版本
             // 版本下还有教材时不能被删除
             if (rowCount > 0) {
@@ -309,13 +308,20 @@ void BookEditor::createBooksContextMenu() {
             }
 
             if (MessageBox::confirm(QString("确定要删除版本 <font color='darkred'>%1</font> 吗?").arg(name))) {
-                booksModel->removeRow(currentLeftIndex.row(), currentLeftIndex.parent());
+                booksModel->removeRow(currentLeftIndex().row(), currentLeftIndex().parent());
             }
-        } else if (bookService->isBookIndex(currentLeftIndex)) {
+        } else if (bookService->isBookIndex(currentLeftIndex())) {
             // 删除教材
             if (MessageBox::confirm(QString("确定要删除版本 <font color='darkred'>%1</font> 吗?").arg(name))) {
-                booksModel->removeRow(currentLeftIndex.row(), currentLeftIndex.parent());
-                resetBook();
+                // 删除此教材的章节文件
+                QString bookCode = currentLeftIndex().data(ROLE_CODE).toString().trimmed();
+                QFile::remove(booksDir.filePath(bookCode + ".json"));
+
+                // 从树中删除学教材点
+                booksModel->removeRow(currentLeftIndex().row(), currentLeftIndex().parent());
+
+                // 删除的时候保存一下
+                ui->saveButton->click();
             }
         }
     });
@@ -334,25 +340,27 @@ void BookEditor::createBooksContextMenu() {
 // 创建中间章节树的右键菜单
 void BookEditor::createChaptersContextMenu() {
     QAction *createAction   = new QAction("创建章节", this);
+    QAction *insertAction   = new QAction("插入章节", this);
     QAction *deleteAction   = new QAction("删除章节", this);
     QAction *expandAction   = new QAction("全部展开", this);
     QAction *collapseAction = new QAction("全部收拢", this);
 
     ui->chaptersTreeView->setContextMenuPolicy(Qt::CustomContextMenu);
 
-    // 右键点击左侧教材树节点，弹出右键菜单
+    // 右键点击右侧章节的树节点，弹出右键菜单
     connect(ui->chaptersTreeView, &QWidget::customContextMenuRequested, [=]() {
-        if (!bookService->isBookIndex(currentLeftIndex)) {
+        if (!bookService->isBookIndex(currentLeftIndex())) {
             return;
         }
 
         QMenu menu;
         QModelIndex index = UiUtil::indexAt(ui->chaptersTreeView, QCursor::pos());
-        currentChapterIndex = index;
 
         menu.addAction(createAction);
 
         if (index.isValid()) {
+            menu.addAction(insertAction);
+            menu.addSeparator();
             menu.addAction(deleteAction);
         }
 
@@ -365,18 +373,27 @@ void BookEditor::createChaptersContextMenu() {
 
     // 创建新的章节
     connect(createAction, &QAction::triggered, [this] {
-        if (!currentLeftIndex.isValid()) {
+        if (!currentLeftIndex().isValid()) {
             MessageBox::message("请先选中教材，然后再创建章节");
             return;
         }
 
         // 新章节的 code 为: (parent 的 code) + (parent 的章节数+1)
         QList<QStandardItem*> childColumns;
+        QModelIndex index = UiUtil::indexAt(ui->chaptersTreeView, QCursor::pos()); // 被点击的节点
 
-        if (currentChapterIndex.isValid()) {
+        if (!index.isValid()) {
+            // 右键点击空白处创建第一级的章节
+            int rowCount = chaptersModel->rowCount() + 1;
+            QString childCode = QString("%1").arg(rowCount, 2, 10, QChar('0'));
+
+            childColumns << new QStandardItem("新建章节") << new QStandardItem(childCode);
+            chaptersModel->appendRow(childColumns);
+        } else {
             // 右键点击章节名字或者编码创建子章节
-            QModelIndex nameIndex = chaptersModel->index(currentChapterIndex.row(), 0, currentChapterIndex.parent());
-            QModelIndex codeIndex = chaptersModel->index(currentChapterIndex.row(), 1, currentChapterIndex.parent());
+            QModelIndex chapterIndex = currentChapterIndex();
+            QModelIndex nameIndex = chaptersModel->index(chapterIndex.row(), 0, chapterIndex.parent());
+            QModelIndex codeIndex = chaptersModel->index(chapterIndex.row(), 1, chapterIndex.parent());
 
             int rowCount = chaptersModel->rowCount(nameIndex) + 1;
             QString parentCode = codeIndex.data().toString();
@@ -384,22 +401,45 @@ void BookEditor::createChaptersContextMenu() {
 
             childColumns << new QStandardItem("新建章节") << new QStandardItem(childCode);
             chaptersModel->itemFromIndex(nameIndex)->appendRow(childColumns);
+
             ui->chaptersTreeView->expand(nameIndex);
+        }
+    });
+
+    // 插入章节
+    connect(insertAction, &QAction::triggered, [this] {
+        QList<QStandardItem*> childColumns;
+
+        // 右键点击章节名字或者编码创建子章节
+        QModelIndex chapterIndex = currentChapterIndex();
+
+        if (chapterIndex.parent().isValid()) {
+            // 在节点前插入章节
+            QModelIndex nameIndex = chaptersModel->index(chapterIndex.row(), 0, chapterIndex.parent());
+            QModelIndex parentNameIndex = nameIndex.parent();
+            QModelIndex parentCodeIndex = chaptersModel->index(parentNameIndex.row(), 1, parentNameIndex.parent());
+
+            int rowCount = chaptersModel->rowCount(parentNameIndex) + 1;
+            QString parentCode = parentCodeIndex.data().toString();
+            QString childCode = QString("%1%2").arg(parentCode).arg(rowCount, 2, 10, QChar('0'));
+
+            childColumns << new QStandardItem("新建章节") << new QStandardItem(childCode);
+            chaptersModel->itemFromIndex(parentNameIndex)->insertRow(nameIndex.row(), childColumns);
         } else {
-            // 右键点击空白处创建第一级的章节
+            // 插入第一级的章节
             int rowCount = chaptersModel->rowCount() + 1;
             QString childCode = QString("%1").arg(rowCount, 2, 10, QChar('0'));
 
             childColumns << new QStandardItem("新建章节") << new QStandardItem(childCode);
-            chaptersModel->appendRow(childColumns);
+            chaptersModel->insertRow(chapterIndex.row(), childColumns);
         }
     });
 
     // 删除章节
     connect(deleteAction, &QAction::triggered, [this] {
-        if (!currentChapterIndex.isValid()) { return; }
+        if (!currentChapterIndex().isValid()) { return; }
 
-        QModelIndex nameIndex = chaptersModel->index(currentChapterIndex.row(), 0, currentChapterIndex.parent());
+        QModelIndex nameIndex = chaptersModel->index(currentChapterIndex().row(), 0, currentChapterIndex().parent());
         QString name = nameIndex.data().toString();
 
         // 如果有子章节，不让删除，避免误删除
@@ -432,6 +472,16 @@ void BookEditor::openBook(const QString &bookCode) {
         // 文件不存在且教材编码为空
         MessageBox::message(QString("文件 books/%1.json 不存在").arg(bookCode));
     }
+}
+
+// 当前教材的 index
+QModelIndex BookEditor::currentLeftIndex() const {
+    return UiUtil::getSelectedIndex(ui->booksTreeView);
+}
+
+// 当前章节的 index
+QModelIndex BookEditor::currentChapterIndex() const {
+    return UiUtil::getSelectedIndex(ui->chaptersTreeView);
 }
 
 // 打开教材结构显示到左侧的教材目录树中
@@ -470,10 +520,10 @@ bool BookEditor::validate() const {
     //    2.5 教材编码不能重复使用
     //    2.6 章节编码不能在当前教材中重复使用
 
-    if (!bookService->isBookIndex(currentLeftIndex)) {
+    if (!bookService->isBookIndex(currentLeftIndex())) {
         // [1] 没选择教材则只校验教材结构
         QString error;
-        bool ok = bookService->validateBooks(currentLeftIndex, ui->bookCodeEdit->text().trimmed(), &error);
+        bool ok = bookService->validateBooks(currentLeftIndex(), ui->bookCodeEdit->text().trimmed(), &error);
 
         if (!ok) {
             error.replace("\n", "<br>");
@@ -512,7 +562,7 @@ bool BookEditor::validate() const {
         // [2.6] 章节编码不能在当前教材中重复使用
         QString error1;
         QString error2;
-        bool ok1 = bookService->validateBooks(currentLeftIndex, ui->bookCodeEdit->text().trimmed(), &error1);
+        bool ok1 = bookService->validateBooks(currentLeftIndex(), ui->bookCodeEdit->text().trimmed(), &error1);
         bool ok2 = bookService->validateChapters(&error2);
 
         if (!ok1) { error1.prepend("教材:\n"); }
@@ -543,7 +593,7 @@ void BookEditor::save() {
     // [1] 验证不通过不进行保存
     if (!validate()) { return; }
 
-    if (!bookService->isBookIndex(currentLeftIndex)) {
+    if (!bookService->isBookIndex(currentLeftIndex())) {
         // [2] 没选择教材则只保存教材结构到 books.json
         bool ok = bookService->saveBooks(booksDir);
 
@@ -563,9 +613,9 @@ void BookEditor::save() {
         QString bookCover   = ui->bookCoverEdit->text().trimmed();
 
         // [3.1] 更新 bookCode, bookCover 到教材结构中选中的教材
-        QString oldBookCode = currentLeftIndex.data(ROLE_CODE).toString();
-        booksModel->setData(currentLeftIndex, bookCode, ROLE_CODE);
-        booksModel->setData(currentLeftIndex, bookCover, ROLE_COVER);
+        QString oldBookCode = currentLeftIndex().data(ROLE_CODE).toString();
+        booksModel->setData(currentLeftIndex(), bookCode, ROLE_CODE);
+        booksModel->setData(currentLeftIndex(), bookCover, ROLE_COVER);
 
         // [3.2] 删除旧的教材文件 ${oldBookCode}.json
         if (oldBookCode != bookCode) {
