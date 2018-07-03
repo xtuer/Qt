@@ -1,18 +1,17 @@
-.CentralWidget {
-    background: #80848f;
+QWidget {
+    font-family: "云书法手书罗西硬笔行楷";
 }
 
-.WidgetsShower, .SettingWidget, .BookEditor, .KpEditor {
+.CentralWidget, .CentralWidget2 {
     background: white;
 }
 
-.BookEditor #booksTreeView, .KpEditor #subjectsTreeView {
-    min-width: 200px;
-    max-width: 200px;
+.WidgetsShower, .SettingWidget {
+    background: white;
 }
 
-.BookEditor #previewButton {
-    min-width:  16px;
+QLineEdit #previewButton {
+    min-width:  16px; 
     max-width:  16px;
     min-height: 16px;
     max-height: 16px;
@@ -22,14 +21,15 @@
     border-image: url(image/common/preview.png) 0;
 }
 
-.BookEditor #previewButton:hover {
+QLineEdit #previewButton:hover {
     border-image: url(image/common/preview-hover.png) 0;
 }
 
-.BookEditor #previewButton:pressed {
+QLineEdit #previewButton:pressed {
     border-image: url(image/common/preview-pressed.png) 0;
 }
 
-.BookEditor #bookCoverEdit {
-    padding-right: 22px;
+#booksTreeView, #subjectsTreeView {
+    width: 200px;
+    max-width: 200px;
 }

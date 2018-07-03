@@ -1,4 +1,4 @@
-#include "gui/CentralWidget.h"
+#include "gui/CentralWidget2.h"
 #include "gui/TopWindow.h"
 #include "gui/LoginWidget.h"
 #include "util/UiUtil.h"
@@ -19,12 +19,19 @@ int main(int argc, char *argv[]) {
     ::initialize();
 
     // [1] 主窗口使用自定义窗口显示
-    TopWindow window(new CentralWidget());
-    window.setTitle("教材 | 知识点 • 编辑器");
-    window.resize(900, 700);
-    window.setResizable(false);
+//    TopWindow window(new CentralWidget());
+//    window.setTitle("教材 | 知识点 • 编辑器");
+//    window.resize(900, 700);
+//    window.setResizable(false);
 //    window.setTitleBarVisible(false);
 //    window.setTitleBarButtonsVisible(false, false, true);
+//    UiUtil::centerWindow(&window);
+//    window.show();
+
+    CentralWidget2 *cw = new CentralWidget2();
+    TopWindow window(cw);
+    cw->setTopWindow(&window);
+    window.resize(1000, 700);
     UiUtil::centerWindow(&window);
     window.show();
 

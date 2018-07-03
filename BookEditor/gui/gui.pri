@@ -5,7 +5,8 @@ FORMS += \
     $$PWD/LoginWidget.ui \
     $$PWD/MessageBox.ui \
     $$PWD/BookEditor.ui \
-    $$PWD/KpEditor.ui
+    $$PWD/KpEditor.ui \
+    $$PWD/CentralWidget2.ui
 
 HEADERS += \
     $$PWD/CentralWidget.h \
@@ -14,7 +15,8 @@ HEADERS += \
     $$PWD/LoginWidget.h \
     $$PWD/MessageBox.h \
     $$PWD/BookEditor.h \
-    $$PWD/KpEditor.h
+    $$PWD/KpEditor.h \
+    $$PWD/CentralWidget2.h
 
 SOURCES += \
     $$PWD/CentralWidget.cpp \
@@ -23,4 +25,5 @@ SOURCES += \
     $$PWD/LoginWidget.cpp \
     $$PWD/MessageBox.cpp \
     $$PWD/BookEditor.cpp \
-    $$PWD/KpEditor.cpp
+    $$PWD/KpEditor.cpp \
+    $$PWD/CentralWidget2.cpp

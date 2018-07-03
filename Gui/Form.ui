@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>324</width>
-    <height>306</height>
+    <width>160</width>
+    <height>84</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,36 +15,134 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QPushButton {
-    border: 0px solid gray;
-    border-image: url(/Users/Biao/Pictures/bridge.jpg) 0;
-    border-radius: 20px;
+    width:  16px;
+    height: 16px;
+    min-width:  16px;
+    max-width:  16px;
+    min-height: 16px;
+    max-height: 16px;
+    border: none;
+    border-width: 0;
+}
+
+#closeButton {
+    border-image: url(/Users/Biao/Desktop/mac-traffic-01.png) 0 84 0 0;
+}
+#closeButton:hover {
+    border-image: url(/Users/Biao/Desktop/mac-traffic-02.png) 0 84 0 0;
+}
+#closeButton:pressed {
+    border-image: url(/Users/Biao/Desktop/mac-traffic-03.png) 0 84 0 0;
+}
+
+#minButton {
+    border-image: url(/Users/Biao/Desktop/mac-traffic-01.png) 0 56 0 28;
+}
+#minButton:hover {
+    border-image: url(/Users/Biao/Desktop/mac-traffic-02.png) 0 56 0 28;
+}
+#minButton:pressed {
+    border-image: url(/Users/Biao/Desktop/mac-traffic-03.png) 0 56 0 28;
+}
+
+#maxButton {
+    border-image: url(/Users/Biao/Desktop/mac-traffic-01.png) 0 28 0 56;
+}
+#maxButton:hover {
+    border-image: url(/Users/Biao/Desktop/mac-traffic-02.png) 0 0 0 84;
+}
+#maxButton:pressed {
+    border-image: url(/Users/Biao/Desktop/mac-traffic-03.png) 0 0 0 84;
+}
+
+#restoreButton {
+    border-image: url(/Users/Biao/Desktop/mac-traffic-01.png) 0 28 0 56;
+}
+#restoreButton:hover {
+    border-image: url(/Users/Biao/Desktop/mac-traffic-02.png) 0 28 0 56;
+}
+#restoreButton:pressed {
+    border-image: url(/Users/Biao/Desktop/mac-traffic-03.png) 0 28 0 56;
 }</string>
   </property>
-  <widget class="QPushButton" name="pushButton">
-   <property name="geometry">
-    <rect>
-     <x>70</x>
-     <y>70</y>
-     <width>191</width>
-     <height>141</height>
-    </rect>
-   </property>
-   <property name="minimumSize">
-    <size>
-     <width>0</width>
-     <height>0</height>
-    </size>
-   </property>
-   <property name="maximumSize">
-    <size>
-     <width>16777215</width>
-     <height>16777215</height>
-    </size>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QPushButton" name="minButton">
+     <property name="minimumSize">
+      <size>
+       <width>16</width>
+       <height>16</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16</width>
+       <height>16</height>
+      </size>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QPushButton" name="restoreButton">
+     <property name="minimumSize">
+      <size>
+       <width>16</width>
+       <height>16</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16</width>
+       <height>16</height>
+      </size>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="2">
+    <widget class="QPushButton" name="maxButton">
+     <property name="minimumSize">
+      <size>
+       <width>16</width>
+       <height>16</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16</width>
+       <height>16</height>
+      </size>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="3">
+    <widget class="QPushButton" name="closeButton">
+     <property name="minimumSize">
+      <size>
+       <width>16</width>
+       <height>16</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16</width>
+       <height>16</height>
+      </size>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>
