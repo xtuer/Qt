@@ -35,6 +35,7 @@ include(gui/gui.pri)
 include(util/util.pri)
 include(bean/bean.pri)
 include(model/model.pri)
+include(delegate/delegate.pri)
 include(service/service.pri)
 
 SOURCES += \

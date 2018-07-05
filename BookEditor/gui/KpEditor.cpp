@@ -5,6 +5,7 @@
 #include "util/UiUtil.h"
 #include "service/Service.h"
 #include "service/KpService.h"
+#include "delegate/LineEditDelegate.h"
 
 #include <QDebug>
 #include <QDir>
@@ -93,6 +94,9 @@ void KpEditor::initialize() {
     ui->kpsTreeView->setColumnWidth(0, 300);
     ui->kpsTreeView->setColumnWidth(4, 150);
     ui->kpsTreeView->setColumnWidth(5, 150);
+
+    LineEditDelegate *delegate = new LineEditDelegate(this);
+    ui->kpsTreeView->setItemDelegate(delegate);
 
     createSubjectsContextMenu(); // 创建左侧学科的右键菜单
     createKpsContextMenu();      // 创建中间知识点右键菜单
