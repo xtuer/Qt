@@ -68,6 +68,8 @@ void KpEditor::initialize() {
         ui->subjectsTreeView->setEditTriggers(QAbstractItemView::NoEditTriggers);
         ui->kpsTreeView->setEditTriggers(QAbstractItemView::NoEditTriggers);
         ui->kpCodeEdit->setReadOnly(true);
+    } else {
+        ui->okButton->hide();
     }
 
     // 创建 kps 文件夹

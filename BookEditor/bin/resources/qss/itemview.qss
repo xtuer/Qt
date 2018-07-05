@@ -103,7 +103,6 @@ QTreeView::item {
     min-height: 20px;
     max-height: 20px;
     border-width: 0;
-    margin-left: -5px;
 }
 
 QTreeView::branch {
