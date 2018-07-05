@@ -65,8 +65,7 @@ void KpService::readSubjects(const QString &path) {
         // [1] 创建教学阶段的节点
         QJsonObject phase = iter->toObject();
         QString phaseName = json.getString("title", "", phase);
-        QStandardItem *phaseItem = new QStandardItem(phaseName);
-        phaseItem->setData(TYPE_PHASE, ROLE_TYPE); // 表示教学阶段
+        QStandardItem *phaseItem = Service::createPhaseItem(phaseName);
         subjectsModel->appendRow(phaseItem);
 
         // [2] 创建教学阶段下的学科
@@ -76,9 +75,7 @@ void KpService::readSubjects(const QString &path) {
             QJsonObject subject = siter->toObject();
             QString subjectName = json.getString("title", "", subject);
             QString subjectCode = json.getString("code", "", subject);
-            QStandardItem *subjectItem = new QStandardItem(subjectName);
-            subjectItem->setData(TYPE_SUBJECT, ROLE_TYPE); // 表示学科
-            subjectItem->setData(subjectCode, ROLE_CODE);  // 学科编码
+            QStandardItem *subjectItem = Service::createSubjectItem(subjectName, subjectCode);
             phaseItem->appendRow(subjectItem);
         }
     }

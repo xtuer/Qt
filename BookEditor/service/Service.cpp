@@ -86,6 +86,7 @@ bool Service::isKpIndex(const QModelIndex &index) {
 QStandardItem* Service::createPhaseItem(const QString &name) {
     QStandardItem *phaseItem = new QStandardItem(name);
     phaseItem->setData(TYPE_PHASE, ROLE_TYPE); // 表示阶段节点
+    // phaseItem->setIcon(QIcon("image/common/phase.png"));
 
     return phaseItem;
 }
@@ -95,6 +96,7 @@ QStandardItem* Service::createSubjectItem(const QString &name, const QString &co
     QStandardItem *subjectItem = new QStandardItem(name);
     subjectItem->setData(TYPE_SUBJECT, ROLE_TYPE); // 表示学科节点
     subjectItem->setData(code, ROLE_CODE);
+    // subjectItem->setIcon(QIcon("image/common/subject.png"));
 
     return subjectItem;
 }
@@ -103,6 +105,7 @@ QStandardItem* Service::createSubjectItem(const QString &name, const QString &co
 QStandardItem* Service::createVersionItem(const QString &name) {
     QStandardItem *versionItem = new QStandardItem(name);
     versionItem->setData(TYPE_VERSION, ROLE_TYPE); // 表示版本节点
+    // versionItem->setIcon(QIcon("image/common/version.png"));
 
     return versionItem;
 }
@@ -113,6 +116,7 @@ QStandardItem* Service::createBookItem(const QString &name, const QString &code,
     bookItem->setData(TYPE_BOOK, ROLE_TYPE); // 表示教材节点
     bookItem->setData(code,      ROLE_CODE);
     bookItem->setData(cover,     ROLE_COVER);
+    bookItem->setIcon(QIcon("image/common/book2.png"));
 
     return bookItem;
 }

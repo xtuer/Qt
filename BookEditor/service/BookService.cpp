@@ -26,12 +26,11 @@ void BookService::readBooks(const QString &path) {
     Json json(path, true);
 
     QJsonArray phases = json.getJsonArray("phases");
-    for (QJsonArray::const_iterator iter = phases.begin(); iter != phases.end(); ++iter) {
+    for (QJsonArray::const_iterator piter = phases.begin(); piter != phases.end(); ++piter) {
         // [1] 创建教学阶段的节点
-        QJsonObject phase = iter->toObject();
+        QJsonObject phase = piter->toObject();
         QString phaseName = json.getString("title", "", phase);
-        QStandardItem *phaseItem = new QStandardItem(phaseName);
-        phaseItem->setData(TYPE_PHASE, ROLE_TYPE); // 表示教学阶段
+        QStandardItem *phaseItem = Service::createPhaseItem(phaseName);
         booksModel->appendRow(phaseItem);
 
         // [2] 创建教学阶段下的学科
@@ -40,8 +39,7 @@ void BookService::readBooks(const QString &path) {
             // 创建学科
             QJsonObject subject = siter->toObject();
             QString subjectName = json.getString("title", "", subject);
-            QStandardItem *subjectItem = new QStandardItem(subjectName);
-            subjectItem->setData(TYPE_SUBJECT, ROLE_TYPE); // 表示学科
+            QStandardItem *subjectItem = Service::createSubjectItem(subjectName);
             phaseItem->appendRow(subjectItem);
 
             // [3] 创建学科下的版本
@@ -49,8 +47,7 @@ void BookService::readBooks(const QString &path) {
             for (QJsonArray::const_iterator viter = versions.begin(); viter != versions.end(); ++viter) {
                 QJsonObject version = viter->toObject();
                 QString versionName = json.getString("title", "", version);
-                QStandardItem *versionItem = new QStandardItem(versionName);
-                versionItem->setData(TYPE_VERSION, ROLE_TYPE);
+                QStandardItem *versionItem = Service::createVersionItem(versionName);
                 subjectItem->appendRow(versionItem);
 
                 // 4. 创建版本下的教材
@@ -58,13 +55,9 @@ void BookService::readBooks(const QString &path) {
                 for (QJsonArray::const_iterator biter = books.begin(); biter != books.end(); ++biter) {
                     QJsonObject book  = biter->toObject();
                     QString bookName  = json.getString("title", "", book);
-                    QString bookCode  = json.getString("code", "", book);
+                    QString bookCode  = json.getString("code", "",  book);
                     QString bookCover = json.getString("cover", "", book);
-                    QStandardItem *bookItem = new QStandardItem(bookName);
-                    bookItem->setData(bookCode,  ROLE_CODE);  // 教材的编码
-                    bookItem->setData(bookCover, ROLE_COVER); // 教材的封面
-                    bookItem->setData(TYPE_BOOK, ROLE_TYPE);  // 表示教材节点
-                    versionItem->appendRow(bookItem);
+                    versionItem->appendRow(Service::createBookItem(bookName, bookCode, bookCover));
                 }
             }
         }
