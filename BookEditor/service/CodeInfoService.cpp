@@ -34,7 +34,7 @@ bool CodeInfoService::validateCodeInfos(QList<CodeInfo> *codeInfos, QString *err
 
     // 打印出所有的 CodeInfo 信息，便于调试查看
     for (const CodeInfo &ci : *codeInfos) {
-        qDebug().noquote() << QString("%1 - %2").arg(ci.code).arg(ci.info);
+        qDebug().noquote() << QString("%2 (%1)").arg(ci.code).arg(ci.info);
     }
 
     // [2] 对有序数组进行扫描，找出重复的数据
@@ -58,14 +58,15 @@ bool CodeInfoService::validateCodeInfos(QList<CodeInfo> *codeInfos, QString *err
                 break;
             } else {
                 // 找到相同数据，记录重复数据信息
+                // 错误信息格式: 高中 > 化学 > 人教版 > 选修4 (gz_hx_rjb_xx04)
                 ok = false;
 
                 if (first) {
                     first = false;
-                    error->append(QString("%1 - %2\n").arg(firstCode).arg(firstInfo));
+                    error->append(QString("%2 (%1)\n").arg(firstCode).arg(firstInfo));
                 }
 
-                error->append(QString("%1 - %2\n").arg(currentCode).arg(currentInfo));
+                error->append(QString("%2 (%1)\n").arg(currentCode).arg(currentInfo));
             }
         }
     }

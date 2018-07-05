@@ -3,6 +3,7 @@
 #include "MessageBox.h"
 #include "bean/Book.h"
 #include "util/UiUtil.h"
+#include "service/Service.h"
 #include "service/KpService.h"
 
 #include <QDebug>
@@ -10,9 +11,10 @@
 #include <QTimer>
 #include <QMenu>
 #include <QAction>
+#include <QPushButton>
 #include <QStandardItemModel>
 
-KpEditor::KpEditor(QWidget *parent) : QWidget(parent), ui(new Ui::KpEditor) {
+KpEditor::KpEditor(bool readOnly, QWidget *parent) : QWidget(parent), ui(new Ui::KpEditor), readOnly(readOnly) {
     initialize();
     handleEvents();
 
@@ -20,7 +22,28 @@ KpEditor::KpEditor(QWidget *parent) : QWidget(parent), ui(new Ui::KpEditor) {
 }
 
 KpEditor::~KpEditor() {
+    qDebug() << "~KpEditor";
     delete ui;
+}
+
+// 只读模式时点击了 Ok 按钮
+bool KpEditor::isOkButtonClickedInReadOnlyMode() const {
+    return okButtonClickedInReadOnlyMode;
+}
+
+// 第 0 个字符串为知识点名字，第 2 个字符串为知识点编码
+QStringList KpEditor::getSelectedKp() const {
+    QModelIndex current = UiUtil::getSelectedIndex(ui->kpsTreeView);
+
+    if (current.isValid()) {
+        QModelIndex parent  = current.parent();
+        QString name = kpsModel->index(current.row(), 0, parent).data().toString();;
+        QString code = kpsModel->index(current.row(), 1, parent).data().toString();;
+
+        return { name, ui->kpCodeEdit->text().trimmed() + "::" + code };
+    } else {
+        return {};
+    }
 }
 
 bool KpEditor::eventFilter(QObject *watched, QEvent *event) {
@@ -38,6 +61,15 @@ void KpEditor::initialize() {
     ui->messageLabel->hide();
     ui->messageLabel->installEventFilter(this);
 
+    if (readOnly) {
+        ui->reopenButton->hide();
+        ui->checkButton->hide();
+        ui->saveButton->hide();
+        ui->subjectsTreeView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        ui->kpsTreeView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        ui->kpCodeEdit->setReadOnly(true);
+    }
+
     // 创建 kps 文件夹
     kpsDir = QDir("data/kps");
     if (!kpsDir.exists()) {
@@ -46,14 +78,19 @@ void KpEditor::initialize() {
 
     // 左侧学科的树
     subjectsModel = new QStandardItemModel(this);
-    subjectsModel->setHorizontalHeaderLabels(QStringList() << "学科 (阶段 > 学科)");
+    subjectsModel->setHorizontalHeaderLabels({ "学科 (阶段 > 学科)" });
     ui->subjectsTreeView->setModel(subjectsModel);
 
     // 知识点的树
     kpsModel = new QStandardItemModel(this);
-    kpsModel->setHorizontalHeaderLabels(QStringList() << "知识点" << "编码");
+    kpsModel->setHorizontalHeaderLabels({ "知识点", "编码", "认知发展(必修)", "认知发展(选修)", "学业质量参考(学业考)", "学业质量参考(等级考)" });
     ui->kpsTreeView->setModel(kpsModel);
+    ui->kpsTreeView->hideColumn(1);
+    ui->kpsTreeView->header()->setSectionsMovable(false);
+//    ui->kpsTreeView->header()->setSectionResizeMode(QHeaderView::ResizeMode::Fixed);
     ui->kpsTreeView->setColumnWidth(0, 300);
+    ui->kpsTreeView->setColumnWidth(4, 150);
+    ui->kpsTreeView->setColumnWidth(5, 150);
 
     createSubjectsContextMenu(); // 创建左侧学科的右键菜单
     createKpsContextMenu();      // 创建中间知识点右键菜单
@@ -68,7 +105,7 @@ void KpEditor::handleEvents() {
             [this] (const QModelIndex &index) {
         resetKps();
 
-        if (kpService->isSubjectIndex(index)) {
+        if (Service::isSubjectIndex(index)) {
             QString subjectName = index.data().toString();
             QString subjectCode = index.data(ROLE_CODE).toString();
             ui->kpSubjectEdit->setText(subjectName);
@@ -80,7 +117,7 @@ void KpEditor::handleEvents() {
 
     // 编辑学科树上学科节点的名字时，更新右边的学科名字
     connect(subjectsModel, &QStandardItemModel::itemChanged, [this] (QStandardItem *item) {
-        if (kpService->isSubjectIndex(item->index())) {
+        if (Service::isSubjectIndex(item->index())) {
             QString subjectName = item->data(Qt::DisplayRole).toString();
             ui->kpSubjectEdit->setText(subjectName);
         }
@@ -110,6 +147,11 @@ void KpEditor::handleEvents() {
     connect(ui->reopenButton, &QPushButton::clicked, [this] {
         openSubjects();
     });
+
+    connect(ui->okButton, &QPushButton::clicked, [this] {
+        okButtonClickedInReadOnlyMode = true;
+        UiUtil::findWindow(this)->close();
+    });
 }
 
 // 创建左侧学科的右键菜单
@@ -131,13 +173,14 @@ void KpEditor::createSubjectsContextMenu() {
 
         QMenu menu;
         QModelIndex index = UiUtil::indexAt(ui->subjectsTreeView, QCursor::pos());
+        leftClickedLeftIndex = index;
 
-        if (kpService->isPhaseIndex(index)) {
+        if (Service::isPhaseIndex(index)) {
             menu.addAction(subjectAction); // [1] 显示新建学科
             menu.addSeparator();
             deleteAction->setText("删除阶段");
             menu.addAction(deleteAction);
-        } else if (kpService->isSubjectIndex(index)) {
+        } else if (Service::isSubjectIndex(index)) {
             deleteAction->setText("删除学科");
             menu.addAction(deleteAction);
         } else {
@@ -153,21 +196,15 @@ void KpEditor::createSubjectsContextMenu() {
 
     // 创建新的阶段
     connect(phaseAction, &QAction::triggered, [this] {
-        QStandardItem *phaseItem = new QStandardItem("新建阶段");
-        phaseItem->setData(TYPE_PHASE, ROLE_TYPE); // 表示阶段
-        subjectsModel->appendRow(phaseItem);
+        Service::appendRow(subjectsModel, QModelIndex(), { Service::createPhaseItem("新建阶段") });
     });
 
     // 创建新的学科
     connect(subjectAction, &QAction::triggered, [this] {
-        if (!kpService->isPhaseIndex(currentLeftIndex())) { return; }
+        if (!Service::isPhaseIndex(leftClickedLeftIndex)) { return; }
 
-        QStandardItem *phaseItem = subjectsModel->itemFromIndex(currentLeftIndex());
-        QStandardItem *subjectItem = new QStandardItem("新建学科");
-        subjectItem->setData(TYPE_SUBJECT, ROLE_TYPE); // 表示学科
-        phaseItem->appendRow(subjectItem);
-
-        ui->subjectsTreeView->expand(currentLeftIndex());
+        Service::appendRow(subjectsModel, leftClickedLeftIndex, { Service::createSubjectItem("新建学科") });
+        ui->subjectsTreeView->expand(leftClickedLeftIndex);
     });
 
     // 删除操作
@@ -177,7 +214,7 @@ void KpEditor::createSubjectsContextMenu() {
         QString name = currentLeftIndex().data().toString();
         int rowCount = subjectsModel->itemFromIndex(currentLeftIndex())->rowCount();
 
-        if (kpService->isPhaseIndex(currentLeftIndex())) {
+        if (Service::isPhaseIndex(currentLeftIndex())) {
             // 删除阶段
             // 阶段下还有学科时不能被删除
             if (rowCount > 0) {
@@ -188,7 +225,7 @@ void KpEditor::createSubjectsContextMenu() {
             if (MessageBox::confirm(QString("确定要删除阶段 <font color='darkred'>%1</font> 吗?").arg(name))) {
                 subjectsModel->removeRow(currentLeftIndex().row(), currentLeftIndex().parent());
             }
-        } else if (kpService->isSubjectIndex(currentLeftIndex())) {
+        } else if (Service::isSubjectIndex(currentLeftIndex())) {
             // 删除学科
             if (MessageBox::confirm(QString("确定要删除学科 <font color='darkred'>%1</font> 吗?").arg(name))) {
                 // 删除此学科的知识点文件
@@ -217,9 +254,10 @@ void KpEditor::createSubjectsContextMenu() {
 
 // 创建中间知识点右键菜单
 void KpEditor::createKpsContextMenu() {
-    QAction *createAction   = new QAction("创建知识点", this);
-    QAction *insertAction   = new QAction("插入知识点", this);
-    QAction *deleteAction   = new QAction("删除知识点", this);
+    QAction *appendChildKpAction = new QAction("添加子知识点", this);
+    QAction *insertBeforeAction  = new QAction("插入前一知识点", this);
+    QAction *insertAfterAction   = new QAction("插入后一知识点", this);
+    QAction *deleteAction   = new QAction("删除", this);
     QAction *expandAction   = new QAction("全部展开", this);
     QAction *collapseAction = new QAction("全部收拢", this);
 
@@ -227,17 +265,19 @@ void KpEditor::createKpsContextMenu() {
 
     // 右键点击左侧学科树节点，弹出右键菜单
     connect(ui->kpsTreeView, &QWidget::customContextMenuRequested, [=]() {
-        if (!kpService->isSubjectIndex(currentLeftIndex())) {
+        if (!Service::isSubjectIndex(currentLeftIndex())) {
             return;
         }
 
         QMenu menu;
-        QModelIndex index = UiUtil::indexAt(ui->kpsTreeView, QCursor::pos());
+        rightClickedKpIndex = UiUtil::indexAt(ui->kpsTreeView, QCursor::pos());
 
-        menu.addAction(createAction);
+        menu.addAction(appendChildKpAction);
 
-        if (index.isValid()) {
-            menu.addAction(insertAction);
+        if (rightClickedKpIndex.isValid()) {
+            menu.addSeparator();
+            menu.addAction(insertBeforeAction);
+            menu.addAction(insertAfterAction);
             menu.addSeparator();
             menu.addAction(deleteAction);
         }
@@ -249,75 +289,29 @@ void KpEditor::createKpsContextMenu() {
         menu.exec(QCursor::pos());
     });
 
-    // 创建新的知识点
-    connect(createAction, &QAction::triggered, [this] {
-        if (!kpService->isSubjectIndex(currentLeftIndex())) {
-            MessageBox::message("请先选中学科，然后再创建知识点");
-            return;
-        }
-
-        // 新知识点的 code 为: (parent 的 code) + (parent 的知识点数+1)
-        QList<QStandardItem*> childColumns;
-        QModelIndex index = UiUtil::indexAt(ui->kpsTreeView, QCursor::pos()); // 被点击的节点
-
-        if (!index.isValid()) {
-            // 右键点击空白处创建第一级的知识点
-            int rowCount = kpsModel->rowCount() + 1;
-            QString childCode = QString("%1").arg(rowCount, 2, 10, QChar('0'));
-
-            childColumns << new QStandardItem("新建知识点") << new QStandardItem(childCode);
-            kpsModel->appendRow(childColumns);
-        } else {
-            // 右键点击知识点名字或者编码创建子知识点
-            QModelIndex kpIndex = currentKpIndex();
-            QModelIndex nameIndex = kpsModel->index(kpIndex.row(), 0, kpIndex.parent());
-            QModelIndex codeIndex = kpsModel->index(kpIndex.row(), 1, kpIndex.parent());
-
-            int rowCount = kpsModel->rowCount(nameIndex) + 1;
-            QString parentCode = codeIndex.data().toString();
-            QString childCode = QString("%1%2").arg(parentCode).arg(rowCount, 2, 10, QChar('0'));
-
-            childColumns << new QStandardItem("新建知识点") << new QStandardItem(childCode);
-            kpsModel->itemFromIndex(nameIndex)->appendRow(childColumns);
-
-            ui->kpsTreeView->expand(nameIndex);
-        }
+    // 添加子知识点
+    connect(appendChildKpAction, &QAction::triggered, [this] {
+        kpService->appendChildKp(rightClickedKpIndex);
+        ui->kpsTreeView->expand(rightClickedKpIndex);
     });
 
-    // 插入知识点
-    connect(insertAction, &QAction::triggered, [this] {
-        QList<QStandardItem*> childColumns;
+    // 插入前一知识点
+    connect(insertBeforeAction, &QAction::triggered, [this] {
+        kpService->insertKp(rightClickedKpIndex, true);
+        ui->kpsTreeView->expand(rightClickedKpIndex);
+    });
 
-        // 右键点击知识点名字或者编码创建子知识点
-        QModelIndex kpIndex = currentKpIndex();
-
-        if (kpIndex.parent().isValid()) {
-            // 在节点前插入节点
-            QModelIndex nameIndex = kpsModel->index(kpIndex.row(), 0, kpIndex.parent());
-            QModelIndex parentNameIndex = nameIndex.parent();
-            QModelIndex parentCodeIndex = kpsModel->index(parentNameIndex.row(), 1, parentNameIndex.parent());
-
-            int rowCount = kpsModel->rowCount(parentNameIndex) + 1;
-            QString parentCode = parentCodeIndex.data().toString();
-            QString childCode = QString("%1%2").arg(parentCode).arg(rowCount, 2, 10, QChar('0'));
-
-            childColumns << new QStandardItem("新建知识点") << new QStandardItem(childCode);
-            kpsModel->itemFromIndex(parentNameIndex)->insertRow(nameIndex.row(), childColumns);
-        } else {
-            // 插入第一级的知识点
-            int rowCount = kpsModel->rowCount() + 1;
-            QString childCode = QString("%1").arg(rowCount, 2, 10, QChar('0'));
-
-            childColumns << new QStandardItem("新建知识点") << new QStandardItem(childCode);
-            kpsModel->insertRow(kpIndex.row(), childColumns);
-        }
+    // 插入后一知识点
+    connect(insertAfterAction, &QAction::triggered, [this] {
+        kpService->insertKp(rightClickedKpIndex, false);
+        ui->kpsTreeView->expand(rightClickedKpIndex);
     });
 
     // 删除知识点
     connect(deleteAction, &QAction::triggered, [this] {
-        if (!currentKpIndex().isValid()) { return; }
+        if (!rightClickedKpIndex.isValid()) { return; }
 
-        QModelIndex nameIndex = kpsModel->index(currentKpIndex().row(), 0, currentKpIndex().parent());
+        QModelIndex nameIndex = kpsModel->index(rightClickedKpIndex.row(), 0, rightClickedKpIndex.parent());
         QString name = nameIndex.data().toString();
 
         // 如果有子知识点，不让删除，避免误删除
@@ -383,7 +377,7 @@ bool KpEditor::validate() const {
     //    2.4 学科编码不能重复使用
     //    2.5 知识点编码不能在当前学科中重复使用
 
-    if (!kpService->isSubjectIndex(currentLeftIndex())) {
+    if (!Service::isSubjectIndex(currentLeftIndex())) {
         // [1] 没选择学科则只校验学科结构
         QString error;
         bool ok = kpService->validateSubjects(currentLeftIndex(), ui->kpCodeEdit->text().trimmed(), &error);
@@ -461,7 +455,7 @@ void KpEditor::save() {
     // [1] 验证不通过不进行保存
     if (!validate()) { return; }
 
-    if (kpService->isSubjectIndex(currentLeftIndex())) {
+    if (Service::isSubjectIndex(currentLeftIndex())) {
         // [3] 选择了学科，则要保存学科结构以及它的知识点
         QString subjectName = ui->kpSubjectEdit->text().trimmed();
         QString subjectCode = ui->kpCodeEdit->text().trimmed();

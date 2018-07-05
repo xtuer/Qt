@@ -2,7 +2,7 @@ QWidget {
     font-family: "云书法手书罗西硬笔行楷";
 }
 
-.CentralWidget, .CentralWidget2 {
+.CentralWidget, .CentralWidget2, .KpEditor {
     background: white;
 }
 
@@ -11,7 +11,7 @@ QWidget {
 }
 
 QLineEdit #previewButton {
-    min-width:  16px; 
+    min-width:  16px;
     max-width:  16px;
     min-height: 16px;
     max-height: 16px;

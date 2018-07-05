@@ -13,9 +13,6 @@ class KpService {
 public:
     KpService(QStandardItemModel *subjectsModel, QStandardItemModel *kpsModel);
 
-    bool isPhaseIndex(const QModelIndex &index) const;   // 判断 index 是否阶段对应的 index
-    bool isSubjectIndex(const QModelIndex &index) const; // 判断 index 是否阶段对应的 index
-
     bool saveSubjects(const QDir &kpsDir);  // 保存学科结构
     void readSubjects(const QString &path); // 读取学科结构到学科树中
 
@@ -40,8 +37,23 @@ public:
      */
     bool validateSubjectKps(QString *error) const;
 
+    /**
+     * 在 parent 节点下增加子知识点
+     *
+     * @param parent
+     */
+    void appendChildKp(const QModelIndex &parent);
+
+    /**
+     * 当 previous 为 true 时在 current 节点前插入知识点，否则在 current 后插入知识点
+     *
+     * @param current
+     * @param previous
+     */
+    void insertKp(const QModelIndex &current, bool previous);
+
 private:
-    QJsonObject createSubjectKpsJson(QStandardItem *kpNameItem, QStandardItem *kpCodeItem); // 创建学科知识点的 JSON
+    QJsonObject createSubjectKpsJson(QStandardItem *nameItem, QStandardItem *codeItem); // 创建学科知识点的 JSON
 
     /**
      * 创建知识点树

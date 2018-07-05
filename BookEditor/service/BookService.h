@@ -25,21 +25,16 @@ public:
      */
     BookService(QStandardItemModel *booksModel, QStandardItemModel *chaptersModel);
 
-    bool isBookIndex(const QModelIndex &index) const;    // 判断 index 是否教材对应的 index
-    bool isPhaseIndex(const QModelIndex &index) const;   // 判断 index 是否阶段对应的 index
-    bool isSubjectIndex(const QModelIndex &index) const; // 判断 index 是否学科对应的 index
-    bool isVersionIndex(const QModelIndex &index) const; // 判断 index 是否版本对应的 index
-
     void readBooks(const QString &path); // 读取教材显示到教材目录树中
     void readChapters(const QString &path); // 读取教材的章节目录
 
-    // 保存教材内容
-    bool saveBook(const QString &bookCode,
-                  const QString &bookSubject,
-                  const QString &bookVersion,
-                  const QString &bookName,
-                  const QString &bookCover,
-                  const QDir &bookDir);
+    // 保存教材章节内容
+    bool saveChapters(const QString &bookCode,
+                      const QString &bookSubject,
+                      const QString &bookVersion,
+                      const QString &bookName,
+                      const QString &bookCover,
+                      const QDir &bookDir);
 
     // 保存教材结构
     bool saveBooks(const QDir &bookDir);
@@ -62,16 +57,44 @@ public:
      */
     bool validateChapters(QString *error) const;
 
+    /**
+     * 当 previous 为 true 时在 current 节点前插入章节，否则在 current 后插入章节
+     *
+     * @param current
+     * @param previous
+     */
+    void insertChapter(const QModelIndex &current, bool previous);
+
+    /**
+     * 在 parent 节点下增加子章节
+     *
+     * @param parent 当前选中的章节的 index
+     */
+    void appendChildChapter(const QModelIndex &parent);
+
+    /**
+     * 在 parent 下增加所属的知识点节点
+     * @param parent
+     */
+    void appendKp(const QModelIndex &parent, const QString &kpName, const QString &kpCode);
+
 private:
     /**
      * 创建教程的章节目录
+     *
      * @param json 教材的 JSON 对象
      * @param currentChapter 当前章节的对象
      * @param parentChapterNameItem 父章节的 item，使用 currentChapter 创建它的子 item
      */
-    void createChapters(const Json &json,
-                        const QJsonObject &currentChapter,
-                        QStandardItem *parentChapterNameItem);
+    void createChapters(const Json &json, const QJsonObject &currentChapter, QStandardItem *parentChapterNameItem);
+
+    /**
+     * 创建章节目录对应的 JSON 对象
+     *
+     * @param chapterNameItem
+     * @param chapterCodeItem
+     * @return
+     */
     QJsonObject createChapterJson(QStandardItem *chapterNameItem, QStandardItem *chapterCodeItem);
 
     QStandardItemModel *booksModel    = 0; // 教材的 model

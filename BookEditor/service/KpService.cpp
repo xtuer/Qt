@@ -1,4 +1,5 @@
 #include "KpService.h"
+#include "Service.h"
 #include "CodeInfoService.h"
 #include "bean/Book.h"
 #include "util/Json.h"
@@ -12,24 +13,6 @@
 
 KpService::KpService(QStandardItemModel *subjectsModel, QStandardItemModel *kpsModel)
     : subjectsModel(subjectsModel), kpsModel(kpsModel) {
-}
-
-// 判断 index 是否阶段对应的 index
-bool KpService::isPhaseIndex(const QModelIndex &index) const {
-    if (!index.isValid()) {
-        return false;
-    }
-
-    return TYPE_PHASE == index.data(ROLE_TYPE).toString();
-}
-
-// 判断 index 是否学科对应的 index
-bool KpService::isSubjectIndex(const QModelIndex &index) const {
-    if (!index.isValid()) {
-        return false;
-    }
-
-    return TYPE_SUBJECT == index.data(ROLE_TYPE).toString();
 }
 
 // 保存学科结构
@@ -187,24 +170,64 @@ bool KpService::validateSubjectKps(QString *error) const {
     return CodeInfoService::validateCodeInfos(&kpsInfo, error);
 }
 
-// 创建学科知识点的 JSON
-QJsonObject KpService::createSubjectKpsJson(QStandardItem *kpNameItem, QStandardItem *kpCodeItem) {
-    if (NULL == kpNameItem || NULL == kpCodeItem) { return QJsonObject(); }
+// 在 parent 节点下增加子知识点
+void KpService::appendChildKp(const QModelIndex &parent) {
+    QString code = Service::generateHierarchicalCode(kpsModel, parent, 1);
+    QList<QStandardItem*> childColumns = Service::createKpItems("新建知识点", code);
 
-    QString kpName = kpNameItem->data(Qt::DisplayRole).toString();
-    QString kpCode = kpCodeItem->data(Qt::DisplayRole).toString();
+    if (parent.isValid()) {
+        kpsModel->itemFromIndex(parent)->appendRow(childColumns);
+    } else {
+        kpsModel->appendRow(childColumns);
+    }
+}
+
+void KpService::insertKp(const QModelIndex &current, bool previous) {
+    // 如果 parent 有效，则插入到 parent 下面
+    // 如果 parent 无效，则说明 current 是第一级节点，插入到 kpsModel 下面
+
+    QModelIndex parent = current.parent();
+    QString code = Service::generateHierarchicalCode(kpsModel, parent, 1);
+    QList<QStandardItem*> childColumns = Service::createKpItems("新建知识点", code);
+    int row = previous ? current.row() : current.row() + 1; // 插入的位置
+
+    if (parent.isValid()) {
+        // 在节点前|后插入知识点
+        kpsModel->itemFromIndex(parent)->insertRow(row, childColumns);
+    } else {
+        // 插入第一级的知识点
+        kpsModel->insertRow(row, childColumns);
+    }
+}
+
+// 创建学科知识点的 JSON
+QJsonObject KpService::createSubjectKpsJson(QStandardItem *nameItem, QStandardItem *codeItem) {
+    if (NULL == nameItem || NULL == codeItem) { return QJsonObject(); }
+
+    QModelIndex nameIndex = kpsModel->indexFromItem(nameItem);
+
+    QString name = nameItem->data(Qt::DisplayRole).toString();
+    QString code = codeItem->data(Qt::DisplayRole).toString();
+    QString cognitionMust = nameIndex.sibling(nameItem->row(), 2).data().toString();
+    QString cognitionOptional = nameIndex.sibling(nameItem->row(), 3).data().toString();
+    QString qualityStudy = nameIndex.sibling(nameItem->row(), 4).data().toString();
+    QString qualityLevel = nameIndex.sibling(nameItem->row(), 5).data().toString();
 
     // 递归遍历子章节
     QJsonArray childrenKps;
-    for (int i = 0; i < kpNameItem->rowCount(); ++i) {
-        QStandardItem *childKpNameItem = kpNameItem->child(i, 0);
-        QStandardItem *childKpCodeItem = kpNameItem->child(i, 1);
-        childrenKps.append(createSubjectKpsJson(childKpNameItem, childKpCodeItem));
+    for (int i = 0; i < nameItem->rowCount(); ++i) {
+        QStandardItem *childNameItem = nameItem->child(i, 0);
+        QStandardItem *childCodeItem = nameItem->child(i, 1);
+        childrenKps.append(createSubjectKpsJson(childNameItem, childCodeItem));
     }
 
     QJsonObject kpJson;
-    kpJson.insert("title", kpName);
-    kpJson.insert("code",  kpCode);
+    kpJson.insert("title", name);
+    kpJson.insert("code",  code);
+    kpJson.insert("cognitionMust",     cognitionMust);     // 认知发展(必修)
+    kpJson.insert("cognitionOptional", cognitionOptional); // 认知发展(选修)
+    kpJson.insert("qualityStudy", qualityStudy); // 学业质量参考(学业考)
+    kpJson.insert("qualityLevel", qualityLevel); // 学业质量参考(等级考)
     kpJson.insert("children", childrenKps);
 
     return kpJson;
@@ -215,19 +238,23 @@ void KpService::createKps(const Json &json, const QJsonObject &currentKp, QStand
     // 注：每个知识点目录都包含 2 列：名字和编码
     QString name = json.getString("title", "", currentKp);
     QString code = json.getString("code", "",  currentKp);
-    QList<QStandardItem*> childColumns;
+    QString cognitionMust     = json.getString("cognitionMust", "", currentKp);     // 认知发展(必修)
+    QString cognitionOptional = json.getString("cognitionOptional", "", currentKp); // 认知发展(选修)
+    QString qualityStudy = json.getString("qualityStudy", "", currentKp); // 学业质量参考(学业考)
+    QString qualityLevel = json.getString("qualityLevel", "", currentKp); // 学业质量参考(等级考)
+
+    QList<QStandardItem*> items = Service::createKpItems(name, code,
+                                                         cognitionMust, cognitionOptional,
+                                                         qualityStudy, qualityLevel);
 
     if (NULL == parentKpNameItem) {
         // parentItem 为 NULL，表示需要创建树的根节点
-        parentKpNameItem = new QStandardItem(name);
-        childColumns << parentKpNameItem << new QStandardItem(code);
-        kpsModel->appendRow(childColumns);
+        kpsModel->appendRow(items);
+        parentKpNameItem = items.at(0);
     } else {
         // parentItem 不为 NULL，表示创建它的子节点
-        QStandardItem *currentKpNameItem = new QStandardItem(name);
-        childColumns << currentKpNameItem << new QStandardItem(code);
-        parentKpNameItem->appendRow(childColumns);
-        parentKpNameItem = currentKpNameItem;
+        parentKpNameItem->appendRow(items);
+        parentKpNameItem = items.at(0);
     }
 
     // 子知识点

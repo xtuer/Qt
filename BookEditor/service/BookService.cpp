@@ -1,5 +1,6 @@
 #include "BookService.h"
 #include "CodeInfoService.h"
+#include "Service.h"
 #include "bean/Book.h"
 #include "util/Json.h"
 #include "util/Util.h"
@@ -11,42 +12,6 @@
  */
 BookService::BookService(QStandardItemModel *booksModel, QStandardItemModel *chaptersModel)
     : booksModel(booksModel), chaptersModel(chaptersModel) {
-}
-
-// 判断 index 是否教材对应的 index
-bool BookService::isBookIndex(const QModelIndex &index) const {
-    if (!index.isValid()) {
-        return false;
-    }
-
-    return TYPE_BOOK == index.data(ROLE_TYPE).toString();
-}
-
-// 判断 index 是否阶段对应的 index
-bool BookService::isPhaseIndex(const QModelIndex &index) const {
-    if (!index.isValid()) {
-        return false;
-    }
-
-    return TYPE_PHASE == index.data(ROLE_TYPE).toString();
-}
-
-// 判断 index 是否学科对应的 index
-bool BookService::isSubjectIndex(const QModelIndex &index) const {
-    if (!index.isValid()) {
-        return false;
-    }
-
-    return TYPE_SUBJECT == index.data(ROLE_TYPE).toString();
-}
-
-// 判断 index 是否版本对应的 index
-bool BookService::isVersionIndex(const QModelIndex &index) const {
-    if (!index.isValid()) {
-        return false;
-    }
-
-    return TYPE_VERSION == index.data(ROLE_TYPE).toString();
 }
 
 // 读取教材显示到左侧的教材目录树中
@@ -125,28 +90,26 @@ void BookService::readChapters(const QString &path) {
 
 /**
  * 创建教程的章节目录
+ *
  * @param json 教材的 JSON 对象
  * @param currentChapter 当前章节的对象
  * @param parentChapterNameItem 父章节的 item，使用 currentChapter 创建它的子 item
  */
-void BookService::createChapters(const Json &json,
-                                 const QJsonObject &currentChapter,
-                                 QStandardItem *parentChapterNameItem) {
+void BookService::createChapters(const Json &json, const QJsonObject &currentChapter, QStandardItem *parentChapterNameItem) {
     // 注：每个章节目录都包含 2 列：名字和编码
     QString name = json.getString("title", "", currentChapter);
     QString code = json.getString("code", "", currentChapter);
-    QList<QStandardItem*> childColumns;
+    QString kpCode = json.getString("kpCode", "", currentChapter);
 
     if (NULL == parentChapterNameItem) {
         // parentItem 为 NULL，表示需要创建树的根节点
         parentChapterNameItem = new QStandardItem(name);
-        childColumns << parentChapterNameItem << new QStandardItem(code);
-        chaptersModel->appendRow(childColumns);
+        chaptersModel->appendRow({ parentChapterNameItem, new QStandardItem(code) });
     } else {
         // parentItem 不为 NULL，表示创建它的子节点
-        QStandardItem *currentChapterNameItem = new QStandardItem(name);
-        childColumns << currentChapterNameItem << new QStandardItem(code);
-        parentChapterNameItem->appendRow(childColumns);
+        // 如果 kpCode 不为空，则说明此节点是知识点的节点，需要特殊处理
+        QStandardItem *currentChapterNameItem = kpCode.isEmpty() ? new QStandardItem(name) : Service::createKpItem(name, kpCode);
+        parentChapterNameItem->appendRow({ currentChapterNameItem, new QStandardItem(code) });
         parentChapterNameItem = currentChapterNameItem;
     }
 
@@ -246,7 +209,47 @@ bool BookService::validateChapters(QString *error) const {
     return CodeInfoService::validateCodeInfos(&chaptersInfo, error);
 }
 
-bool BookService::saveBook(const QString &bookCode,
+// 当 previous 为 true 时在 current 节点前插入章节，否则在 current 后插入章节
+void BookService::insertChapter(const QModelIndex &current, bool previous) {
+    // 如果 parent 有效，则插入到 parent 下面
+    // 如果 parent 无效，则说明 current 是第一级节点，插入到 chaptersModel 下面
+
+    QModelIndex parent = current.parent();
+    QString code = Service::generateHierarchicalCode(chaptersModel, parent, 1);
+    QList<QStandardItem*> childColumns = { new QStandardItem("新建章节"), new QStandardItem(code) };
+    int row = previous ? current.row() : current.row() + 1; // 插入的位置
+
+    if (parent.isValid()) {
+        // 在节点前|后插入章节
+        chaptersModel->itemFromIndex(parent)->insertRow(row, childColumns);
+    } else {
+        // 插入第一级的章节
+        chaptersModel->insertRow(row, childColumns);
+    }
+}
+
+// 在 parent 节点下增加子章节
+void BookService::appendChildChapter(const QModelIndex &parent) {
+    QString code = Service::generateHierarchicalCode(chaptersModel, parent, 1);
+    QList<QStandardItem*> childColumns = { new QStandardItem("新建章节"), new QStandardItem(code) };
+
+    if (parent.isValid()) {
+        chaptersModel->itemFromIndex(parent)->appendRow(childColumns);
+    } else {
+        chaptersModel->appendRow(childColumns);
+    }
+}
+
+// 在 parent 下增加所属的知识点节点
+void BookService::appendKp(const QModelIndex &parent, const QString &kpName, const QString &kpCode) {
+    if (!parent.isValid()) { return; }
+
+    QString code = Service::generateHierarchicalCode(chaptersModel, parent, 1);
+    chaptersModel->itemFromIndex(parent)->appendRow({ Service::createKpItem(kpName, kpCode), new QStandardItem(code) });
+}
+
+// 保存教材章节内容
+bool BookService::saveChapters(const QString &bookCode,
                            const QString &bookSubject,
                            const QString &bookVersion,
                            const QString &bookName,
@@ -264,7 +267,7 @@ bool BookService::saveBook(const QString &bookCode,
     book.insert("code",     bookCode);
     book.insert("subject",  bookSubject);
     book.insert("version",  bookVersion);
-    book.insert("title",     bookName);
+    book.insert("title",    bookName);
     book.insert("cover",    bookCover);
     book.insert("chapters", chaptersJson);
 
@@ -351,6 +354,13 @@ QJsonObject BookService::createChapterJson(QStandardItem *chapterNameItem, QStan
     chapterJson.insert("title", chapterName);
     chapterJson.insert("code", chapterCode);
     chapterJson.insert("children", childrenChapters);
+
+    // 如果是知识点则保持对应的信息
+    QModelIndex kpIndex = chaptersModel->indexFromItem(chapterNameItem);
+    if (Service::isKpIndex(kpIndex)) {
+        QString kpCode = kpIndex.data(ROLE_CODE).toString();
+        chapterJson.insert("kpCode", kpCode);
+    }
 
     return chapterJson;
 }

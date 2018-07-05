@@ -19,8 +19,11 @@ class KpEditor : public QWidget {
     Q_OBJECT
 
 public:
-    explicit KpEditor(QWidget *parent = 0);
+    explicit KpEditor(bool readOnly = false, QWidget *parent = 0);
     ~KpEditor();
+
+    bool isOkButtonClickedInReadOnlyMode() const; // 只读模式时点击了 Ok 按钮
+    QStringList getSelectedKp() const; // 第 0 个字符串为知识点名字，第 2 个字符串为知识点编码
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
@@ -43,6 +46,11 @@ private:
     Ui::KpEditor *ui;
     QStandardItemModel *subjectsModel = NULL; // 学科的 model
     QStandardItemModel *kpsModel      = NULL; // 知识点 model
+    QModelIndex leftClickedLeftIndex; // 右键点击的左边 index
+    QModelIndex rightClickedKpIndex;  // 右键点击知识点 index
+
+    bool readOnly = false; // 只读
+    bool okButtonClickedInReadOnlyMode = false; // 只读模式时点击了 Ok 按钮
     KpService *kpService = NULL;
     QDir kpsDir; // 教材所在文件夹
 };

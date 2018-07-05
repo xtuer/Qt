@@ -44,6 +44,8 @@ private:
     Ui::BookEditor     *ui = NULL;
     QStandardItemModel *booksModel    = NULL; // 教材的 model
     QStandardItemModel *chaptersModel = NULL; // 章节的 model
+    QModelIndex leftClickedLeftIndex;     // 右键点击的左边 index
+    QModelIndex rightClickedChapterIndex; // 右键点击的章节 index
 
     QPushButton *previewButton = NULL; // 预览封面按钮
     BookService *bookService   = NULL;

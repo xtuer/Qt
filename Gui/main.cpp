@@ -9,5 +9,7 @@ int main(int argc, char *argv[]) {
     Form form;
     form.show();
 
+    app.setStyleSheet("#pushButton { background: blue; color: white; }");
+
     return app.exec();
 }

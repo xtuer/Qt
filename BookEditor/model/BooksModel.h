@@ -9,6 +9,7 @@
 class BooksModel : public QStandardItemModel {
 public:
     BooksModel(QObject *parent = 0);
+
     bool canDropMimeData(const QMimeData *data, Qt::DropAction action,
                          int row, int column,
                          const QModelIndex &parent) const override;
