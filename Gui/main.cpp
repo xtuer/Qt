@@ -2,14 +2,12 @@
 #include <QDebug>
 #include <QModelIndexList>
 #include "Form.h"
+#include <QDir>
+#include <QFile>
 
 int main(int argc, char *argv[]) {
-    QApplication app(argc, argv);
+    qDebug() << QFile::symLinkTarget("justica");
+    qDebug() << QFile::symLinkTarget("foo");
 
-    Form form;
-    form.show();
-
-    app.setStyleSheet("#pushButton { background: blue; color: white; }");
-
-    return app.exec();
+    return 0;
 }

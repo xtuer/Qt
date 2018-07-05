@@ -75,7 +75,17 @@
     qproperty-icon: url(image/sidebar/help.png);
 }
 
-.CentralWidget2, .CentralWidget2 .SideBarWidget {
+.CentralWidget2 {
+	border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+	border-top-right-radius: 4px;
+}
+
+.KpEditor {
+	border-top-right-radius: 4px;
+}
+
+.CentralWidget2 .SideBarWidget {
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
 }

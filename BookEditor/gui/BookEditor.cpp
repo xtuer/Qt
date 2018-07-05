@@ -26,6 +26,7 @@
 #include <algorithm>
 #include <QRegularExpressionValidator>
 #include <QTimer>
+#include <QVBoxLayout>
 
 BookEditor::BookEditor(QWidget *parent) : QWidget(parent), ui(new Ui::BookEditor) {
     initialize();
@@ -394,13 +395,25 @@ void BookEditor::createChaptersContextMenu() {
 
     // 添加知识点
     connect(appendKpAction, &QAction::triggered, [this] {
-//        bookService->appendKp(rightClickedChapterIndex, "阿斯顿马丁", "abcd");
+        // 把 kpEditor 放在一个 widget 中，设置 widget 的背景色为白色
         KpEditor *kpEditor = new KpEditor(true);
-        TopWindow dialog(kpEditor);
+
+        QVBoxLayout *layout = new QVBoxLayout();
+        layout->addWidget(kpEditor);
+
+        QWidget *centralWidget = new QWidget();
+        centralWidget->setObjectName("kpEditorHolder");
+        centralWidget->setStyleSheet("#kpEditorHolder { background: white; }");
+        centralWidget->setLayout(layout);
+        UiUtil::setWidgetPaddingAndSpacing(centralWidget, 0, 0);
+
+        // 显示模态弹出窗口
+        TopWindow dialog(centralWidget);
         dialog.setTitleBarButtonsVisible(false, false, true);
         dialog.resize(800, 600);
         dialog.showModal();
 
+        // 点击 KpEditor 的确定按钮时获取选中的知识点
         if (kpEditor->isOkButtonClickedInReadOnlyMode()) {
             QStringList kp = kpEditor->getSelectedKp();
 
