@@ -150,10 +150,18 @@ void KpEditor::handleEvents() {
         openSubjects();
     });
 
-    connect(ui->okButton, &QPushButton::clicked, [this] {
-        okButtonClickedInReadOnlyMode = true;
-        UiUtil::findWindow(this)->close();
-    });
+    if (readOnly) {
+        connect(ui->okButton, &QPushButton::clicked, [this] {
+            okButtonClickedInReadOnlyMode = true;
+            UiUtil::findWindow(this)->close();
+        });
+
+        connect(ui->kpsTreeView, &QTreeView::doubleClicked, [this] (const QModelIndex &index) {
+            if (index.isValid()) {
+                ui->okButton->click();
+            }
+        });
+    }
 }
 
 // 创建左侧学科的右键菜单
