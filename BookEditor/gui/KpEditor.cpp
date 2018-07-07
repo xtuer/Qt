@@ -14,6 +14,8 @@
 #include <QMenu>
 #include <QAction>
 #include <QPushButton>
+#include <QTreeView>
+#include <QHeaderView>
 #include <QShortcut>
 #include <QStandardItemModel>
 
@@ -96,12 +98,14 @@ void KpEditor::initialize() {
 
     // 知识点的树
     kpsModel = new QStandardItemModel(this);
-    kpsModel->setHorizontalHeaderLabels({ "知识点", "编码", "认知发展(必修)", "认知发展(选修)", "学业质量参考(学业考)", "学业质量参考(等级考)" });
+    kpsModel->setHorizontalHeaderLabels({ "知识点", "编码", "认知发展(必修)", "认知发展(选择性必修)", "学业质量参考(学业考)", "学业质量参考(等级考)" });
     ui->kpsTreeView->setModel(kpsModel);
     ui->kpsTreeView->hideColumn(1);
     ui->kpsTreeView->header()->setSectionsMovable(false);
 //    ui->kpsTreeView->header()->setSectionResizeMode(QHeaderView::ResizeMode::Fixed);
     ui->kpsTreeView->setColumnWidth(0, 300);
+    ui->kpsTreeView->setColumnWidth(2, 150);
+    ui->kpsTreeView->setColumnWidth(3, 150);
     ui->kpsTreeView->setColumnWidth(4, 150);
     ui->kpsTreeView->setColumnWidth(5, 150);
 
