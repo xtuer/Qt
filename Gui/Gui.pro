@@ -46,7 +46,8 @@ SOURCES += \
     RegionModel.cpp \
     Permission.cpp \
     Scatter.cpp \
-    ScatterMap.cpp
+    ScatterMap.cpp \
+    Json.cpp
 
 FORMS += \
     ImageWidget.ui \
@@ -73,5 +74,6 @@ HEADERS += \
     RegionModel.h \
     Permission.h \
     Scatter.h \
-    ScatterMap.h
+    ScatterMap.h \
+    Json.h
 

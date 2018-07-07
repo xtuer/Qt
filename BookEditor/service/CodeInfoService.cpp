@@ -77,6 +77,10 @@ bool CodeInfoService::validateCodeInfos(QList<CodeInfo> *codeInfos, QString *err
 void CodeInfoService::travelCodeInfoModel(QStandardItem *nameItem, QStandardItem *codeItem, QList<CodeInfo> *codeInfos) {
     if (NULL == nameItem || NULL == codeItem) { return; }
 
+    // 如果是章节中的知识点或者是知识点中的章节，则不参与校验
+    QString type = nameItem->data(ROLE_TYPE).toString();
+    if (TYPE_KP == type || TYPE_CHAPTER == type) { return; }
+
     QString name = nameItem->data(Qt::DisplayRole).toString();
     QString code = codeItem->data(Qt::DisplayRole).toString();
     codeInfos->append(CodeInfo(code, name));

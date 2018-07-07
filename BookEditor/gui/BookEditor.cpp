@@ -63,7 +63,7 @@ void BookEditor::initialize() {
 
     // 左侧教材的树
     booksModel = new BooksModel(this);
-    booksModel->setHorizontalHeaderLabels(QStringList() << "教材 (阶段 > 学科 > 版本)");
+    booksModel->setHorizontalHeaderLabels(QStringList() << "学段 > 学科 > 版本 > 教材");
     ui->booksTreeView->setModel(booksModel);
 
     // 教材章节目录的树
@@ -308,7 +308,7 @@ void BookEditor::createBooksContextMenu() {
             if (MessageBox::confirm(QString("确定要删除版本 <font color='darkred'>%1</font> 吗?").arg(name))) {
                 // 删除此教材的章节文件
                 QString bookCode = current.data(ROLE_CODE).toString().trimmed();
-                QFile::remove(booksDir.filePath(bookCode + ".json"));
+                QFile::remove(Service::chapterFilePath(booksDir, bookCode));
 
                 // 从树中删除学教材点
                 booksModel->removeRow(current.row(), current.parent());
@@ -420,7 +420,8 @@ void BookEditor::createChaptersContextMenu() {
             if (!kp.isEmpty()) {
                 QString name = kp.value(0);
                 QString code = kp.value(1);
-                bookService->appendKp(rightClickedChapterIndex, name, code);
+                QString subjectCode = kp.value(2);
+                bookService->appendKpOfChapter(rightClickedChapterIndex, name, code, subjectCode);
             }
         }
     });
@@ -453,14 +454,14 @@ void BookEditor::createChaptersContextMenu() {
 
 // 打开教材内容显示到右边
 void BookEditor::openBook(const QString &bookCode) {
-    QFileInfo chapterFileInfo(booksDir, bookCode + ".json"); // 教材文件信息
+    QFileInfo chapterFileInfo(Service::chapterFilePath(booksDir, bookCode)); // 教材文件信息
 
     if (chapterFileInfo.exists()) {
         bookService->readChapters(chapterFileInfo.absoluteFilePath());
         ui->chaptersTreeView->expandAll();
     } else if (!bookCode.isEmpty()) {
         // 文件不存在且教材编码为空
-        MessageBox::message(QString("文件 books/%1.json 不存在").arg(bookCode));
+        MessageBox::message(QString("文件 books/%1 不存在").arg(chapterFileInfo.fileName()));
     }
 }
 
@@ -609,7 +610,7 @@ void BookEditor::save() {
 
         // [3.2] 删除旧的教材文件 ${oldBookCode}.json
         if (oldBookCode != bookCode) {
-            QFile::remove(booksDir.filePath(oldBookCode + ".json"));
+            QFile::remove(Service::chapterFilePath(booksDir, oldBookCode));
         }
 
         // [3.3] 保存教材结构到 books.json

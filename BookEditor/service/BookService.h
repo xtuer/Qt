@@ -73,10 +73,10 @@ public:
     void appendChildChapter(const QModelIndex &parent);
 
     /**
-     * 在 parent 下增加所属的知识点节点
+     * 在 parent 下增加章节所属的知识点节点
      * @param parent
      */
-    void appendKp(const QModelIndex &parent, const QString &kpName, const QString &kpCode);
+    void appendKpOfChapter(const QModelIndex &parent, const QString &kpName, const QString &kpCode, const QString &kpSubjectCode);
 
 private:
     /**
@@ -86,7 +86,7 @@ private:
      * @param currentChapter 当前章节的对象
      * @param parentChapterNameItem 父章节的 item，使用 currentChapter 创建它的子 item
      */
-    void createChapters(const Json &json, const QJsonObject &currentChapter, QStandardItem *parentChapterNameItem);
+    void createChapterItems(const Json &json, const QJsonObject &currentChapter, QStandardItem *parentChapterNameItem);
 
     /**
      * 创建章节目录对应的 JSON 对象

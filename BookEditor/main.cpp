@@ -7,6 +7,7 @@
 
 #include <QApplication>
 #include <QTextCodec>
+#include <QDebug>
 
 static void initialize(); // 程序启动时进行初始化
 static void finalize();   // 程序结束时清理工作

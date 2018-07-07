@@ -14,10 +14,9 @@ public:
     KpService(QStandardItemModel *subjectsModel, QStandardItemModel *kpsModel);
 
     bool saveSubjects(const QDir &kpsDir);  // 保存学科结构
-    void readSubjects(const QString &path); // 读取学科结构到学科树中
-
     bool saveSubjectKps(const QString &subjectName, const QString &subjectCode, const QDir &kpsDir); // 保存学科的知识点
-    void readSubjectKps(const QString &path); // 读取知识点到知识点树中
+    void readSubjects(const QString &path); // 读取学科结构到学科树中
+    void readSubjectKps(const QString &path, bool withChapter); // 读取知识点到知识点树中
 
     /**
      * 如果学科的编码都是唯一的，则验证通过返回 true，如果编码被重复使用验证不通过返回 false
@@ -61,8 +60,9 @@ private:
      * @param json 知识点的 JSON 对象
      * @param currentKp 当前知识点
      * @param parentKpNameItem 父知识点的 item，使用 currentKp 创建它的子 item
+     * @param withChapter 为 true 时才显示知识点的章节
      */
-    void createKps(const Json &json, const QJsonObject &currentKp, QStandardItem *parentKpNameItem);
+    void createKpItems(const Json &json, const QJsonObject &currentKp, QStandardItem *parentKpNameItem, bool withChapter);
 
     QStandardItemModel *subjectsModel = 0; // 学科的 model
     QStandardItemModel *kpsModel      = 0; // 知识点 model

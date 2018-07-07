@@ -22,8 +22,18 @@ public:
     explicit KpEditor(bool readOnly = false, QWidget *parent = 0);
     ~KpEditor();
 
-    bool isOkButtonClickedInReadOnlyMode() const; // 只读模式时点击了 Ok 按钮
-    QStringList getSelectedKp() const; // 第 0 个字符串为知识点名字，第 2 个字符串为知识点编码
+    // 只读模式时点击了 Ok 按钮
+    bool isOkButtonClickedInReadOnlyMode() const;
+
+    /**
+     * 获取选中的知识点信息，放在一个 QStringList 中
+     * 0: 知识点名字
+     * 1: 知识点编码
+     * 2: 知识点所属学科编码
+     *
+     * @return 返回知识点信息的列表
+     */
+    QStringList getSelectedKp() const;
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;

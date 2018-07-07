@@ -39,47 +39,41 @@ QString Service::generateHierarchicalCode(QStandardItemModel *model, const QMode
 
 // 判断 index 是否教材对应的 index
 bool Service::isBookIndex(const QModelIndex &index) {
-    if (!index.isValid()) {
-        return false;
-    }
-
-    return TYPE_BOOK == index.data(ROLE_TYPE).toString();
+    return isIndexOfType(index, TYPE_BOOK);
 }
 
 // 判断 index 是否阶段对应的 index
 bool Service::isPhaseIndex(const QModelIndex &index) {
-    if (!index.isValid()) {
-        return false;
-    }
-
-    return TYPE_PHASE == index.data(ROLE_TYPE).toString();
+    return isIndexOfType(index, TYPE_PHASE);
 }
 
 // 判断 index 是否学科对应的 index
 bool Service::isSubjectIndex(const QModelIndex &index) {
-    if (!index.isValid()) {
-        return false;
-    }
-
-    return TYPE_SUBJECT == index.data(ROLE_TYPE).toString();
+    return isIndexOfType(index, TYPE_SUBJECT);
 }
 
 // 判断 index 是否版本对应的 index
 bool Service::isVersionIndex(const QModelIndex &index) {
-    if (!index.isValid()) {
-        return false;
-    }
-
-    return TYPE_VERSION == index.data(ROLE_TYPE).toString();
+    return isIndexOfType(index, TYPE_VERSION);
 }
 
 // 判断 index 是否知识点对应的 index
 bool Service::isKpIndex(const QModelIndex &index) {
+    return isIndexOfType(index, TYPE_KP);
+}
+
+// 判断 index 是否章节对应的 index
+bool Service::isChapterIndex(const QModelIndex &index) {
+    return isIndexOfType(index, TYPE_CHAPTER);
+}
+
+// 判断 index 是否 type 指定的类型
+bool Service::isIndexOfType(const QModelIndex &index, const QString &type) {
     if (!index.isValid()) {
         return false;
     }
 
-    return TYPE_KP == index.data(ROLE_TYPE).toString();
+    return type == index.data(ROLE_TYPE).toString();
 }
 
 // 创建阶段的 item
@@ -122,15 +116,45 @@ QStandardItem* Service::createBookItem(const QString &name, const QString &code,
 }
 
 // 创建章节目录中使用的知识点 item
-QStandardItem* Service::createKpItem(const QString &name, const QString &code) {
+QList<QStandardItem *> Service::createKpItemForChapter(const QString &name, const QString &code, const QString &subjectCode) {
     // 知识点的 item: 有图标、不可编辑
-    QStandardItem *item = new QStandardItem(name);
-    item->setData(TYPE_KP, ROLE_TYPE);
-    item->setData(code,    ROLE_CODE);
-    item->setIcon(QIcon("image/common/kp.png"));
-    item->setEditable(false);
+    QStandardItem *nameItem = new QStandardItem(name);
+    nameItem->setData(TYPE_KP,     ROLE_TYPE);
+    nameItem->setData(code,        ROLE_CODE);
+    nameItem->setData(subjectCode, ROLE_CODE_EXT);
+    nameItem->setIcon(QIcon("image/common/kp.png"));
+    nameItem->setEditable(false);
 
-    return item;
+    QStandardItem *codeItem = new QStandardItem();
+    codeItem->setEditable(false);
+
+    return { nameItem, codeItem };
+}
+
+// 创建知识点树中使用的章节目录 item
+QList<QStandardItem *> Service::createChapterItemsForKp(const QString &name, const QString &code, const QString &bookCode) {
+    // 章节目录的 item: 有图标、不可编辑
+    QStandardItem *nameItem = new QStandardItem(name);
+    nameItem->setData(TYPE_CHAPTER, ROLE_TYPE);
+    nameItem->setData(code,         ROLE_CODE);
+    nameItem->setData(bookCode,     ROLE_CODE_EXT);
+    nameItem->setIcon(QIcon("image/common/chapter.png"));
+    nameItem->setToolTip(QString("教材编码: %1，章节: %2").arg(bookCode).arg(name));
+
+    QStandardItem *codeItem = new QStandardItem();
+    QStandardItem *cognitionMustItem = new QStandardItem();
+    QStandardItem *cognitionOptionalItem = new QStandardItem();
+    QStandardItem *qualityStudyItem = new QStandardItem();
+    QStandardItem *qualityLevelItem = new QStandardItem();
+
+    nameItem->setEditable(false);
+    codeItem->setEditable(false);
+    cognitionMustItem->setEditable(false);
+    cognitionOptionalItem->setEditable(false);
+    qualityStudyItem->setEditable(false);
+    qualityLevelItem->setEditable(false);
+
+    return { nameItem, codeItem, cognitionMustItem, cognitionOptionalItem, qualityStudyItem, qualityLevelItem };
 }
 
 // 创建知识点表中一个知识点对应一行的多个 items
@@ -155,4 +179,14 @@ void Service::appendRow(QStandardItemModel *model, const QModelIndex &parent, co
     } else {
         model->appendRow(items);
     }
+}
+
+// 教材章节的文件路径
+QString Service::chapterFilePath(const QDir &bookDir, const QString &bookCode) {
+    return bookDir.filePath(bookCode + ".json");
+}
+
+// 学科知识点的文件路径
+QString Service::kpFilePath(const QDir &kpDir, const QString &subjectCode) {
+    return kpDir.filePath(subjectCode + ".json");
 }

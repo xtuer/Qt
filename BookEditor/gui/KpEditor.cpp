@@ -5,6 +5,7 @@
 #include "util/UiUtil.h"
 #include "service/Service.h"
 #include "service/KpService.h"
+#include "service/MergeService.h"
 #include "delegate/LineEditDelegate.h"
 
 #include <QDebug>
@@ -13,6 +14,7 @@
 #include <QMenu>
 #include <QAction>
 #include <QPushButton>
+#include <QShortcut>
 #include <QStandardItemModel>
 
 KpEditor::KpEditor(bool readOnly, QWidget *parent) : QWidget(parent), ui(new Ui::KpEditor), readOnly(readOnly) {
@@ -32,16 +34,24 @@ bool KpEditor::isOkButtonClickedInReadOnlyMode() const {
     return okButtonClickedInReadOnlyMode;
 }
 
-// 第 0 个字符串为知识点名字，第 2 个字符串为知识点编码
+/**
+ * 获取选中的知识点信息，放在一个 QStringList 中
+ * 0: 知识点名字
+ * 1: 知识点编码
+ * 2: 知识点所属学科编码
+ *
+ * @return 返回知识点信息的列表
+ */
 QStringList KpEditor::getSelectedKp() const {
     QModelIndex current = UiUtil::getSelectedIndex(ui->kpsTreeView);
 
     if (current.isValid()) {
         QModelIndex parent  = current.parent();
-        QString name = kpsModel->index(current.row(), 0, parent).data().toString();;
-        QString code = kpsModel->index(current.row(), 1, parent).data().toString();;
+        QString name = kpsModel->index(current.row(), 0, parent).data().toString();
+        QString code = kpsModel->index(current.row(), 1, parent).data().toString();
+        QString subjectCode = ui->kpCodeEdit->text().trimmed();
 
-        return { name, ui->kpCodeEdit->text().trimmed() + "::" + code };
+        return { name,  code, subjectCode };
     } else {
         return {};
     }
@@ -81,7 +91,7 @@ void KpEditor::initialize() {
 
     // 左侧学科的树
     subjectsModel = new QStandardItemModel(this);
-    subjectsModel->setHorizontalHeaderLabels({ "学科 (阶段 > 学科)" });
+    subjectsModel->setHorizontalHeaderLabels({ "学段 > 学科" });
     ui->subjectsTreeView->setModel(subjectsModel);
 
     // 知识点的树
@@ -166,6 +176,13 @@ void KpEditor::handleEvents() {
             }
         });
     }
+
+    QShortcut *mergeShortcut = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_K), this);
+    QObject::connect(mergeShortcut, &QShortcut::activated, [] {
+        MergeService ms;
+        Q_UNUSED(ms)
+        MessageBox::message("合并完成");
+    });
 }
 
 // 创建左侧学科的右键菜单
@@ -244,7 +261,7 @@ void KpEditor::createSubjectsContextMenu() {
             if (MessageBox::confirm(QString("确定要删除学科 <font color='darkred'>%1</font> 吗?").arg(name))) {
                 // 删除此学科的知识点文件
                 QString subjectCode = currentLeftIndex().data(ROLE_CODE).toString().trimmed();
-                QFile::remove(kpsDir.filePath(subjectCode + ".json"));
+                QFile::remove(Service::kpFilePath(kpsDir, subjectCode));
 
                 // 从树中删除学科节点
                 subjectsModel->removeRow(currentLeftIndex().row(), currentLeftIndex().parent());
@@ -285,6 +302,11 @@ void KpEditor::createKpsContextMenu() {
 
         QMenu menu;
         rightClickedKpIndex = UiUtil::indexAt(ui->kpsTreeView, QCursor::pos());
+
+        // 知识点的章节节点也不弹出菜单
+        if (Service::isChapterIndex(rightClickedKpIndex)) {
+            return;
+        }
 
         menu.addAction(appendChildKpAction);
 
@@ -370,13 +392,13 @@ void KpEditor::openSubjects() {
 
 // 打开学科的知识点到右侧的知识点树中
 void KpEditor::openSubjectKps(const QString &subjectCode) {
-    QFileInfo kpsFileInfo(kpsDir, subjectCode + ".json");
+    QFileInfo kpsFileInfo(Service::kpFilePath(kpsDir, subjectCode));
 
     if (kpsFileInfo.exists()) {
-        kpService->readSubjectKps(kpsFileInfo.absoluteFilePath());
+        kpService->readSubjectKps(kpsFileInfo.absoluteFilePath(), !readOnly);
         ui->kpsTreeView->expandAll();
     } else if (!subjectCode.isEmpty()) {
-        MessageBox::message(QString("文件 kps/%1.json 不存在").arg(subjectCode));
+        MessageBox::message(QString("文件 kps/%1 不存在").arg(kpsFileInfo.fileName()));
     }
 }
 
@@ -480,7 +502,7 @@ void KpEditor::save() {
 
         // [3.2] 删除旧的知识点文件 ${oldSubJectCode}.json
         if (oldSubJectCode != subjectCode) {
-            QFile::remove(kpsDir.filePath(oldSubJectCode + ".json"));
+            QFile::remove(Service::kpFilePath(kpsDir, oldSubJectCode));
         }
 
         // [3.3] 保存学科结构到 kps.json
