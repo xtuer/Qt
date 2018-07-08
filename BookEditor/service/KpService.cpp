@@ -11,21 +11,21 @@
 #include <QTextStream>
 #include <QStandardItemModel>
 
-KpService::KpService(QStandardItemModel *subjectsModel, QStandardItemModel *kpsModel)
-    : subjectsModel(subjectsModel), kpsModel(kpsModel) {
+KpService::KpService(QStandardItemModel *subjectsModel, QStandardItemModel *kpsModel, const QDir &kpsDir)
+    : kpsDir(kpsDir), subjectsModel(subjectsModel), kpsModel(kpsModel) {
 }
 
 // 保存学科结构
-bool KpService::saveSubjects(const QDir &kpsDir) {
-    QJsonArray phases;
+bool KpService::saveSubjects() {
+    QJsonArray phases; // 学段数组
 
-    // 逐层遍历访问得到教材信息，保存到数组 booksInfo 中
+    // 逐层遍历访问得到学段、学科
     for (int i = 0; i < subjectsModel->rowCount(); ++i) {
-        // 阶段
+        // 学段
         QStandardItem *phaseItem = subjectsModel->item(i, 0);
         QString phaseName = phaseItem->data(Qt::DisplayRole).toString();
 
-        QJsonArray subjects;
+        QJsonArray subjects; // 学科数组
         for (int j = 0; j < phaseItem->rowCount(); ++j) {
             // 学科
             QStandardItem *subjectItem = phaseItem->child(j, 0);
@@ -48,27 +48,33 @@ bool KpService::saveSubjects(const QDir &kpsDir) {
     root.insert("phases", phases);
 
     // 保存到文件
-    return Util::writeStringToFile(QJsonDocument(root).toJson(), kpsDir.filePath("kps.json"));
+    return Util::writeStringToFile(QJsonDocument(root).toJson(), Service::subjectsFilePath(kpsDir));
 }
 
 // 读取学科结构到学科树中
-void KpService::readSubjects(const QString &path) {
-    // 1. 创建教学阶段
-    // 2. 创建每个教学阶段下的学科
-    // *  每个 item 都设定一个 ROLE_TYPE 的类型数据，用于判断显示对应的右键菜单
+void KpService::readSubjects() {
+    QFileInfo info = QFileInfo(Service::subjectsFilePath(kpsDir));
+
+    if (!info.exists()) {
+        return;
+    }
+
+    // 1. 创建学段
+    // 2. 创建每个学段下的学科
+    // 提示: 每个 item 都设定一个 ROLE_TYPE 的类型数据，用于判断显示对应的右键菜单
 
     subjectsModel->removeRows(0, subjectsModel->rowCount());
-    Json json(path, true);
+    Json json(info.absoluteFilePath(), true);
 
     QJsonArray phases = json.getJsonArray("phases");
     for (QJsonArray::const_iterator iter = phases.begin(); iter != phases.end(); ++iter) {
-        // [1] 创建教学阶段的节点
+        // [1] 创建学段的节点
         QJsonObject phase = iter->toObject();
         QString phaseName = json.getString("title", "", phase);
         QStandardItem *phaseItem = Service::createPhaseItem(phaseName);
         subjectsModel->appendRow(phaseItem);
 
-        // [2] 创建教学阶段下的学科
+        // [2] 创建学段下的学科
         QJsonArray subjects = json.getJsonArray("subjects", phase);
         for (QJsonArray::const_iterator siter = subjects.begin(); siter != subjects.end(); ++siter) {
             // 创建学科
@@ -82,7 +88,7 @@ void KpService::readSubjects(const QString &path) {
 }
 
 // 保存学科的知识点
-bool KpService::saveSubjectKps(const QString &subjectName, const QString &subjectCode, const QDir &kpsDir) {
+bool KpService::saveSubjectKps(const QString &subjectName, const QString &subjectCode) {
     QJsonArray kpsJson;
     for (int i = 0; i < kpsModel->rowCount(); ++i) {
         QStandardItem *kpNameItem = kpsModel->item(i, 0);
@@ -97,18 +103,19 @@ bool KpService::saveSubjectKps(const QString &subjectName, const QString &subjec
     subjectKps.insert("kps",  kpsJson);
 
     // 保存到文件
-    return Util::writeStringToFile(QJsonDocument(subjectKps).toJson(), Service::kpFilePath(kpsDir, subjectCode));
+    return Util::writeStringToFile(QJsonDocument(subjectKps).toJson(), Service::subjectKpsFilePath(kpsDir, subjectCode));
 }
 
 // 读取知识点到知识点树中
-void KpService::readSubjectKps(const QString &path, bool withChapter) {
-    QFile file(path);
-    if (!file.exists()) {
+void KpService::readSubjectKps(const QString &subjectCode, bool withChapter) {
+    QFileInfo kpsFileInfo(Service::subjectKpsFilePath(kpsDir, subjectCode));
+
+    if (!kpsFileInfo.exists()) {
         return;
     }
 
     kpsModel->removeRows(0, kpsModel->rowCount());
-    Json json(path, true);
+    Json json(kpsFileInfo.absoluteFilePath(), true);
     QJsonArray kps = json.getJsonArray("kps");
 
     for (QJsonArray::const_iterator iter = kps.begin(); iter != kps.end(); ++iter) {
@@ -205,7 +212,7 @@ QJsonObject KpService::createSubjectKpsJson(QStandardItem *nameItem, QStandardIt
 
     QString name = nameItem->data(Qt::DisplayRole).toString();
     QString code = codeItem->data(Qt::DisplayRole).toString();
-    QString cognitionMust = nameIndex.sibling(nameItem->row(), 2).data().toString();
+    QString cognitionMust     = nameIndex.sibling(nameItem->row(), 2).data().toString();
     QString cognitionOptional = nameIndex.sibling(nameItem->row(), 3).data().toString();
     QString qualityStudy = nameIndex.sibling(nameItem->row(), 4).data().toString();
     QString qualityLevel = nameIndex.sibling(nameItem->row(), 5).data().toString();
@@ -218,7 +225,7 @@ QJsonObject KpService::createSubjectKpsJson(QStandardItem *nameItem, QStandardIt
         childrenKps.append(createSubjectKpsJson(childNameItem, childCodeItem));
     }
 
-    // 所有节点都有 title 和 code，但是不一定有 认知发展(必修)、认知发展(选修)、学业质量参考(学业考)、学业质量参考(等级考)
+    // 所有节点都有 title 和 code，但是不一定有 认知发展(必修)、认知发展(选择性必修)、学业质量参考(学业考)、学业质量参考(等级考)
     QJsonObject kpJson;
     kpJson.insert("title", name);
     kpJson.insert("code",  code);
@@ -239,7 +246,7 @@ QJsonObject KpService::createSubjectKpsJson(QStandardItem *nameItem, QStandardIt
         kpJson.insert("children", childrenKps);
     }
 
-    // 如果是章节则保持对应的信息
+    // 如果是章节则保持它的信息
     QModelIndex chapterIndex = kpsModel->indexFromItem(nameItem);
     if (Service::isChapterIndex(chapterIndex)) {
         QString chapterName = name;

@@ -10,20 +10,26 @@
  * @param booksModel    教材的 model
  * @param chaptersModel 章节的 model
  */
-BookService::BookService(QStandardItemModel *booksModel, QStandardItemModel *chaptersModel)
-    : booksModel(booksModel), chaptersModel(chaptersModel) {
+BookService::BookService(QStandardItemModel *booksModel, QStandardItemModel *chaptersModel, const QDir &booksDir)
+    : booksDir(booksDir), booksModel(booksModel), chaptersModel(chaptersModel) {
 }
 
 // 读取教材显示到左侧的教材目录树中
-void BookService::readBooks(const QString &path) {
+void BookService::readBooks() {
     // 1. 创建教学阶段
     // 2. 创建每个教学阶段下的学科
     // 3. 创建每个学科下的版本
     // 4. 创建每个版本下的教材
     // *  每个 item 都设定一个 ROLE_TYPE 的类型数据，用于判断显示对应的右键菜单
 
+    QFileInfo info = QFileInfo(Service::booksFilePath(booksDir));
+
+    if (!info.exists()) {
+        return;
+    }
+
     booksModel->removeRows(0, booksModel->rowCount());
-    Json json(path, true);
+    Json json(info.absoluteFilePath(), true);
 
     QJsonArray phases = json.getJsonArray("phases");
     for (QJsonArray::const_iterator piter = phases.begin(); piter != phases.end(); ++piter) {
@@ -65,14 +71,15 @@ void BookService::readBooks(const QString &path) {
 }
 
 // 读取教材的章节目录
-void BookService::readChapters(const QString &path) {
-    QFile file(path);
-    if (!file.exists()) {
+void BookService::readBookChapters(const QString &bookCode) {
+    QFileInfo chapterFileInfo(Service::bookChaptersFilePath(booksDir, bookCode)); // 教材文件信息
+
+    if (!chapterFileInfo.exists()) {
         return;
     }
 
     chaptersModel->removeRows(0, chaptersModel->rowCount());
-    Json json(path, true);
+    Json json(chapterFileInfo.absoluteFilePath(), true);
     QJsonArray chapters = json.getJsonArray("chapters");
 
     for (QJsonArray::const_iterator iter = chapters.begin(); iter != chapters.end(); ++iter) {
@@ -99,7 +106,7 @@ void BookService::createChapterItems(const Json &json, const QJsonObject &curren
     QList<QStandardItem*> items;
 
     if (kp) {
-        items = Service::createKpItemForChapter(name, kpCode, kpSubjectCode);
+        items = Service::createKpItemsForChapter(name, kpCode, kpSubjectCode);
     } else {
         items = { new QStandardItem(name), new QStandardItem(code) };
     }
@@ -245,16 +252,15 @@ void BookService::appendChildChapter(const QModelIndex &parent) {
 void BookService::appendKpOfChapter(const QModelIndex &parent, const QString &kpName, const QString &kpCode, const QString &kpSubjectCode) {
     if (!parent.isValid()) { return; }
 
-    chaptersModel->itemFromIndex(parent)->appendRow(Service::createKpItemForChapter(kpName, kpCode, kpSubjectCode));
+    chaptersModel->itemFromIndex(parent)->appendRow(Service::createKpItemsForChapter(kpName, kpCode, kpSubjectCode));
 }
 
 // 保存教材章节内容
-bool BookService::saveChapters(const QString &bookCode,
-                           const QString &bookSubject,
-                           const QString &bookVersion,
-                           const QString &bookName,
-                           const QString &bookCover,
-                           const QDir &bookDir) {
+bool BookService::saveBookChapters(const QString &bookCode,
+                                   const QString &bookSubject,
+                                   const QString &bookVersion,
+                                   const QString &bookName,
+                                   const QString &bookCover) {
     QJsonArray chaptersJson;
     for (int i = 0; i < chaptersModel->rowCount(); ++i) {
         QStandardItem *chapterNameItem = chaptersModel->item(i, 0);
@@ -272,10 +278,10 @@ bool BookService::saveChapters(const QString &bookCode,
     book.insert("chapters", chaptersJson);
 
     // 保存到文件
-    return Util::writeStringToFile(QJsonDocument(book).toJson(), Service::chapterFilePath(bookDir, bookCode));
+    return Util::writeStringToFile(QJsonDocument(book).toJson(), Service::bookChaptersFilePath(booksDir, bookCode));
 }
 
-bool BookService::saveBooks(const QDir &bookDir) {
+bool BookService::saveBooks() {
     QJsonArray phases;
 
     // 逐层遍历访问得到教材信息，保存到数组 booksInfo 中
@@ -333,7 +339,7 @@ bool BookService::saveBooks(const QDir &bookDir) {
     root.insert("phases", phases);
 
     // 保存到文件
-    return Util::writeStringToFile(QJsonDocument(root).toJson(), bookDir.filePath("books.json"));
+    return Util::writeStringToFile(QJsonDocument(root).toJson(), Service::booksFilePath(booksDir));
 }
 
 // 创建章节目录对应的 JSON 对象
@@ -359,7 +365,7 @@ QJsonObject BookService::createChapterJson(QStandardItem *chapterNameItem, QStan
         chapterJson.insert("children", childrenChapters);
     }
 
-    // 如果是知识点则保持对应的信息
+    // 如果是知识点则保持它的信息
     QModelIndex kpIndex = chaptersModel->indexFromItem(chapterNameItem);
     if (Service::isKpIndex(kpIndex)) {
         QString kpCode = kpIndex.data(ROLE_CODE).toString();

@@ -48,7 +48,7 @@ public:
     static QStandardItem* createBookItem(const QString &name, const QString &code, const QString &cover);
 
     // 创建章节目录树中使用的知识点 item
-    static QList<QStandardItem *> createKpItemForChapter(const QString &name, const QString &code, const QString &subjectCode);
+    static QList<QStandardItem *> createKpItemsForChapter(const QString &name, const QString &code, const QString &subjectCode);
 
     // 创建知识点树中使用的章节目录 item
     static QList<QStandardItem *> createChapterItemsForKp(const QString &name, const QString &code, const QString &bookCode);
@@ -71,11 +71,17 @@ public:
     // 向 parent 下添加子节点 items，如果 parent 无效，则添加为第一级节点
     static void appendRow(QStandardItemModel *model, const QModelIndex &parent, const QList<QStandardItem*> &items);
 
+    // 学段教材结构的文件路径
+    static QString booksFilePath(const QDir &bookDir);
+
     // 教材章节的文件路径
-    static QString chapterFilePath(const QDir &bookDir, const QString &bookCode);
+    static QString bookChaptersFilePath(const QDir &bookDir, const QString &bookCode);
+
+    // 学段学科结构的文件路径
+    static QString subjectsFilePath(const QDir &kpDir);
 
     // 学科知识点的文件路径
-    static QString kpFilePath(const QDir &kpDir, const QString &subjectCode);
+    static QString subjectKpsFilePath(const QDir &kpDir, const QString &subjectCode);
 };
 
 #endif // SERVICE_H

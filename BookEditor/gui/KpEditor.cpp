@@ -18,6 +18,7 @@
 #include <QHeaderView>
 #include <QShortcut>
 #include <QStandardItemModel>
+#include <QRegularExpressionValidator>
 
 KpEditor::KpEditor(bool readOnly, QWidget *parent) : QWidget(parent), ui(new Ui::KpEditor), readOnly(readOnly) {
     initialize();
@@ -112,10 +113,14 @@ void KpEditor::initialize() {
     LineEditDelegate *delegate = new LineEditDelegate(this);
     ui->kpsTreeView->setItemDelegate(delegate);
 
+    // 设置编码的 validator，只能输入字母、数字和下划线
+    QRegularExpressionValidator *validator = new QRegularExpressionValidator(QRegularExpression("[-\\w]+"), this);
+    ui->kpCodeEdit->setValidator(validator);
+
     createSubjectsContextMenu(); // 创建左侧学科的右键菜单
     createKpsContextMenu();      // 创建中间知识点右键菜单
 
-    kpService = new KpService(subjectsModel, kpsModel);
+    kpService = new KpService(subjectsModel, kpsModel, kpsDir);
 }
 
 // 事件处理
@@ -265,7 +270,7 @@ void KpEditor::createSubjectsContextMenu() {
             if (MessageBox::confirm(QString("确定要删除学科 <font color='darkred'>%1</font> 吗?").arg(name))) {
                 // 删除此学科的知识点文件
                 QString subjectCode = currentLeftIndex().data(ROLE_CODE).toString().trimmed();
-                QFile::remove(Service::kpFilePath(kpsDir, subjectCode));
+                QFile::remove(Service::subjectKpsFilePath(kpsDir, subjectCode));
 
                 // 从树中删除学科节点
                 subjectsModel->removeRow(currentLeftIndex().row(), currentLeftIndex().parent());
@@ -383,27 +388,14 @@ void KpEditor::resetKps() {
 // 打开学科到左侧的教材目录树中
 void KpEditor::openSubjects() {
     resetKps();
-
-    // 打开 kps/kps.json
-    QFileInfo info = QFileInfo(kpsDir.filePath("kps.json"));
-
-    if (info.exists()) {
-        kpService->readSubjects(info.absoluteFilePath());
-        ui->subjectsTreeView->expandAll();
-        UiUtil::showMessage(ui->messageLabel, "打开成功");
-    }
+    kpService->readSubjects();
+    ui->subjectsTreeView->expandAll();
 }
 
 // 打开学科的知识点到右侧的知识点树中
 void KpEditor::openSubjectKps(const QString &subjectCode) {
-    QFileInfo kpsFileInfo(Service::kpFilePath(kpsDir, subjectCode));
-
-    if (kpsFileInfo.exists()) {
-        kpService->readSubjectKps(kpsFileInfo.absoluteFilePath(), !readOnly);
-        ui->kpsTreeView->expandAll();
-    } else if (!subjectCode.isEmpty()) {
-        MessageBox::message(QString("文件 kps/%1 不存在").arg(kpsFileInfo.fileName()));
-    }
+    kpService->readSubjectKps(subjectCode, !readOnly);
+    ui->kpsTreeView->expandAll();
 }
 
 // 校验学科和知识点的编码是否唯一，未被重复使用
@@ -506,13 +498,13 @@ void KpEditor::save() {
 
         // [3.2] 删除旧的知识点文件 ${oldSubJectCode}.json
         if (oldSubJectCode != subjectCode) {
-            QFile::remove(Service::kpFilePath(kpsDir, oldSubJectCode));
+            QFile::remove(Service::subjectKpsFilePath(kpsDir, oldSubJectCode));
         }
 
         // [3.3] 保存学科结构到 kps.json
         // [3.4] 保存当前的学科到 ${subjectCode}.json
-        bool ok1 = kpService->saveSubjects(kpsDir);
-        bool ok2 = kpService->saveSubjectKps(subjectName, subjectCode, kpsDir);
+        bool ok1 = kpService->saveSubjects();
+        bool ok2 = kpService->saveSubjectKps(subjectName, subjectCode);
 
         if (ok1 && ok2) {
             UiUtil::showMessage(ui->messageLabel, "保存成功");
@@ -521,7 +513,7 @@ void KpEditor::save() {
         }
     } else {
         // [2] 没选择学科则只保存学科结构到 kps.json
-        bool ok = kpService->saveSubjects(kpsDir);
+        bool ok = kpService->saveSubjects();
 
         if (ok) {
             UiUtil::showMessage(ui->messageLabel, "保存成功");

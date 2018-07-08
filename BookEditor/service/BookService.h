@@ -20,24 +20,25 @@ class BookService {
 public:
     /**
      * 创建 BookService 对象
+     *
      * @param booksModel    教材的 model
      * @param chaptersModel 章节的 model
+     * @param booksDir      教材保存的文件夹路径
      */
-    BookService(QStandardItemModel *booksModel, QStandardItemModel *chaptersModel);
+    BookService(QStandardItemModel *booksModel, QStandardItemModel *chaptersModel, const QDir &booksDir);
 
-    void readBooks(const QString &path); // 读取教材显示到教材目录树中
-    void readChapters(const QString &path); // 读取教材的章节目录
-
-    // 保存教材章节内容
-    bool saveChapters(const QString &bookCode,
-                      const QString &bookSubject,
-                      const QString &bookVersion,
-                      const QString &bookName,
-                      const QString &bookCover,
-                      const QDir &bookDir);
+    void readBooks(); // 读取教材显示到教材目录树中
+    void readBookChapters(const QString &bookCode); // 读取教材的章节目录
 
     // 保存教材结构
-    bool saveBooks(const QDir &bookDir);
+    bool saveBooks();
+
+    // 保存教材章节内容
+    bool saveBookChapters(const QString &bookCode,
+                          const QString &bookSubject,
+                          const QString &bookVersion,
+                          const QString &bookName,
+                          const QString &bookCover);
 
     /**
      * 如果教材的编码都是唯一的，则验证通过返回 true，如果编码被重复使用验证不通过返回 false
@@ -73,8 +74,9 @@ public:
     void appendChildChapter(const QModelIndex &parent);
 
     /**
-     * 在 parent 下增加章节所属的知识点节点
-     * @param parent
+     * 在章节 parent 下增加它所属的知识点节点
+     *
+     * @param parent 当前选中的章节的 index
      */
     void appendKpOfChapter(const QModelIndex &parent, const QString &kpName, const QString &kpCode, const QString &kpSubjectCode);
 
@@ -97,6 +99,7 @@ private:
      */
     QJsonObject createChapterJson(QStandardItem *chapterNameItem, QStandardItem *chapterCodeItem);
 
+    QDir booksDir; // 教材章节保存的文件夹
     QStandardItemModel *booksModel    = 0; // 教材的 model
     QStandardItemModel *chaptersModel = 0; // 章节的 model
 };

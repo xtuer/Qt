@@ -5,7 +5,7 @@ const int ROLE_CODE  = Qt::UserRole + 3;    // 表示编码的 role
 const int ROLE_COVER = Qt::UserRole + 4;    // 表示封面的 role
 const int ROLE_CODE_EXT = Qt::UserRole + 5; // 表示扩展编码的 role
 
-const QString TYPE_PHASE   = "phase";   // 教学阶段
+const QString TYPE_PHASE   = "phase";   // 学段
 const QString TYPE_SUBJECT = "subject"; // 学科
 const QString TYPE_VERSION = "version"; // 版本
 const QString TYPE_BOOK    = "book";    // 教材

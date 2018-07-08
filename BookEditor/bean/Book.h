@@ -14,7 +14,7 @@ extern const int ROLE_CODE;     // 表示编码的 role
 extern const int ROLE_COVER;    // 表示封面的 role (存储封面的 URL)
 extern const int ROLE_CODE_EXT; // 表示扩展编码的 role
 
-extern const QString TYPE_PHASE;   // 教学阶段
+extern const QString TYPE_PHASE;   // 学段
 extern const QString TYPE_SUBJECT; // 学科
 extern const QString TYPE_VERSION; // 版本
 extern const QString TYPE_BOOK;    // 教材
@@ -24,9 +24,9 @@ extern const QString TYPE_CHAPTER; // 章节
 // 存储 code 和 info 对
 class CodeInfo {
 public:
-    QString code;
-    QString info; // 阶段 > 学科 > 版本 > 教材
-
     CodeInfo(const QString &code, const QString &info);
+
+    QString code;
+    QString info; // 学段 > 学科 > 版本 > 教材
 };
 #endif // BOOKINFO_H

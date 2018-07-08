@@ -13,28 +13,29 @@
 //     0201
 //     0202
 QString Service::generateHierarchicalCode(QStandardItemModel *model, const QModelIndex &parent, int codeColumn) {
+    // 1. 遍历 parent 所有的子节点
+    // 2. 截取子节点的 code 最后 2 位转换为整数，求最大的整数 max
+    // 3. max=max+1 为新节点的 code 最后 2 位
+    // 4. 新节点的 code 为 parent 的 code 加上 max (转换为 2 位的字符串，不足则前面补 0)
+
     int max = 0;
     int rowCount = model->rowCount(parent);
 
-    // 查找子节点最大编码的后 2 位
+    // [1] 遍历 parent 所有的子节点
+    // [2] 截取子节点的 code 最后 2 位转换为整数，求最大的整数 max
     for (int row = 0; row < rowCount; ++row) {
         QString code = model->index(row, codeColumn, parent).data().toString();
         int temp = code.right(2).toInt();
         max = temp > max ? temp : max;
     }
 
+    // [3] max=max+1 为新节点的 code 最后 2 位
+    // [4] 新节点的 code 为 parent 的 code 加上 max (转换为 2 位的字符串，不足则前面补 0)
     max += 1;
+    QString parentCode = parent.sibling(parent.row(), codeColumn).data().toString();
+    QString childCode  = QString("%1%2").arg(parentCode).arg(max, 2, 10, QChar('0'));
 
-    if (parent.isValid()) {
-        // 非第一级节点的编码
-        QString parentCode = parent.sibling(parent.row(), codeColumn).data().toString();
-        QString childCode  = QString("%1%2").arg(parentCode).arg(max, 2, 10, QChar('0'));
-
-        return childCode;
-    } else {
-        // 第一级节点的编码
-        return QString("%1").arg(max, 2, 10, QChar('0'));
-    }
+    return childCode;
 }
 
 // 判断 index 是否教材对应的 index
@@ -110,13 +111,13 @@ QStandardItem* Service::createBookItem(const QString &name, const QString &code,
     bookItem->setData(TYPE_BOOK, ROLE_TYPE); // 表示教材节点
     bookItem->setData(code,      ROLE_CODE);
     bookItem->setData(cover,     ROLE_COVER);
-    bookItem->setIcon(QIcon("image/common/book2.png"));
+    bookItem->setIcon(QIcon("image/common/book.png"));
 
     return bookItem;
 }
 
 // 创建章节目录中使用的知识点 item
-QList<QStandardItem *> Service::createKpItemForChapter(const QString &name, const QString &code, const QString &subjectCode) {
+QList<QStandardItem *> Service::createKpItemsForChapter(const QString &name, const QString &code, const QString &subjectCode) {
     // 知识点的 item: 有图标、不可编辑
     QStandardItem *nameItem = new QStandardItem(name);
     nameItem->setData(TYPE_KP,     ROLE_TYPE);
@@ -181,12 +182,22 @@ void Service::appendRow(QStandardItemModel *model, const QModelIndex &parent, co
     }
 }
 
+// 学段学科结构的文件路径
+QString Service::booksFilePath(const QDir &bookDir) {
+    return bookDir.filePath("books.json");
+}
+
 // 教材章节的文件路径
-QString Service::chapterFilePath(const QDir &bookDir, const QString &bookCode) {
+QString Service::bookChaptersFilePath(const QDir &bookDir, const QString &bookCode) {
     return bookDir.filePath(bookCode + ".json");
 }
 
+// 学段学科结构的文件路径
+QString Service::subjectsFilePath(const QDir &kpDir) {
+    return kpDir.filePath("kps.json");
+}
+
 // 学科知识点的文件路径
-QString Service::kpFilePath(const QDir &kpDir, const QString &subjectCode) {
+QString Service::subjectKpsFilePath(const QDir &kpDir, const QString &subjectCode) {
     return kpDir.filePath(subjectCode + ".json");
 }

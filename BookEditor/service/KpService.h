@@ -11,12 +11,12 @@ class Json;
 
 class KpService {
 public:
-    KpService(QStandardItemModel *subjectsModel, QStandardItemModel *kpsModel);
+    KpService(QStandardItemModel *subjectsModel, QStandardItemModel *kpsModel, const QDir &kpsDir);
 
-    bool saveSubjects(const QDir &kpsDir);  // 保存学科结构
-    bool saveSubjectKps(const QString &subjectName, const QString &subjectCode, const QDir &kpsDir); // 保存学科的知识点
-    void readSubjects(const QString &path); // 读取学科结构到学科树中
-    void readSubjectKps(const QString &path, bool withChapter); // 读取知识点到知识点树中
+    bool saveSubjects();  // 保存学科结构
+    bool saveSubjectKps(const QString &subjectName, const QString &subjectCode); // 保存学科的知识点
+    void readSubjects(); // 读取学科结构到学科树中
+    void readSubjectKps(const QString &subjectCode, bool withChapter); // 读取知识点到知识点树中
 
     /**
      * 如果学科的编码都是唯一的，则验证通过返回 true，如果编码被重复使用验证不通过返回 false
@@ -64,6 +64,7 @@ private:
      */
     void createKpItems(const Json &json, const QJsonObject &currentKp, QStandardItem *parentKpNameItem, bool withChapter);
 
+    QDir kpsDir; // 学科知识点保存的文件夹
     QStandardItemModel *subjectsModel = 0; // 学科的 model
     QStandardItemModel *kpsModel      = 0; // 知识点 model
 };

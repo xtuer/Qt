@@ -41,6 +41,7 @@ BookEditor::~BookEditor() {
 }
 
 bool BookEditor::eventFilter(QObject *watched, QEvent *event) {
+    // 消息标签显示 2 秒后自动隐藏
     if (watched == ui->messageLabel && event->type() == QEvent::Show) {
         QTimer::singleShot(2000, ui->messageLabel, SLOT(hide()));
     }
@@ -48,7 +49,7 @@ bool BookEditor::eventFilter(QObject *watched, QEvent *event) {
     return QWidget::eventFilter(watched, event);
 }
 
-// 初始化 Ui
+// 初始化
 void BookEditor::initialize() {
     ui->setupUi(this);
     setAttribute(Qt::WA_StyledBackground);
@@ -89,14 +90,14 @@ void BookEditor::initialize() {
     previewButton = UiUtil::createLineEditRightButton(ui->bookCoverEdit); // 创建封面预览按钮
     previewButton->setObjectName("previewButton");
 
-    // 设置编码的 validator，只运输字母、数字和下划线
+    // 设置编码的 validator，只能输入字母、数字和下划线
     QRegularExpressionValidator *validator = new QRegularExpressionValidator(QRegularExpression("[-\\w]+"), this);
     ui->bookCodeEdit->setValidator(validator);
 
     createBooksContextMenu();    // 创建左侧教材树的右键菜单
     createChaptersContextMenu(); // 创建中间章节树的右键菜单
 
-    bookService = new BookService(booksModel, chaptersModel);
+    bookService = new BookService(booksModel, chaptersModel, booksDir);
 }
 
 // 事件处理
@@ -308,7 +309,7 @@ void BookEditor::createBooksContextMenu() {
             if (MessageBox::confirm(QString("确定要删除版本 <font color='darkred'>%1</font> 吗?").arg(name))) {
                 // 删除此教材的章节文件
                 QString bookCode = current.data(ROLE_CODE).toString().trimmed();
-                QFile::remove(Service::chapterFilePath(booksDir, bookCode));
+                QFile::remove(Service::bookChaptersFilePath(booksDir, bookCode));
 
                 // 从树中删除学教材点
                 booksModel->removeRow(current.row(), current.parent());
@@ -454,15 +455,17 @@ void BookEditor::createChaptersContextMenu() {
 
 // 打开教材内容显示到右边
 void BookEditor::openBook(const QString &bookCode) {
-    QFileInfo chapterFileInfo(Service::chapterFilePath(booksDir, bookCode)); // 教材文件信息
+//    QFileInfo chapterFileInfo(Service::chapterFilePath(booksDir, bookCode)); // 教材文件信息
+    bookService->readBookChapters(bookCode);
+    ui->chaptersTreeView->expandAll();
 
-    if (chapterFileInfo.exists()) {
-        bookService->readChapters(chapterFileInfo.absoluteFilePath());
-        ui->chaptersTreeView->expandAll();
-    } else if (!bookCode.isEmpty()) {
-        // 文件不存在且教材编码为空
-        MessageBox::message(QString("文件 books/%1 不存在").arg(chapterFileInfo.fileName()));
-    }
+//    if (chapterFileInfo.exists()) {
+//        bookService->readChapters(chapterFileInfo.absoluteFilePath());
+//        ui->chaptersTreeView->expandAll();
+//    } else if (!bookCode.isEmpty()) {
+//        // 文件不存在且教材编码为空
+//        MessageBox::message(QString("文件 books/%1 不存在").arg(chapterFileInfo.fileName()));
+//    }
 }
 
 // 当前教材的 index
@@ -478,15 +481,8 @@ QModelIndex BookEditor::currentChapterIndex() const {
 // 打开教材结构显示到左侧的教材目录树中
 void BookEditor::openBooks() {
     resetBook();
-
-    // 打开 kps/kps.json
-    QFileInfo info = QFileInfo(booksDir.filePath("books.json"));
-
-    if (info.exists()) {
-        bookService->readBooks(info.absoluteFilePath());
-        ui->booksTreeView->expandAll();
-        UiUtil::showMessage(ui->messageLabel, "打开成功");
-    }
+    bookService->readBooks();
+    ui->booksTreeView->expandAll();
 }
 
 // 重置右边的教材信息
@@ -576,17 +572,18 @@ void BookEditor::save() {
     // 1. 验证不通过不进行保存
     // 2. 没选择教材则只保存教材结构到 books.json
     // 3. 选择教材不但要保存教材结构，还要保存教材内容
-    //    3.1 更新 bookCode 到教材结构中选中的教材，originalBookCode 赋值为 bookCode，用于下次更新删除无效教材文件
-    //    3.2 删除旧的教材文件 ${originalBookCode}.json
+    //    3.1 oldBookCode 保存为 bookCode (用于删除已有的教材文件), 更新 bookCode 到教材结构中选中的教材
+    //    3.2 删除旧的教材文件 ${oldBookCode}.json
     //    3.3 保存教材结构到 books.json
     //    3.4 保存当前的教材到 ${bookCode}.json
 
     // [1] 验证不通过不进行保存
     if (!validate()) { return; }
 
-    if (!Service::isBookIndex(currentLeftIndex())) {
+    QModelIndex currentLeft = currentLeftIndex();
+    if (!Service::isBookIndex(currentLeft)) {
         // [2] 没选择教材则只保存教材结构到 books.json
-        bool ok = bookService->saveBooks(booksDir);
+        bool ok = bookService->saveBooks();
 
         if (ok) {
             // MessageBox::message("<center><font color='green'>保存成功</fong></center>");
@@ -603,20 +600,20 @@ void BookEditor::save() {
         QString bookCode    = ui->bookCodeEdit->text().trimmed();
         QString bookCover   = ui->bookCoverEdit->text().trimmed();
 
-        // [3.1] 更新 bookCode, bookCover 到教材结构中选中的教材
-        QString oldBookCode = currentLeftIndex().data(ROLE_CODE).toString();
-        booksModel->setData(currentLeftIndex(), bookCode, ROLE_CODE);
-        booksModel->setData(currentLeftIndex(), bookCover, ROLE_COVER);
+        // [3.1] oldBookCode 保存为 bookCode (用于删除已有的教材文件), 更新 bookCode 到教材结构中选中的教材
+        QString oldBookCode = currentLeft.data(ROLE_CODE).toString();
+        booksModel->setData(currentLeft, bookCode,  ROLE_CODE);
+        booksModel->setData(currentLeft, bookCover, ROLE_COVER);
 
         // [3.2] 删除旧的教材文件 ${oldBookCode}.json
         if (oldBookCode != bookCode) {
-            QFile::remove(Service::chapterFilePath(booksDir, oldBookCode));
+            QFile::remove(Service::bookChaptersFilePath(booksDir, oldBookCode));
         }
 
         // [3.3] 保存教材结构到 books.json
         // [3.4] 保存当前的教材到 ${bookCode}.json
-        bool ok1 = bookService->saveBooks(booksDir);
-        bool ok2 = bookService->saveChapters(bookCode, bookSubject, bookVersion, bookName, bookCover, booksDir);
+        bool ok1 = bookService->saveBooks();
+        bool ok2 = bookService->saveBookChapters(bookCode, bookSubject, bookVersion, bookName, bookCover);
 
         if (ok1 && ok2) {
             // MessageBox::message("<center><font color='green'>保存成功</fong></center>");
