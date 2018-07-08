@@ -1,63 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>Widget</class>
+ <widget class="QWidget" name="Widget">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>523</width>
-    <height>372</height>
+    <width>563</width>
+    <height>382</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>分组布局</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">.Form {
+   <string notr="true">.Widget {
     background: rgb(33, 93, 201);
 }
 
 .Box {
-    border: 0px solid darkred;
-    border-radius: 10px;
+
 }
 
+/* 设置标题栏的高度和左上角、右上角的圆角效果 */
 .Box .TitleBar {
+    background: rgb(48, 143, 238);
     min-height: 50px;
     max-height: 50px;
-    background: rgb(48, 143, 238);
-    border-top-left-radius: 10px;
+    border-top-left-radius:  10px;
     border-top-right-radius: 10px;
 }
 
-.Box .TitleBar .TitleLabel {
-    margin-left: 5px;
-    font-size: 16px;
+/* 设置标题栏中标题的样式，border-left 为图标 */
+.Box .TitleBar .Title {
     color: rgb(36, 59, 139);
+    font-size: 16px;
+    margin-left: 5px;
     min-height: 30px;
     max-height: 30px;
     border-width: 0 0 0 30;
-    border-image: url(/Users/Biao/Pictures/image/brightness.png) 0 0 0 128;
+    border-image: url(:/image/brightness.png) 0 0 0 128;
 }
 
+/* 设置主要控件区的背景色和底部的圆角效果 */
 .Box .Main {
     background: rgb(37, 133, 230);
-    border-bottom-left-radius: 10px;
+    border-bottom-left-radius:  10px;
     border-bottom-right-radius: 10px;
 }
 
-.Box .TitleBar .TitleLabel#feedbackTitleLabel {
-    border-image: url(/Users/Biao/Pictures/image/tag-faces.png) 0 0 0 128;
+.Box .TitleBar .Title#feedbackTitleLabel {
+    border-image: url(:/image/tag-faces.png) 0 0 0 128;
 }
 
-.Box .TitleBar QPushButton {
-    width: 24px;
+.Box .TitleBar #signButton {
+    width:  24px;
     height: 24px;
     margin-right: 5px;
     border: none;
     border-width: 0;
-    border-image: url(/Users/Biao/Pictures/image/signin.png) 0 0 0 0;
+    border-image: url(:/image/signin.png) 0 0 0 0;
     qproperty-flat: true;
 }
 
@@ -65,26 +67,28 @@
     min-height: 24px;
     max-height: 24px;
     border-width: 0 0 0 24;
-    border-image: url(/Users/Biao/Pictures/image/ok.png) 0 0 0 128;
+    border-image: url(:/image/ok.png) 0 0 0 128;
 }
 
 .Box .Main .ErrorLabel {
     min-height: 24px;
     max-height: 24px;
     border-width: 0 0 0 24;
-    border-image: url(/Users/Biao/Pictures/image/error.png) 0 0 0 128;
+    border-image: url(:/image/error.png) 0 0 0 128;
 }
 
 .Box .Main QPushButton {
     color: white;
-    border: 0px solid red;
-    border-radius: 4px;
     background: #5cadff;
+    border: none;
+    border-radius: 4px;
     padding: 0px 10px 2px 10px;
     min-height: 30px;
     max-height: 30px;
     font-size: 16px;
     qproperty-flat: true;
+    min-width: 100px;
+    max-width: 100px;
 }
 
 .Box .Main QPushButton:hover {
@@ -142,7 +146,7 @@
             <string>标题</string>
            </property>
            <property name="class" stdset="0">
-            <string>TitleLabel</string>
+            <string>Title</string>
            </property>
           </widget>
          </item>
@@ -223,7 +227,7 @@
             <string>反馈</string>
            </property>
            <property name="class" stdset="0">
-            <string>TitleLabel</string>
+            <string>Title</string>
            </property>
           </widget>
          </item>
@@ -241,7 +245,7 @@
           </spacer>
          </item>
          <item row="0" column="2">
-          <widget class="QPushButton" name="pushButton_2">
+          <widget class="QPushButton" name="signButton">
            <property name="text">
             <string/>
            </property>
@@ -267,6 +271,12 @@
         <layout class="QGridLayout" name="gridLayout_5">
          <item row="0" column="0">
           <widget class="QLabel" name="label">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="text">
             <string>初始化</string>
            </property>

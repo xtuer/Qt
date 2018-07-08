@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>image/brightness.png</file>
+        <file>image/error.png</file>
+        <file>image/ok.png</file>
+        <file>image/signin.png</file>
+        <file>image/tag-faces.png</file>
+    </qresource>
+</RCC>

@@ -14,12 +14,10 @@
 #include <QModelIndex>
 
 int main(int argc, char *argv[]) {
-    Q_UNUSED(argc)
-    Q_UNUSED(argv)
+    QApplication app(argc, argv);
 
-    QModelIndex index;
-    qDebug() << index.sibling(index.row(), 3).data().toString();
-    qDebug() << QString("ab").toInt();
+    Form form;
+    form.show();
 
-    return 0;
+    return app.exec();
 }
