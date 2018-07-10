@@ -185,8 +185,8 @@ void BookEditor::handleEvents() {
 
 // 创建左侧教材树的右键菜单
 void BookEditor::createBooksContextMenu() {
-    // 左侧教材树的右键菜单: 阶段 > 学科 > 教材
-    QAction *phaseAction    = new QAction("新建阶段", this);
+    // 左侧教材树的右键菜单: 学段 > 学科 > 教材
+    QAction *phaseAction    = new QAction("新建学段", this);
     QAction *subjectAction  = new QAction("新建学科", this);
     QAction *versionAction  = new QAction("新建版本", this);
     QAction *bookAction     = new QAction("新建教材", this);
@@ -199,17 +199,17 @@ void BookEditor::createBooksContextMenu() {
     // 右键点击左侧教材树节点，弹出右键菜单
     connect(ui->booksTreeView, &QWidget::customContextMenuRequested, [=]() {
         // 根据 index 类型判断要显示的右键菜单项
-        // 1. 点击阶段显示新建学科
+        // 1. 点击学段显示新建学科
         // 2. 点击学科显示新建教材
         // 3. 点击教材什么都不显示
-        // 4. 点击空白显示新建阶段
+        // 4. 点击空白显示新建学段
 
         QMenu menu;
         QModelIndex index = UiUtil::indexAt(ui->booksTreeView, QCursor::pos());
         leftClickedLeftIndex = index;
 
         if (Service::isPhaseIndex(index)) {
-            deleteAction->setText("删除阶段");
+            deleteAction->setText("删除学段");
             menu.addAction(subjectAction); // [1] 显示新建学科
             menu.addAction(deleteAction);
         } else if (Service::isSubjectIndex(index)) {
@@ -224,7 +224,7 @@ void BookEditor::createBooksContextMenu() {
             deleteAction->setText("删除教材");
             menu.addAction(deleteAction);
         } else {
-            menu.addAction(phaseAction); // [4] 显示新建阶段
+            menu.addAction(phaseAction); // [4] 显示新建学段
         }
 
         menu.addSeparator();
@@ -234,9 +234,9 @@ void BookEditor::createBooksContextMenu() {
         menu.exec(QCursor::pos());
     });
 
-    // 创建新的阶段
+    // 创建新的学段
     connect(phaseAction, &QAction::triggered, [this] {
-        Service::appendRow(booksModel, QModelIndex(), { Service::createPhaseItem("新建阶段") });
+        Service::appendRow(booksModel, QModelIndex(), { Service::createPhaseItem("新建学段") });
     });
 
     // 创建新的学科
@@ -272,14 +272,14 @@ void BookEditor::createBooksContextMenu() {
         int rowCount = booksModel->itemFromIndex(current)->rowCount();
 
         if (Service::isPhaseIndex(current)) {
-            // 删除阶段
-            // 阶段下还有学科时不能被删除
+            // 删除学段
+            // 学段下还有学科时不能被删除
             if (rowCount > 0) {
                 MessageBox::message(QString("<font color='darkred'>%1</font> 下还有学科，不能删除").arg(name));
                 return;
             }
 
-            if (MessageBox::confirm(QString("确定要删除阶段 <font color='darkred'>%1</font> 吗?").arg(name))) {
+            if (MessageBox::confirm(QString("确定要删除学段 <font color='darkred'>%1</font> 吗?").arg(name))) {
                 booksModel->removeRow(current.row(), current.parent());
             }
         } else if (Service::isSubjectIndex(current)) {
