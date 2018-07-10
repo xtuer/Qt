@@ -38,6 +38,32 @@ void MergeService::loadKpsOfChapters() {
     }
 }
 
+// 递归遍历章节
+void MergeService::travelChapters(const Json &json, const QJsonObject &chapter) {
+    QString chapterCode = json.getString("code", "",  chapter);
+    QString chapterName = json.getString("title", "", chapter);
+
+    // 章节的子章节
+    QJsonArray subchapters = json.getJsonArray("children", chapter);
+    for (QJsonArray::const_iterator iter = subchapters.begin(); iter != subchapters.end(); ++iter) {
+        QJsonObject subchapter = iter->toObject();
+
+        // 如果 kpCode 和 kpSubjectCode 不为空，则是章节所属知识点
+        bool kp = json.getBool("kp", false, subchapter);
+
+        if (kp) {
+            QString kpCode = json.getString("kpCode", "", subchapter);
+            QString kpName = json.getString("kpName", "", subchapter);
+            QString kpSubjectCode = json.getString("kpSubjectCode", "", subchapter);
+
+            // 知识点学科编码, 知识点编码, 知识点名字, 教材编码, 章节编码, 章节名字
+            kpsOfChapters.append({ kpSubjectCode, kpCode, kpName, bookCode, chapterCode, chapterName });
+        }
+
+        travelChapters(json, subchapter);
+    }
+}
+
 // 合并章节目录到知识点下
 void MergeService::mergeChaptersToKps() {
     QDirIterator it(kpsDir, QDir::NoDotAndDotDot | QDir::Files);
@@ -86,39 +112,18 @@ void MergeService::mergeChaptersToKps() {
     }
 }
 
-// 遍历章节
-void MergeService::travelChapters(const Json &json, const QJsonObject &chapter) {
-    QString chapterCode = json.getString("code", "",  chapter);
-    QString chapterName = json.getString("title", "", chapter);
-
-    // 章节的子章节
-    QJsonArray subchapters = json.getJsonArray("children", chapter);
-    for (QJsonArray::const_iterator iter = subchapters.begin(); iter != subchapters.end(); ++iter) {
-        QJsonObject subchapter = iter->toObject();
-
-        // 如果 kpCode 和 kpSubjectCode 不为空，则是章节所属知识点
-        bool kp = json.getBool("kp", false, subchapter);
-
-        if (kp) {
-            QString kpCode = json.getString("kpCode", "", subchapter);
-            QString kpName = json.getString("kpName", "", subchapter);
-            QString kpSubjectCode = json.getString("kpSubjectCode", "", subchapter);
-
-            // 知识点学科编码, 知识点编码, 知识点名字, 教材编码, 章节编码, 章节名字
-            kpsOfChapters.append({ kpSubjectCode, kpCode, kpName, bookCode, chapterCode, chapterName });
-        }
-
-        travelChapters(json, subchapter);
-    }
-}
-
-// 遍历知识点
+// 递归遍历知识点
 void MergeService::travelKps(QJsonObject &kp, const QString &subjectCode) {
+    // 1. 先把知识点的所有子知识点添加到 newChildren，删除章节节点
+    // 2. 遍历章节所属知识点关系，如果找到了当前知识点则创建一个章节节点添加到 newChildren 里
+    //    (存在判断条件为: 章节所属知识点关系中找到当前学科编码和知识点编码相等的数据)
+    // 3. 把 newChildren 重新设置回 kp 的 children，因为操作 Qt 中 JSON 操作的都是对象的副本
     QString code = kp.value("code").toString();
 
     QJsonArray newChildren;
     QJsonArray children = kp.value("children").toArray();
 
+    // [1] 先把知识点的所有子知识点添加到 newChildren，删除章节节点
     for (QJsonArray::const_iterator iter = children.begin(); iter != children.end(); ++iter) {
         QJsonObject child = iter->toObject();
         travelKps(child, subjectCode);
@@ -130,15 +135,15 @@ void MergeService::travelKps(QJsonObject &kp, const QString &subjectCode) {
     }
 
     // 到此 newChildren 中的为已有的节点数据
-    // 在章节的知识点里搜索当前知识点是否存在，存在判断条件为学科编码和知识点编码相等
+    // [2] 遍历章节的知识点关系，如果找到了当前知识点则创建一个章节节点添加到 newChildren 里
     for (auto kc : kpsOfChapters) {
-        // 学科编码和知识点编码相等
         QString subjectCodeX     = kc.value(0);
         QString kpCodeX          = kc.value(1);
         QString chapterBookCodeX = kc.value(3);
         QString chapterCodeX     = kc.value(4);
         QString chapterNameX     = kc.value(5);
 
+        // 存在判断条件为: 章节所属知识点关系中找到当前学科编码和知识点编码相等的数据
         if (subjectCodeX == subjectCode && kpCodeX == code) {
             QJsonObject chapter;
             chapter["chapter"]         = true;
@@ -166,9 +171,10 @@ void MergeService::travelKps(QJsonObject &kp, const QString &subjectCode) {
         }
     }
 
+    // [3] 把 newChildren 重新设置回 kp 的 children，因为操作 Qt 中 JSON 操作的都是对象的副本
     if (newChildren.size() > 0) {
         kp["children"] = newChildren;
     } else {
-        kp.remove("children");
+        kp.remove("children"); // 删除空的 children 是为了让生成的 JSON 文件更干净
     }
 }

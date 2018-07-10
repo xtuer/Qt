@@ -217,7 +217,7 @@ QJsonObject KpService::createSubjectKpsJson(QStandardItem *nameItem, QStandardIt
     QString qualityStudy = nameIndex.sibling(nameItem->row(), 4).data().toString();
     QString qualityLevel = nameIndex.sibling(nameItem->row(), 5).data().toString();
 
-    // 递归遍历子章节
+    // 递归遍历子知识点
     QJsonArray childrenKps;
     for (int i = 0; i < nameItem->rowCount(); ++i) {
         QStandardItem *childNameItem = nameItem->child(i, 0);
