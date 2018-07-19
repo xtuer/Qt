@@ -2,7 +2,7 @@
 #define FORM_H
 
 #include <QWidget>
-#include <QPixmap>
+#include <QStandardItemModel>
 
 namespace Ui {
 class Form;
@@ -18,7 +18,7 @@ protected:
 
 private:
     Ui::Form *ui;
-    QPixmap pixmap;
+    QStandardItemModel *model;
 };
 
 #endif // FORM_H

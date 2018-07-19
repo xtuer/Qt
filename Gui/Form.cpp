@@ -6,32 +6,39 @@
 #include <QMatrix>
 #include <QPixmap>
 #include <QPainter>
+#include <QList>
+#include <QStandardItem>
 
 Form::Form(QWidget *parent) : QWidget(parent), ui(new Ui::Form) {
-//    ui->setupUi(this);
+    ui->setupUi(this);
 
-    pixmap.load("/Users/Biao/Desktop/point.png"); // 40x608
+    model = new QStandardItemModel(this);
+    for (int i = 0; i < 5; i++) {
+        QList<QStandardItem*> items;
+
+        for (int j = 0; j < 5; j++) {
+            items << new QStandardItem(QString("%1-%2").arg(i).arg(j));
+        }
+
+        model->appendRow(items);
+    }
+
+    ui->tableView->setModel(model);
+//    ui->tableView->horizontalHeader()->hideSection(1);
+    ui->tableView->horizontalHeader()->setSortIndicatorShown(true);
+
+    connect(ui->pushButton, &QPushButton::clicked, [=] {
+//        qDebug() << ui->tableView->horizontalHeader()->visualIndex(0)
+//                 << ui->tableView->horizontalHeader()->visualIndex(1)
+//                 << ui->tableView->horizontalHeader()->visualIndex(2)
+//                 << ui->tableView->horizontalHeader()->visualIndex(3);
+//        qDebug() << ui->tableView->horizontalHeader()->isSectionHidden(0)
+//                 << ui->tableView->horizontalHeader()->isSectionHidden(1);
+        ui->tableView->horizontalHeader()->swapSections(0, 4);
+
+    });
 }
 
 void Form::paintEvent(QPaintEvent *event) {
-    QPainter painter(this);
-    int w = width();
-    int h = height();
 
-    painter.translate(w / 2, h - 20);
-    painter.scale(1, -1);
-    painter.drawPixmap(-20, -10, pixmap); // 居中绘制
-
-    painter.save();
-    painter.rotate(30);
-    painter.drawPixmap(-20, -10, pixmap);
-    painter.restore();
-
-    painter.save();
-    painter.rotate(-30);
-    painter.drawPixmap(-20, -10, pixmap);
-    painter.restore();
-
-    painter.setBrush(Qt::black);
-    painter.drawRect(-2, -2, 4, 4);
 }

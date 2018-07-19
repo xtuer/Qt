@@ -6,7 +6,7 @@
 #include "service/Service.h"
 #include "service/KpService.h"
 #include "service/MergeService.h"
-#include "delegate/LineEditDelegate.h"
+#include "delegate/KpDelegate.h"
 
 #include <QDebug>
 #include <QDir>
@@ -110,8 +110,7 @@ void KpEditor::initialize() {
     ui->kpsTreeView->setColumnWidth(4, 150);
     ui->kpsTreeView->setColumnWidth(5, 150);
 
-    LineEditDelegate *delegate = new LineEditDelegate(this);
-    ui->kpsTreeView->setItemDelegate(delegate);
+    ui->kpsTreeView->setItemDelegate(new KpDelegate(this));
 
     // 设置编码的 validator，只能输入字母、数字和下划线
     QRegularExpressionValidator *validator = new QRegularExpressionValidator(QRegularExpression("[-\\w]+"), this);
