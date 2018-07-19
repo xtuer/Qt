@@ -22,27 +22,39 @@ KpDelegate::~KpDelegate() {
 QWidget *KpDelegate::createEditor(QWidget *parent,
                                   const QStyleOptionViewItem &option,
                                   const QModelIndex &index) const {
-    // 弹出认知发展的选择对话框
+    // 1. 如果是第 2 列或者第 3 列，说明要编辑的是认知水平，弹出认知水平选择对话框进行选择
+    //    1.1 如果没有选择学科则返回
+    //    1.2 获取学段和学科，然后显示对应的认知水平
+    //    1.3 获取选择的认知水平，设置到当前单元格
+    // 2. 如果是第 4 列或者第 5 列，说明要编辑的是学业质量，弹出学业质量选择对话框进行选择
+
+    // 获取学段和学科
+    QModelIndex subjectIndex = subjectsSelectionModel->selectedIndexes().value(0);
+    QString subjectName = subjectIndex.data().toString();
+    QString phaseName   = subjectIndex.parent().data().toString();
+
     if (index.column() == 2 || index.column() == 3) {
-        QModelIndexList indexes = subjectsSelectionModel->selectedIndexes();
+        // [1] 如果是第 2 列或者第 3 列，说明要编辑的是认知水平，弹出认知水平选择对话框进行选择
+        // [1.1] 如果没有选中学科则返回
+        if (!Service::isSubjectIndex(subjectIndex)) { return 0; }
 
-        if (indexes.size() == 0) { return 0; }
-        if (!Service::isSubjectIndex(indexes.at(0))) { return 0; }
-
-        QString subjectName = indexes.at(0).data().toString();
-        QString phaseName = indexes.at(0).parent().data().toString();
+        // [1.2] 获取学段和学科，然后显示对应的认知水平
         cognitionWidget->setPhaseNameAndSubjectName(phaseName, subjectName);
         topWindow->showModal();
 
+        // [1.3] 获取选择的认知水平，设置到当前单元格
         if (cognitionWidget->isSelected()) {
             QAbstractItemModel *model = const_cast<QAbstractItemModel*>(index.model());
             model->setData(index, cognitionWidget->getSelectedCognitions());
         }
 
         return 0;
+    } else if (index.column() == 4 || index.column() == 5) {
+        // [2] 如果是第 4 列或者第 5 列，说明要编辑的是学业质量，弹出学业质量选择对话框进行选择
+        return 0;
+    } else {
+        return QStyledItemDelegate::createEditor(parent, option, index);
     }
-
-    return QStyledItemDelegate::createEditor(parent, option, index);
 }
 
 void KpDelegate::updateEditorGeometry(QWidget *editor,

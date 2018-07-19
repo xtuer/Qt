@@ -14,7 +14,7 @@ class CognitionWidget;
 }
 
 /**
- * 认知发展水平选择 widget
+ * 认知水平选择 widget
  */
 class CognitionWidget : public QWidget {
     Q_OBJECT
@@ -24,8 +24,8 @@ public:
     ~CognitionWidget();
 
     void setPhaseNameAndSubjectName(const QString &phaseName, const QString &subjectName); // 设置学段和学科
-    bool isSelected() const; // 是否选择认知发展水平
-    QString getSelectedCognitions() const; // 获取选中的认知发展水平
+    bool isSelected() const; // 是否选择了认知水平
+    QString getSelectedCognitions() const; // 获取选中的认知水平
 
 protected:
     void showEvent(QShowEvent *event);
@@ -33,14 +33,13 @@ protected:
 private:
     void initialize();   // 初始化
     void handleEvents(); // 事件处理
-    void loadCognitions(const QString &phaseName, const QString &subjectName); // 加载 [学段 -> 学科] 的认知发展水平
+    void loadCognitions(const QString &phaseName, const QString &subjectName); // 加载 [学段 -> 学科] 的认知水平
     void selectCognitions();
 
     Ui::CognitionWidget *ui = NULL;
     bool selected           = false;
     Json *cognitionJson     = NULL;
-    KpService *kpService    = NULL;
-    QStandardItemModel *cognitionsModel = NULL; // 认知发展水平 model
+    QStandardItemModel *cognitionsModel = NULL; // 认知水平 model
     QString phaseName;
     QString subjectName;
 };

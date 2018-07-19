@@ -3,10 +3,10 @@
 #include "util/Json.h"
 #include "util/UiUtil.h"
 #include "service/Service.h"
-#include "service/KpService.h"
 
 #include <QDebug>
 #include <QStandardItem>
+#include <algorithm>
 
 CognitionWidget::CognitionWidget(QWidget *parent) : QWidget(parent), ui(new Ui::CognitionWidget) {
     initialize();
@@ -15,7 +15,6 @@ CognitionWidget::CognitionWidget(QWidget *parent) : QWidget(parent), ui(new Ui::
 
 CognitionWidget::~CognitionWidget() {
     delete ui;
-    delete kpService;
     delete cognitionJson;
 }
 
@@ -27,17 +26,24 @@ void CognitionWidget::setPhaseNameAndSubjectName(const QString &phaseName, const
 
 // 获取选中的认知发展
 QString CognitionWidget::getSelectedCognitions() const {
-    QModelIndexList indexes = ui->tableView->selectionModel()->selectedIndexes();
     QStringList result;
+    QModelIndexList indexes = ui->tableView->selectionModel()->selectedIndexes();
 
     for (const QModelIndex &index : indexes) {
         result << index.data().toString();
     }
 
+    // 选中多个认知水平时按字母序升序排序
+    if (result.size() > 1) {
+        std::sort(result.begin(), result.end(), [](const QString &a, const QString &b) -> bool {
+            return a < b;
+        });
+    }
+
     return result.join(",");
 }
 
-// 是否选择认知发展水平
+// 是否选择认知水平
 bool CognitionWidget::isSelected() const {
     return selected;
 }
@@ -90,7 +96,7 @@ void CognitionWidget::handleEvents() {
     });
 }
 
-// 加载 [学段 -> 学科] 的认知发展水平
+// 加载 [学段 -> 学科] 的认知水平
 void CognitionWidget::loadCognitions(const QString &phaseName, const QString &subjectName) {
     cognitionsModel->removeRows(0, cognitionsModel->rowCount()); // 清楚
     QJsonArray array = cognitionJson->getJsonArray("."); // 第一级节点是数组
