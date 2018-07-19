@@ -110,7 +110,7 @@ void KpEditor::initialize() {
     ui->kpsTreeView->setColumnWidth(4, 150);
     ui->kpsTreeView->setColumnWidth(5, 150);
 
-    ui->kpsTreeView->setItemDelegate(new KpDelegate(this));
+    ui->kpsTreeView->setItemDelegate(new KpDelegate(ui->subjectsTreeView->selectionModel(), this));
 
     // 设置编码的 validator，只能输入字母、数字和下划线
     QRegularExpressionValidator *validator = new QRegularExpressionValidator(QRegularExpression("[-\\w]+"), this);

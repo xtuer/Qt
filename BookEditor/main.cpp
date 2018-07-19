@@ -8,7 +8,7 @@
 #include <QApplication>
 #include <QTextCodec>
 #include <QDebug>
-
+#include "gui/CognitionWidget.h"
 static void initialize(); // 程序启动时进行初始化
 static void finalize();   // 程序结束时清理工作
 
@@ -35,6 +35,13 @@ int main(int argc, char *argv[]) {
     window.resize(1000, 700);
     UiUtil::centerWindow(&window);
     window.show();
+
+//    CognitionWidget *cw = new CognitionWidget();
+//    TopWindow w(cw);
+//    w.setTitleBarButtonsVisible(false, false, true);
+//    w.resize(900, 600);
+//    w.showModal();
+//    qDebug() << cw->getSelectedCognitions();
 
     // [2] 显示登陆对话框，点击取消按钮登陆失败退出程序，登陆成功继续往下运行
     // 输入错误信息虽然登陆不成功，但是不会退出程序，而是提示输入错误，继续输入登陆

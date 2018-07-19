@@ -2,7 +2,7 @@ QWidget {
     font-family: "云书法手书罗西硬笔行楷";
 }
 
-.CentralWidget, .CentralWidget2 {
+.CentralWidget, .CentralWidget2, .CognitionWidget {
     background: white;
 }
 
