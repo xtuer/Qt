@@ -36,7 +36,7 @@ QWidget *KpDelegate::createEditor(QWidget *parent,
     if (index.column() == 2 || index.column() == 3) {
         // [1] 如果是第 2 列或者第 3 列，说明要编辑的是认知水平，弹出认知水平选择对话框进行选择
         // [1.1] 如果没有选中学科则返回
-        if (!Service::isSubjectIndex(subjectIndex)) { return 0; }
+        if (!Service::isSubjectIndex(subjectIndex)) { return nullptr; }
 
         // [1.2] 获取学段和学科，然后显示对应的认知水平
         cognitionWidget->setPhaseNameAndSubjectName(phaseName, subjectName);
@@ -48,10 +48,10 @@ QWidget *KpDelegate::createEditor(QWidget *parent,
             model->setData(index, cognitionWidget->getSelectedCognitions());
         }
 
-        return 0;
+        return nullptr;
     } else if (index.column() == 4 || index.column() == 5) {
         // [2] 如果是第 4 列或者第 5 列，说明要编辑的是学业质量，弹出学业质量选择对话框进行选择
-        return 0;
+        return nullptr;
     } else {
         return QStyledItemDelegate::createEditor(parent, option, index);
     }

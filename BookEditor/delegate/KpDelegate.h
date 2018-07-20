@@ -12,8 +12,8 @@ class CognitionWidget;
  */
 class KpDelegate : public QStyledItemDelegate {
 public:
-    KpDelegate(QItemSelectionModel *subjectsSelectionModel, QObject *parent = 0);
-    ~KpDelegate();
+    KpDelegate(QItemSelectionModel *subjectsSelectionModel, QObject *parent = nullptr);
+    ~KpDelegate() override;
 
     QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option,
                           const QModelIndex &index) const override;
@@ -23,8 +23,8 @@ public:
                               const QModelIndex &index) const override;
 
 private:
-    TopWindow *topWindow = 0;
-    CognitionWidget *cognitionWidget = 0;
+    TopWindow *topWindow = nullptr;
+    CognitionWidget *cognitionWidget = nullptr;
     QItemSelectionModel *subjectsSelectionModel;
 };
 
