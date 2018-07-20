@@ -5,6 +5,7 @@
 #include <QItemSelectionModel>
 
 class TopWindow;
+class QualityWidget;
 class CognitionWidget;
 
 /**
@@ -23,7 +24,9 @@ public:
                               const QModelIndex &index) const override;
 
 private:
-    TopWindow *topWindow = nullptr;
+    TopWindow *qualityWindow   = nullptr;
+    TopWindow *cognitionWindow = nullptr;
+    QualityWidget   *qualityWidget   = nullptr;
     CognitionWidget *cognitionWidget = nullptr;
     QItemSelectionModel *subjectsSelectionModel;
 };

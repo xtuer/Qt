@@ -2,7 +2,7 @@ QWidget {
     font-family: "云书法手书罗西硬笔行楷";
 }
 
-.CentralWidget, .CentralWidget2, .CognitionWidget {
+.CentralWidget, .CentralWidget2, .CognitionWidget, .QualityWidget {
     background: white;
 }
 
@@ -32,4 +32,8 @@ QLineEdit #previewButton:pressed {
 #booksTreeView, #subjectsTreeView {
     width: 200px;
     max-width: 200px;
+}
+
+.QualityWidget QAbstractItemView::item {
+    border-left: 1px solid #e9eaec;
 }

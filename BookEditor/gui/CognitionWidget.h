@@ -20,7 +20,7 @@ class CognitionWidget : public QWidget {
     Q_OBJECT
 
 public:
-    explicit CognitionWidget(QWidget *parent = 0);
+    explicit CognitionWidget(QWidget *parent = nullptr);
     ~CognitionWidget();
 
     void setPhaseNameAndSubjectName(const QString &phaseName, const QString &subjectName); // 设置学段和学科
@@ -34,12 +34,11 @@ private:
     void initialize();   // 初始化
     void handleEvents(); // 事件处理
     void loadCognitions(const QString &phaseName, const QString &subjectName); // 加载 [学段 -> 学科] 的认知水平
-    void selectCognitions();
 
-    Ui::CognitionWidget *ui = NULL;
+    Ui::CognitionWidget *ui = nullptr;
     bool selected           = false;
-    Json *cognitionJson     = NULL;
-    QStandardItemModel *cognitionsModel = NULL; // 认知水平 model
+    Json *cognitionJson     = nullptr;
+    QStandardItemModel *cognitionsModel = nullptr; // 认知水平 model
     QString phaseName;
     QString subjectName;
 };

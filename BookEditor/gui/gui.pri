@@ -7,6 +7,7 @@ FORMS += \
     $$PWD/BookEditor.ui \
     $$PWD/KpEditor.ui \
     $$PWD/CentralWidget2.ui \
+    $$PWD/QualityWidget.ui \
     $$PWD/CognitionWidget.ui
 
 HEADERS += \
@@ -18,6 +19,7 @@ HEADERS += \
     $$PWD/BookEditor.h \
     $$PWD/KpEditor.h \
     $$PWD/CentralWidget2.h \
+    $$PWD/QualityWidget.h \
     $$PWD/CognitionWidget.h
 
 SOURCES += \
@@ -29,4 +31,5 @@ SOURCES += \
     $$PWD/BookEditor.cpp \
     $$PWD/KpEditor.cpp \
     $$PWD/CentralWidget2.cpp \
+    $$PWD/QualityWidget.cpp \
     $$PWD/CognitionWidget.cpp
