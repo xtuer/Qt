@@ -33,9 +33,13 @@ QString Service::generateHierarchicalCode(QStandardItemModel *model, const QMode
     // [4] 新节点的 code 为 parent 的 code 加上 max (转换为 2 位的字符串，不足则前面补 0)
     max += 1;
     QString parentCode = parent.sibling(parent.row(), codeColumn).data().toString();
-    QString childCode  = QString("%1%2").arg(parentCode).arg(max, 2, 10, QChar('0'));
+    //QString childCode  = QString("%1%2").arg(parentCode).arg(max, 2, 10, QChar('0'));
 
-    return childCode;
+    if (parentCode.isEmpty()) {
+        return QString("%1").arg(max, 2, 10, QChar('0'));
+    } else {
+        return QString("%1-%2").arg(parentCode).arg(max, 2, 10, QChar('0'));
+    }
 }
 
 // 判断 index 是否教材对应的 index
