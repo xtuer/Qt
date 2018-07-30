@@ -9,8 +9,8 @@
  * Modified at:   Tue Jul  9 22:02:15 2013
  * Description:   
  *==================================================================*/
-#ifndef _GLOBAL_H_
-#define _GLOBAL_H_
+#ifndef GLOBAL_H
+#define GLOBAL_H
 
 #include <QtCore/qglobal.h>
 
@@ -20,4 +20,4 @@
 #  define QHEATMAP_DLL_EXPORT
 #endif
 
-#endif /* _GLOBAL_H_ */
+#endif /* GLOBAL_H */

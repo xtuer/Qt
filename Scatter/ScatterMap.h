@@ -6,14 +6,17 @@
 
 class Scatter;
 
+/**
+ * 布点图
+ */
 class ScatterMap : public QWidget {
     Q_OBJECT
 public:
     explicit ScatterMap(QWidget *parent = nullptr);
 
     void addScatter(double xRatio, double yRatio); // 创建 Scatter
-    int getScatterMapWidth() const;       // 获取布点地图的宽
-    int getScatterMapHeight() const;      // 获取布点地图的高
+    int  getScatterMapWidth() const;      // 获取布点地图的宽
+    int  getScatterMapHeight() const;     // 获取布点地图的高
     void setScatterMapWidth(int width);   // 设置布点地图的宽
     void setScatterMapHeight(int height); // 设置布点地图的高
 
@@ -33,9 +36,9 @@ private slots:
 private:
     void createContextMenu(); // 创建右键菜单
 
-    QList<Scatter *> scatters; // 所有的点
-    int scatterMapWidth = 0;   // 布点地图的宽
-    int scatterMapHeight = 0;  // 布点地图的高
+    QList<Scatter*> scatters;   // 所有的点
+    int scatterMapWidth  = 100; // 布点地图的宽
+    int scatterMapHeight = 100; // 布点地图的高
 };
 
 #endif // SCATTERMAP_H

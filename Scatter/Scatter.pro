@@ -34,12 +34,12 @@ SOURCES += \
         main.cpp \
     Scatter.cpp \
     ScatterMap.cpp \
-    Widget.cpp
+    ScatterWidget.cpp
 
 HEADERS += \
     Scatter.h \
     ScatterMap.h \
-    Widget.h
+    ScatterWidget.h
 
 FORMS += \
-    Widget.ui
+    ScatterWidget.ui

@@ -1,5 +1,5 @@
-#include "Widget.h"
-#include "ui_Widget.h"
+#include "ScatterWidget.h"
+#include "ui_ScatterWidget.h"
 #include "ScatterMap.h"
 #include "Scatter.h"
 
@@ -15,24 +15,25 @@
 #include <QDateTime>
 #include <QRandomGenerator>
 
-Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
+ScatterWidget::ScatterWidget(QWidget *parent) : QWidget(parent), ui(new Ui::ScatterWidget) {
     initialize();
     handleEvents();
 
     // TODO: 模拟创建一些随机的点，可以是从文件读取的
-    QRandomGenerator random(QDateTime::currentDateTime().toMSecsSinceEpoch());
+    QRandomGenerator random(static_cast<quint32>(QDateTime::currentDateTime().toMSecsSinceEpoch()));
     for (int i = 0; i < 30; ++i) {
         scatterMap->addScatter(random.bounded(0.8), random.bounded(0.8));
     }
 }
 
-Widget::~Widget() {
+ScatterWidget::~ScatterWidget() {
     delete ui;
 }
 
 // 初始化
-void Widget::initialize() {
+void ScatterWidget::initialize() {
     ui->setupUi(this);
+    ui->toolWidget->hide();
 
     // 创建布点地图，设置地图的宽高
     scatterMap = new ScatterMap();
@@ -43,11 +44,11 @@ void Widget::initialize() {
     QGridLayout *l = qobject_cast<QGridLayout *>(layout());
     delete l->replaceWidget(ui->placeholderWidget, scatterMap);
     ui->placeholderWidget->deleteLater();
-    ui->placeholderWidget = 0;
+    ui->placeholderWidget = nullptr;
 }
 
 // 信号槽事件处理
-void Widget::handleEvents() {
+void ScatterWidget::handleEvents() {
     // 点击按钮时获取所有点的坐标
     connect(ui->pushButton, &QPushButton::clicked, [this] {
         scatterMap->setScatterMapWidth(ui->widthLineEdit->text().trimmed().toInt());
@@ -98,7 +99,6 @@ void Widget::handleEvents() {
         }
 
         heatMapper.save("heatmap.png");
-
         ui->heatMapLabel->setPixmap(QPixmap::fromImage(heatMapCanvas));
     });
 }

@@ -10,7 +10,6 @@
 
 Scatter::Scatter(double xRatio, double yRatio, QWidget *parent) : QWidget(parent), xRatio(xRatio), yRatio(yRatio) {
     setAttribute(Qt::WA_StyledBackground);
-
     createContextMenu(); // 创建右键菜单
 }
 
@@ -23,8 +22,8 @@ void Scatter::setPosition(double xRatio, double yRatio) {
 
 // 更新坐标
 void Scatter::updatePosition() {
-    int x = parentWidget()->width() * xRatio; // - width()/2;
-    int y = parentWidget()->height() * yRatio; // - height()/2;
+    int x = static_cast<int>(parentWidget()->width() * xRatio);  // - width()/2;
+    int y = static_cast<int>(parentWidget()->height() * yRatio); // - height()/2;
     move(x, y);
 
     emit positionChanged(QPoint(x, y));
@@ -44,9 +43,9 @@ double Scatter::getYRatio() const {
 QPoint Scatter::getPosition() const {
     ScatterMap *scatterMap = qobject_cast<ScatterMap *>(parentWidget());
 
-    if (0 != scatterMap) {
-        int x = scatterMap->getScatterMapWidth() * xRatio;
-        int y = scatterMap->getScatterMapHeight() * yRatio;
+    if (nullptr != scatterMap) {
+        int x = static_cast<int>(scatterMap->getScatterMapWidth() * xRatio);
+        int y = static_cast<int>(scatterMap->getScatterMapHeight() * yRatio);
         return QPoint(x, y);
     }
 
@@ -86,8 +85,8 @@ void Scatter::mouseMoveEvent(QMouseEvent *event) {
         y = qMax(0, y);
         y = qMin(y, ph-th);
 
-        this->xRatio = (double) x / pw;
-        this->yRatio = (double) y / ph;
+        this->xRatio = static_cast<double>(x) / pw;
+        this->yRatio = static_cast<double>(y) / ph;
         updatePosition();
     }
 }

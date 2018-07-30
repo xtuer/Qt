@@ -18,20 +18,15 @@
  * 构造函数
  * @param width 渐变调色板宽度
  */
-GradientPalette::GradientPalette(int width)
-	: gradient_(0, 0, width, 1),
-	  width_(width)
-{
+GradientPalette::GradientPalette(int width) : gradient_(0, 0, width, 1), width_(width) {
 	canvas_ = new QImage(width, 1, QImage::Format_ARGB32);
 }
 
 /*
  * 析构函数
  */
-GradientPalette::~GradientPalette()
-{
+GradientPalette::~GradientPalette() {
 	delete canvas_;
-	canvas_ = NULL;
 }
 
 /*
@@ -39,8 +34,7 @@ GradientPalette::~GradientPalette()
  * @param index 指定位置，对应位置为 (0, index)
  * @param color 颜色
  */
-void GradientPalette::setColorAt(qreal index, const QColor &color)
-{
+void GradientPalette::setColorAt(qreal index, const QColor &color) {
 	gradient_.setColorAt(index, color);
 
 	QPainter painter(canvas_);
@@ -54,10 +48,11 @@ void GradientPalette::setColorAt(qreal index, const QColor &color)
  * @param index 取值位置
  * @return 返回指定索引处的颜色值
  */
-QColor GradientPalette::getColorAt(qreal index)
-{
+QColor GradientPalette::getColorAt(qreal index) {
 	index -= 1;
-	if (index > width_)
+    if (index > width_) {
 		return Qt::color0;
-	return canvas_->pixel(index, 0);
+    }
+
+    return canvas_->pixel(static_cast<int>(index) , 0);
 }

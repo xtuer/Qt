@@ -14,27 +14,57 @@
    <string>分组布局</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QLabel {
-	qproperty-alignment: 'AlignVCenter | AlignLeft';
+   <string notr="true">QDateEdit {
+    color: lightgray;
+    background: rgb(44, 44, 44);
+    border: 10px solid rgb(76, 76, 76);
+    padding: 5px;
+}
+
+QDateEdit:focus {
+	outline: none;
+}
+QDateEdit::down-button, QDateEdit::up-button {
+    subcontrol-origin: border;
+    width: 16px;
+    height: 10px;
+    background: white;
+    border: 2px solid rgb(170, 170, 170);
+}
+QDateEdit::down-button {
+    subcontrol-position: center left;
+}
+QDateEdit::up-button {
+    subcontrol-position: center right;
+}
+QDateEdit::up-arrow,  QDateEdit::down-arrow {
+    subcontrol-origin: content;
+    subcontrol-position: center center;
+    width: 6px;
+    height: 6px;
+    background: rgb(76, 76, 76);
 }</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_6">
    <item row="0" column="0">
     <widget class="QTableView" name="tableView"/>
    </item>
-   <item row="2" column="0">
+   <item row="3" column="0">
     <widget class="QPushButton" name="pushButton">
      <property name="text">
       <string>PushButton</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="0">
+   <item row="2" column="0">
     <widget class="QLabel" name="label">
      <property name="text">
       <string>TextLabel</string>
      </property>
     </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QDateEdit" name="dateEdit"/>
    </item>
   </layout>
  </widget>

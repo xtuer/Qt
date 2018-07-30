@@ -9,8 +9,8 @@
  * Modified at:   Tue Jul  9 23:12:59 2013
  * Description:   
  *==================================================================*/
-#ifndef _HEATMAPPER_H_
-#define _HEATMAPPER_H_
+#ifndef HEATMAPPER_H
+#define HEATMAPPER_H
 
 #include "global.h"
 #include <QVector>
@@ -64,7 +64,7 @@ private:
 	int height_;
 };
 
-#endif /* _HEATMAPPER_H_ */
+#endif /* HEATMAPPER_H */
 
 
 

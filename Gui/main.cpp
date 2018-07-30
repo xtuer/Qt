@@ -1,14 +1,15 @@
 #include <QApplication>
 #include <iostream>
 #include <iomanip>
-#include <complex>
+#include "ScatterMap.h"
 
 using namespace std;
 
 int main(int argc, char *argv[]) {
+    QApplication app(argc, argv);
 
-    complex<double> numl(2, 3);
-    cout << numl.real() << ", " << numl.imag() << endl;
+    ScatterMap form;
+    form.show();
 
-    return 0;
+    return app.exec();
 }

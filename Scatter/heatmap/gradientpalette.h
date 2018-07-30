@@ -9,8 +9,8 @@
  * Modified at:   Sat May 25 08:53:39 2013
  * Description:   
  *==================================================================*/
-#ifndef _GRADIENTPALETTE_H_
-#define _GRADIENTPALETTE_H_
+#ifndef GRADIENTPALETTE_H
+#define GRADIENTPALETTE_H
 
 #include <QLinearGradient>
 
@@ -36,4 +36,4 @@ private:
 	int width_;
 };
 
-#endif /* _GRADIENTPALETTE_H_ */
+#endif /* GRADIENTPALETTE_H */
