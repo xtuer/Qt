@@ -84,7 +84,7 @@ void BookService::readBookChapters(const QString &bookCode) {
 
     for (QJsonArray::const_iterator iter = chapters.begin(); iter != chapters.end(); ++iter) {
         QJsonObject chapter = iter->toObject();
-        createChapterItems(json, chapter, NULL);
+        createChapterItems(json, chapter, nullptr);
     }
 }
 
@@ -97,21 +97,11 @@ void BookService::readBookChapters(const QString &bookCode) {
  */
 void BookService::createChapterItems(const Json &json, const QJsonObject &currentChapter, QStandardItem *parentChapterNameItem) {
     // 注：每个章节目录都包含 2 列：名字和编码
-    bool kp = json.getBool("kp", false, currentChapter); // true 表示是知识点，false 表示章节
-    QString name   = json.getString("title", "",  currentChapter);
-    QString code   = json.getString("code", "",   currentChapter);
-    QString kpCode = json.getString("kpCode", "", currentChapter);
-    QString kpSubjectCode = json.getString("kpSubjectCode", "", currentChapter);
+    QString name = json.getString("title", "", currentChapter);
+    QString code = json.getString("code", "",  currentChapter);
+    QList<QStandardItem*> items = { new QStandardItem(name), new QStandardItem(code) };
 
-    QList<QStandardItem*> items;
-
-    if (kp) {
-        items = Service::createKpItemsForChapter(name, kpCode, kpSubjectCode);
-    } else {
-        items = { new QStandardItem(name), new QStandardItem(code) };
-    }
-
-    if (NULL == parentChapterNameItem) {
+    if (nullptr == parentChapterNameItem) {
         // parentItem 为 NULL，表示需要创建树的根节点
         chaptersModel->appendRow(items);
         parentChapterNameItem = items.at(0);
@@ -126,6 +116,17 @@ void BookService::createChapterItems(const Json &json, const QJsonObject &curren
     for (QJsonArray::const_iterator iter = subchapters.begin(); iter != subchapters.end(); ++iter) {
         QJsonObject subchapter = iter->toObject();
         createChapterItems(json, subchapter, parentChapterNameItem);
+    }
+
+    // 章节所属知识点
+    QJsonArray kps = json.getJsonArray("kps", currentChapter);
+    for (QJsonArray::const_iterator iter = kps.begin(); iter != kps.end(); ++iter) {
+        QJsonObject kp = iter->toObject();
+        QString kpCode = json.getString("code", "", kp);
+        QString kpName = json.getString("title", "", kp);
+        QString kpSubjectCode = json.getString("subjectCode", "", kp);
+
+        parentChapterNameItem->appendRow(Service::createKpItemsForChapter(kpName, kpCode, kpSubjectCode));
     }
 }
 
@@ -344,7 +345,7 @@ bool BookService::saveBooks() {
 
 // 创建章节目录对应的 JSON 对象
 QJsonObject BookService::createChapterJson(QStandardItem *chapterNameItem, QStandardItem *chapterCodeItem) {
-    if (NULL == chapterNameItem || NULL == chapterCodeItem) { return QJsonObject(); }
+    if (nullptr == chapterNameItem || nullptr == chapterCodeItem) { return QJsonObject(); }
 
     QString chapterName = chapterNameItem->data(Qt::DisplayRole).toString();
     QString chapterCode = chapterCodeItem->data(Qt::DisplayRole).toString();
@@ -354,7 +355,31 @@ QJsonObject BookService::createChapterJson(QStandardItem *chapterNameItem, QStan
     for (int i = 0; i < chapterNameItem->rowCount(); ++i) {
         QStandardItem *childChapterNameItem = chapterNameItem->child(i, 0);
         QStandardItem *childChapterCodeItem = chapterNameItem->child(i, 1);
-        childrenChapters.append(createChapterJson(childChapterNameItem, childChapterCodeItem));
+
+        // 不是知识点则是章节
+        QModelIndex kpIndex = chaptersModel->indexFromItem(childChapterNameItem);
+        if (!Service::isKpIndex(kpIndex)) {
+            childrenChapters.append(createChapterJson(childChapterNameItem, childChapterCodeItem));
+        }
+    }
+
+    // 章节所属知识点
+    QJsonArray kps;
+    for (int i = 0; i < chapterNameItem->rowCount(); ++i) {
+        QStandardItem *childChapterNameItem = chapterNameItem->child(i, 0);
+        QModelIndex kpIndex = chaptersModel->indexFromItem(childChapterNameItem);
+
+        if (Service::isKpIndex(kpIndex)) {
+            QString kpCode = kpIndex.data(ROLE_CODE).toString();
+            QString kpName = kpIndex.data().toString();
+            QString kpSubjectCode = kpIndex.data(ROLE_CODE_EXT).toString();
+
+            QJsonObject kp;
+            kp.insert("code", kpCode);
+            kp.insert("title", kpName);
+            kp.insert("subjectCode", kpSubjectCode);
+            kps.append(kp);
+        }
     }
 
     QJsonObject chapterJson;
@@ -365,16 +390,8 @@ QJsonObject BookService::createChapterJson(QStandardItem *chapterNameItem, QStan
         chapterJson.insert("children", childrenChapters);
     }
 
-    // 如果是知识点则保持它的信息
-    QModelIndex kpIndex = chaptersModel->indexFromItem(chapterNameItem);
-    if (Service::isKpIndex(kpIndex)) {
-        QString kpCode = kpIndex.data(ROLE_CODE).toString();
-        QString kpName = chapterName;
-        QString kpSubjectCode = kpIndex.data(ROLE_CODE_EXT).toString();
-        chapterJson.insert("kp",     true);
-        chapterJson.insert("kpCode", kpCode);
-        chapterJson.insert("kpName", kpName);
-        chapterJson.insert("kpSubjectCode", kpSubjectCode);
+    if (kps.size() > 0) {
+        chapterJson.insert("kps", kps);
     }
 
     return chapterJson;

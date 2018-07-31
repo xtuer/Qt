@@ -47,7 +47,7 @@ private:
     // 合并章节目录到知识点下
     void mergeChaptersToKps();
 
-    // 遍历章节
+    // 递归遍历章节: 把所有章节所属知识点的关系保存到 QList kpsOfChapters 中
     void travelChapters(const Json &json, const QJsonObject &chapter);
 
     // 遍历知识点
