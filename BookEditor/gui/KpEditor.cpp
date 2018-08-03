@@ -52,7 +52,6 @@ QStringList KpEditor::getSelectedKp() const {
         QModelIndex parent  = current.parent();
         QString name = kpsModel->index(current.row(), 0, parent).data().toString();
         QString code = kpsModel->index(current.row(), 1, parent).data().toString();
-        QString subjectCode = ui->kpCodeEdit->text().trimmed();
 
         return { name,  code, subjectCode };
     } else {
@@ -81,7 +80,6 @@ void KpEditor::initialize() {
         ui->saveButton->hide();
         ui->subjectsTreeView->setEditTriggers(QAbstractItemView::NoEditTriggers);
         ui->kpsTreeView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-        ui->kpCodeEdit->setReadOnly(true);
     } else {
         ui->okButton->hide();
     }
@@ -113,10 +111,6 @@ void KpEditor::initialize() {
 
     ui->kpsTreeView->setItemDelegate(new KpDelegate(ui->subjectsTreeView->selectionModel(), this));
 
-    // 设置编码的 validator，只能输入字母、数字和下划线
-    QRegularExpressionValidator *validator = new QRegularExpressionValidator(QRegularExpression("[-\\w]+"), this);
-    ui->kpCodeEdit->setValidator(validator);
-
     // createSubjectsContextMenu(); // 创建左侧学科的右键菜单
     createKpsContextMenu();      // 创建中间知识点右键菜单
 
@@ -131,20 +125,9 @@ void KpEditor::handleEvents() {
         resetKps();
 
         if (Service::isSubjectIndex(index)) {
-            QString subjectName = index.data().toString();
-            QString subjectCode = index.data(ROLE_CODE).toString();
-            ui->kpSubjectEdit->setText(subjectName);
-            ui->kpCodeEdit->setText(subjectCode);
-
+            subjectCode = index.data(ROLE_CODE).toString();
+            subjectName = index.data().toString();
             openSubjectKps(subjectCode); // 打开学科的知识点
-        }
-    });
-
-    // 编辑学科树上学科节点的名字时，更新右边的学科名字
-    connect(subjectsModel, &QStandardItemModel::itemChanged, [this] (QStandardItem *item) {
-        if (Service::isSubjectIndex(item->index())) {
-            QString subjectName = item->data(Qt::DisplayRole).toString();
-            ui->kpSubjectEdit->setText(subjectName);
         }
     });
 
@@ -336,21 +319,18 @@ void KpEditor::createKpsContextMenu() {
 
     // 添加子知识点
     connect(appendChildKpAction, &QAction::triggered, [this] {
-        QString subjectCode = ui->kpCodeEdit->text();
         kpService->appendChildKp(rightClickedKpIndex, subjectCode);
         ui->kpsTreeView->expand(rightClickedKpIndex);
     });
 
     // 插入前一知识点
     connect(insertBeforeAction, &QAction::triggered, [this] {
-        QString subjectCode = ui->kpCodeEdit->text();
         kpService->insertKp(rightClickedKpIndex, true, subjectCode);
         ui->kpsTreeView->expand(rightClickedKpIndex);
     });
 
     // 插入后一知识点
     connect(insertAfterAction, &QAction::triggered, [this] {
-        QString subjectCode = ui->kpCodeEdit->text();
         kpService->insertKp(rightClickedKpIndex, false, subjectCode);
         ui->kpsTreeView->expand(rightClickedKpIndex);
     });
@@ -383,8 +363,6 @@ void KpEditor::createKpsContextMenu() {
 
 // 重置知识点
 void KpEditor::resetKps() {
-    ui->kpSubjectEdit->setText("");
-    ui->kpCodeEdit->setText("");
     kpsModel->removeRows(0, kpsModel->rowCount());
 }
 
@@ -412,7 +390,26 @@ bool KpEditor::validate() const {
     //    2.4 学科编码不能重复使用
     //    2.5 知识点编码不能在当前学科中重复使用
 
-    if (!Service::isSubjectIndex(currentLeftIndex())) {
+    if (Service::isSubjectIndex(currentLeftIndex())) {
+        // [2] 选择学科不但要校验学科结构，还要校验学科的知识点
+
+        // [2.4] 学科编码不能重复使用
+        // [2.5] 知识点编码不能在当前学科中重复使用
+        QString error2;
+        bool ok2 = kpService->validateSubjectKps(&error2);
+
+        if (!ok2) {
+            QString error = QString("<center><font color='red'>校验失败: 编码被重复使用</font></center><br>%1").arg(error2);
+
+            MessageBox::message(error, 400, 300);
+        }
+
+        return ok2;
+    }
+
+    return true;
+
+    /*if (!Service::isSubjectIndex(currentLeftIndex())) {
         // [1] 没选择学科则只校验学科结构
         QString error;
         bool ok = kpService->validateSubjects(currentLeftIndex(), ui->kpCodeEdit->text().trimmed(), &error);
@@ -463,7 +460,7 @@ bool KpEditor::validate() const {
         }
 
         return ok1 && ok2;
-    }
+    }*/
 }
 
 // 左侧学科的树中当前选中节点的 index
@@ -492,8 +489,6 @@ void KpEditor::save() {
 
     if (Service::isSubjectIndex(currentLeftIndex())) {
         // [3] 选择了学科，则要保存学科结构以及它的知识点
-        QString subjectName = ui->kpSubjectEdit->text().trimmed();
-        QString subjectCode = ui->kpCodeEdit->text().trimmed();
 
         // 保存当前的学科到 ${subjectCode}.json
         bool ok1 = kpService->saveSubjectKps(subjectName, subjectCode);

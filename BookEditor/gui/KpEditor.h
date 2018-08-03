@@ -63,6 +63,8 @@ private:
     bool okButtonClickedInReadOnlyMode = false; // 只读模式时点击了 Ok 按钮
     KpService *kpService = nullptr;
     QDir kpsDir; // 教材所在文件夹
+    QString subjectName; // 学科名字
+    QString subjectCode; // 学科编码
 };
 
 #endif // KPEDITOR_H
