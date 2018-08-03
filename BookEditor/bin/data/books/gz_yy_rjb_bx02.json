@@ -1,0 +1,33 @@
+{
+    "chapters": [
+        {
+            "code": "01",
+            "title": "Unit 1　Cultural relice"
+        },
+        {
+            "code": "02",
+            "title": "Unit 2　The Olympic Games"
+        },
+        {
+            "code": "03",
+            "title": "Unit 3　Computers"
+        },
+        {
+            "code": "04",
+            "title": "Unit 4　Wildlife protection"
+        },
+        {
+            "code": "05",
+            "title": "Unit 5　Music"
+        },
+        {
+            "code": "06",
+            "title": "Appendices　附录"
+        }
+    ],
+    "code": "gz_yy_rjb_bx02",
+    "cover": "http://dzkbw.com/books/rjb/yingyu/xgbx2/Cover.jpg",
+    "subject": "英语",
+    "title": "必修2",
+    "version": "人教版"
+}

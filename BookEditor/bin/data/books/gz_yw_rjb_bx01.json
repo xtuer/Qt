@@ -1,0 +1,98 @@
+{
+    "chapters": [
+        {
+            "children": [
+                {
+                    "code": "01-01",
+                    "title": "1　*沁园春　长沙"
+                },
+                {
+                    "code": "01-02",
+                    "title": "2　诗两首"
+                },
+                {
+                    "children": [
+                        {
+                            "code": "01-03-01",
+                            "title": "新的章节"
+                        },
+                        {
+                            "code": "01-03-02",
+                            "title": "这个不错"
+                        }
+                    ],
+                    "code": "01-03",
+                    "title": "3　大堰河──我的保姆"
+                }
+            ],
+            "code": "01",
+            "kps": [
+                {
+                    "code": "XX-YW-01-01",
+                    "subjectCode": "XX-YW",
+                    "title": "1.1 前言"
+                }
+            ],
+            "title": "第一单元"
+        },
+        {
+            "children": [
+                {
+                    "code": "02-01",
+                    "title": "4　烛之武退秦师"
+                },
+                {
+                    "code": "02-02",
+                    "title": "5　荆轲刺秦王"
+                },
+                {
+                    "code": "02-03",
+                    "title": "6　鸿门宴"
+                }
+            ],
+            "code": "02",
+            "title": "第二单元"
+        },
+        {
+            "children": [
+                {
+                    "code": "03-01",
+                    "title": "7　记念刘和珍君"
+                },
+                {
+                    "code": "03-02",
+                    "title": "8　小狗包弟"
+                },
+                {
+                    "code": "03-03",
+                    "title": "9　*记梁任公先生的一次演讲"
+                }
+            ],
+            "code": "03",
+            "title": "第三单元"
+        },
+        {
+            "children": [
+                {
+                    "code": "04-01",
+                    "title": "10　短新闻两篇"
+                },
+                {
+                    "code": "04-02",
+                    "title": "11　包身工"
+                },
+                {
+                    "code": "04-03",
+                    "title": "12　飞向太空的航程"
+                }
+            ],
+            "code": "04",
+            "title": "第四单元"
+        }
+    ],
+    "code": "gz_yw_rjb_bx01",
+    "cover": "http://dzkbw.com/books/rjb/yuwen/xgbx1/Cover.jpg",
+    "subject": "语文",
+    "title": "必修1",
+    "version": "人教版"
+}

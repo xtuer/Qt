@@ -19,8 +19,8 @@ class KpEditor : public QWidget {
     Q_OBJECT
 
 public:
-    explicit KpEditor(bool readOnly = false, QWidget *parent = 0);
-    ~KpEditor();
+    explicit KpEditor(bool readOnly = false, QWidget *parent = nullptr);
+    ~KpEditor() override;
 
     // 只读模式时点击了 Ok 按钮
     bool isOkButtonClickedInReadOnlyMode() const;
@@ -54,14 +54,14 @@ private:
     QModelIndex currentKpIndex() const;   // 右侧知识点树中当前选中节点的 index
 
     Ui::KpEditor *ui;
-    QStandardItemModel *subjectsModel = NULL; // 学科的 model
-    QStandardItemModel *kpsModel      = NULL; // 知识点 model
+    QStandardItemModel *subjectsModel = nullptr; // 学科的 model
+    QStandardItemModel *kpsModel      = nullptr; // 知识点 model
     QModelIndex leftClickedLeftIndex; // 右键点击的左边 index
     QModelIndex rightClickedKpIndex;  // 右键点击知识点 index
 
     bool readOnly = false; // 只读
     bool okButtonClickedInReadOnlyMode = false; // 只读模式时点击了 Ok 按钮
-    KpService *kpService = NULL;
+    KpService *kpService = nullptr;
     QDir kpsDir; // 教材所在文件夹
 };
 

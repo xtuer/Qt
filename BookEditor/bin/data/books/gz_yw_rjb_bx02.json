@@ -1,0 +1,116 @@
+{
+    "chapters": [
+        {
+            "children": [
+                {
+                    "code": "01-01",
+                    "kps": [
+                        {
+                            "code": "01-01-01",
+                            "subjectCode": "gz_sx",
+                            "title": "集合的含义与表示"
+                        }
+                    ],
+                    "title": "1　荷塘月色"
+                },
+                {
+                    "code": "01-02",
+                    "title": "2　故都的秋"
+                },
+                {
+                    "code": "01-03",
+                    "title": "3　囚绿记"
+                }
+            ],
+            "code": "01",
+            "title": "第一单元"
+        },
+        {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "code": "02-01-01",
+                            "title": "氓"
+                        },
+                        {
+                            "code": "02-01-02",
+                            "title": "采薇"
+                        }
+                    ],
+                    "code": "02-01",
+                    "title": "4　《诗经》两首"
+                },
+                {
+                    "code": "02-02",
+                    "title": "5　离骚"
+                },
+                {
+                    "code": "02-03",
+                    "title": "6　孔雀东南飞　并序"
+                },
+                {
+                    "children": [
+                        {
+                            "code": "02-04-01",
+                            "title": "涉江采芙蓉"
+                        },
+                        {
+                            "code": "02-04-02",
+                            "title": "短歌行　　"
+                        },
+                        {
+                            "code": "02-04-03",
+                            "title": "归园田居（其一）"
+                        }
+                    ],
+                    "code": "02-04",
+                    "title": "7　诗三首"
+                }
+            ],
+            "code": "02",
+            "title": "第二单元"
+        },
+        {
+            "children": [
+                {
+                    "code": "03-01",
+                    "title": "8　兰亭集序"
+                },
+                {
+                    "code": "03-02",
+                    "title": "9　赤壁赋"
+                },
+                {
+                    "code": "03-03",
+                    "title": "10　游褒禅山记"
+                }
+            ],
+            "code": "03",
+            "title": "第三单元"
+        },
+        {
+            "children": [
+                {
+                    "code": "04-01",
+                    "title": "11　就任北京大学校长之演说"
+                },
+                {
+                    "code": "04-02",
+                    "title": "12　我有一个梦想"
+                },
+                {
+                    "code": "04-03",
+                    "title": "13　在马克思墓前的讲话"
+                }
+            ],
+            "code": "04",
+            "title": "第四单元"
+        }
+    ],
+    "code": "gz_yw_rjb_bx02",
+    "cover": "http://dzkbw.com/books/rjb/yuwen/xgbx2/Cover.gif",
+    "subject": "语文",
+    "title": "必修2",
+    "version": "人教版"
+}

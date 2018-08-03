@@ -41,7 +41,7 @@ public:
      *
      * @param parent
      */
-    void appendChildKp(const QModelIndex &parent);
+    void appendChildKp(const QModelIndex &parent, const QString &subjectCode);
 
     /**
      * 当 previous 为 true 时在 current 节点前插入知识点，否则在 current 后插入知识点
@@ -49,10 +49,19 @@ public:
      * @param current
      * @param previous
      */
-    void insertKp(const QModelIndex &current, bool previous);
+    void insertKp(const QModelIndex &current, bool previous, const QString &subjectCode);
 
 private:
     QJsonObject createSubjectKpsJson(QStandardItem *nameItem, QStandardItem *codeItem); // 创建学科知识点的 JSON
+
+    /**
+     * 生成知识点的编码
+     *
+     * @param subjectCode 学科编码
+     * @param parent 父知识点
+     * @return 返回知识点的编码
+     */
+    QString generateKpCode(const QString &subjectCode, const QModelIndex &parent);
 
     /**
      * 创建知识点树
@@ -65,8 +74,8 @@ private:
     void createKpItems(const Json &json, const QJsonObject &currentKp, QStandardItem *parentKpNameItem, bool withChapter);
 
     QDir kpsDir; // 学科知识点保存的文件夹
-    QStandardItemModel *subjectsModel = 0; // 学科的 model
-    QStandardItemModel *kpsModel      = 0; // 知识点 model
+    QStandardItemModel *subjectsModel = nullptr; // 学科的 model
+    QStandardItemModel *kpsModel      = nullptr; // 知识点 model
 };
 
 #endif // KPSERVICE_H

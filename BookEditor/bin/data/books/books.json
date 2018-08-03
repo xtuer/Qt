@@ -1,71 +1,264 @@
 {
     "phases": [
         {
-            "name": "高中",
             "subjects": [
                 {
-                    "books": [
+                    "title": "语文",
+                    "versions": [
                         {
-                            "code": "gzywbdb",
-                            "version": "猴子版"
+                            "books": [
+                                {
+                                    "code": "gz_yw_rjb_bx01",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/xgbx1/Cover.jpg",
+                                    "title": "必修1"
+                                },
+                                {
+                                    "code": "gz_yw_rjb_bx02",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/xgbx2/Cover.gif",
+                                    "title": "必修2"
+                                }
+                            ],
+                            "title": "人教版"
                         },
                         {
-                            "code": "gzywbdb-12",
-                            "version": "北大版"
+                            "books": [
+                            ],
+                            "title": "语文版"
                         }
-                    ],
-                    "name": "高中文学"
+                    ]
                 },
                 {
-                    "books": [
+                    "title": "数学",
+                    "versions": [
                         {
-                            "code": "gzsxtsb",
-                            "version": "泰山版"
-                        },
-                        {
-                            "code": "gzsxbdb",
-                            "version": "北大版"
+                            "books": [
+                                {
+                                    "code": "gz_sx_rjb_bx01",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgbx1/Cover.jpg",
+                                    "title": "必修1"
+                                },
+                                {
+                                    "code": "gz_sx_rjb_bx02",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgbx2/Cover.jpg",
+                                    "title": "必修2"
+                                }
+                            ],
+                            "title": "人教版"
                         }
-                    ],
-                    "name": "高中数学"
-                }
-            ]
-        },
-        {
-            "name": "初中",
-            "subjects": [
-                {
-                    "books": [
-                        {
-                            "code": "czywqhb",
-                            "version": "清华版"
-                        },
-                        {
-                            "code": "czywbdb",
-                            "version": "北大版"
-                        }
-                    ],
-                    "name": "初中语文"
+                    ]
                 },
                 {
-                    "books": [
+                    "title": "英语",
+                    "versions": [
                         {
-                            "code": "czsxgrb",
-                            "version": "工人版"
-                        },
-                        {
-                            "code": "czsxbdb",
-                            "version": "北大版"
+                            "books": [
+                                {
+                                    "code": "gz_yy_rjb_bx01",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/xgbx1/Cover.jpg",
+                                    "title": "必修1"
+                                },
+                                {
+                                    "code": "gz_yy_rjb_bx02",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/xgbx2/Cover.jpg",
+                                    "title": "必修2"
+                                }
+                            ],
+                            "title": "人教版"
                         }
-                    ],
-                    "name": "初中数学"
+                    ]
+                },
+                {
+                    "title": "物理",
+                    "versions": [
+                        {
+                            "books": [
+                                {
+                                    "code": "gz_wl_rjb_bx01",
+                                    "cover": "http://dzkbw.com/books/rjb/wuli/xgbx1/Cover.jpg",
+                                    "title": "必修1"
+                                },
+                                {
+                                    "code": "gz_wl_rjb_bx02",
+                                    "cover": "http://dzkbw.com/books/rjb/wuli/xgbx2/Cover.jpg",
+                                    "title": "必修2"
+                                }
+                            ],
+                            "title": "人教版"
+                        }
+                    ]
+                },
+                {
+                    "title": "化学",
+                    "versions": [
+                        {
+                            "books": [
+                                {
+                                    "code": "gz_hx_rjb_bx01",
+                                    "cover": "http://dzkbw.com/books/rjb/huaxue/xgbx1/Cover.jpg",
+                                    "title": "必修1"
+                                },
+                                {
+                                    "code": "gz_hx_rjb_bx02",
+                                    "cover": "http://dzkbw.com/books/rjb/huaxue/xgbx2/Cover.jpg",
+                                    "title": "必修2"
+                                }
+                            ],
+                            "title": "人教版"
+                        }
+                    ]
+                },
+                {
+                    "title": "生物",
+                    "versions": [
+                        {
+                            "books": [
+                                {
+                                    "code": "gz_sw_rjb_bx01",
+                                    "cover": "http://dzkbw.com/books/rjb/shengwu/xgbx1/Cover.jpg",
+                                    "title": "必修1"
+                                },
+                                {
+                                    "code": "gz_sw_rjb_bx02",
+                                    "cover": "",
+                                    "title": "必修2"
+                                }
+                            ],
+                            "title": "人教版"
+                        }
+                    ]
+                },
+                {
+                    "title": "政治",
+                    "versions": [
+                        {
+                            "books": [
+                                {
+                                    "code": "gz_zz_rjb_bx01",
+                                    "cover": "http://dzkbw.com/books/rjb/zhengzhi/xgbx1/Cover.jpg",
+                                    "title": "必修1"
+                                },
+                                {
+                                    "code": "gz_zz_rjb_bx02",
+                                    "cover": "http://dzkbw.com/books/rjb/zhengzhi/xgbx2/Cover.jpg",
+                                    "title": "必修2"
+                                }
+                            ],
+                            "title": "人教版"
+                        }
+                    ]
+                },
+                {
+                    "title": "历史",
+                    "versions": [
+                        {
+                            "books": [
+                                {
+                                    "code": "gz_ls_rjb_bx01",
+                                    "cover": "http://dzkbw.com/books/rjb/lishi/xgbx1/Cover.jpg",
+                                    "title": "必修1"
+                                },
+                                {
+                                    "code": "gz_ls_rjb_bx02",
+                                    "cover": "http://dzkbw.com/books/rjb/lishi/xgbx2/Cover.jpg",
+                                    "title": "必须2"
+                                }
+                            ],
+                            "title": "人教版"
+                        }
+                    ]
+                },
+                {
+                    "title": "地理",
+                    "versions": [
+                        {
+                            "books": [
+                                {
+                                    "code": "gz_dl_rjb_bx01",
+                                    "cover": "http://dzkbw.com/books/rjb/dili/xgbx1/Cover.gif",
+                                    "title": "必修1"
+                                },
+                                {
+                                    "code": "gz_dl_rjb_bx02",
+                                    "cover": "http://dzkbw.com/books/rjb/dili/xgbx2/Cover.jpg",
+                                    "title": "必修2"
+                                }
+                            ],
+                            "title": "人教版"
+                        }
+                    ]
                 }
-            ]
+            ],
+            "title": "高中"
         },
         {
-            "name": "小学",
             "subjects": [
-            ]
+                {
+                    "title": "语文",
+                    "versions": [
+                    ]
+                },
+                {
+                    "title": "数学",
+                    "versions": [
+                    ]
+                },
+                {
+                    "title": "英语",
+                    "versions": [
+                    ]
+                },
+                {
+                    "title": "物理",
+                    "versions": [
+                    ]
+                },
+                {
+                    "title": "化学",
+                    "versions": [
+                    ]
+                },
+                {
+                    "title": "生物",
+                    "versions": [
+                    ]
+                },
+                {
+                    "title": "政治",
+                    "versions": [
+                    ]
+                },
+                {
+                    "title": "历史",
+                    "versions": [
+                    ]
+                },
+                {
+                    "title": "地理",
+                    "versions": [
+                    ]
+                }
+            ],
+            "title": "初中"
+        },
+        {
+            "subjects": [
+                {
+                    "title": "语文",
+                    "versions": [
+                    ]
+                },
+                {
+                    "title": "数学",
+                    "versions": [
+                    ]
+                },
+                {
+                    "title": "英语",
+                    "versions": [
+                    ]
+                }
+            ],
+            "title": "小学"
         }
     ]
 }

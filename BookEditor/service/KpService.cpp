@@ -66,7 +66,7 @@ void KpService::readSubjects() {
     subjectsModel->removeRows(0, subjectsModel->rowCount());
     Json json(info.absoluteFilePath(), true);
 
-    QJsonArray phases = json.getJsonArray("phases");
+    /*QJsonArray phases = json.getJsonArray("phases");
     for (QJsonArray::const_iterator iter = phases.begin(); iter != phases.end(); ++iter) {
         // [1] 创建学段的节点
         QJsonObject phase = iter->toObject();
@@ -81,6 +81,27 @@ void KpService::readSubjects() {
             QJsonObject subject = siter->toObject();
             QString subjectName = json.getString("title", "", subject);
             QString subjectCode = json.getString("code", "", subject);
+            QStandardItem *subjectItem = Service::createSubjectItem(subjectName, subjectCode);
+            phaseItem->appendRow(subjectItem);
+        }
+    }*/
+
+    QJsonArray phases   = json.getJsonArray("phases");   // 学段数组
+    QJsonArray subjects = json.getJsonArray("subjects"); // 学科数组
+
+    for (QJsonArray::const_iterator iter = phases.begin(); iter != phases.end(); ++iter) {
+        // [1] 创建学段的节点
+        QJsonObject phase = iter->toObject();
+        QString phaseName = json.getString("name", "", phase);
+        QString phaseCode = json.getString("code", "", phase);
+        QStandardItem *phaseItem = Service::createPhaseItem(phaseName);
+        subjectsModel->appendRow(phaseItem);
+
+        for (QJsonArray::const_iterator siter = subjects.begin(); siter != subjects.end(); ++siter) {
+            // 创建学科
+            QJsonObject subject = siter->toObject();
+            QString subjectName = json.getString("name", "", subject);
+            QString subjectCode = phaseCode + "-" + json.getString("code", "", subject);
             QStandardItem *subjectItem = Service::createSubjectItem(subjectName, subjectCode);
             phaseItem->appendRow(subjectItem);
         }
@@ -175,8 +196,8 @@ bool KpService::validateSubjectKps(QString *error) const {
 }
 
 // 在 parent 节点下增加子知识点
-void KpService::appendChildKp(const QModelIndex &parent) {
-    QString code = Service::generateHierarchicalCode(kpsModel, parent, 1);
+void KpService::appendChildKp(const QModelIndex &parent, const QString &subjectCode) {
+    QString code = generateKpCode(subjectCode, parent);
     QList<QStandardItem*> childColumns = Service::createKpItems("新建知识点", code);
 
     if (parent.isValid()) {
@@ -186,12 +207,12 @@ void KpService::appendChildKp(const QModelIndex &parent) {
     }
 }
 
-void KpService::insertKp(const QModelIndex &current, bool previous) {
+void KpService::insertKp(const QModelIndex &current, bool previous, const QString &subjectCode) {
     // 如果 parent 有效，则插入到 parent 下面
     // 如果 parent 无效，则说明 current 是第一级节点，插入到 kpsModel 下面
 
     QModelIndex parent = current.parent();
-    QString code = Service::generateHierarchicalCode(kpsModel, parent, 1);
+    QString code = generateKpCode(subjectCode, parent);
     QList<QStandardItem*> childColumns = Service::createKpItems("新建知识点", code);
     int row = previous ? current.row() : current.row() + 1; // 插入的位置
 
@@ -275,6 +296,18 @@ QJsonObject KpService::createSubjectKpsJson(QStandardItem *nameItem, QStandardIt
     }
 
     return kpJson;
+}
+
+// 生成知识点的编码
+QString KpService::generateKpCode(const QString &subjectCode, const QModelIndex &parent) {
+    QString code = Service::generateHierarchicalCode(kpsModel, parent, 1);
+
+    // 如果没有以学科的编码开头，则加上学科的编码作为前缀
+    if (!code.startsWith(subjectCode)) {
+        code = subjectCode +"-" + code;
+    }
+
+    return code;
 }
 
 // 创建知识点树

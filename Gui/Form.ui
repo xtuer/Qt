@@ -14,7 +14,12 @@
    <string>分组布局</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QDateEdit {
+   <string notr="true">QPushButton {
+    qproperty-flat: true;
+    border: 1px solid red;
+	border-radius: 50%;
+}
+QDateEdit {
     color: lightgray;
     background: rgb(44, 44, 44);
     border: 10px solid rgb(76, 76, 76);

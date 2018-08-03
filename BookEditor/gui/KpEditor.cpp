@@ -96,6 +96,7 @@ void KpEditor::initialize() {
     subjectsModel = new QStandardItemModel(this);
     subjectsModel->setHorizontalHeaderLabels({ "学段 > 学科" });
     ui->subjectsTreeView->setModel(subjectsModel);
+    ui->subjectsTreeView->setEditTriggers(QAbstractItemView::NoEditTriggers); // 不允许编辑
 
     // 知识点的树
     kpsModel = new QStandardItemModel(this);
@@ -116,7 +117,7 @@ void KpEditor::initialize() {
     QRegularExpressionValidator *validator = new QRegularExpressionValidator(QRegularExpression("[-\\w]+"), this);
     ui->kpCodeEdit->setValidator(validator);
 
-    createSubjectsContextMenu(); // 创建左侧学科的右键菜单
+    // createSubjectsContextMenu(); // 创建左侧学科的右键菜单
     createKpsContextMenu();      // 创建中间知识点右键菜单
 
     kpService = new KpService(subjectsModel, kpsModel, kpsDir);
@@ -335,19 +336,22 @@ void KpEditor::createKpsContextMenu() {
 
     // 添加子知识点
     connect(appendChildKpAction, &QAction::triggered, [this] {
-        kpService->appendChildKp(rightClickedKpIndex);
+        QString subjectCode = ui->kpCodeEdit->text();
+        kpService->appendChildKp(rightClickedKpIndex, subjectCode);
         ui->kpsTreeView->expand(rightClickedKpIndex);
     });
 
     // 插入前一知识点
     connect(insertBeforeAction, &QAction::triggered, [this] {
-        kpService->insertKp(rightClickedKpIndex, true);
+        QString subjectCode = ui->kpCodeEdit->text();
+        kpService->insertKp(rightClickedKpIndex, true, subjectCode);
         ui->kpsTreeView->expand(rightClickedKpIndex);
     });
 
     // 插入后一知识点
     connect(insertAfterAction, &QAction::triggered, [this] {
-        kpService->insertKp(rightClickedKpIndex, false);
+        QString subjectCode = ui->kpCodeEdit->text();
+        kpService->insertKp(rightClickedKpIndex, false, subjectCode);
         ui->kpsTreeView->expand(rightClickedKpIndex);
     });
 
@@ -491,6 +495,21 @@ void KpEditor::save() {
         QString subjectName = ui->kpSubjectEdit->text().trimmed();
         QString subjectCode = ui->kpCodeEdit->text().trimmed();
 
+        // 保存当前的学科到 ${subjectCode}.json
+        bool ok1 = kpService->saveSubjectKps(subjectName, subjectCode);
+
+        if (ok1) {
+            UiUtil::showMessage(ui->messageLabel, "保存成功");
+        } else {
+            UiUtil::showMessage(ui->messageLabel, "保存失败", false);
+        }
+    }
+
+    /*if (Service::isSubjectIndex(currentLeftIndex())) {
+        // [3] 选择了学科，则要保存学科结构以及它的知识点
+        QString subjectName = ui->kpSubjectEdit->text().trimmed();
+        QString subjectCode = ui->kpCodeEdit->text().trimmed();
+
         // [3.1] 更新 subjectCode 到学科结构中选中的学科，因为可能被编辑过了
         QString oldSubJectCode = currentLeftIndex().data(ROLE_CODE).toString();
         subjectsModel->setData(currentLeftIndex(), subjectCode, ROLE_CODE);
@@ -519,5 +538,5 @@ void KpEditor::save() {
         } else {
             UiUtil::showMessage(ui->messageLabel, "保存失败", false);
         }
-    }
+    }*/
 }

@@ -1,0 +1,41 @@
+{
+    "kps": [
+        {
+            "children": [
+                {
+                    "chapters": [
+                        {
+                            "bookCode": "gz_yw_rjb_bx01",
+                            "code": "01",
+                            "title": "第一单元"
+                        }
+                    ],
+                    "code": "XX-YW-01-01",
+                    "title": "1.1 前言"
+                },
+                {
+                    "children": [
+                        {
+                            "code": "XX-YW-01-02-01",
+                            "title": "1.2.1 消解"
+                        },
+                        {
+                            "code": "XX-YW-01-02-03",
+                            "title": "1.2.2 大唐"
+                        },
+                        {
+                            "code": "XX-YW-01-02-02",
+                            "title": "1.2.3 西哟"
+                        }
+                    ],
+                    "code": "XX-YW-01-02",
+                    "title": "1.2 目录"
+                }
+            ],
+            "code": "XX-YW-01",
+            "title": "第一章"
+        }
+    ],
+    "subject": "语文",
+    "subjectCode": "XX-YW"
+}

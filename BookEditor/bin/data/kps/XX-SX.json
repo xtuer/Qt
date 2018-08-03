@@ -1,0 +1,30 @@
+{
+    "kps": [
+        {
+            "children": [
+                {
+                    "code": "XX-SX-01-01",
+                    "title": "新建知识点"
+                }
+            ],
+            "code": "XX-SX-01",
+            "title": "新建知识点"
+        },
+        {
+            "children": [
+                {
+                    "code": "XX-SX-02-01",
+                    "title": "新建知识点"
+                }
+            ],
+            "code": "XX-SX-02",
+            "title": "新建知识点"
+        },
+        {
+            "code": "XX-SX-03",
+            "title": "新建知识点"
+        }
+    ],
+    "subject": "数学",
+    "subjectCode": "XX-SX"
+}
