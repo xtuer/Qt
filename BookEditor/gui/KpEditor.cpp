@@ -19,6 +19,8 @@
 #include <QShortcut>
 #include <QStandardItemModel>
 #include <QRegularExpressionValidator>
+#include <QApplication>
+#include <QClipboard>
 
 KpEditor::KpEditor(bool readOnly, QWidget *parent) : QWidget(parent), ui(new Ui::KpEditor), readOnly(readOnly) {
     initialize();
@@ -100,9 +102,9 @@ void KpEditor::initialize() {
     kpsModel = new QStandardItemModel(this);
     kpsModel->setHorizontalHeaderLabels({ "知识点", "编码", "认知发展(必修)", "认知发展(选择性必修)", "学业质量参考(学业考)", "学业质量参考(等级考)" });
     ui->kpsTreeView->setModel(kpsModel);
-    ui->kpsTreeView->hideColumn(1);
+    // ui->kpsTreeView->hideColumn(1);
     ui->kpsTreeView->header()->setSectionsMovable(false);
-//    ui->kpsTreeView->header()->setSectionResizeMode(QHeaderView::ResizeMode::Fixed);
+    // ui->kpsTreeView->header()->setSectionResizeMode(QHeaderView::ResizeMode::Fixed);
     ui->kpsTreeView->setColumnWidth(0, 300);
     ui->kpsTreeView->setColumnWidth(2, 150);
     ui->kpsTreeView->setColumnWidth(3, 150);
@@ -137,6 +139,15 @@ void KpEditor::handleEvents() {
     });
     connect(kpsModel, &QStandardItemModel::itemChanged, [this] () {
         ui->saveButton->click();
+    });
+
+    // 双击编码时进行复制编码：学科编码-章节编码
+    connect(ui->kpsTreeView, &QAbstractItemView::doubleClicked, [this] (const QModelIndex &index) {
+        if (Service::isKpCodeIndex(index)) {
+            QString kpCode = index.data().toString();
+            QApplication::clipboard()->setText(kpCode);
+            UiUtil::showMessage(ui->messageLabel, "已复制知识点编码: " + kpCode);
+        }
     });
 
     // 校验

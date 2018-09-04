@@ -99,9 +99,17 @@ private:
      */
     QJsonObject createChapterJson(QStandardItem *chapterNameItem, QStandardItem *chapterCodeItem);
 
+    /**
+     * 创建编码的节点
+     *
+     * @param code 编码
+     * @return 节点对象
+     */
+    QStandardItem *createCodeItem(const QString &code) const;
+
     QDir booksDir; // 教材章节保存的文件夹
-    QStandardItemModel *booksModel    = 0; // 教材的 model
-    QStandardItemModel *chaptersModel = 0; // 章节的 model
+    QStandardItemModel *booksModel    = nullptr; // 教材的 model
+    QStandardItemModel *chaptersModel = nullptr; // 章节的 model
 };
 
 #endif // BOOKSERVICE_H

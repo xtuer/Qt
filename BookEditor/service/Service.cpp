@@ -67,9 +67,19 @@ bool Service::isKpIndex(const QModelIndex &index) {
     return isIndexOfType(index, TYPE_KP);
 }
 
+// 判断 index 是否知识点编码对应的 index
+bool Service::isKpCodeIndex(const QModelIndex &index) {
+    return isIndexOfType(index, TYPE_KP_CODE);
+}
+
 // 判断 index 是否章节对应的 index
 bool Service::isChapterIndex(const QModelIndex &index) {
     return isIndexOfType(index, TYPE_CHAPTER);
+}
+
+// 判断 index 是否章节编码对应的 index
+bool Service::isChapterCodeIndex(const QModelIndex &index) {
+    return isIndexOfType(index, TYPE_CHAPTER_CODE);
 }
 
 // 判断 index 是否 type 指定的类型
@@ -173,6 +183,9 @@ QList<QStandardItem *> Service::createKpItems(const QString &name, const QString
     QStandardItem *cognitionOptionalItem = new QStandardItem(cognitionOptional);
     QStandardItem *qualityStudyItem = new QStandardItem(qualityStudy);
     QStandardItem *qualityLevelItem = new QStandardItem(qualityLevel);
+
+    codeItem->setEditable(false);
+    codeItem->setData(TYPE_KP_CODE, ROLE_TYPE); // 表示章节编码的节点
 
     return { nameItem, codeItem, cognitionMustItem, cognitionOptionalItem, qualityStudyItem, qualityLevelItem };
 }

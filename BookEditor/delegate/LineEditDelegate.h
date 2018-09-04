@@ -5,7 +5,7 @@
 
 class LineEditDelegate : public QStyledItemDelegate {
 public:
-    LineEditDelegate(QObject *parent = 0);
+    LineEditDelegate(QObject *parent = nullptr);
 
     void updateEditorGeometry(QWidget *editor,
                               const QStyleOptionViewItem &option,

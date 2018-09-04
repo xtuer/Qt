@@ -1,4 +1,4 @@
-﻿#include "ui_BookEditor.h"
+#include "ui_BookEditor.h"
 #include "BookEditor.h"
 #include "KpEditor.h"
 #include "TopWindow.h"
@@ -7,6 +7,7 @@
 #include "bean/Book.h"
 #include "model/BooksModel.h"
 #include "model/ChaptersModel.h"
+#include "delegate/LineEditDelegate.h"
 
 #include "util/Json.h"
 #include "util/UiUtil.h"
@@ -27,6 +28,8 @@
 #include <QRegularExpressionValidator>
 #include <QTimer>
 #include <QVBoxLayout>
+#include <QClipboard>
+#include <QApplication>
 
 BookEditor::BookEditor(QWidget *parent) : QWidget(parent), ui(new Ui::BookEditor) {
     initialize();
@@ -71,8 +74,9 @@ void BookEditor::initialize() {
     chaptersModel = new ChaptersModel(this);
     chaptersModel->setHorizontalHeaderLabels(QStringList() << "章节" << "编码");
     ui->chaptersTreeView->setModel(chaptersModel);
-    ui->chaptersTreeView->hideColumn(1); // 隐藏编码列
+    // ui->chaptersTreeView->hideColumn(1); // 隐藏编码列
     ui->chaptersTreeView->setColumnWidth(0, 300);
+    ui->chaptersTreeView->setItemDelegate(new LineEditDelegate(this));
 
     // 启用拖拽
     // ui->booksTreeView->setDragEnabled(true);
@@ -91,7 +95,7 @@ void BookEditor::initialize() {
     previewButton->setObjectName("previewButton");
 
     // 设置编码的 validator，只能输入字母、数字和下划线
-    QRegularExpressionValidator *validator = new QRegularExpressionValidator(QRegularExpression("[-\\w]+"), this);
+    QRegularExpressionValidator *validator = new QRegularExpressionValidator(QRegularExpression("[\\w]+"), this);
     ui->bookCodeEdit->setValidator(validator);
 
     createBooksContextMenu();    // 创建左侧教材树的右键菜单
@@ -138,6 +142,15 @@ void BookEditor::handleEvents() {
     });
     connect(chaptersModel, &QStandardItemModel::itemChanged, [this] () {
         ui->saveButton->click();
+    });
+
+    // 双击编码时进行复制编码：教程编码-章节编码
+    connect(ui->chaptersTreeView, &QAbstractItemView::doubleClicked, [this] (const QModelIndex &index) {
+        if (Service::isChapterCodeIndex(index)) {
+            QString chapterCode = QString("%1-%2").arg(ui->bookCodeEdit->text().trimmed()).arg(index.data().toString());
+            QApplication::clipboard()->setText(chapterCode);
+            UiUtil::showMessage(ui->messageLabel, "已复制章节编码: " + chapterCode);
+        }
     });
 
     // // 编辑教材名字时，更新到树当前选择的教材节点

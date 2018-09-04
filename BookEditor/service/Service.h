@@ -13,15 +13,15 @@ class Service {
 public:
     /**
      * 给 parent 下的新节点生成有层级关系的编码。
-     * 新节点的编码为: parentCode + (子节点最大编码的后 2 位+1)，例如:
+     * 新节点的编码为: parentCode + (子节点最大编码的后 2 位+1)，上下级之间使用 - 分割，例如:
      * 01
-     *     0101
-     *     0102
-     *         010201
-     *         010202
+     *     01-01
+     *     01-02
+     *         01-02-01
+     *         01-02-02
      * 02
-     *     0201
-     *     0202
+     *     02-01
+     *     02-02
      * @param parent
      * @return 返回有层级关系的编码
      */
@@ -32,7 +32,9 @@ public:
     static bool isVersionIndex(const QModelIndex &index); // 判断 index 是否版本对应的 index
     static bool isBookIndex(const QModelIndex &index);    // 判断 index 是否教材对应的 index
     static bool isKpIndex(const QModelIndex &index);      // 判断 index 是否知识点对应的 index
+    static bool isKpCodeIndex(const QModelIndex &index);  // 判断 index 是否知识点编码对应的 index
     static bool isChapterIndex(const QModelIndex &index); // 判断 index 是否章节对应的 index
+    static bool isChapterCodeIndex(const QModelIndex &index); // 判断 index 是否章节编码对应的 index
     static bool isIndexOfType(const QModelIndex &index, const QString &type); // 判断 index 是否 type 指定的类型
 
     // 创建阶段的 item

@@ -20,8 +20,8 @@ class BookEditor : public QWidget {
     Q_OBJECT
 
 public:
-    explicit BookEditor(QWidget *parent = 0);
-    ~BookEditor();
+    explicit BookEditor(QWidget *parent = nullptr);
+    ~BookEditor() override;
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
@@ -41,14 +41,14 @@ private:
     QModelIndex currentLeftIndex() const;    // 当前教材的 index
     QModelIndex currentChapterIndex() const; // 当前章节的 index
 
-    Ui::BookEditor     *ui = NULL;
-    QStandardItemModel *booksModel    = NULL; // 教材的 model
-    QStandardItemModel *chaptersModel = NULL; // 章节的 model
+    Ui::BookEditor     *ui = nullptr;
+    QStandardItemModel *booksModel    = nullptr; // 教材的 model
+    QStandardItemModel *chaptersModel = nullptr; // 章节的 model
     QModelIndex leftClickedLeftIndex;     // 右键点击的左边 index
     QModelIndex rightClickedChapterIndex; // 右键点击的章节 index
 
-    QPushButton *previewButton = NULL; // 预览封面按钮
-    BookService *bookService   = NULL;
+    QPushButton *previewButton = nullptr; // 预览封面按钮
+    BookService *bookService   = nullptr;
     QDir booksDir; // 教材所在文件夹
 };
 

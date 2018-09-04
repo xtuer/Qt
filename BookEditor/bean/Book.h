@@ -19,7 +19,9 @@ extern const QString TYPE_SUBJECT; // 学科
 extern const QString TYPE_VERSION; // 版本
 extern const QString TYPE_BOOK;    // 教材
 extern const QString TYPE_KP;      // 知识点
+extern const QString TYPE_KP_CODE; // 知识点编码
 extern const QString TYPE_CHAPTER; // 章节
+extern const QString TYPE_CHAPTER_CODE; // 章节编码
 
 // 存储 code 和 info 对
 class CodeInfo {
