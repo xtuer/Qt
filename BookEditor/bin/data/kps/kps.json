@@ -1,34 +1,103 @@
 {
     "phases": [
-        { "code": "XX", "name": "小学学段" },
-        { "code": "CZ", "name": "初中学段" },
-        { "code": "GZ", "name": "高中学段" }
-    ],
-    "subjects": [
-        { "code": "YW", "name": "语文" },
-        { "code": "SX", "name": "数学" },
-        { "code": "YY", "name": "英语" },
-        { "code": "EY", "name": "俄语" },
-        { "code": "RY", "name": "日语" },
-        { "code": "DY", "name": "德语" },
-        { "code": "FY", "name": "法语" },
-        { "code": "XY", "name": "西班牙语" },
-        { "code": "WL", "name": "物理" },
-        { "code": "HX", "name": "化学" },
-        { "code": "SW", "name": "生物" },
-        { "code": "XX", "name": "信息技术" },
-        { "code": "LS", "name": "历史" },
-        { "code": "Ls", "name": "历史与社会" },
-        { "code": "DL", "name": "地理" },
-        { "code": "ZZ", "name": "思想政治" },
-        { "code": "PD", "name": "品德" },
-        { "code": "PS", "name": "品德社会" },
-        { "code": "SP", "name": "思想与品德" },
-        { "code": "Yy", "name": "音乐" },
-        { "code": "YS", "name": "艺术" },
-        { "code": "MS", "name": "美术" },
-        { "code": "TY", "name": "体育与健康" },
-        { "code": "KX", "name": "科学" },
-        { "code": "JS", "name": "通用技术" }
+        {
+            "subjects": [
+                {
+                    "code": "gz_yw",
+                    "title": "语文"
+                },
+                {
+                    "code": "gz_sx",
+                    "title": "数学"
+                },
+                {
+                    "code": "gz_yy",
+                    "title": "英语"
+                },
+                {
+                    "code": "gz_wl",
+                    "title": "物理"
+                },
+                {
+                    "code": "gz_hx",
+                    "title": "化学"
+                },
+                {
+                    "code": "gz_sw",
+                    "title": "生物"
+                },
+                {
+                    "code": "gz_zz",
+                    "title": "政治"
+                },
+                {
+                    "code": "gz_ls",
+                    "title": "历史"
+                },
+                {
+                    "code": "gz_dl",
+                    "title": "地理"
+                }
+            ],
+            "title": "高中"
+        },
+        {
+            "subjects": [
+                {
+                    "code": "cz_yw",
+                    "title": "语文"
+                },
+                {
+                    "code": "cz_sx",
+                    "title": "数学"
+                },
+                {
+                    "code": "cz_yy",
+                    "title": "英语"
+                },
+                {
+                    "code": "cz_wl",
+                    "title": "物理"
+                },
+                {
+                    "code": "",
+                    "title": "化学"
+                },
+                {
+                    "code": "",
+                    "title": "生物"
+                },
+                {
+                    "code": "",
+                    "title": "政治"
+                },
+                {
+                    "code": "",
+                    "title": "历史"
+                },
+                {
+                    "code": "cz_dl",
+                    "title": "地理"
+                }
+            ],
+            "title": "初中"
+        },
+        {
+            "subjects": [
+                {
+                    "code": "",
+                    "title": "语文"
+                },
+                {
+                    "code": "",
+                    "title": "数学"
+                },
+                {
+                    "code": "",
+                    "title": "英语"
+                }
+            ],
+            "title": "小学"
+        }
     ]
 }
