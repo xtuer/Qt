@@ -106,6 +106,7 @@ void KpEditor::initialize() {
     ui->kpsTreeView->header()->setSectionsMovable(false);
     // ui->kpsTreeView->header()->setSectionResizeMode(QHeaderView::ResizeMode::Fixed);
     ui->kpsTreeView->setColumnWidth(0, 300);
+    ui->kpsTreeView->setColumnWidth(1, 170);
     ui->kpsTreeView->setColumnWidth(2, 150);
     ui->kpsTreeView->setColumnWidth(3, 150);
     ui->kpsTreeView->setColumnWidth(4, 150);

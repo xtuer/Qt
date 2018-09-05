@@ -1,8 +1,8 @@
 {
     "phases": [
-        { "code": "XX", "name": "小学学段" },
+        { "code": "GZ", "name": "高中学段" },
         { "code": "CZ", "name": "初中学段" },
-        { "code": "GZ", "name": "高中学段" }
+        { "code": "XX", "name": "小学学段" }
     ],
     "subjects": [
         { "code": "YW", "name": "语文" },

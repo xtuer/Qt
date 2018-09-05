@@ -1,0 +1,156 @@
+{
+    "kps": [
+        {
+            "children": [
+                {
+                    "code": "XX-ZZ-01-01",
+                    "title": "货币"
+                },
+                {
+                    "code": "XX-ZZ-01-02",
+                    "title": "\n价格"
+                },
+                {
+                    "code": "XX-ZZ-01-03",
+                    "title": "消费"
+                },
+                {
+                    "code": "XX-ZZ-01-04",
+                    "title": "生产与经济制度"
+                },
+                {
+                    "code": "XX-ZZ-01-05",
+                    "title": "企业与劳动者"
+                },
+                {
+                    "code": "XX-ZZ-01-06",
+                    "title": "投资与融资"
+                },
+                {
+                    "code": "XX-ZZ-01-07",
+                    "title": "个人收入的分配"
+                },
+                {
+                    "code": "XX-ZZ-01-08",
+                    "title": "国家收入的分配"
+                },
+                {
+                    "code": "XX-ZZ-01-09",
+                    "title": "征税与纳税"
+                },
+                {
+                    "code": "XX-ZZ-01-10",
+                    "title": "社会主义市场经济"
+                },
+                {
+                    "code": "XX-ZZ-01-11",
+                    "title": "科学发展观和小康社会的经济建设"
+                },
+                {
+                    "code": "XX-ZZ-01-12",
+                    "title": "\n经济全球化与对外开放"
+                }
+            ],
+            "code": "XX-ZZ-01",
+            "title": "经济生活"
+        },
+        {
+            "children": [
+                {
+                    "code": "XX-ZZ-02-01",
+                    "title": "公民的政治生活"
+                },
+                {
+                    "code": "XX-ZZ-02-02",
+                    "title": "\n我国的政府"
+                },
+                {
+                    "code": "XX-ZZ-02-03",
+                    "title": "发展社会主义民主政治"
+                },
+                {
+                    "code": "XX-ZZ-02-04",
+                    "title": "当代国际社会"
+                }
+            ],
+            "code": "XX-ZZ-02",
+            "title": "政治生活"
+        },
+        {
+            "children": [
+                {
+                    "code": "XX-ZZ-03-01",
+                    "title": "\n文化与生活"
+                },
+                {
+                    "code": "XX-ZZ-03-02",
+                    "title": "文化传承与创新"
+                },
+                {
+                    "code": "XX-ZZ-03-03",
+                    "title": "中华文化与民族精神"
+                },
+                {
+                    "code": "XX-ZZ-03-04",
+                    "title": "发展中国特色社会主义文化"
+                }
+            ],
+            "code": "XX-ZZ-03",
+            "title": "文化生活"
+        },
+        {
+            "children": [
+                {
+                    "code": "XX-ZZ-04-01",
+                    "title": "生活智慧与时代精神"
+                },
+                {
+                    "code": "XX-ZZ-04-02",
+                    "title": "探索世界与追求真理"
+                },
+                {
+                    "code": "XX-ZZ-04-03",
+                    "title": "思想方法与创新意识"
+                },
+                {
+                    "code": "XX-ZZ-04-04",
+                    "title": "认识社会与价值选择"
+                }
+            ],
+            "code": "XX-ZZ-04",
+            "title": "生活与哲学"
+        },
+        {
+            "children": [
+                {
+                    "code": "XX-ZZ-05-01",
+                    "title": "科学社会主义常识"
+                },
+                {
+                    "code": "XX-ZZ-05-02",
+                    "title": "经济学常识"
+                },
+                {
+                    "code": "XX-ZZ-05-03",
+                    "title": "国家和国际组织"
+                },
+                {
+                    "code": "XX-ZZ-05-04",
+                    "title": "科学思维常识"
+                },
+                {
+                    "code": "XX-ZZ-05-05",
+                    "title": "生活中的法律常识"
+                },
+                {
+                    "code": "XX-ZZ-05-06",
+                    "title": "公民道德与伦理常识"
+                }
+            ],
+            "code": "XX-ZZ-05",
+            "title": "选修部分"
+        }
+    ],
+    "subject": "思想政治",
+    "subjectCode": "XX-ZZ"
+}

@@ -20,6 +20,7 @@ RC_ICONS = AppIcon.ico
 # Output directory
 CONFIG(debug, debug|release) {
     output = debug
+    TARGET = BookEditor_d
 }
 CONFIG(release, debug|release) {
     output = release
