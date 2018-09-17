@@ -300,12 +300,13 @@ QJsonObject KpService::createSubjectKpsJson(QStandardItem *nameItem, QStandardIt
 
 // 生成知识点的编码
 QString KpService::generateKpCode(const QString &subjectCode, const QModelIndex &parent) {
+    Q_UNUSED(subjectCode)
     QString code = Service::generateHierarchicalCode(kpsModel, parent, 1);
 
     // 如果没有以学科的编码开头，则加上学科的编码作为前缀
-    if (!code.startsWith(subjectCode)) {
-        code = subjectCode +":" + code;
-    }
+    // if (!code.startsWith(subjectCode)) {
+    //     code = subjectCode +":" + code;
+    // }
 
     return code;
 }

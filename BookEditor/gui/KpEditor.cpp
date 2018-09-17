@@ -145,7 +145,7 @@ void KpEditor::handleEvents() {
     // 双击编码时进行复制编码：学科编码-章节编码
     connect(ui->kpsTreeView, &QAbstractItemView::doubleClicked, [this] (const QModelIndex &index) {
         if (Service::isKpCodeIndex(index)) {
-            QString kpCode = index.data().toString();
+            QString kpCode = subjectCode + ":" + index.data().toString();
             QApplication::clipboard()->setText(kpCode);
             UiUtil::showMessage(ui->messageLabel, "已复制知识点编码: " + kpCode);
         }

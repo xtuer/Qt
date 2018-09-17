@@ -3,129 +3,129 @@
         {
             "children": [
                 {
-                    "code": "XX-DL-01-01",
+                    "code": "01-01",
                     "title": "地球与地图"
                 },
                 {
-                    "code": "XX-DL-01-02",
+                    "code": "01-02",
                     "title": "宇宙中的地球"
                 },
                 {
-                    "code": "XX-DL-01-03",
+                    "code": "01-03",
                     "title": "地球上的大气"
                 },
                 {
-                    "code": "XX-DL-01-04",
+                    "code": "01-04",
                     "title": "地球上的水"
                 },
                 {
-                    "code": "XX-DL-01-05",
+                    "code": "01-05",
                     "title": "地表形态的塑造"
                 },
                 {
-                    "code": "XX-DL-01-06",
+                    "code": "01-06",
                     "title": "自然环境的整体性与差异性"
                 },
                 {
-                    "code": "XX-DL-01-07",
+                    "code": "01-07",
                     "title": "自然环境对人类活动的影响"
                 }
             ],
-            "code": "XX-DL-01",
+            "code": "01",
             "title": "自然地理"
         },
         {
             "children": [
                 {
-                    "code": "XX-DL-02-01",
+                    "code": "02-01",
                     "title": "人口的变化"
                 },
                 {
-                    "code": "XX-DL-02-02",
+                    "code": "02-02",
                     "title": "城市与城市化"
                 },
                 {
-                    "code": "XX-DL-02-03",
+                    "code": "02-03",
                     "title": "农业地域的形成与发展"
                 },
                 {
-                    "code": "XX-DL-02-04",
+                    "code": "02-04",
                     "title": "工业地域的形成与发展"
                 },
                 {
-                    "code": "XX-DL-02-05",
+                    "code": "02-05",
                     "title": "人类活动的地域联系"
                 },
                 {
-                    "code": "XX-DL-02-06",
+                    "code": "02-06",
                     "title": "人类与地理环境的协调发展"
                 }
             ],
-            "code": "XX-DL-02",
+            "code": "02",
             "title": "人文地理"
         },
         {
             "children": [
                 {
-                    "code": "XX-DL-03-01",
+                    "code": "03-01",
                     "title": "区域地理环境与人类活动"
                 },
                 {
-                    "code": "XX-DL-03-02",
+                    "code": "03-02",
                     "title": "\n区域生态环境建设"
                 },
                 {
-                    "code": "XX-DL-03-03",
+                    "code": "03-03",
                     "title": "区域自然资源综合开发利用"
                 },
                 {
-                    "code": "XX-DL-03-04",
+                    "code": "03-04",
                     "title": "\n区域经济发展"
                 },
                 {
-                    "code": "XX-DL-03-05",
+                    "code": "03-05",
                     "title": "区际联系与区域协调发展"
                 }
             ],
-            "code": "XX-DL-03",
+            "code": "03",
             "title": "区域可持续发展"
         },
         {
             "children": [
                 {
-                    "code": "XX-DL-04-01",
+                    "code": "04-01",
                     "title": "宇宙和地球"
                 },
                 {
-                    "code": "XX-DL-04-02",
+                    "code": "04-02",
                     "title": "海洋地理"
                 },
                 {
-                    "code": "XX-DL-04-03",
+                    "code": "04-03",
                     "title": "旅游地理"
                 },
                 {
-                    "code": "XX-DL-04-04",
+                    "code": "04-04",
                     "title": "\n城乡规划"
                 },
                 {
-                    "code": "XX-DL-04-05",
+                    "code": "04-05",
                     "title": "\n自然灾害与防治"
                 },
                 {
-                    "code": "XX-DL-04-06",
+                    "code": "04-06",
                     "title": "环境保护"
                 }
             ],
-            "code": "XX-DL-04",
+            "code": "04",
             "title": "选修地理"
         },
         {
-            "code": "XX-DL-05",
+            "code": "05",
             "title": "中国地理"
         },
         {
-            "code": "XX-DL-06",
+            "code": "06",
             "title": "世界地理"
         }
     ],

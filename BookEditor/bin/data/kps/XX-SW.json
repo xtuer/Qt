@@ -3,715 +3,715 @@
         {
             "children": [
                 {
-                    "code": "XX-SW-01-01",
+                    "code": "01-01",
                     "title": "生命活动离不开细胞"
                 },
                 {
-                    "code": "XX-SW-01-02",
+                    "code": "01-02",
                     "title": "生命系统的结构层次"
                 }
             ],
-            "code": "XX-SW-01",
+            "code": "01",
             "title": "走进细胞"
         },
         {
             "children": [
                 {
-                    "code": "XX-SW-02-01",
+                    "code": "02-01",
                     "title": "蛋白质的结构与功能"
                 },
                 {
-                    "code": "XX-SW-02-02",
+                    "code": "02-02",
                     "title": "核酸的结构与功能"
                 },
                 {
-                    "code": "XX-SW-02-03",
+                    "code": "02-03",
                     "title": "糖类的种类与作用"
                 },
                 {
-                    "code": "XX-SW-02-04",
+                    "code": "02-04",
                     "title": "\n脂质的种类与作用"
                 },
                 {
-                    "code": "XX-SW-02-05",
+                    "code": "02-05",
                     "title": "水和无机盐的作用"
                 },
                 {
-                    "code": "XX-SW-02-06",
+                    "code": "02-06",
                     "title": "生物大分子以碳链为骨架"
                 }
             ],
-            "code": "XX-SW-02",
+            "code": "02",
             "title": "细胞的分子组成"
         },
         {
             "children": [
                 {
-                    "code": "XX-SW-03-01",
+                    "code": "03-01",
                     "title": "细胞学说建立的过程"
                 },
                 {
-                    "code": "XX-SW-03-02",
+                    "code": "03-02",
                     "title": "多种多样的细胞"
                 },
                 {
-                    "code": "XX-SW-03-03",
+                    "code": "03-03",
                     "title": "细胞膜系统的结构和功能"
                 },
                 {
-                    "code": "XX-SW-03-04",
+                    "code": "03-04",
                     "title": "几种细胞器的结构和功能"
                 },
                 {
-                    "code": "XX-SW-03-05",
+                    "code": "03-05",
                     "title": "细胞核的结构与功能"
                 }
             ],
-            "code": "XX-SW-03",
+            "code": "03",
             "title": "细胞的结构"
         },
         {
             "children": [
                 {
-                    "code": "XX-SW-04-01",
+                    "code": "04-01",
                     "title": "物质进出细胞的方式"
                 },
                 {
-                    "code": "XX-SW-04-02",
+                    "code": "04-02",
                     "title": "酶在代谢中的作用"
                 },
                 {
-                    "code": "XX-SW-04-03",
+                    "code": "04-03",
                     "title": "ATP在能量代谢中的作用"
                 },
                 {
-                    "code": "XX-SW-04-04",
+                    "code": "04-04",
                     "title": "\n光合作用以及对它的认识过程"
                 },
                 {
-                    "code": "XX-SW-04-05",
+                    "code": "04-05",
                     "title": "细胞呼吸"
                 }
             ],
-            "code": "XX-SW-04",
+            "code": "04",
             "title": "细胞的代谢"
         },
         {
             "children": [
                 {
-                    "code": "XX-SW-05-01",
+                    "code": "05-01",
                     "title": "细胞的生长和增殖的周期性"
                 },
                 {
-                    "code": "XX-SW-05-02",
+                    "code": "05-02",
                     "title": "细胞的无丝分裂及其特点"
                 },
                 {
-                    "code": "XX-SW-05-03",
+                    "code": "05-03",
                     "title": "动、植物细胞有丝分裂过程及异同"
                 },
                 {
-                    "code": "XX-SW-05-04",
+                    "code": "05-04",
                     "title": "\n有丝分裂的特征和意义"
                 }
             ],
-            "code": "XX-SW-05",
+            "code": "05",
             "title": "细胞的增殖"
         },
         {
             "children": [
                 {
-                    "code": "XX-SW-06-01",
+                    "code": "06-01",
                     "title": "细胞的分化"
                 },
                 {
-                    "code": "XX-SW-06-02",
+                    "code": "06-02",
                     "title": "细胞衰老的特征"
                 },
                 {
-                    "code": "XX-SW-06-03",
+                    "code": "06-03",
                     "title": "细胞凋亡的含义"
                 },
                 {
-                    "code": "XX-SW-06-04",
+                    "code": "06-04",
                     "title": "癌细胞的主要特征和恶性肿瘤的防治"
                 }
             ],
-            "code": "XX-SW-06",
+            "code": "06",
             "title": "细胞的分化、衰老和凋亡"
         },
         {
             "children": [
                 {
-                    "code": "XX-SW-07-01",
+                    "code": "07-01",
                     "title": "减数分裂"
                 },
                 {
-                    "code": "XX-SW-07-02",
+                    "code": "07-02",
                     "title": "精子与卵细胞的形成及特征"
                 },
                 {
-                    "code": "XX-SW-07-03",
+                    "code": "07-03",
                     "title": "动物的受精及其意义"
                 }
             ],
-            "code": "XX-SW-07",
+            "code": "07",
             "title": "遗传的细胞基础"
         },
         {
             "children": [
                 {
-                    "code": "XX-SW-08-01",
+                    "code": "08-01",
                     "title": "人类对遗传物质的探索过程"
                 },
                 {
-                    "code": "XX-SW-08-02",
+                    "code": "08-02",
                     "title": "DNA分子结构、特点和特性"
                 },
                 {
-                    "code": "XX-SW-08-03",
+                    "code": "08-03",
                     "title": "\nDNA、基因和遗传信息"
                 },
                 {
-                    "code": "XX-SW-08-04",
+                    "code": "08-04",
                     "title": "DNA分子复制"
                 },
                 {
-                    "code": "XX-SW-08-05",
+                    "code": "08-05",
                     "title": "遗传信息的转录和翻译"
                 }
             ],
-            "code": "XX-SW-08",
+            "code": "08",
             "title": "遗传的分子基础"
         },
         {
             "children": [
                 {
-                    "code": "XX-SW-09-01",
+                    "code": "09-01",
                     "title": "孟德尔遗传实验的科学方法"
                 },
                 {
-                    "code": "XX-SW-09-02",
+                    "code": "09-02",
                     "title": "遗传的分离定律"
                 },
                 {
-                    "code": "XX-SW-09-03",
+                    "code": "09-03",
                     "title": "遗传的自由组合规律"
                 }
             ],
-            "code": "XX-SW-09",
+            "code": "09",
             "title": "遗传的基本规律"
         },
         {
             "children": [
                 {
-                    "code": "XX-SW-10-01",
+                    "code": "10-01",
                     "title": "基因对性状的控制"
                 },
                 {
-                    "code": "XX-SW-10-02",
+                    "code": "10-02",
                     "title": "基因与染色体的关系"
                 },
                 {
-                    "code": "XX-SW-10-03",
+                    "code": "10-03",
                     "title": "\n伴性遗传及其特点"
                 }
             ],
-            "code": "XX-SW-10",
+            "code": "10",
             "title": "基因与性状的关系"
         },
         {
             "children": [
                 {
-                    "code": "XX-SW-11-01",
+                    "code": "11-01",
                     "title": "基因突变"
                 },
                 {
-                    "code": "XX-SW-11-02",
+                    "code": "11-02",
                     "title": "基因重组的概念及实例、意义"
                 },
                 {
-                    "code": "XX-SW-11-03",
+                    "code": "11-03",
                     "title": "染色体结构变异和数目变异"
                 },
                 {
-                    "code": "XX-SW-11-04",
+                    "code": "11-04",
                     "title": "杂交育种"
                 },
                 {
-                    "code": "XX-SW-11-05",
+                    "code": "11-05",
                     "title": "多倍体育种的原理、方法及特点"
                 },
                 {
-                    "code": "XX-SW-11-06",
+                    "code": "11-06",
                     "title": "诱变育种在生产中的应用"
                 },
                 {
-                    "code": "XX-SW-11-07",
+                    "code": "11-07",
                     "title": "\n单倍体育种的原理方法及特点"
                 }
             ],
-            "code": "XX-SW-11",
+            "code": "11",
             "title": "生物的变异"
         },
         {
             "children": [
                 {
-                    "code": "XX-SW-12-01",
+                    "code": "12-01",
                     "title": "人类遗传病"
                 },
                 {
-                    "code": "XX-SW-12-02",
+                    "code": "12-02",
                     "title": "遗传病和优生"
                 },
                 {
-                    "code": "XX-SW-12-03",
+                    "code": "12-03",
                     "title": "人类基因组计划及其意义"
                 }
             ],
-            "code": "XX-SW-12",
+            "code": "12",
             "title": "人类遗传病"
         },
         {
             "children": [
                 {
-                    "code": "XX-SW-13-01",
+                    "code": "13-01",
                     "title": "现代生物进化理论的主要内容"
                 },
                 {
-                    "code": "XX-SW-13-02",
+                    "code": "13-02",
                     "title": "生物进化的历程"
                 },
                 {
-                    "code": "XX-SW-13-03",
+                    "code": "13-03",
                     "title": "生物多样性形成的关系"
                 }
             ],
-            "code": "XX-SW-13",
+            "code": "13",
             "title": "生物的进化"
         },
         {
             "children": [
                 {
-                    "code": "XX-SW-14-01",
+                    "code": "14-01",
                     "title": "植物生长素的发现和作用"
                 },
                 {
-                    "code": "XX-SW-14-02",
+                    "code": "14-02",
                     "title": "生长素类似物在农业生产实践中的应用"
                 },
                 {
-                    "code": "XX-SW-14-03",
+                    "code": "14-03",
                     "title": "其他植物激素"
                 }
             ],
-            "code": "XX-SW-14",
+            "code": "14",
             "title": "植物的激素调节"
         },
         {
             "children": [
                 {
-                    "code": "XX-SW-15-01",
+                    "code": "15-01",
                     "title": "通过神经调节"
                 },
                 {
-                    "code": "XX-SW-15-02",
+                    "code": "15-02",
                     "title": "通过激素调节"
                 }
             ],
-            "code": "XX-SW-15",
+            "code": "15",
             "title": "动物生命活动调节"
         },
         {
             "children": [
                 {
-                    "code": "XX-SW-16-01",
+                    "code": "16-01",
                     "title": "内环境概念及组成"
                 },
                 {
-                    "code": "XX-SW-16-02",
+                    "code": "16-02",
                     "title": "稳态的调节机制"
                 },
                 {
-                    "code": "XX-SW-16-03",
+                    "code": "16-03",
                     "title": "内环境稳态与健康的关系"
                 },
                 {
-                    "code": "XX-SW-16-04",
+                    "code": "16-04",
                     "title": "体温调节、水盐调节"
                 },
                 {
-                    "code": "XX-SW-16-05",
+                    "code": "16-05",
                     "title": "血糖调节"
                 },
                 {
-                    "code": "XX-SW-16-06",
+                    "code": "16-06",
                     "title": "\n神经调节与体液调节的区别与联系"
                 }
             ],
-            "code": "XX-SW-16",
+            "code": "16",
             "title": "人体的内环境与稳态"
         },
         {
             "children": [
                 {
-                    "code": "XX-SW-17-01",
+                    "code": "17-01",
                     "title": "免疫系统组成及主要功能"
                 },
                 {
-                    "code": "XX-SW-17-02",
+                    "code": "17-02",
                     "title": "体液免疫和细胞免疫"
                 },
                 {
-                    "code": "XX-SW-17-03",
+                    "code": "17-03",
                     "title": "免疫异常实例及分析"
                 },
                 {
-                    "code": "XX-SW-17-04",
+                    "code": "17-04",
                     "title": "艾滋病"
                 }
             ],
-            "code": "XX-SW-17",
+            "code": "17",
             "title": "人体免疫系统在维持稳态中的作用"
         },
         {
             "children": [
                 {
-                    "code": "XX-SW-18-01",
+                    "code": "18-01",
                     "title": "种群的特征"
                 },
                 {
-                    "code": "XX-SW-18-02",
+                    "code": "18-02",
                     "title": "种群的数量变化"
                 },
                 {
-                    "code": "XX-SW-18-03",
+                    "code": "18-03",
                     "title": "\n群落的结构特征"
                 },
                 {
-                    "code": "XX-SW-18-04",
+                    "code": "18-04",
                     "title": "群落演替"
                 }
             ],
-            "code": "XX-SW-18",
+            "code": "18",
             "title": "种群和群落"
         },
         {
             "children": [
                 {
-                    "code": "XX-SW-19-01",
+                    "code": "19-01",
                     "title": "生态系统的结构"
                 },
                 {
-                    "code": "XX-SW-19-02",
+                    "code": "19-02",
                     "title": "生态系统功能"
                 },
                 {
-                    "code": "XX-SW-19-03",
+                    "code": "19-03",
                     "title": "生态系统的稳定性"
                 }
             ],
-            "code": "XX-SW-19",
+            "code": "19",
             "title": "\n生态系统"
         },
         {
-            "code": "XX-SW-20",
+            "code": "20",
             "title": "生态环境的保护"
         },
         {
-            "code": "XX-SW-21",
+            "code": "21",
             "title": "微生物的利用"
         },
         {
             "children": [
                 {
-                    "code": "XX-SW-22-01",
+                    "code": "22-01",
                     "title": "从生物材料中提取某些特定成分"
                 },
                 {
-                    "code": "XX-SW-22-02",
+                    "code": "22-02",
                     "title": "运用发酵加工食品的基本方法"
                 },
                 {
-                    "code": "XX-SW-22-03",
+                    "code": "22-03",
                     "title": "测定食品加工中可能产生有害物质"
                 },
                 {
-                    "code": "XX-SW-22-04",
+                    "code": "22-04",
                     "title": "植物的组织培养"
                 },
                 {
-                    "code": "XX-SW-22-05",
+                    "code": "22-05",
                     "title": "蛋白质的提取和分离"
                 },
                 {
-                    "code": "XX-SW-22-06",
+                    "code": "22-06",
                     "title": "PCR技术的基本操作应用"
                 }
             ],
-            "code": "XX-SW-22",
+            "code": "22",
             "title": "生物技术在食品加工及其他方面的应用"
         },
         {
             "children": [
                 {
-                    "code": "XX-SW-23-01",
+                    "code": "23-01",
                     "title": "基因工程"
                 },
                 {
-                    "code": "XX-SW-23-02",
+                    "code": "23-02",
                     "title": "蛋白质工程"
                 }
             ],
-            "code": "XX-SW-23",
+            "code": "23",
             "title": "基因工程"
         },
         {
             "children": [
                 {
-                    "code": "XX-SW-24-01",
+                    "code": "24-01",
                     "title": "植物细胞工程"
                 },
                 {
-                    "code": "XX-SW-24-02",
+                    "code": "24-02",
                     "title": "动物的细胞培养与体细胞克隆"
                 },
                 {
-                    "code": "XX-SW-24-03",
+                    "code": "24-03",
                     "title": "细胞融合与单克隆抗体"
                 }
             ],
-            "code": "XX-SW-24",
+            "code": "24",
             "title": "克隆技术"
         },
         {
             "children": [
                 {
-                    "code": "XX-SW-25-01",
+                    "code": "25-01",
                     "title": "动物的胚胎发育"
                 },
                 {
-                    "code": "XX-SW-25-02",
+                    "code": "25-02",
                     "title": "\n胚胎干细胞的移植及其应用"
                 }
             ],
-            "code": "XX-SW-25",
+            "code": "25",
             "title": "胚胎工程"
         },
         {
             "children": [
                 {
-                    "code": "XX-SW-26-01",
+                    "code": "26-01",
                     "title": "转基因生物的安全性"
                 },
                 {
-                    "code": "XX-SW-26-02",
+                    "code": "26-02",
                     "title": "生物武器对人类的威胁"
                 },
                 {
-                    "code": "XX-SW-26-03",
+                    "code": "26-03",
                     "title": "生物技术中的伦理问题"
                 }
             ],
-            "code": "XX-SW-26",
+            "code": "26",
             "title": "生物技术的安全性和伦理问题"
         },
         {
-            "code": "XX-SW-27",
+            "code": "27",
             "title": "\n生态工程"
         },
         {
             "children": [
                 {
-                    "code": "XX-SW-28-01",
+                    "code": "28-01",
                     "title": "使用显微镜观察多种多样的细胞"
                 },
                 {
-                    "code": "XX-SW-28-02",
+                    "code": "28-02",
                     "title": "检测生物组织中还原糖、脂肪和蛋白质"
                 },
                 {
-                    "code": "XX-SW-28-03",
+                    "code": "28-03",
                     "title": "观察DNA、RNA在细胞中的分布"
                 },
                 {
-                    "code": "XX-SW-28-04",
+                    "code": "28-04",
                     "title": "用高倍显微镜观察线绿体和叶绿体"
                 },
                 {
-                    "code": "XX-SW-28-05",
+                    "code": "28-05",
                     "title": "观察植物细胞的质壁分离和修复"
                 },
                 {
-                    "code": "XX-SW-28-06",
+                    "code": "28-06",
                     "title": "比较过氧化氢在不同条件的分解"
                 },
                 {
-                    "code": "XX-SW-28-07",
+                    "code": "28-07",
                     "title": "探究影响酶活性的因素"
                 },
                 {
-                    "code": "XX-SW-28-08",
+                    "code": "28-08",
                     "title": "\n叶绿体色素的提取和分离"
                 },
                 {
-                    "code": "XX-SW-28-09",
+                    "code": "28-09",
                     "title": "探究环境因素对光合作用强度的影响"
                 },
                 {
-                    "code": "XX-SW-28-10",
+                    "code": "28-10",
                     "title": "探究酵母菌的呼吸方式"
                 },
                 {
-                    "code": "XX-SW-28-11",
+                    "code": "28-11",
                     "title": "观察细胞的有丝分裂"
                 },
                 {
-                    "code": "XX-SW-28-12",
+                    "code": "28-12",
                     "title": "低温诱导染色体加倍的实验"
                 },
                 {
-                    "code": "XX-SW-28-13",
+                    "code": "28-13",
                     "title": "调查常见的人类遗传病"
                 },
                 {
-                    "code": "XX-SW-28-14",
+                    "code": "28-14",
                     "title": "探究植物生长调节剂对扦插枝条生根的作用"
                 },
                 {
-                    "code": "XX-SW-28-15",
+                    "code": "28-15",
                     "title": "探究培养液中酵母菌数量的动态变化"
                 },
                 {
-                    "code": "XX-SW-28-16",
+                    "code": "28-16",
                     "title": "土壤中动物类群丰富度的研究"
                 },
                 {
-                    "code": "XX-SW-28-17",
+                    "code": "28-17",
                     "title": "微生物的实验室培养"
                 },
                 {
-                    "code": "XX-SW-28-18",
+                    "code": "28-18",
                     "title": "土壤中分解尿素的细菌的分离与计数"
                 },
                 {
-                    "code": "XX-SW-28-19",
+                    "code": "28-19",
                     "title": "果胶酶在果汁生产中的作用"
                 },
                 {
-                    "code": "XX-SW-28-20",
+                    "code": "28-20",
                     "title": "果酒及果醋的制作"
                 },
                 {
-                    "code": "XX-SW-28-21",
+                    "code": "28-21",
                     "title": "胡萝卜素的提取"
                 },
                 {
-                    "code": "XX-SW-28-22",
+                    "code": "28-22",
                     "title": "菊花的组织培养"
                 },
                 {
-                    "code": "XX-SW-28-23",
+                    "code": "28-23",
                     "title": "\n血红蛋白的提取和分离"
                 },
                 {
-                    "code": "XX-SW-28-24",
+                    "code": "28-24",
                     "title": "DNA的粗提取与鉴定"
                 }
             ],
-            "code": "XX-SW-28",
+            "code": "28",
             "title": "实验"
         },
         {
             "children": [
                 {
-                    "code": "XX-SW-29-01",
+                    "code": "29-01",
                     "title": "抗生素的合理使用"
                 },
                 {
-                    "code": "XX-SW-29-02",
+                    "code": "29-02",
                     "title": "基因诊断与基因治疗"
                 },
                 {
-                    "code": "XX-SW-29-03",
+                    "code": "29-03",
                     "title": "人体的器官移植"
                 },
                 {
-                    "code": "XX-SW-29-04",
+                    "code": "29-04",
                     "title": "生殖健康"
                 }
             ],
-            "code": "XX-SW-29",
+            "code": "29",
             "title": "生物科学与健康"
         },
         {
             "children": [
                 {
-                    "code": "XX-SW-30-01",
+                    "code": "30-01",
                     "title": "农业生产中繁殖控制技术"
                 },
                 {
-                    "code": "XX-SW-30-02",
+                    "code": "30-02",
                     "title": "现代生物技术在育种上的应用"
                 },
                 {
-                    "code": "XX-SW-30-03",
+                    "code": "30-03",
                     "title": "植物病虫害的防治原理和预防"
                 },
                 {
-                    "code": "XX-SW-30-04",
+                    "code": "30-04",
                     "title": "动物疫病的控制"
                 },
                 {
-                    "code": "XX-SW-30-05",
+                    "code": "30-05",
                     "title": "绿色食品的生产"
                 },
                 {
-                    "code": "XX-SW-30-06",
+                    "code": "30-06",
                     "title": "设施农业"
                 }
             ],
-            "code": "XX-SW-30",
+            "code": "30",
             "title": "生物科学与农业"
         },
         {
             "children": [
                 {
-                    "code": "XX-SW-31-01",
+                    "code": "31-01",
                     "title": "微生物发酵及其应用"
                 },
                 {
-                    "code": "XX-SW-31-02",
+                    "code": "31-02",
                     "title": "酶在工业生产中的应用"
                 },
                 {
-                    "code": "XX-SW-31-03",
+                    "code": "31-03",
                     "title": "生物技术药物与疫苗"
                 }
             ],
-            "code": "XX-SW-31",
+            "code": "31",
             "title": "生物科学与工业"
         },
         {
             "children": [
                 {
-                    "code": "XX-SW-32-01",
+                    "code": "32-01",
                     "title": "生物性污染及其预防"
                 },
                 {
-                    "code": "XX-SW-32-02",
+                    "code": "32-02",
                     "title": "生物净化的原理及其应用"
                 },
                 {
-                    "code": "XX-SW-32-03",
+                    "code": "32-03",
                     "title": "关注生物资源的合理利用"
                 },
                 {
-                    "code": "XX-SW-32-04",
+                    "code": "32-04",
                     "title": "\n倡导绿色消费"
                 }
             ],
-            "code": "XX-SW-32",
+            "code": "32",
             "title": "生物科学与环境保护"
         }
     ],
