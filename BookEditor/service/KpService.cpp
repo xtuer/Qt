@@ -304,7 +304,7 @@ QString KpService::generateKpCode(const QString &subjectCode, const QModelIndex 
 
     // 如果没有以学科的编码开头，则加上学科的编码作为前缀
     if (!code.startsWith(subjectCode)) {
-        code = subjectCode +"-" + code;
+        code = subjectCode +":" + code;
     }
 
     return code;

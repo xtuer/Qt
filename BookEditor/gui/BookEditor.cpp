@@ -95,7 +95,7 @@ void BookEditor::initialize() {
     previewButton->setObjectName("previewButton");
 
     // 设置编码的 validator，只能输入字母、数字和下划线
-    QRegularExpressionValidator *validator = new QRegularExpressionValidator(QRegularExpression("[\\w]+"), this);
+    QRegularExpressionValidator *validator = new QRegularExpressionValidator(QRegularExpression("[\\w-]+"), this);
     ui->bookCodeEdit->setValidator(validator);
 
     createBooksContextMenu();    // 创建左侧教材树的右键菜单
@@ -147,7 +147,7 @@ void BookEditor::handleEvents() {
     // 双击编码时进行复制编码：教程编码-章节编码
     connect(ui->chaptersTreeView, &QAbstractItemView::doubleClicked, [this] (const QModelIndex &index) {
         if (Service::isChapterCodeIndex(index)) {
-            QString chapterCode = QString("%1-%2").arg(ui->bookCodeEdit->text().trimmed()).arg(index.data().toString());
+            QString chapterCode = QString("%1:%2").arg(ui->bookCodeEdit->text().trimmed()).arg(index.data().toString());
             QApplication::clipboard()->setText(chapterCode);
             UiUtil::showMessage(ui->messageLabel, "已复制章节编码: " + chapterCode);
         }
