@@ -56,7 +56,6 @@ static void initialize() {
 
     // 加载字体库
     UiUtil::loadFonts();
-    qDebug() << QString("你好");
 }
 
 /**
