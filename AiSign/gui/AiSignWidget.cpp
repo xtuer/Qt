@@ -59,7 +59,7 @@ struct AiSignWidgetPrivate {
     CardReaderThread *readerThread; // 身份证刷卡器
     QNetworkAccessManager *networkManager;
     SignInStatusWidget *signInStatusWidget;
-    TopWindow *signInStatusTopWindow = NULL;
+    TopWindow *signInStatusTopWindow = nullptr;
 };
 
 AiSignWidgetPrivate::AiSignWidgetPrivate() {
@@ -78,7 +78,10 @@ AiSignWidgetPrivate::AiSignWidgetPrivate() {
 }
 
 AiSignWidgetPrivate::~AiSignWidgetPrivate() {
-    camera->stop();
+    if (signInWithFace) {
+        camera->stop();
+    }
+
     readerThread->stop();
     readerThread->wait();
 
@@ -133,7 +136,23 @@ void AiSignWidget::initialize() {
     loadPeriodUnitAndSiteAndRoom(); // 加载服务器考期、考点、考场
     loadServerTime();    // 加载服务器的时间
     startIdCardReader(); // 启动身份证刷卡器
-    startCamera();       // 启动摄像头
+
+    if (d->signInWithFace) {
+        // 使用摄像头认证合一签到
+        startCamera(); // 启动摄像头
+    } else {
+        // 不使用摄像头认证合一签到
+        // 1. 隐藏摄像头的相关组件
+        // 2. 去掉认证合一签到选项
+        // 3. 调整组件的位置
+        ui->widget_4->hide(); // [1] 隐藏摄像头的相关组件
+        ui->label_42->hide();
+        ui->facePictureLabel->hide();
+        ui->cameraStatusLabel->hide();
+        ui->signInModeComboBox->removeItem(0); // [2] 去掉认证合一签到选项
+        QGridLayout *gl = qobject_cast<QGridLayout*>(ui->widget_20->layout());
+        gl->addWidget(ui->idCardContainer, 0, 1, 2, 2); // [3] 调整组件的位置
+    }
 }
 
 // 信号槽事件处理
@@ -489,15 +508,22 @@ void AiSignWidget::personReady(const Person &p) {
         d->cameraImageCapture->capture("capture.jpg"); // 拍照
     }*/
 
-    if (ui->signInModeComboBox->currentIndex() == 1) {
+    if (d->signInWithFace) {
+        if (ui->signInModeComboBox->currentIndex() == 1) {
+            // 简单签到
+            d->signInMode = SignInMode::SIGN_IN_SIMPLE;
+            info.signInMode = SignInMode::SIGN_IN_SIMPLE;
+            signIn(info);
+        } else if (ui->signInModeComboBox->currentIndex() == 0) {
+            // 人脸识别签到
+            d->signInMode = SignInMode::SIGN_IN_WITH_FACE;
+            d->cameraImageCapture->capture("capture.jpg"); // 拍照
+        }
+    } else {
         // 简单签到
         d->signInMode = SignInMode::SIGN_IN_SIMPLE;
         info.signInMode = SignInMode::SIGN_IN_SIMPLE;
         signIn(info);
-    } else if (ui->signInModeComboBox->currentIndex() == 0) {
-        // 人脸识别签到
-        d->signInMode = SignInMode::SIGN_IN_WITH_FACE;
-        d->cameraImageCapture->capture("capture.jpg"); // 拍照
     }
 }
 

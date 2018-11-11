@@ -8,7 +8,7 @@ QT       += core gui network multimedia multimediawidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = AiSign
+TARGET   = AiSign
 TEMPLATE = app
 
 CONFIG  -= app_bundle
@@ -19,6 +19,7 @@ RC_ICONS = App.ico
 # Output directory
 CONFIG(debug, debug|release) {
     output = debug
+    TARGET = AiSign_d
 }
 CONFIG(release, debug|release) {
     output = release
