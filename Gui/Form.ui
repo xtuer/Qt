@@ -6,72 +6,77 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>523</width>
-    <height>372</height>
+    <width>506</width>
+    <height>346</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>分组布局</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QPushButton {
-    qproperty-flat: true;
-    border: 1px solid red;
-	border-radius: 50%;
-}
-QDateEdit {
-    color: lightgray;
-    background: rgb(44, 44, 44);
-    border: 10px solid rgb(76, 76, 76);
-    padding: 5px;
+   <string notr="true">#widget {
+	min-height: 40px;
+	max-height: 40px;
+	border: 4px solid white;
+	border-top-left-radius: 24px;
+	border-bottom-left-radius: 24px;
+    padding: 0;
 }
 
-QDateEdit:focus {
-	outline: none;
-}
-QDateEdit::down-button, QDateEdit::up-button {
-    subcontrol-origin: border;
-    width: 16px;
-    height: 10px;
-    background: white;
-    border: 2px solid rgb(170, 170, 170);
-}
-QDateEdit::down-button {
-    subcontrol-position: center left;
-}
-QDateEdit::up-button {
-    subcontrol-position: center right;
-}
-QDateEdit::up-arrow,  QDateEdit::down-arrow {
-    subcontrol-origin: content;
-    subcontrol-position: center center;
-    width: 6px;
-    height: 6px;
-    background: rgb(76, 76, 76);
+QPushButton {
+	min-height: 40px;
+	max-height: 40px;
+	min-width: 40px;
+	max-width: 40px;
+	border: 4px solid white;
+	border-radius: 24px;
+	background: lightblue;
 }</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_6">
-   <item row="0" column="0">
-    <widget class="QTableView" name="tableView"/>
-   </item>
-   <item row="3" column="0">
-    <widget class="QPushButton" name="pushButton">
-     <property name="text">
-      <string>PushButton</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>TextLabel</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QDateEdit" name="dateEdit"/>
-   </item>
-  </layout>
+  <widget class="QWidget" name="widget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>140</y>
+     <width>311</width>
+     <height>48</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QPushButton" name="pushButton">
+      <property name="text">
+       <string>+</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>246</width>
+        <height>11</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+   </layout>
+  </widget>
  </widget>
  <resources/>
  <connections/>

@@ -14,6 +14,7 @@ TEMPLATE = app
 # Output directory
 CONFIG(debug, debug|release) {
     output = debug
+    TARGET = ReportWizard_d
 }
 CONFIG(release, debug|release) {
     output = release
@@ -25,16 +26,11 @@ MOC_DIR     = $$output
 RCC_DIR     = $$output
 UI_DIR      = $$output
 
+include(bean/bean.pri)
+include(gui/gui.pri)
+include(gui-report/gui-report.pri)
+include(util/util.pri)
+
 SOURCES += \
-        main.cpp \
-        ReportWizardWidget.cpp \
-    ReportSettings.cpp \
-    Json.cpp
+        main.cpp
 
-HEADERS += \
-        ReportWizardWidget.h \
-    ReportSettings.h \
-    Json.h
-
-FORMS += \
-        ReportWizardWidget.ui

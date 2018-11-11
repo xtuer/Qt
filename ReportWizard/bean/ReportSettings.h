@@ -14,14 +14,14 @@ public:
      *
      * @param json ReportSettings 的 JSON 字符串表示
      */
-    ReportSettings(const QString &json);
+    static ReportSettings fromJson(const QString &json);
 
     /**
      * 把 ReportSettings 对象转换为 JSON 字符串的表示，方便存储到数据库、文件等
      *
      * @return JSON 字符串
      */
-    QString toJson();
+    QString toJson() const;
 
     // 设备类型
     // 0: 环境试验设备

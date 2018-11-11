@@ -1,152 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ReportWizardWidget</class>
- <widget class="QWidget" name="ReportWizardWidget">
+ <class>DGJBX</class>
+ <widget class="QWidget" name="DGJBX">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>438</width>
-    <height>524</height>
+    <width>446</width>
+    <height>482</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>ReportWizardWidget</string>
+   <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
-     <widget class="QWidget" name="deviceTypePage">
-      <layout class="QGridLayout" name="gridLayout_13">
+     <widget class="QWidget" name="page">
+      <layout class="QGridLayout" name="gridLayout_2">
        <item row="0" column="0">
-        <widget class="QGroupBox" name="deviceTypesGroupBox">
-         <property name="title">
-          <string>选择设备类型</string>
+        <widget class="QFrame" name="frame">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
          </property>
-         <layout class="QGridLayout" name="gridLayout_4">
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_3">
           <item row="2" column="0">
-           <widget class="QFrame" name="frame">
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
+           <widget class="QCheckBox" name="minCheckBox">
+            <property name="text">
+             <string>最 小 值</string>
             </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QCheckBox" name="valueA0CheckBox">
+            <property name="text">
+             <string>测量 A0 值</string>
             </property>
-            <layout class="QGridLayout" name="gridLayout_3">
-             <item row="1" column="1">
-              <widget class="QCheckBox" name="killTimeCheckBox">
-               <property name="text">
-                <string>测量时间</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="1">
-              <widget class="QCheckBox" name="maxCheckBox">
-               <property name="text">
-                <string>最 大 值</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0">
-              <widget class="QCheckBox" name="timeZoneCheckBox">
-               <property name="text">
-                <string>灭菌时段</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="0">
-              <widget class="QCheckBox" name="averageCheckBox">
-               <property name="text">
-                <string>测量均值</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="0">
-              <widget class="QCheckBox" name="minCheckBox">
-               <property name="text">
-                <string>最 小 值</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="0" colspan="2">
-              <widget class="QComboBox" name="deviceTypeComboBox">
-               <property name="currentIndex">
-                <number>1</number>
-               </property>
-               <item>
-                <property name="text">
-                 <string>环境试验设备</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>蒸汽灭菌设备</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>干热灭菌设备</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>清洗消毒设备</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>微波消解设备</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-             <item row="4" column="1">
-              <widget class="QCheckBox" name="valueA0CheckBox">
-               <property name="text">
-                <string>测量 A0 值</string>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="0">
-              <widget class="QCheckBox" name="valueF0CheckBox">
-               <property name="text">
-                <string>测量 F0 值</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="1">
-              <widget class="QCheckBox" name="bodongCheckBox">
-               <property name="text">
-                <string>波 动 度</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
            </widget>
           </item>
           <item row="3" column="0">
-           <spacer name="verticalSpacer">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
+           <widget class="QCheckBox" name="valueF0CheckBox">
+            <property name="text">
+             <string>测量 F0 值</string>
             </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>1</height>
-             </size>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QCheckBox" name="bodongCheckBox">
+            <property name="text">
+             <string>波 动 度</string>
             </property>
-           </spacer>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QCheckBox" name="averageCheckBox">
+            <property name="text">
+             <string>测量均值</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QCheckBox" name="maxCheckBox">
+            <property name="text">
+             <string>最 大 值</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QCheckBox" name="killTimeCheckBox">
+            <property name="text">
+             <string>测量时间</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="timeZoneCheckBox">
+            <property name="text">
+             <string>灭菌时段</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
        </item>
+       <item row="1" column="0">
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>301</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="commonInformationPage">
-      <layout class="QGridLayout" name="gridLayout_15">
+     <widget class="QWidget" name="page_2">
+      <layout class="QGridLayout" name="gridLayout_4">
        <item row="0" column="0">
         <widget class="QGroupBox" name="commonInformationGroupBox">
          <property name="minimumSize">
@@ -186,7 +145,11 @@
               </widget>
              </item>
              <item row="1" column="1">
-              <widget class="QLineEdit" name="companyNameLineEdit"/>
+              <widget class="QLineEdit" name="companyNameLineEdit">
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
              </item>
              <item row="2" column="0">
               <widget class="QLabel" name="label_5">
@@ -196,7 +159,11 @@
               </widget>
              </item>
              <item row="2" column="1">
-              <widget class="QLineEdit" name="departmentLineEdit"/>
+              <widget class="QLineEdit" name="departmentLineEdit">
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
              </item>
              <item row="3" column="0">
               <widget class="QLabel" name="label_6">
@@ -206,7 +173,11 @@
               </widget>
              </item>
              <item row="3" column="1">
-              <widget class="QLineEdit" name="addressLineEdit"/>
+              <widget class="QLineEdit" name="addressLineEdit">
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
              </item>
              <item row="4" column="0">
               <widget class="QLabel" name="label_7">
@@ -216,7 +187,11 @@
               </widget>
              </item>
              <item row="4" column="1">
-              <widget class="QLineEdit" name="phoneNumberLineEdit"/>
+              <widget class="QLineEdit" name="phoneNumberLineEdit">
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
              </item>
              <item row="5" column="0">
               <widget class="QLabel" name="label_8">
@@ -226,7 +201,11 @@
               </widget>
              </item>
              <item row="5" column="1">
-              <widget class="QLineEdit" name="expertLineEdit"/>
+              <widget class="QLineEdit" name="expertLineEdit">
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>
@@ -258,10 +237,18 @@
               </widget>
              </item>
              <item row="4" column="1">
-              <widget class="QLineEdit" name="deviceProviderLineEdit"/>
+              <widget class="QLineEdit" name="deviceProviderLineEdit">
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
              </item>
              <item row="2" column="1">
-              <widget class="QLineEdit" name="deviceModelLineEdit"/>
+              <widget class="QLineEdit" name="deviceModelLineEdit">
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
              </item>
              <item row="3" column="0">
               <widget class="QLabel" name="label_12">
@@ -278,7 +265,11 @@
               </widget>
              </item>
              <item row="3" column="1">
-              <widget class="QLineEdit" name="deviceSerialLineEdit"/>
+              <widget class="QLineEdit" name="deviceSerialLineEdit">
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
              </item>
              <item row="4" column="0">
               <widget class="QLabel" name="label_13">
@@ -288,7 +279,11 @@
               </widget>
              </item>
              <item row="1" column="1">
-              <widget class="QLineEdit" name="deviceNameLineEdit"/>
+              <widget class="QLineEdit" name="deviceNameLineEdit">
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>
@@ -311,8 +306,8 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="detailParametersPage">
-      <layout class="QGridLayout" name="gridLayout_14">
+     <widget class="QWidget" name="page_3">
+      <layout class="QGridLayout" name="gridLayout_5">
        <item row="0" column="0">
         <widget class="QGroupBox" name="detailParametersGroupBox">
          <property name="minimumSize">
@@ -412,7 +407,11 @@
               </widget>
              </item>
              <item row="1" column="1">
-              <widget class="QLineEdit" name="killTempLineEdit"/>
+              <widget class="QLineEdit" name="killTempLineEdit">
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
              </item>
              <item row="1" column="2">
               <widget class="QLabel" name="label_16">
@@ -429,7 +428,11 @@
               </widget>
              </item>
              <item row="2" column="1">
-              <widget class="QLineEdit" name="killTimeLineEdit"/>
+              <widget class="QLineEdit" name="killTimeLineEdit">
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
              </item>
              <item row="2" column="2">
               <widget class="QLabel" name="label_18">
@@ -532,14 +535,14 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="reportParametersPage">
-      <layout class="QGridLayout" name="gridLayout_17">
+     <widget class="QWidget" name="page_4">
+      <layout class="QGridLayout" name="gridLayout_14">
        <item row="0" column="0">
         <widget class="QGroupBox" name="reportParametersGroupBox">
          <property name="title">
           <string>选择报告参数</string>
          </property>
-         <layout class="QGridLayout" name="gridLayout_2">
+         <layout class="QGridLayout" name="gridLayout_13">
           <item row="0" column="0">
            <widget class="QFrame" name="frame_8">
             <property name="frameShape">
@@ -600,80 +603,8 @@
      </widget>
     </widget>
    </item>
-   <item row="1" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QPushButton" name="saveButton">
-       <property name="text">
-        <string>确定</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="previousButton">
-       <property name="text">
-        <string>上一步</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="nextButton">
-       <property name="text">
-        <string>下一步</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
   </layout>
  </widget>
- <layoutdefault spacing="6" margin="11"/>
- <tabstops>
-  <tabstop>deviceTypeComboBox</tabstop>
-  <tabstop>timeZoneCheckBox</tabstop>
-  <tabstop>killTimeCheckBox</tabstop>
-  <tabstop>averageCheckBox</tabstop>
-  <tabstop>maxCheckBox</tabstop>
-  <tabstop>minCheckBox</tabstop>
-  <tabstop>bodongCheckBox</tabstop>
-  <tabstop>valueF0CheckBox</tabstop>
-  <tabstop>valueA0CheckBox</tabstop>
-  <tabstop>companyNameLineEdit</tabstop>
-  <tabstop>departmentLineEdit</tabstop>
-  <tabstop>addressLineEdit</tabstop>
-  <tabstop>phoneNumberLineEdit</tabstop>
-  <tabstop>expertLineEdit</tabstop>
-  <tabstop>deviceNameLineEdit</tabstop>
-  <tabstop>deviceModelLineEdit</tabstop>
-  <tabstop>deviceSerialLineEdit</tabstop>
-  <tabstop>deviceProviderLineEdit</tabstop>
-  <tabstop>killTempLineEdit</tabstop>
-  <tabstop>killTimeLineEdit</tabstop>
-  <tabstop>curvePropertyComboBox</tabstop>
-  <tabstop>curvePressComboBox</tabstop>
-  <tabstop>buDianComboBox</tabstop>
-  <tabstop>buDianButton</tabstop>
-  <tabstop>report1CheckBox</tabstop>
-  <tabstop>report2CheckBox</tabstop>
-  <tabstop>report3CheckBox</tabstop>
-  <tabstop>report4CheckBox</tabstop>
-  <tabstop>saveButton</tabstop>
-  <tabstop>previousButton</tabstop>
-  <tabstop>nextButton</tabstop>
- </tabstops>
  <resources/>
  <connections/>
 </ui>

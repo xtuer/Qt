@@ -1,10 +1,10 @@
-#include "ReportWizardWidget.h"
 #include <QApplication>
+#include "gui-report/ReportWizard.h"
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
-    ReportWizardWidget w;
+
+    ReportWizard w;
     w.show();
 
     return a.exec();
