@@ -35,7 +35,7 @@ signals:
 private:
     void initialize();   // 初始化
     void handleEvents(); // 信号槽处理
-    ReportWizardBase* getCurrentSettingsWidget() const; // 获取当前设备配置的 Widget
+    ReportWizardBase* getCurrentSettingsWizard() const; // 获取当前设备配置的 Widget
 
     Ui::ReportWizard *ui;
 };
