@@ -8,8 +8,15 @@ int main(int argc, char *argv[]) {
     Q_UNUSED(argv)
 
     // 使用字符串创建 Json
-    Json j("{\"message\": \"Welcome\"}");
-    qDebug() << j.getString("message");
+    Json j("{\"message\": \"Welcome\", \"code\": 200, \"inner\": {\"ok\": true}}");
+    qDebug().noquote() << j.getString("message");
+
+    // 删除
+    qDebug().noquote() << j.toString();
+    j.remove("code");
+    qDebug().noquote() << j.toString();
+    j.remove("inner.ok");
+    qDebug().noquote() << j.toString();
 
     // 从文件读取 Json
     Json json("/Users/Biao/Documents/workspace/Qt/Json/x.json", true);

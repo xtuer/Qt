@@ -54,6 +54,10 @@ public:
     explicit Json(const QString &jsonOrJsonFilePath = "{}", bool fromFile = false);
     ~Json();
 
+    // 禁止复制构造和赋值, 因为 ~Json() 中会删除 JSON 的数据对象 JsonPrivate
+    Json(const Json &other) = delete;
+    Json& operator=(const Json &other) = delete;
+
     bool isValid() const;        // JSON 是否有效，有效的 JSON 返回 true，否则返回 false
     QString errorString() const; // JSON 无效时的错误信息
 
@@ -82,6 +86,12 @@ public:
      */
     void set(const QString &path, const QJsonValue &value);
     void set(const QString &path, const QStringList &strings);
+
+    /**
+     * @brief 删除 path 对应的属性
+     * @param path 带 "." 的路径格
+     */
+    void remove(const QString &path);
 
     /**
      * @brief 把 JSON 保存到 path 指定的文件

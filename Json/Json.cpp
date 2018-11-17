@@ -12,8 +12,9 @@
 struct JsonPrivate {
     JsonPrivate(const QString &jsonOrJsonFilePath, bool fromFile);
 
-    void setValue(QJsonObject &parent, const QString &path, const QJsonValue &newValue);
-    QJsonValue getValue(const QString &path, const QJsonObject &fromNode) const;
+    void remove(QJsonObject &parent, const QString &path); // 删除 path 对应的属性
+    void setValue(QJsonObject &parent, const QString &path, const QJsonValue &newValue); // 设置 path 的值
+    QJsonValue getValue(const QString &path, const QJsonObject &fromNode) const; // 获取 path 的值
 
     QJsonObject root;    // Json 的根节点
     QJsonDocument doc;   // Json 的文档对象
@@ -53,6 +54,23 @@ JsonPrivate::JsonPrivate(const QString &jsonOrJsonFilePath, bool fromFile) {
     }
 }
 
+// 删除 path 对应的属性
+void JsonPrivate::remove(QJsonObject &parent, const QString &path) {
+    const int indexOfDot   = path.indexOf('.');     // 第一个 . 的位置
+    const QString property = path.left(indexOfDot); // 第一个 . 之前的内容，如果 indexOfDot 是 -1 则返回整个字符串
+    const QString restPath = (indexOfDot>0) ? path.mid(indexOfDot+1) : QString(); // 第一个 . 后面的内容
+
+    if(restPath.isEmpty()) {
+        // restPath 为空, 说明 property 就是 path 中最后一个 . 右边的部分, 也就是要删除的属性
+        parent.remove(property);
+    } else {
+        // 路径中间的属性，递归访问它的子属性
+        QJsonObject child = parent[property].toObject();
+        remove(child, restPath);
+        parent[property] = child;
+    }
+}
+
 // 使用递归+引用设置 Json 的值，因为 toObject() 等返回的是对象的副本，对其修改不会改变原来的对象，所以需要用引用来实现
 void JsonPrivate::setValue(QJsonObject &parent, const QString &path, const QJsonValue &newValue) {
     const int indexOfDot   = path.indexOf('.');     // 第一个 . 的位置
@@ -62,16 +80,14 @@ void JsonPrivate::setValue(QJsonObject &parent, const QString &path, const QJson
     QJsonValue fieldValue = parent[property];
 
     if(restPath.isEmpty()) {
-        // 找到要设置的属性
-        fieldValue = newValue;
+        // restPath 为空, 说明 property 就是 path 中最后一个 . 右边的部分, 也就是要设置的属性
+        parent[property] = newValue; // 如果不存在则会创建
     } else {
         // 路径中间的属性，递归访问它的子属性
-        QJsonObject obj = fieldValue.toObject();
-        setValue(obj, restPath, newValue);
-        fieldValue = obj; // 因为 QJsonObject 操作的都是对象的副本，所以递归结束后需要保存起来再次设置回 parent
+        QJsonObject child = parent[property].toObject();
+        setValue(child, restPath, newValue);
+        parent[property] = child; // 因为 QJsonObject 操作的都是对象的副本，所以递归结束后需要保存起来再次设置回 parent
     }
-
-    parent[property] = fieldValue; // 如果不存在则会创建
 }
 
 // 读取属性的值，如果 fromNode 为空，则从跟节点开始访问
@@ -179,6 +195,11 @@ void Json::set(const QString &path, const QStringList &strings) {
     }
 
     d->setValue(d->root, path, array);
+}
+
+// 删除 path 对应的属性
+void Json::remove(const QString &path) {
+    d->remove(d->root, path);
 }
 
 // 把 JSON 保存到 path 指定的文件
