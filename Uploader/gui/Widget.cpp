@@ -36,6 +36,7 @@ void Widget::initialize() {
         layout->addStretch();
     }
     layout->setSpacing(1);
+    layout->setContentsMargins(0, 0, 0, 0);
 
     // 为了方便使用, 初始化时创建 2 个参数的 widget
     appendParamWidget();
