@@ -32,9 +32,9 @@ void Widget::initialize() {
 
     // 增加 stretch
     QBoxLayout *layout = qobject_cast<QBoxLayout *>(ui->paramsFrame->layout());
-    if (nullptr != layout) {
-        layout->addStretch();
-    }
+    // if (nullptr != layout) {
+    //     layout->addStretch();
+    // }
     layout->setSpacing(1);
     layout->setContentsMargins(0, 0, 0, 0);
 
@@ -113,11 +113,11 @@ void Widget::appendParamWidget() {
     paramWidget->setObjectName("paramWidget");
 
     QVBoxLayout *paramsLayout = qobject_cast<QVBoxLayout*>(ui->paramsFrame->layout());
-    paramsLayout->insertWidget(paramsLayout->count() - 1, paramWidget);
+    paramsLayout->insertWidget(paramsLayout->count(), paramWidget);
 
     // 点击删除按钮把参数的 widget 从界面上删除
     connect(deleteButton, &QPushButton::clicked, [=] {
-        if (paramsLayout->count() > 2) {
+        if (paramsLayout->count() > 1) {
             paramWidget->hide();
             paramWidget->deleteLater();
         }
