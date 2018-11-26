@@ -8,6 +8,7 @@ QT       += core gui widgets network
 
 TARGET = Uploader
 TEMPLATE = app
+RC_ICONS = AppIcon.ico
 
 CONFIG  -= app_bundle
 CONFIG += c++11
