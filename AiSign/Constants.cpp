@@ -15,4 +15,5 @@ namespace Urls {
     const QString GET_ROOM_ENROLLMENT = "/getRoomEnrollment";
     const QString TIMESTAMP           = "/timestamp";
     const QString UPLOAD_PHOTO        = "/uploadPhoto";
+    const QString CLOSE_PASSWORD      = "/getClientClosePassword"; // 申请客户端关机密码
 }

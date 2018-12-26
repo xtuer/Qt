@@ -3,6 +3,7 @@
 #include "InputDialog.h"
 #include "SignInStatusWidget.h"
 #include "TopWindow.h"
+#include "MessageBox.h"
 
 #include "Constants.h"
 
@@ -31,6 +32,7 @@
 #include <QNetworkAccessManager>
 #include <QPixmap>
 #include <QImage>
+#include <QMessageBox>
 
 /*-----------------------------------------------------------------------------|
  |                             AiSignWidgetPrivate                             |
@@ -302,6 +304,17 @@ void AiSignWidget::handleEvents() {
 
     // 更换考场后更新此考场的学生登陆状态
     connect(this, SIGNAL(studentsReady(QList<Student>)), d->signInStatusWidget, SLOT(setStudents(QList<Student>)));
+
+    // 申请
+    connect(ui->shutdownPasswordButton, &QPushButton::clicked, [this] {
+        QString url = d->serverUrl + Urls::CLOSE_PASSWORD;
+
+        HttpClient(url).debug(true).manager(d->networkManager).get([](const QString &jsonResponse) {
+            Json json(jsonResponse.toUtf8());
+            QMessageBox::information(nullptr, "关机密码", json.getString("data"));
+            // MessageBox::message(QString("客户端关机密码: <font color=red>%1</font>").arg(json.getString("data").trimmed()));
+        });
+    });
 }
 
 // 启动身份证刷卡器

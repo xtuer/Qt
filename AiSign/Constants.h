@@ -16,6 +16,7 @@ namespace Urls {
     extern const QString GET_ROOM_ENROLLMENT;
     extern const QString TIMESTAMP;
     extern const QString UPLOAD_PHOTO;
+    extern const QString CLOSE_PASSWORD;
 }
 
 // 签到模式
