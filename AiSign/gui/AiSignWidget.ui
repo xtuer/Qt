@@ -905,7 +905,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="shutdownButton">
+             <widget class="QPushButton" name="shutdownPasswordButton">
               <property name="text">
                <string/>
               </property>

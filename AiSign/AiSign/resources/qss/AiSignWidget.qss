@@ -98,7 +98,7 @@ QWidget {
 	border-image: url(image/common/signin-manual.png) 0 0 0 0 stretch stretch;
 }
 
-.Container .ContainerTitlebar QPushButton#shutdownButton {
+.Container .ContainerTitlebar QPushButton#shutdownPasswordButton {
 	width:      24px;
 	height:     24px;
 	min-width:  24px;
