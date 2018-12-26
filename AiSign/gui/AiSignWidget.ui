@@ -905,6 +905,13 @@
              </widget>
             </item>
             <item>
+             <widget class="QPushButton" name="shutdownButton">
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QPushButton" name="signInManualButton2">
               <property name="text">
                <string/>
