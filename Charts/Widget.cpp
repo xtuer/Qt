@@ -22,7 +22,7 @@ Widget::~Widget() {
 }
 
 void Widget::createChart() {
-    // 创建曲线上点的序列
+    // [1] 创建曲线上点的序列
     QSplineSeries *splineSeries = new QSplineSeries();
     QLineSeries   *lineSeries   = new QLineSeries();
     splineSeries->setName("Spline");
@@ -36,46 +36,53 @@ void Widget::createChart() {
         lineSeries->append(current, qrand() % 100 - 30);
     }
 
-    // 使用点的序列创建图标
+    // [2] 使用点的序列创建图表
     chart = new QChart();
     chart->addSeries(splineSeries);
     chart->addSeries(lineSeries);
     // chart->createDefaultAxes(); // 默认没有创建坐标轴
 
-    // 创建坐标轴
-    QDateTimeAxis *axisX = new QDateTimeAxis;
-    axisX->setFormat("yyyy-MM-dd HH:mm:ss");
-    axisX->setTitleText("时间");
-    axisX->setLabelsAngle(-60);
-    axisX->setTickCount(8);
-    chart->addAxis(axisX, Qt::AlignBottom);
-    splineSeries->attachAxis(axisX);
-    lineSeries->attachAxis(axisX);
+    // [3] 创建坐标轴
+    QDateTimeAxis *xAxis = new QDateTimeAxis();
+    xAxis->setFormat("yyyy-MM-dd HH:mm:ss");
+    xAxis->setTitleText("时间");
+    xAxis->setLabelsAngle(-60);
+    xAxis->setTickCount(8);
 
-    QValueAxis *axisY = new QValueAxis;
-    chart->addAxis(axisY, Qt::AlignLeft);
-    splineSeries->attachAxis(axisY);
-    lineSeries->attachAxis(axisY);
+    QValueAxis *yAxis = new QValueAxis();
+
+    chart->addAxis(xAxis, Qt::AlignBottom);
+    chart->addAxis(yAxis, Qt::AlignLeft);
+
+    // [4] 曲线使用坐标轴
+    splineSeries->attachAxis(xAxis);
+    splineSeries->attachAxis(yAxis);
+    lineSeries->attachAxis(xAxis);
+    lineSeries->attachAxis(yAxis);
 
     // TODO: 使用前先设置坐标轴的 objectName
-    axisX->setObjectName("时间");
-    axisY->setObjectName("温度");
-//    axisY->hide();
+    xAxis->setObjectName("时间");
+    yAxis->setObjectName("温度");
+    // axisY->hide();
 
-    // 1. chartView 声明和定义都要使用 SelectableChartView
+    // [5] chartView 声明和定义都要使用 SelectableChartView
     chartView = new SelectableChartView(chart);
     layout()->replaceWidget(ui->widget, chartView);
 
-    // 2. 设置灭菌的相关参数
+    // 设置灭菌的相关参数
     chartView->setSterilizationParams(QDateTime::currentDateTime().addSecs(5000),
                                       QDateTime::currentDateTime().addSecs(50000),
                                       85);
-    // 3. 设置显示灭菌辅助线，默认是隐藏的
+    // 设置显示灭菌辅助线，默认是隐藏的
     chartView->setSterilizationMarkersVisible(true);
 }
 
 void Widget::handleEvents() {
-    connect(ui->pushButton, &QPushButton::clicked, [this] {
+    connect(ui->timeRangeButton, &QPushButton::clicked, [this] {
         chartView->getDateTimeAxis()->setRange(QDateTime::currentDateTime(), QDateTime::currentDateTime().addDays(10));
+    });
+
+    connect(ui->minTempButton, &QPushButton::clicked, [this] {
+        qDebug() << chartView->getMinTemperature();
     });
 }

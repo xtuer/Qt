@@ -1,4 +1,5 @@
 ﻿#include "SelectableChartView.h"
+#include "RecordCalibrationWidget.h"
 
 #include <QDebug>
 #include <QMouseEvent>
@@ -31,13 +32,13 @@ SelectableChartView::SelectableChartView(QChart *chart) : QChartView(chart) {
 }
 
 QList<QLabel*> SelectableChartView::getSelections() const {
-    return selections;
+    return selectionLabels;
 }
 
 void SelectableChartView::clearSelections() {
-    while (!selections.isEmpty()) {
-        QLabel *label = selections.at(0);
-        selections.removeAll(label);
+    while (!selectionLabels.isEmpty()) {
+        QLabel *label = selectionLabels.at(0);
+        selectionLabels.removeAll(label);
         label->deleteLater();
     }
 }
@@ -45,25 +46,25 @@ void SelectableChartView::clearSelections() {
 // 获取水平时间轴的最小值
 QDateTime SelectableChartView::getMinDateTime() const {
     QDateTimeAxis *axis = getDateTimeAxis();
-    return (NULL != axis) ? axis->min() : QDateTime();
+    return (nullptr != axis) ? axis->min() : QDateTime();
 }
 
 // 获取水平时间轴的最大值
 QDateTime SelectableChartView::getMaxDateTime() const {
     QDateTimeAxis *axis = getDateTimeAxis();
-    return (NULL != axis) ? axis->max() : QDateTime();
+    return (nullptr != axis) ? axis->max() : QDateTime();
 }
 
 // 获取左边垂直坐标轴的最小温度
 double SelectableChartView::getMinTemperature() const {
     QValueAxis *axis = getTemperatureAxis();
-    return (NULL != axis) ? axis->min() : INT_MAX;
+    return (nullptr != axis) ? axis->min() : INT_MAX;
 }
 
 // 获取左边垂直坐标轴的最高温度
 double SelectableChartView::getMaxTemperature() const {
     QValueAxis *axis = getTemperatureAxis();
-    return (NULL != axis) ? axis->max() : INT_MIN;
+    return (nullptr != axis) ? axis->max() : INT_MIN;
 }
 
 // 获取水平的时间坐标轴
@@ -74,7 +75,7 @@ QDateTimeAxis *SelectableChartView::getDateTimeAxis() const {
         return qobject_cast<QDateTimeAxis*>(axes[0]);
     }
 
-    return NULL;
+    return nullptr;
 }
 
 // 获取左边垂直坐标轴的温度坐标轴
@@ -85,7 +86,7 @@ QValueAxis *SelectableChartView::getTemperatureAxis() const {
         return qobject_cast<QValueAxis*>(axes[0]);
     }
 
-    return NULL;
+    return nullptr;
 }
 
 // 设置灭菌参数
@@ -217,7 +218,9 @@ void SelectableChartView::setAxisRanges(QList<AxisRange> ranges) {
 void SelectableChartView::createSelectionLabel(QList<AxisRange> ranges, QRect geometry) {
     QString text;
     QLabel *label = new QLabel(this);
-    selections.append(label);
+    selectionLabels.append(label);
+
+    CalibrationRange calibrationRange;
 
     for (AxisRange range : ranges) {
         bool top    = (range.axis->alignment() & Qt::AlignTop)    != 0;
@@ -230,8 +233,14 @@ void SelectableChartView::createSelectionLabel(QList<AxisRange> ranges, QRect ge
                 .arg(isDtx ? range.max.toDateTime().toString("yyyy-MM-dd HH:mm:ss") : QString::number(range.max.toReal()));
 
         if (isDtx) {
+            calibrationRange.minTime = range.min.toDateTime();
+            calibrationRange.maxTime = range.max.toDateTime();
             qDebug() << range.min.toDateTime().toMSecsSinceEpoch() << range.max.toDateTime().toMSecsSinceEpoch();
+        } else {
+            calibrationRange.minTemperature = range.min.toReal();
+            calibrationRange.maxTemperature = range.max.toReal();
         }
+
         // 上下的都是水平坐标轴，左右的都是纵坐标轴
         if (xAction->isChecked() && (top || bottom)) {
             // 只取横坐标轴的
@@ -257,10 +266,13 @@ void SelectableChartView::createSelectionLabel(QList<AxisRange> ranges, QRect ge
     label->setToolTip(text);
     label->show();
 
+    calibrationRanges.insert(label, calibrationRange);
+
     // Label 上点击右键删除 label
     label->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(label, &QLabel::customContextMenuRequested, [label, this] {
-        selections.removeAll(label);
+        selectionLabels.removeAll(label);
+        calibrationRanges.remove(label);
         label->deleteLater();
     });
 }
@@ -272,6 +284,7 @@ void SelectableChartView::createContextMenu() {
     xyAction = new QAction("横纵坐标都有", this);
     zoomInAction    = new QAction("放大", this);
     zoomResetAction = new QAction("缩小", this);
+    calibrationAction = new QAction("记录器校准", this);
 
     xAction->setCheckable(true);
     yAction->setCheckable(true);
@@ -294,6 +307,7 @@ void SelectableChartView::createContextMenu() {
         menu.addSeparator();
         menu.addAction(zoomInAction);
         menu.addAction(zoomResetAction);
+        menu.addAction(calibrationAction);
         zoomResetAction->setEnabled(!zoomStacks.isEmpty());
 
         menu.exec(mapToGlobal(pos));
@@ -305,6 +319,12 @@ void SelectableChartView::createContextMenu() {
             clearSelections();
             setAxisRanges(zoomStacks.pop());
         }
+    });
+
+    connect(calibrationAction, &QAction::triggered, [this] {
+        // 弹出记录器校准对话框, 传入选区数据
+        RecordCalibrationWidget *cw = new RecordCalibrationWidget(calibrationRanges.values());
+        cw->show();
     });
 }
 

@@ -28,11 +28,14 @@ UI_DIR      = $$output
 SOURCES += \
         main.cpp \
         Widget.cpp \
-    SelectableChartView.cpp
+    SelectableChartView.cpp \
+    RecordCalibrationWidget.cpp
 
 HEADERS += \
         Widget.h \
-    SelectableChartView.h
+    SelectableChartView.h \
+    RecordCalibrationWidget.h
 
 FORMS += \
-        Widget.ui
+        Widget.ui \
+    RecordCalibrationWidget.ui

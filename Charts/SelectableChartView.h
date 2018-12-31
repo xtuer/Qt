@@ -5,6 +5,7 @@
 #include <QList>
 #include <QStack>
 #include <QPair>
+#include <QHash>
 #include <QDateTime>
 
 using namespace QtCharts;
@@ -21,6 +22,14 @@ struct AxisRange {
     QAbstractAxis *axis;
     QVariant min;
     QVariant max;
+};
+
+// 记录器校准的范围
+struct CalibrationRange {
+    QDateTime minTime;
+    QDateTime maxTime;
+    double minTemperature;
+    double maxTemperature;
 };
 
 class SelectableChartView : public QChartView {
@@ -73,13 +82,15 @@ private:
 
     QPoint pressedPointAtChart;
     QPoint pressedPointAtChartView;
-    QList<QLabel*> selections; // 保存选区的 Label
+    QList<QLabel*> selectionLabels; // 保存选区的 Label
+    QHash<QLabel*, CalibrationRange> calibrationRanges; // 选区的数据
 
     QAction *xAction;
     QAction *yAction;
     QAction *xyAction;
     QAction *zoomInAction;
     QAction *zoomResetAction;
+    QAction *calibrationAction; // 记录器校准
     QStack<QList<AxisRange> > zoomStacks;
 
     QWidget *sterilizationMarkerWidget; // 灭菌辅助线 widget
