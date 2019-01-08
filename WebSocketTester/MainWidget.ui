@@ -58,7 +58,7 @@
    <item row="4" column="0" colspan="2">
     <widget class="QLabel" name="connectedCountLabel">
      <property name="text">
-      <string>已建立连接: </string>
+      <string>已建立连接: 0</string>
      </property>
     </widget>
    </item>
