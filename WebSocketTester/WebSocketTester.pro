@@ -19,7 +19,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # Output directory
 CONFIG(debug, debug|release) {
     output = debug
-    TARGET = WebSocketTester_d
+    TARGET = $$TARGET'_d'
 }
 CONFIG(release, debug|release) {
     output = release
