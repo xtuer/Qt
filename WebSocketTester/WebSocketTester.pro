@@ -10,6 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET   = WebSocketTester
 TEMPLATE = app
+RC_ICONS = AppIcon.ico
 
 CONFIG  -= app_bundle
 
