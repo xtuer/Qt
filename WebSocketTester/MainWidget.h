@@ -16,6 +16,8 @@ public:
     ~MainWidget();
 
 private:
+    QString createUrl(const QString &server, int sn) const; // 创建 WebSocket 使用的 URL
+
     Ui::MainWidget *ui;
     QAtomicInt connectedCount = 0;
 };

@@ -34,10 +34,12 @@ UI_DIR      = $$output
 
 SOURCES += \
         main.cpp \
-        MainWidget.cpp
+        MainWidget.cpp \
+    Json.cpp
 
 HEADERS += \
-        MainWidget.h
+        MainWidget.h \
+    Json.h
 
 FORMS += \
         MainWidget.ui

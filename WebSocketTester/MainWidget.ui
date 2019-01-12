@@ -21,20 +21,6 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="1">
-    <widget class="QPushButton" name="startButton">
-     <property name="text">
-      <string>开始</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>数量:</string>
-     </property>
-    </widget>
-   </item>
    <item row="0" column="1">
     <widget class="QLineEdit" name="urlLineEdit">
      <property name="text">
@@ -42,23 +28,10 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="1">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="4" column="0" colspan="2">
-    <widget class="QLabel" name="connectedCountLabel">
+   <item row="1" column="0">
+    <widget class="QLabel" name="label_2">
      <property name="text">
-      <string>已建立连接: 0</string>
+      <string>数量:</string>
      </property>
     </widget>
    </item>
@@ -80,6 +53,57 @@
       <number>4000</number>
      </property>
     </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QPushButton" name="startButton">
+     <property name="text">
+      <string>开始</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="4" column="0" colspan="2">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="connectedCountLabel">
+       <property name="text">
+        <string>已建立连接: 0</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="allConnectedCountLabel">
+       <property name="text">
+        <string>服务器所有连接: 0</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
