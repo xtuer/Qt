@@ -3,9 +3,9 @@
 #include "ScatterMap.h"
 #include "Scatter.h"
 
-#include "heatmap/heatmapper.h"
-#include "heatmap/gradientpalette.h"
+#include "heatmap/Heatmap.h"
 #include <QRadialGradient>
+#include <QLinearGradient>
 #include <QImage>
 #include <QMouseEvent>
 
@@ -82,23 +82,18 @@ void ScatterWidget::handleEvents() {
     connect(ui->heatMapButton, &QPushButton::clicked, [this] {
         int w = scatterMap->width();
         int h = scatterMap->height();
+        int max = 100;
 
-        GradientPalette palette(w);
-        palette.setColorAt(0.45, Qt::blue);
-        palette.setColorAt(0.55, Qt::cyan);
-        palette.setColorAt(0.65, Qt::green);
-        palette.setColorAt(0.85, Qt::yellow);
-        palette.setColorAt(1.0, Qt::red);
-
-        QImage heatMapCanvas(w, h, QImage::Format_ARGB32);
-        heatMapCanvas.fill(QColor(0, 0, 0, 0));
-        HeatMapper heatMapper(&heatMapCanvas, &palette, 60, 128);
+        Heatmap heatmap(w, h, max);
 
         for (QPoint p : scatterMap->getScatterPositionsInParentWidget()) {
-            heatMapper.addPoint(p.x(), p.y());
+            int count = QRandomGenerator::global()->bounded(100);
+            heatmap.addPoint(p.x(), p.y(), count);
         }
 
-        heatMapper.save("heatmap.png");
-        ui->heatMapLabel->setPixmap(QPixmap::fromImage(heatMapCanvas));
+//        heatmap.addPoint(150, 110, 67);
+//        heatmap.addPoint(200, 130, 50);
+
+        ui->heatMapLabel->setPixmap(heatmap.getHeatmap());
     });
 }
