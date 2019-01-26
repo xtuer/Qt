@@ -17,8 +17,8 @@ RealTimeCurveQChartWidget::RealTimeCurveQChartWidget(QWidget *parent) : QWidget(
     chart->legend()->hide();
     chart->setTitle("实时动态曲线");
     chart->createDefaultAxes();
-    chart->axisX()->setRange(0, 300);
-    chart->axisY()->setRange(0, maxY);
+    chart->axes(Qt::Horizontal).back()->setRange(0, 300); // 不再能再使用 axisX() 获取横坐标轴
+    chart->axes(Qt::Vertical).back()->setRange(0, maxY);  // 不再能再使用 axisY() 获取纵坐标轴
 
     chartView = new QChartView(chart);
     chartView->setRenderHint(QPainter::Antialiasing);
