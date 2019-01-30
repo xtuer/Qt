@@ -129,6 +129,18 @@ HttpClient &HttpClient::param(const QString &name, const QString &value) {
     return *this;
 }
 
+// 添加请求的参数
+HttpClient &HttpClient::params(const QMap<QString, QString> &ps) {
+    QMapIterator<QString, QString> iter(ps);
+
+    while (iter.hasNext()) {
+        iter.next();
+        d->params.addQueryItem(iter.key(), iter.value());
+    }
+
+    return *this;
+}
+
 // 添加 Json 格式参数
 HttpClient &HttpClient::json(const QString &json) {
     d->useJson  = true;

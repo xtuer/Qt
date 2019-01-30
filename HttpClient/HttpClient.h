@@ -2,6 +2,7 @@
 #define HTTPCLIENT_H
 
 #include <functional>
+#include <QMap>
 
 class QString;
 class QStringList;
@@ -49,6 +50,13 @@ public:
     HttpClient& param(const QString &name, const QString &value);
 
     /**
+     * @brief 添加请求的参数
+     * @param ps Map 类型的参数，key 为参数名，value 为参数值
+     * @return 返回 HttpClient 的引用，可以用于链式调用
+     */
+    HttpClient &params(const QMap<QString, QString> &ps);
+
+    /**
      * @brief 添加请求的参数，使用 Json 格式，例如 "{\"name\": \"Alice\"}"
      * @param json Json 格式的参数字符串
      * @return
@@ -70,7 +78,7 @@ public:
      * @param encoding       请求响应的编码
      */
     void get(std::function<void (const QString &)> successHandler,
-             std::function<void (const QString &)> errorHandler = NULL,
+             std::function<void (const QString &)> errorHandler = nullptr,
              const char *encoding = "UTF-8");
 
     /**
@@ -80,7 +88,7 @@ public:
      * @param encoding       请求响应的编码
      */
     void post(std::function<void (const QString &)> successHandler,
-              std::function<void (const QString &)> errorHandler = NULL,
+              std::function<void (const QString &)> errorHandler = nullptr,
               const char *encoding = "UTF-8");
 
     /**
@@ -90,7 +98,7 @@ public:
      * @param encoding       请求响应的编码
      */
     void put(std::function<void (const QString &)> successHandler,
-             std::function<void (const QString &)> errorHandler = NULL,
+             std::function<void (const QString &)> errorHandler = nullptr,
              const char *encoding = "UTF-8");
 
     /**
@@ -101,7 +109,7 @@ public:
      * @param encoding       请求响应的编码
      */
     void remove(std::function<void (const QString &)> successHandler,
-                std::function<void (const QString &)> errorHandler = NULL,
+                std::function<void (const QString &)> errorHandler = nullptr,
                 const char *encoding = "UTF-8");
 
     /**
@@ -111,8 +119,8 @@ public:
      * @param errorHandler   请求失败的回调 lambda 函数，打开文件 destinationPath 出错也会调用此函数
      */
     void download(const QString &savePath,
-                  std::function<void (const QString &)> successHandler = NULL,
-                  std::function<void (const QString &)> errorHandler = NULL);
+                  std::function<void (const QString &)> successHandler = nullptr,
+                  std::function<void (const QString &)> errorHandler = nullptr);
 
     /**
      * @brief 使用 GET 进行下载，当有数据可读取时回调 readyRead(), 大多数情况下应该在 readyRead() 里把数据保存到文件
@@ -121,8 +129,8 @@ public:
      * @param errorHandler   请求失败的回调 lambda 函数
      */
     void download(std::function<void (const QByteArray &)> readyRead,
-                  std::function<void (const QString &)> successHandler = NULL,
-                  std::function<void (const QString &)> errorHandler = NULL);
+                  std::function<void (const QString &)> successHandler = nullptr,
+                  std::function<void (const QString &)> errorHandler = nullptr);
 
     /**
      * @brief 上传单个文件
@@ -131,8 +139,8 @@ public:
      * @param errorHandler   请求失败的回调 lambda 函数
      * @param encoding       请求响应的编码
      */
-    void upload(const QString &path, std::function<void (const QString &)> successHandler = NULL,
-                std::function<void (const QString &)> errorHandler = NULL,
+    void upload(const QString &path, std::function<void (const QString &)> successHandler = nullptr,
+                std::function<void (const QString &)> errorHandler = nullptr,
                 const char *encoding = "UTF-8");
 
     /**
@@ -142,8 +150,8 @@ public:
      * @param errorHandler   请求失败的回调 lambda 函数
      * @param encoding       请求响应的编码
      */
-    void upload(const QByteArray &data, std::function<void (const QString &)> successHandler = NULL,
-                std::function<void (const QString &)> errorHandler = NULL,
+    void upload(const QByteArray &data, std::function<void (const QString &)> successHandler = nullptr,
+                std::function<void (const QString &)> errorHandler = nullptr,
                 const char *encoding = "UTF-8");
 
     /**
@@ -153,8 +161,8 @@ public:
      * @param errorHandler   请求失败的回调 lambda 函数
      * @param encoding       请求响应的编码
      */
-    void upload(const QStringList &paths, std::function<void (const QString &)> successHandler = NULL,
-                std::function<void (const QString &)> errorHandler = NULL,
+    void upload(const QStringList &paths, std::function<void (const QString &)> successHandler = nullptr,
+                std::function<void (const QString &)> errorHandler = nullptr,
                 const char *encoding = "UTF-8");
 private:
     HttpClientPrivate *d;

@@ -21,6 +21,7 @@ int main(int argc, char *argv[]) {
         HttpClient(url).debug(true).param("name", "诸葛亮").header("token", "md5sum").get([](const QString &response) {
             qDebug().noquote() << response;
         });
+        // 提示: 多个参数也可以传入 map: HttpClient(url).params({{"name", "诸葛亮"}, {"attackDamage", "99"}}).get(...);
 
         // [[3]] POST 请求，使用 param 添加参数，请求的参数使用 Form 格式
         HttpClient(url).debug(true).param("name", "卧龙")
