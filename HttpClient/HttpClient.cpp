@@ -99,7 +99,7 @@ public:
                              QNetworkReply *reply, QNetworkAccessManager *manager);
 };
 
-HttpClientPrivate::HttpClientPrivate(const QString &url) : url(url), manager(NULL), useJson(false), debug(false) {
+HttpClientPrivate::HttpClientPrivate(const QString &url) : url(url), manager(nullptr), useJson(false), debug(false) {
 }
 
 // 注意: 不要在回调函数中使用 d，因为回调函数被调用时 HttpClient 对象很可能已经被释放掉了。
@@ -131,10 +131,7 @@ HttpClient &HttpClient::param(const QString &name, const QString &value) {
 
 // 添加请求的参数
 HttpClient &HttpClient::params(const QMap<QString, QString> &ps) {
-    QMapIterator<QString, QString> iter(ps);
-
-    while (iter.hasNext()) {
-        iter.next();
+    for (auto iter = ps.cbegin(); iter != ps.cend(); ++iter) {
         d->params.addQueryItem(iter.key(), iter.value());
     }
 
@@ -203,7 +200,7 @@ void HttpClient::download(const QString &destinationPath,
                 qDebug().noquote() << QString("下载完成，保存到: %1").arg(destinationPath);
             }
 
-            if (NULL != successHandler) {
+            if (nullptr != successHandler) {
                 successHandler(QString("下载完成，保存到: %1").arg(destinationPath));
             }
         }, errorHandler);
@@ -213,7 +210,7 @@ void HttpClient::download(const QString &destinationPath,
             qDebug().noquote() << QString("打开文件出错: %1").arg(destinationPath);
         }
 
-        if (NULL != errorHandler) {
+        if (nullptr != errorHandler) {
             errorHandler(QString("打开文件出错: %1").arg(destinationPath));
         }
     }
@@ -239,7 +236,7 @@ void HttpClient::download(std::function<void (const QByteArray &)> readyRead,
         QString successMessage = "下载完成"; // 请求结束时一次性读取所有响应数据
         QString errorMessage   = reply->errorString();
         HttpClientPrivate::handleFinish(debug, successMessage, errorMessage, successHandler, errorHandler,
-                                        reply, internal ? manager : NULL);
+                                        reply, internal ? manager : nullptr);
     });
 }
 
@@ -305,7 +302,7 @@ void HttpClientPrivate::upload(HttpClientPrivate *d,
                         qDebug().noquote() << errorMessage;
                     }
 
-                    if (NULL != errorHandler) {
+                    if (nullptr != errorHandler) {
                         errorHandler(errorMessage);
                     }
 
@@ -343,7 +340,7 @@ void HttpClientPrivate::upload(HttpClientPrivate *d,
         QString successMessage = HttpClientPrivate::readReply(reply, encoding); // 请求结束时一次性读取所有响应数据
         QString errorMessage   = reply->errorString();
         HttpClientPrivate::handleFinish(debug, successMessage, errorMessage, successHandler, errorHandler,
-                                        reply, internal ? manager : NULL);
+                                        reply, internal ? manager : nullptr);
     });
 }
 
@@ -357,7 +354,7 @@ void HttpClientPrivate::executeQuery(HttpClientPrivate *d, HttpMethod method,
     bool internal;
     QNetworkAccessManager *manager = HttpClientPrivate::getManager(d, &internal);
     QNetworkRequest        request = HttpClientPrivate::createRequest(d, method);
-    QNetworkReply           *reply = NULL;
+    QNetworkReply           *reply = nullptr;
 
     switch (method) {
     case HttpClientPrivate::GET:
@@ -380,12 +377,12 @@ void HttpClientPrivate::executeQuery(HttpClientPrivate *d, HttpMethod method,
         QString successMessage = HttpClientPrivate::readReply(reply, encoding); // 请求结束时一次性读取所有响应数据
         QString errorMessage   = reply->errorString();
         HttpClientPrivate::handleFinish(debug, successMessage, errorMessage, successHandler, errorHandler,
-                                        reply, internal ? manager : NULL);
+                                        reply, internal ? manager : nullptr);
     });
 }
 
 QNetworkAccessManager* HttpClientPrivate::getManager(HttpClientPrivate *d, bool *internal) {
-    *internal = d->manager == NULL;
+    *internal = d->manager == nullptr;
     return *internal ? new QNetworkAccessManager() : d->manager;
 }
 
@@ -471,7 +468,7 @@ void HttpClientPrivate::handleFinish(bool debug,
             qDebug().noquote() << QString("[成功]请求结束: %1").arg(successMessage);
         }
 
-        if (NULL != successHandler) {
+        if (nullptr != successHandler) {
             successHandler(successMessage);
         }
     } else {
@@ -480,7 +477,7 @@ void HttpClientPrivate::handleFinish(bool debug,
             qDebug().noquote() << QString("[失败]请求结束: %1").arg(errorMessage);
         }
 
-        if (NULL != errorHandler) {
+        if (nullptr != errorHandler) {
             errorHandler(errorMessage);
         }
     }
@@ -488,7 +485,7 @@ void HttpClientPrivate::handleFinish(bool debug,
     // 释放资源
     reply->deleteLater();
 
-    if (NULL != manager) {
+    if (nullptr != manager) {
         manager->deleteLater();
     }
 }
