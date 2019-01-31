@@ -58,7 +58,7 @@ int main(int argc, char *argv[]) {
             });
         } else {
             file->deleteLater();
-            file = NULL;
+            file = nullptr;
         }
     }
 
