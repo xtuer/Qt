@@ -29,7 +29,7 @@ void Widget::createChart() {
     lineSeries->setName("Line");
 
     qint64 current = QDateTime::currentDateTime().toMSecsSinceEpoch();
-    for (int i = 0; i < 100; ++i, current += 600000) {
+    for (int i = 0; i < 50; ++i, current += 600000) {
         // splineSeries->append(QPoint(i, qrand() % 100));
         // lineSeries->append(QPoint(i, qrand() % 100 - 30));
         splineSeries->append(current, qrand() % 100);

@@ -29,12 +29,14 @@ SOURCES += \
         main.cpp \
         Widget.cpp \
     SelectableChartView.cpp \
-    RecordCalibrationWidget.cpp
+    RecordCalibrationWidget.cpp \
+    GridLine.cpp
 
 HEADERS += \
         Widget.h \
     SelectableChartView.h \
-    RecordCalibrationWidget.h
+    RecordCalibrationWidget.h \
+    GridLine.h
 
 FORMS += \
         Widget.ui \

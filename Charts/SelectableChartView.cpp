@@ -1,5 +1,6 @@
-﻿#include "SelectableChartView.h"
+#include "SelectableChartView.h"
 #include "RecordCalibrationWidget.h"
+#include "GridLine.h"
 
 #include <QDebug>
 #include <QMouseEvent>
@@ -21,7 +22,7 @@ SelectableChartView::SelectableChartView(QChart *chart) : QChartView(chart) {
     setRenderHint(QPainter::Antialiasing);
     chart->installEventFilter(this);
 
-    // 灭菌辅助线 widget
+    // 灭菌辅助线的 Widget
     sterilizationMarkerWidget = new QWidget(this);
     sterilizationMarkerWidget->setAttribute(Qt::WA_TransparentForMouseEvents);
     sterilizationMarkerWidget->installEventFilter(this);
@@ -43,39 +44,42 @@ void SelectableChartView::clearSelections() {
     }
 }
 
+void SelectableChartView::clearZoomStatcks() {
+    zoomStacks.clear();
+}
+
 // 获取水平时间轴的最小值
 QDateTime SelectableChartView::getMinDateTime() const {
     QDateTimeAxis *axis = getDateTimeAxis();
-    return (nullptr != axis) ? axis->min() : QDateTime();
+    return (NULL != axis) ? axis->min() : QDateTime();
 }
 
 // 获取水平时间轴的最大值
 QDateTime SelectableChartView::getMaxDateTime() const {
     QDateTimeAxis *axis = getDateTimeAxis();
-    return (nullptr != axis) ? axis->max() : QDateTime();
+    return (NULL != axis) ? axis->max() : QDateTime();
 }
 
 // 获取左边垂直坐标轴的最小温度
 double SelectableChartView::getMinTemperature() const {
     QValueAxis *axis = getTemperatureAxis();
-    return (nullptr != axis) ? axis->min() : INT_MAX;
+    return (NULL != axis) ? axis->min() : INT_MAX;
 }
 
 // 获取左边垂直坐标轴的最高温度
 double SelectableChartView::getMaxTemperature() const {
     QValueAxis *axis = getTemperatureAxis();
-    return (nullptr != axis) ? axis->max() : INT_MIN;
+    return (NULL != axis) ? axis->max() : INT_MIN;
 }
 
 // 获取水平的时间坐标轴
 QDateTimeAxis *SelectableChartView::getDateTimeAxis() const {
     QList<QAbstractAxis*> axes = chart()->axes(Qt::Horizontal);
-
     if (axes.size() > 0 && QAbstractAxis::AxisTypeDateTime == axes[0]->type()) {
         return qobject_cast<QDateTimeAxis*>(axes[0]);
     }
 
-    return nullptr;
+    return NULL;
 }
 
 // 获取左边垂直坐标轴的温度坐标轴
@@ -86,7 +90,7 @@ QValueAxis *SelectableChartView::getTemperatureAxis() const {
         return qobject_cast<QValueAxis*>(axes[0]);
     }
 
-    return nullptr;
+    return NULL;
 }
 
 // 设置灭菌参数
@@ -115,13 +119,37 @@ bool SelectableChartView::eventFilter(QObject *watched, QEvent *event) {
     return QChartView::eventFilter(watched, event);
 }
 
+void SelectableChartView::resizeEvent(QResizeEvent *event) {
+    QChartView::resizeEvent(event);
+
+    if (chart()) {
+        sterilizationMarkerWidget->setGeometry(chart()->plotArea().toRect());
+    }
+}
+
 void SelectableChartView::mousePressEvent(QMouseEvent *event) {
+    // 鼠标右键点击时不处理
+    if (event->buttons() & Qt::RightButton) {
+        return;
+    }
+
     pressedPointAtChartView = event->pos();
-    QChartView::mousePressEvent(event);
+
+    if (hLineAction->isChecked()) {
+        // 创建水平线
+        addGridLine(Qt::Horizontal, event->pos());
+    } else if (vLineAction->isChecked()) {
+        // 创建垂直线
+        addGridLine(Qt::Vertical, event->pos());
+    } else {
+        QChartView::mousePressEvent(event);
+    }
 }
 
 // 鼠标送开始根据 rubber band 计算选区的横纵坐标访问和显示选区
 void SelectableChartView::mouseReleaseEvent(QMouseEvent *event) {
+    if (hLineAction->isChecked() || vLineAction->isChecked()) { return; }
+
     // 处理从左下向右上选取的情况，校对坐标
     if (event->pos().x() < pressedPointAtChartView.x()) {
         pressedPointAtChart.setX(pressedPointAtChart.x() - rubberBandRect().width());
@@ -138,14 +166,6 @@ void SelectableChartView::mouseReleaseEvent(QMouseEvent *event) {
 
     // 让父类处理事件
     QChartView::mouseReleaseEvent(event);
-}
-
-void SelectableChartView::resizeEvent(QResizeEvent *event) {
-    QChartView::resizeEvent(event);
-
-    if (chart()) {
-        sterilizationMarkerWidget->setGeometry(chart()->plotArea().toRect());
-    }
 }
 
 // 创建选区
@@ -220,6 +240,7 @@ void SelectableChartView::createSelectionLabel(QList<AxisRange> ranges, QRect ge
     QLabel *label = new QLabel(this);
     selectionLabels.append(label);
 
+    QRect plotRect = chart()->plotArea().toRect();
     CalibrationRange calibrationRange;
 
     for (AxisRange range : ranges) {
@@ -227,33 +248,40 @@ void SelectableChartView::createSelectionLabel(QList<AxisRange> ranges, QRect ge
         bool bottom = (range.axis->alignment() & Qt::AlignBottom) != 0;
         bool left   = (range.axis->alignment() & Qt::AlignLeft)   != 0;
         bool right  = (range.axis->alignment() & Qt::AlignRight)  != 0;
-        bool isDtx = QAbstractAxis::AxisTypeDateTime == range.axis->type(); // 时间坐标轴
-        QString temp = QString("%1: %2, %3\n").arg(range.axis->objectName())
-                .arg(isDtx ? range.min.toDateTime().toString("yyyy-MM-dd HH:mm:ss") : QString::number(range.min.toReal()))
-                .arg(isDtx ? range.max.toDateTime().toString("yyyy-MM-dd HH:mm:ss") : QString::number(range.max.toReal()));
-
-        if (isDtx) {
-            calibrationRange.minTime = range.min.toDateTime();
-            calibrationRange.maxTime = range.max.toDateTime();
-            qDebug() << range.min.toDateTime().toMSecsSinceEpoch() << range.max.toDateTime().toMSecsSinceEpoch();
-        } else {
-            calibrationRange.minTemperature = range.min.toReal();
-            calibrationRange.maxTemperature = range.max.toReal();
-        }
+        bool isDtx  = QAbstractAxis::AxisTypeDateTime == range.axis->type(); // 时间坐标轴
 
         // 上下的都是水平坐标轴，左右的都是纵坐标轴
         if (xAction->isChecked() && (top || bottom)) {
             // 只取横坐标轴的
             label->setProperty("type", "axisX");
-            text += temp;
+            text += QString("%1: %2, %3\n").arg(range.axis->objectName())
+                    .arg(isDtx ? range.min.toDateTime().toString("\nyyyy-MM-dd HH:mm:ss") : QString::number(range.min.toReal()))
+                    .arg(isDtx ? range.max.toDateTime().toString("\nyyyy-MM-dd HH:mm:ss") : QString::number(range.max.toReal()));
+
+            geometry.setY(plotRect.y());
+            geometry.setHeight(plotRect.height());
+
+            if (isDtx) {
+                calibrationRange.chart = this->chart();
+                calibrationRange.minTime = range.min.toDateTime();
+                calibrationRange.maxTime = range.max.toDateTime();
+                calibrationRanges.insert(label, calibrationRange);
+            }
         } else if (yAction->isChecked() && (left || right)) {
             // 只取纵坐标轴的
             label->setProperty("type", "axisY");
-            text += temp;
+            text += QString("%1: %2, %3\n").arg(range.axis->objectName())
+                    .arg(isDtx ? range.min.toDateTime().toString("\nyyyy-MM-dd HH:mm:ss") : QString::number(range.min.toReal()))
+                    .arg(isDtx ? range.max.toDateTime().toString("\nyyyy-MM-dd HH:mm:ss") : QString::number(range.max.toReal()));
+
+            geometry.setX(plotRect.x());
+            geometry.setWidth(plotRect.width());
         } else if (xyAction->isChecked()) {
             // 横纵坐标轴的都取
             label->setProperty("type", "axisXY");
-            text += temp;
+            text += QString("%1: %2, %3\n").arg(range.axis->objectName())
+                    .arg(isDtx ? range.min.toDateTime().toString("\nyyyy-MM-dd HH:mm:ss") : QString::number(range.min.toReal()))
+                    .arg(isDtx ? range.max.toDateTime().toString("\nyyyy-MM-dd HH:mm:ss") : QString::number(range.max.toReal()));
         }
     }
 
@@ -265,8 +293,6 @@ void SelectableChartView::createSelectionLabel(QList<AxisRange> ranges, QRect ge
     label->setText(text); // 获取 label 的 text，解析得到选择的范围
     label->setToolTip(text);
     label->show();
-
-    calibrationRanges.insert(label, calibrationRange);
 
     // Label 上点击右键删除 label
     label->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -282,21 +308,28 @@ void SelectableChartView::createContextMenu() {
     xAction  = new QAction("只有横坐标", this);
     yAction  = new QAction("只有纵坐标", this);
     xyAction = new QAction("横纵坐标都有", this);
-    zoomInAction    = new QAction("放大", this);
-    zoomResetAction = new QAction("缩小", this);
-    calibrationAction = new QAction("记录器校准", this);
+    zoomInAction    = new QAction("图像放大", this);
+    zoomOutAction   = new QAction("图像缩小", this);
+    zoomResetAction = new QAction("图像复位", this);
+    calibrationAction = new QAction("记录校准器", this);
+    hLineAction = new QAction("水平线", this);
+    vLineAction = new QAction("垂直线", this);
 
     xAction->setCheckable(true);
     yAction->setCheckable(true);
     xyAction->setCheckable(true);
     xyAction->setChecked(true);
     zoomInAction->setCheckable(true);
+    hLineAction->setCheckable(true);
+    vLineAction->setCheckable(true);
 
     QActionGroup *group = new QActionGroup( this );
     group->addAction(xAction);
     group->addAction(yAction);
     group->addAction(xyAction);
     group->addAction(zoomInAction);
+    group->addAction(hLineAction);
+    group->addAction(vLineAction);
 
     setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this, &QWidget::customContextMenuRequested, [this](const QPoint &pos) {
@@ -305,15 +338,23 @@ void SelectableChartView::createContextMenu() {
         menu.addAction(yAction);
         menu.addAction(xyAction);
         menu.addSeparator();
+        menu.addAction(hLineAction);
+        menu.addAction(vLineAction);
+        menu.addSeparator();
         menu.addAction(zoomInAction);
+        menu.addAction(zoomOutAction);
         menu.addAction(zoomResetAction);
+        menu.addSeparator();
         menu.addAction(calibrationAction);
+
+        zoomOutAction->setEnabled(!zoomStacks.isEmpty());
         zoomResetAction->setEnabled(!zoomStacks.isEmpty());
+        calibrationAction->setEnabled(calibrationRanges.size() > 0);
 
         menu.exec(mapToGlobal(pos));
     });
 
-    connect(zoomResetAction, &QAction::triggered, [this] {
+    connect(zoomOutAction, &QAction::triggered, [this] {
         // 栈里有放大的数据时才恢复上一次的缩放
         if (!zoomStacks.isEmpty()) {
             clearSelections();
@@ -321,8 +362,17 @@ void SelectableChartView::createContextMenu() {
         }
     });
 
+    connect(zoomResetAction, &QAction::triggered, [this] {
+        if (!zoomStacks.isEmpty()) {
+            clearSelections();
+            setAxisRanges(zoomStacks.first());
+            zoomStacks.clear();
+        }
+    });
+
+    // 弹出记录器校准窗口
     connect(calibrationAction, &QAction::triggered, [this] {
-        // 弹出记录器校准对话框, 传入选区数据
+        if (calibrationRanges.size() == 0) { return; }
         RecordCalibrationWidget *cw = new RecordCalibrationWidget(calibrationRanges.values());
         cw->show();
     });
@@ -370,6 +420,23 @@ void SelectableChartView::handleLegend(QChart *chart) {
     }
 }
 
+// 在图表上增加网格线
+void SelectableChartView::addGridLine(Qt::Orientation orientation, QPoint pos) {
+    QRectF rect = chart()->plotArea();
+
+    if (Qt::Horizontal == orientation) {
+        // 创建水平线
+        GridLine *hLine = new GridLine(Qt::Horizontal, this);
+        hLine->setGeometry(rect.x(), pos.y(), rect.width(), pos.y());
+        hLine->show();
+    } else if (Qt::Vertical == orientation) {
+        // 创建垂直线
+        GridLine *vLine = new GridLine(Qt::Vertical, this);
+        vLine->setGeometry(pos.x(), rect.y(), pos.x(), rect.height());
+        vLine->show();
+    }
+}
+
 // 绘制灭菌辅助线
 void SelectableChartView::drawSterilizationMarkers() {
     QPainter painter(sterilizationMarkerWidget);
@@ -387,7 +454,7 @@ void SelectableChartView::drawSterilizationMarkers() {
     double tMax = getMaxTemperature();
 
     // 绘制温度辅助线
-    int ty = h - (sterilizeTemperature-tMin) / (tMax - tMin) * h;
+    int ty = (int)(h - (sterilizeTemperature-tMin) / (tMax - tMin) * h);
     painter.drawLine(0, ty, width(), ty);
     painter.drawText(10, ty+15, "灭菌设定温度");
 
@@ -397,15 +464,15 @@ void SelectableChartView::drawSterilizationMarkers() {
     qint64 s = sterilizeStartTime.toMSecsSinceEpoch();
     qint64 e = sterilizeEndTime.toMSecsSinceEpoch();
 
-    int sx = (double)(s-dMin)/(dMax-dMin) * w; // 灭菌开始的横坐标
-    int ex = (double)(e-dMin)/(dMax-dMin) * w; // 灭菌结束的横坐标
+    int sx = (int)((double)(s-dMin)/(dMax-dMin) * w); // 灭菌开始的横坐标
+    int ex = (int)((double)(e-dMin)/(dMax-dMin) * w); // 灭菌结束的横坐标
 
     // 绘制灭菌开始的辅助线
     painter.save();
     painter.drawLine(sx, 0, sx, h);
     painter.translate(sx, 0);
     painter.rotate(90);
-    painter.drawText(5, -5, getMinDateTime().toString("平衡灭菌开始 yyyy-MM-dd HH:mm:ss"));
+    painter.drawText(5, -5, getMinDateTime().toString("灭菌开始时间 yyyy-MM-dd HH:mm:ss"));
     painter.restore();
 
     // 绘制灭菌结束的辅助线

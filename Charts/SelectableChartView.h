@@ -2,13 +2,15 @@
 #define SELECTABLECHARTVIEW_H
 
 #include <QChartView>
+#include <QChart>
 #include <QList>
 #include <QStack>
 #include <QPair>
-#include <QHash>
 #include <QDateTime>
+#include <QHash>
 
 using namespace QtCharts;
+
 namespace QtCharts {
     class QDateTimeAxis;
     class QValueAxis;
@@ -24,12 +26,11 @@ struct AxisRange {
     QVariant max;
 };
 
-// 记录器校准的范围
+// 记录器校准范围
 struct CalibrationRange {
+    QChart *chart;
     QDateTime minTime;
     QDateTime maxTime;
-    double minTemperature;
-    double maxTemperature;
 };
 
 class SelectableChartView : public QChartView {
@@ -37,6 +38,7 @@ public:
     SelectableChartView(QChart *chart);
     QList<QLabel*> getSelections() const; // 获取所有选区，获取选区的 text，解析得到选择的范围
     void clearSelections(); // 删除所有选区的 Label
+    void clearZoomStatcks(); // 删除所有放大的操作
 
     // 获取水平时间轴的最小值
     QDateTime getMinDateTime() const;
@@ -65,6 +67,9 @@ public:
 
     static void handleLegend(QChart *chart);
 
+    // 在图表上增加网格线
+    void addGridLine(Qt::Orientation orientation, QPoint pos);
+
 protected:
     bool eventFilter(QObject *watched, QEvent *event) Q_DECL_OVERRIDE;
     void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
@@ -83,19 +88,23 @@ private:
     QPoint pressedPointAtChart;
     QPoint pressedPointAtChartView;
     QList<QLabel*> selectionLabels; // 保存选区的 Label
-    QHash<QLabel*, CalibrationRange> calibrationRanges; // 选区的数据
+    QHash<QLabel*, CalibrationRange> calibrationRanges; // 选取的范围数据
 
     QAction *xAction;
     QAction *yAction;
     QAction *xyAction;
     QAction *zoomInAction;
+    QAction *zoomOutAction;
     QAction *zoomResetAction;
-    QAction *calibrationAction; // 记录器校准
-    QStack<QList<AxisRange> > zoomStacks;
+    QAction *calibrationAction; // 记录校准器
+    QAction *hLineAction; // 水平线
+    QAction *vLineAction; // 垂直线
+
+    QStack<QList<AxisRange> > zoomStacks; // 放大缩小栈
 
     QWidget *sterilizationMarkerWidget; // 灭菌辅助线 widget
     QDateTime sterilizeStartTime; // 灭菌开始时间
-    QDateTime sterilizeEndTime;   // 灭菌结束时间
+    QDateTime sterilizeEndTime;   // 灭菌结束时间s
     double sterilizeTemperature;   // 灭菌温度
 };
 
