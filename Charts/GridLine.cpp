@@ -1,7 +1,15 @@
 #include "GridLine.h"
 #include <QMouseEvent>
+#include <QToolTip>
+#include <QAbstractAxis>
+#include <QValueAxis>
+#include <QDateTimeAxis>
+#include <QDateTime>
+#include <QList>
+#include <QDebug>
 
-GridLine::GridLine(Qt::Orientation orientation, QWidget *parent) : QWidget(parent), orientation(orientation) {
+GridLine::GridLine(Qt::Orientation orientation, QChart *chart, QWidget *parent)
+    : QWidget(parent), orientation(orientation), chart(chart) {
     int s = 4;
 
     if (Qt::Horizontal == orientation) {
@@ -46,6 +54,42 @@ void GridLine::mouseMoveEvent(QMouseEvent *event) {
         } else if (Qt::Vertical == orientation) {
             // 垂直线只能左右移动
             move(topLeftBeforeMoving.x() + delta.x(), topLeftBeforeMoving.y());
+        }
+    }
+}
+
+// 鼠标进入时显示提示
+void GridLine::enterEvent(QEvent *event) {
+    Q_UNUSED(event)
+
+    QPoint pos = this->pos();
+    QRectF rect = chart->plotArea();
+
+    if (Qt::Horizontal == orientation) {
+        QAbstractAxis *axis = chart->axes(Qt::Vertical).at(0);
+
+        // 垂直数值轴
+        if (QAbstractAxis::AxisTypeValue == axis->type()) {
+            QValueAxis *vAxis = qobject_cast<QValueAxis*>(axis);
+            qreal rate  = (rect.y() + rect.height() - pos.y()) / rect.height();
+            qreal range = vAxis->max() - vAxis->min();
+            qreal value = vAxis->min() + range * rate;
+
+            QString tip = QString("%1").arg(value);
+            QToolTip::showText(QCursor::pos(), tip);
+        }
+    } else if (Qt::Vertical == orientation) {
+        QAbstractAxis *axis = chart->axes(Qt::Horizontal).at(0);
+
+        // 水平时间轴
+        if (QAbstractAxis::AxisTypeDateTime == axis->type()) {
+            QDateTimeAxis *dtAxis = qobject_cast<QDateTimeAxis*>(axis);
+            qreal rate     = (pos.x() - rect.x()) / rect.width();
+            qint64 range   = dtAxis->min().secsTo(dtAxis->max());
+            QDateTime time = dtAxis->min().addSecs(qint64(range * rate));
+
+            QString tip = QString("%1").arg(time.toString("yyyy-MM-dd HH:mm:ss"));
+            QToolTip::showText(QCursor::pos(), tip);
         }
     }
 }

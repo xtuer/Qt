@@ -426,12 +426,12 @@ void SelectableChartView::addGridLine(Qt::Orientation orientation, QPoint pos) {
 
     if (Qt::Horizontal == orientation) {
         // 创建水平线
-        GridLine *hLine = new GridLine(Qt::Horizontal, this);
+        GridLine *hLine = new GridLine(Qt::Horizontal, chart(), this);
         hLine->setGeometry(rect.x(), pos.y(), rect.width(), pos.y());
         hLine->show();
     } else if (Qt::Vertical == orientation) {
         // 创建垂直线
-        GridLine *vLine = new GridLine(Qt::Vertical, this);
+        GridLine *vLine = new GridLine(Qt::Vertical, chart(), this);
         vLine->setGeometry(pos.x(), rect.y(), pos.x(), rect.height());
         vLine->show();
     }
