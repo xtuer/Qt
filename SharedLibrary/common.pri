@@ -1,6 +1,9 @@
 DEFINES += QT_MESSAGELOGCONTEXT
 DEFINES += QT_DEPRECATED_WARNINGS
 
+# 工程根目录
+project = $$PWD
+
 # Output directory
 CONFIG(debug, debug|release) {
     bin    = $$OUT_PWD/../bin-debug
