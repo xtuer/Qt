@@ -1,23 +1,13 @@
-QT -= gui
+include(../common.pri)
 
+QT     -= gui
 CONFIG += c++11 console
 CONFIG -= app_bundle
 
+# 头文件目录: 在源码目录
 INCLUDEPATH += $$PWD/../MyLibrary
-LIBS += -L$$OUT_PWD/../bin -lMyLibrary
 
-# Output directory
-CONFIG(debug, debug|release) {
-    output = debug
-}
-CONFIG(release, debug|release) {
-    output = release
-}
-
-DESTDIR     = ../bin
-OBJECTS_DIR = $$output
-MOC_DIR     = $$output
-RCC_DIR     = $$output
-UI_DIR      = $$output
+# 库文件引入: 在输出目录
+LIBS += -L$$bin -lMyLibrary
 
 SOURCES += main.cpp
