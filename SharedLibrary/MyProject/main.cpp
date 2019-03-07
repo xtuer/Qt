@@ -1,4 +1,4 @@
-#include <Calculator.h>
+#include <MyLibrary/Calculator.h>
 #include <QDebug>
 
 int main(int argc, char *argv[]) {

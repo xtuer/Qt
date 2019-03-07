@@ -1,11 +1,7 @@
 include(../common.pri)
 
-QT     -= gui
-CONFIG += c++11 console
+QT      = gui widgets
 CONFIG -= app_bundle
-
-# 头文件目录: 在源码目录
-INCLUDEPATH += $$project/MyLibrary
 
 # 库文件引入: 在输出目录
 LIBS += -L$$bin -lMyLibrary
