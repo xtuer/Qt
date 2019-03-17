@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>检测报告</title>
+    <style>
+        body {
+            color: #333;
+            background-color: white;
+            padding: 20px;
+            font-size: 12px;
+            font-family: Tahoma, 微软雅黑;
+        }
+
+        h3 {
+
+            text-align: center;
+            margin: 0;
+            padding: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        td {
+            padding: 8px;
+            vertical-align: top;
+            text-align: center;
+        }
+
+        td.text-left {
+            text-align: left;
+        }
+
+        .fitb1 {
+            padding: 0 5px;
+        }
+
+        .fitb2 {
+            min-width: 100px;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .gap {
+            display: inline-block;
+            width: 60px;
+        }
+
+        table, th, td, h3, .wrapper, .fitb1, .fitb2 {
+            border: 1px solid #AAA;
+        }
+
+        h3, .fitb1, .fitb2 {
+            border-width: 0 0 1px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <h3>检测原始数据</h3>
+        <div style="margin-left: 10px; padding: 10px;">（3）检测数据</div>
+
+        <div style="padding: 10px; padding-top: 0">
+            <table>
+                <tr>
+                    <td colspan="11">
+                        设定温度: <span class="fitb1">aaa.aa</span> °C，
+                        设定压力: <span class="fitb1">bbb.bb</span> kPa，
+                        设定时间: <span class="fitb1">ccc</span> s，
+                        设定间隔: <span class="fitb1">dd</span> s
+                    </td>
+                </tr>
+                <tr>
+                    <td>号</td>
+                    <td>时刻</td>
+                    <td>温度点<br>1 测量<br>值/°C</td>
+                    <td>温度点<br>2 测量<br>值/°C</td>
+                    <td>温度点<br>3 测量<br>值/°C</td>
+                    <td>温度点<br>4 测量<br>值/°C</td>
+                    <td>温度点<br>5 测量<br>值/°C</td>
+                    <td>温度点<br>6 测量<br>值/°C</td>
+                    <td>压力测<br>量值<br>/kPa</td>
+                    <td>最大<br>值<br>/°C</td>
+                    <td>最小<br>值<br>/°C</td>
+                </tr>
+
+                <!-- 下面注释掉的代码在设计时用来看效果，不需要后注释掉即可 -->
+                <!--
+                <tr>
+                    <td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                    <td>2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                    <td>3</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                    <td>4</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                -->
+
+                <!-- 模板语法 -->
+                {% for row in rows %}
+                <tr>
+                    {% for col in row %}
+                        <td>{{ col }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+
+                <tr>
+                    <td colspan="11" class="text-left">
+                        实测灭菌温度平均值<span class="fitb2">{{ value1 }}</span>°C
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="11" class="text-left">
+                        温度均匀性<span class="fitb2">{{ value2 }}</span>°C
+                    </td>
+                </tr>
+                <tr>
+                        <td colspan="11" class="text-left">
+                            灭菌温度带<span class="fitb2">{{ value3 }}</span>°C
+                        </td>
+                    </tr>
+                <tr>
+                    <td colspan="11" class="text-left">
+                        实测灭菌压力平均值<span class="fitb2">{{ value4 }}</span>kPa
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="11" class="text-left">
+                        实测灭菌时间<span class="fitb2">{{ value5 }}</span>s
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
