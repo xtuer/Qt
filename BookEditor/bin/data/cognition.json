@@ -1,6 +1,6 @@
 [
     {
-        "phase": "初中",
+        "phase": "初中学段",
         "subject": "数学",
         "headers": ["认知水平", "含义", "等级"],
         "cognitions": [
@@ -14,7 +14,7 @@
         ]
     },
     {
-        "phase": "高中",
+        "phase": "高中学段",
         "subject": "数学",
         "headers": ["认知水平", "含义", "等级"],
         "cognitions": [
