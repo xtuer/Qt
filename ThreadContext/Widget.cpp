@@ -13,15 +13,23 @@ Widget::Widget(QWidget *parent) : QWidget(parent) {
 
     // 事件处理 1
     connect(thread, &Thread::beat, [this]() {
-        qDebug() << "Lambda: " << QThread::currentThread(); // [-] 属于 Thread 的线程: 当前函数中
-        this->directCall();                                 // [-] 属于 Thread 的线程: 被调用的函数中
-        QMetaObject::invokeMethod(this, "invokeCall");      // [+] 属于 Ui 线程: 被调用的函数中
+        qDebug() << "Lambda-1: " << QThread::currentThread(); // [-] 属于 Thread 的线程: 当前函数中
+        this->directCall();                                   // [-] 属于 Thread 的线程: 被调用的函数中
+        QMetaObject::invokeMethod(this, "invokeCall");        // [+] 属于 Ui 线程: 被调用的函数中
     });
 
     // 事件处理 2
-    connect(thread, &Thread::beat, this, &Widget::slotCall); // [+] 属于 Ui 线程: 被调用的函数中
+    // 第 3 个参数 context this 指定了 Lambda 里的线程为 Ui 线程
+    connect(thread, &Thread::beat, this, [this]() {
+        qDebug() << "Lambda-2: " << QThread::currentThread(); // [+] 属于 Ui 线程: 当前函数中
+        this->directCall();                                   // [+] 属于 Ui 线程: 被调用的函数中
+        QMetaObject::invokeMethod(this, "invokeCall");        // [+] 属于 Ui 线程: 被调用的函数中
+    });
 
     // 事件处理 3
+    connect(thread, &Thread::beat, this, &Widget::slotCall); // [+] 属于 Ui 线程: 被调用的函数中
+
+    // 事件处理 4
     connect(thread, SIGNAL(beat()), this, SLOT(slotCall())); // [+] 属于 Ui 线程: 被调用的函数中
 
     thread->start();

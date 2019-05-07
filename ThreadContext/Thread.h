@@ -13,6 +13,8 @@ protected:
 
 signals:
     void beat();
+private:
+    QObject *o;
 };
 
 #endif // THREAD_H

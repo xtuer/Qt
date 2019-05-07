@@ -4,12 +4,16 @@
 
 Thread::Thread() {
     qDebug() << "2-Thread::Thread(): " << QThread::currentThread(); // [+] 属于 Ui 线程
+
+    o = new QObject();
+    o->moveToThread(this);
 }
 
 void Thread::run() {
     // [-] 属于 Thread 的线程
     // 虽然线程对象 thread 属于 Ui 线程，但是它的 run 函数属于 Thread 自己的线程
     qDebug() << "4-Thread.run(): " << QThread::currentThread();
+    qDebug() << "o's thread: " << o->thread();
 
     while (true) {
         emit beat();

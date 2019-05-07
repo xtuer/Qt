@@ -1,7 +1,6 @@
 #include "HttpClient.h"
 
 #include <QDebug>
-#include <QFile>
 #include <QApplication>
 #include <QNetworkAccessManager>
 
@@ -10,89 +9,65 @@ int main(int argc, char *argv[]) {
 
     // 在代码块里执行网络访问，是为了测试 HttpClient 对象在被析构后，网络访问的回调函数仍然能正常执行
     {
-        QString url("http://localhost:8080/rest");
+        QString url("http://localhost:8080/api/rest");
 
-        // [[1]] GET 请求无参数
-        HttpClient(url).get([](const QString &response) {
+        // [1] GET 请求无参数
+        HttpClient(url).success([](const QString &response) {
             qDebug().noquote() << response;
-        });
+        }).get();
 
-        // [[2]] GET 请求有参数，有自定义 header
-        HttpClient(url).debug(true).param("name", "诸葛亮").header("token", "md5sum").get([](const QString &response) {
-            qDebug().noquote() << response;
-        });
+        // [2] GET 请求有参数，有自定义 header，有失败的回调函数
         // 提示: 多个参数也可以传入 map: HttpClient(url).params({{"name", "诸葛亮"}, {"attackDamage", "99"}}).get(...);
-
-        // [[3]] POST 请求，使用 param 添加参数，请求的参数使用 Form 格式
-        HttpClient(url).debug(true).param("name", "卧龙")
-                .post([](const QString &response) {
+        HttpClient(url).debug(true).param("name", "诸葛亮").param("value", 99).header("token", "md5sum").success([](const QString &response) {
             qDebug().noquote() << response;
-        });
+        }).fail([](const QString &error, int errorCode) {
+            qDebug().noquote() << error << errorCode;
+        }).get();
 
-        // [[4]] PUT 请求，使用 json 添加参数，请求的参数使用 Json 格式
-        HttpClient(url).debug(true).json("{\"name\": \"孔明\"}").put([](const QString &response) {
+        // [3] POST 请求，使用 param 添加参数，请求的参数使用 Form 格式
+        HttpClient(url).debug(true).param("name", "卧龙").param("value", 99).success([](const QString &response) {
             qDebug().noquote() << response;
-        });
+        }).post();
 
-        // [[5]] DELETE 请求
-        HttpClient(url).debug(true).remove([](const QString &response) {
+        // [4] PUT 请求，使用 json 添加参数，请求的参数使用 Json 格式
+        HttpClient(url).debug(true).json("{\"name\": \"孔明\"}").success([](const QString &response) {
             qDebug().noquote() << response;
-        });
+        }).put();
+
+        // [5] DELETE 请求
+        HttpClient(url).debug(true).success([](const QString &response) {
+            qDebug().noquote() << response;
+        }).remove();
     }
 
     {
-        // [[6]] 下载: 直接保存到文件
-        HttpClient("http://xtuer.github.io/img/dog.png").debug(true).download("/Users/Biao/Desktop/dog-1.png");
-
-        // [[7]] 下载: 自己处理下载得到的字节数据
-        QFile *file = new QFile("/Users/Biao/Desktop/dog-2.png");
-        if (file->open(QIODevice::WriteOnly)) {
-            HttpClient("http://xtuer.github.io/img/dog.png").debug(true).download([=](const QByteArray &data) {
-                file->write(data);
-            }, [=](const QString &) {
-                file->flush();
-                file->close();
-                file->deleteLater();
-
-                qDebug().noquote() << "下载完成";
-            });
-        } else {
-            file->deleteLater();
-            file = nullptr;
-        }
+        // [6] 下载: 保存到文件
+        HttpClient("http://qtdebug.com/img/dog.png").debug(true).success([](const QString &response) {
+            qDebug().noquote() << response;
+        }).download("/Users/Biao/Desktop/dog-1.png");
     }
 
     {
-        // [[8]] 上传文件
-        HttpClient("http://localhost:8080/upload").debug(true).upload(QString("/Users/Biao/Pictures/ade.jpg"));
+        // 上传的同时能够传递参数
+        // [7] 上传一个文件
+        HttpClient("http://localhost:8080/api/upload").debug(true).upload(QString("/Users/Biao/Pictures/ade.jpg"));
 
-        // [[9]] 上传文件: 也能同时传参数
-        HttpClient("http://localhost:8080/upload").debug(true)
-                .param("username", "Alice").param("password", "Passw0rd")
-                .upload(QString("/Users/Biao/Pictures/ade.jpg"));
-
-        // [[10]] 上传数据: 例如使用摄像头拍照后直接把图片数据传到服务器
-        QFile dataFile("/Users/Biao/Pictures/ade.jpg");
-        dataFile.open(QIODevice::ReadOnly);
-        QByteArray data = dataFile.readAll();
-        HttpClient("http://localhost:8080/upload").debug(true).upload(data);
-
-        // [[11]] 上传多个文件文件
-        QStringList paths;
-        paths << "/Users/Biao/Desktop/photo.jpg" << "/Users/Biao/Desktop/project.numbers";
-        HttpClient("http://localhost:8080/uploads").debug(true).upload(paths);
+        // [8] 上传多个文件
+        HttpClient("http://localhost:8080/api/uploads").debug(true).param("name", "Biao").success([](const QString &response) {
+            qDebug().noquote() << response;
+        }).upload({ "/Users/Biao/Pictures/ade.jpg", "/Users/Biao/Pictures/avatar.jpg" });
     }
 
     {
-        // [[12]] 共享 QNetworkAccessManager
+        // [9] 共享 QNetworkAccessManager
         // 每创建一个 QNetworkAccessManager 对象都会创建一个线程，当频繁的访问网络时，为了节省线程资源，调用 manager()
         // 使用共享的 QNetworkAccessManager，它不会被 HttpClient 删除，需要我们自己不用的时候删除它。
         // 如果下面的代码不传入 QNetworkAccessManager，从任务管理器里可以看到创建了几千个线程。
         QNetworkAccessManager *manager = new QNetworkAccessManager();
         for (int i = 0; i < 5000; ++i) {
-            HttpClient("http://localhost:8080/rest").manager(manager).get([=](const QString &response) {
+            HttpClient("http://localhost:8080/api/rest").manager(manager).success([=](const QString &response) {
                 qDebug().noquote() << response << ", " << i;
-            });
+            }).get();
         }
     }
 
