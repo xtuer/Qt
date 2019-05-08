@@ -445,22 +445,22 @@ void HttpClientPrivate::handleFinish(HttpClientPrivateCache cache, QNetworkReply
     // 4. 释放 reply 和 manager 对象
 
     if (reply->error() == QNetworkReply::NoError) {
+        if (cache.debug) {
+            qDebug().noquote() << QString("[结束] 成功: %1").arg(successMessage);
+        }
+
         // [1] 执行请求成功的回调函数
         if (nullptr != cache.successHandler) {
             cache.successHandler(successMessage);
         }
-
-        if (cache.debug) {
-            qDebug().noquote() << QString("[结束] 成功: %1").arg(successMessage);
-        }
     } else {
+        if (cache.debug) {
+            qDebug().noquote() << QString("[结束] 失败: %1").arg(failMessage);
+        }
+
         // [2] 执行请求失败的回调函数
         if (nullptr != cache.failHandler) {
             cache.failHandler(failMessage, reply->error());
-        }
-
-        if (cache.debug) {
-            qDebug().noquote() << QString("[结束] 失败: %1").arg(failMessage);
         }
     }
 
@@ -491,29 +491,29 @@ HttpClient::~HttpClient() {
 }
 
 // 传入 QNetworkAccessManager 给多个请求共享
-HttpClient &HttpClient::manager(QNetworkAccessManager *manager) {
-    d->internal = (nullptr == manager);
+HttpClient& HttpClient::manager(QNetworkAccessManager *manager) {
     d->manager  = manager;
+    d->internal = (nullptr == manager);
 
     return *this;
 }
 
 // 传入 debug 为 true 则使用 debug 模式，请求执行时输出请求的 URL 和参数等
-HttpClient &HttpClient::debug(bool debug) {
+HttpClient& HttpClient::debug(bool debug) {
     d->debug = debug;
 
     return *this;
 }
 
 // 添加一个请求的参数，可以多次调用添加多个参数
-HttpClient &HttpClient::param(const QString &name, const QVariant &value) {
+HttpClient& HttpClient::param(const QString &name, const QVariant &value) {
     d->params.addQueryItem(name, value.toString());
 
     return *this;
 }
 
 // 添加多个请求的参数
-HttpClient &HttpClient::params(const QMap<QString, QVariant> &ps) {
+HttpClient& HttpClient::params(const QMap<QString, QVariant> &ps) {
     for (auto iter = ps.cbegin(); iter != ps.cend(); ++iter) {
         d->params.addQueryItem(iter.key(), iter.value().toString());
     }
@@ -522,8 +522,8 @@ HttpClient &HttpClient::params(const QMap<QString, QVariant> &ps) {
 }
 
 // 添加请求的参数 (请求体)，使用 Json 格式，例如 "{\"name\": \"Alice\"}"
-HttpClient &HttpClient::json(const QString &json) {
-    d->json = json;
+HttpClient& HttpClient::json(const QString &json) {
+    d->json    = json;
     d->useJson = true;
 
     return *this;
@@ -537,7 +537,7 @@ HttpClient& HttpClient::header(const QString &name, const QString &value) {
 }
 
 // 添加多个请求头
-HttpClient &HttpClient::headers(const QMap<QString, QString> nameValues) {
+HttpClient& HttpClient::headers(const QMap<QString, QString> nameValues) {
     for (auto i = nameValues.cbegin(); i != nameValues.cend(); ++i) {
         d->headers[i.key()] = i.value();
     }
