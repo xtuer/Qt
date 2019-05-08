@@ -66,7 +66,7 @@ public:
      *           可以使用 {{"name", 1}, {"box", 2}} 的方式创建 QMap 对象
      * @return 返回 HttpClient 的引用，可以用于链式调用
      */
-    HttpClient &params(const QMap<QString, QVariant> &ps);
+    HttpClient& params(const QMap<QString, QVariant> &ps);
 
     /**
      * @brief 添加请求的参数 (请求体)，使用 Json 格式，例如 "{\"name\": \"Alice\"}"
