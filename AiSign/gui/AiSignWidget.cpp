@@ -627,7 +627,9 @@ void AiSignWidget::updateSystemStatus(QWidget *w, bool ok) {
 // 签到成功
 void AiSignWidget::signInSuccess(const SignInInfo &info) const {
     showInfo(QString("%1 签到成功").arg(info.name));
+
     d->signInStatusWidget->signInSuccess(info);
+    ui->signInStudentCountLabel->setText(QString::number(d->signInStatusWidget->signedStudentsCount()));
 }
 
 // 签到

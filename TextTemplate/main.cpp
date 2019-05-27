@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
     QString html = QString::fromStdString(result);
 
     // [3] 输出到文件，查看效果
-    QFile file("/Users/Biao/Desktop/output.html");
+    QFile file("output.html");
     file.open(QIODevice::WriteOnly | QIODevice::Text);
     QTextStream out(&file);
     out.setCodec(QTextCodec::codecForName("UTF-8"));
