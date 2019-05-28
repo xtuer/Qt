@@ -20,9 +20,12 @@ public:
     explicit SignInStatusWidget(QWidget *parent = 0);
     ~SignInStatusWidget();
 
+    // 获取已经签到的书生数量
+    int signedStudentsCount() const;
+
 public slots:
     void setStudents(const QList<Student> &students);
-    void signInSuccess(const SignInInfo &info) const; // 签到成功
+    void signInSuccess(const SignInInfo &info); // 签到成功
 
 private:
     void initialize();   // 初始化

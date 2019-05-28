@@ -2,7 +2,7 @@
 #include "bean/Room.h"
 #include "bean/Site.h"
 #include "bean/Student.h"
-#include "bean/Period.h"
+#include "bean/Unit.h"
 #include "util/Json.h"
 
 #include <QJsonObject>
@@ -42,7 +42,7 @@ QList<Student> ResponseUtil::responseToStudents(const QString &jsonResponse) {
 QList<Site> ResponseUtil::responseToSites(const QString &jsonResponse) {
     QList<Site> sites;
     Json json(jsonResponse.toUtf8());
-    QJsonArray siteJsonList = json.getJsonValue("siteList").toArray();
+    QJsonArray siteJsonList = json.getJsonValue("signInSiteAndRoomList").toArray();
 
     for (int i = 0; i < siteJsonList.size(); ++i) {
         QJsonObject siteJson = siteJsonList.at(i).toObject();
@@ -60,6 +60,7 @@ QList<Site> ResponseUtil::responseToSites(const QString &jsonResponse) {
             r.roomCode     = roomJson.value("roomCode").toString().trimmed();
             r.roomLocation = roomJson.value("roomLocation").toString().trimmed();
             r.seatNum      = roomJson.value("seatNum").toInt(0);
+            r.needSignIn   = roomJson.value("needSignIn").toBool(false);
 
             s.rooms << r;
         }
@@ -70,24 +71,23 @@ QList<Site> ResponseUtil::responseToSites(const QString &jsonResponse) {
     return sites;
 }
 
-// // HTTP 的响应转换为考期 PeriodUnit 数组
-QList<Period> ResponseUtil::responseToPeroids(const QString &jsonResponse) {
-    QList<Period> periodUnits;
+// HTTP 的响应转换为考试单元 Unit 数组
+QList<Unit> ResponseUtil::responseToUnits(const QString &jsonResponse) {
+    QList<Unit> units;
     Json json(jsonResponse.toUtf8());
-    QJsonArray periodUnitJsonList = json.getJsonValue("periodUnitList").toArray();
+    QJsonArray periodUnitJsonList = json.getJsonValue("signInExamUnitList").toArray();
 
     for (int i = 0; i < periodUnitJsonList.size(); ++i) {
         QJsonObject periodUnitJson = periodUnitJsonList.at(i).toObject();
-        Period pu;
+        Unit u;
 
-        pu.periodCode = periodUnitJson.value("periodUnitCode").toString().trimmed();
-        pu.period         = periodUnitJson.value("period").toString().trimmed();
-        pu.unit           = periodUnitJson.value("unit").toString().trimmed();
-        pu.startTime      = periodUnitJson.value("startTime").toString().trimmed();
-        pu.endTime        = periodUnitJson.value("endTime").toString().trimmed();
+        u.examCode  = periodUnitJson.value("examCode").toString().trimmed();
+        u.unit      = periodUnitJson.value("unit").toString().trimmed();
+        u.startTime = periodUnitJson.value("startTime").toString().trimmed();
+        u.endTime   = periodUnitJson.value("endTime").toString().trimmed();
 
-        periodUnits << pu;
+        units << u;
     }
 
-    return periodUnits;
+    return units;
 }

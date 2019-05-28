@@ -113,6 +113,11 @@ QString Config::getServerUrl() const {
     return config->getString("serverUrl");
 }
 
+// 是否调试模式
+bool Config::isDebug() const {
+    return config->getBool("debug", false);
+}
+
 QVariant Config::getGuiValue(const QString& groupName, const QString& name, const QVariant& def) {
     return getValue(appSettings, groupName, name, def);
 }

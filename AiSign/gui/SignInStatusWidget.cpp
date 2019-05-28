@@ -28,6 +28,19 @@ SignInStatusWidget::~SignInStatusWidget() {
     delete ui;
 }
 
+// 获取已经签到的书生数量
+int SignInStatusWidget::signedStudentsCount() const {
+    int count = 0;
+
+    foreach (const Student &student, this->students) {
+        if (!student.signedAt.isEmpty()) {
+            count++;
+        }
+    }
+
+    return count;
+}
+
 void SignInStatusWidget::initialize() {
     ui->setupUi(this);
     setAttribute(Qt::WA_StyledBackground, true); // 启用 QSS
@@ -117,7 +130,7 @@ void SignInStatusWidget::setStudents(const QList<Student> &students) {
 }
 
 // 签到成功
-void SignInStatusWidget::signInSuccess(const SignInInfo &info) const {
+void SignInStatusWidget::signInSuccess(const SignInInfo &info) {
     qDebug() << info.idCardNo << "签到成功";
     Student signInStudent = findStudent(info);
 
@@ -138,6 +151,14 @@ void SignInStatusWidget::signInSuccess(const SignInInfo &info) const {
 
             item->setData(toolTip, ROLE_TOOL_TIP); // 提示信息
             item->setIcon(onlineIcon);
+
+            // find student by examUid
+            for (int i = 0; i < students.size(); i++) {
+                if (students[i].examUid == info.examUid) {
+                    students[i].signedAt = info.signAt;
+                    break;
+                }
+            }
             break;
         } else if (idCardNo == info.idCardNo) {
             QString toolTip = QString("姓名: %1<br>准考证号: %2<br>身份证号: %3<br>签到时间: %4")
@@ -146,6 +167,14 @@ void SignInStatusWidget::signInSuccess(const SignInInfo &info) const {
 
             item->setData(toolTip, ROLE_TOOL_TIP); // 提示信息
             item->setIcon(onlineIcon);
+
+            // find student by idCardNo
+            for (int i = 0; i < students.size(); i++) {
+                if (students[i].idCardNo == info.idCardNo) {
+                    students[i].signedAt = info.signAt;
+                    break;
+                }
+            }
             break;
         }
     }

@@ -9,6 +9,7 @@ namespace Constants {
 }
 
 namespace Urls {
+    extern const QString EXAM;
     extern const QString SIGN_IN;
     extern const QString SIGN_IN_WITH_FACE;
     extern const QString SIGN_IN_MANUAL;
