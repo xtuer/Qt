@@ -13,7 +13,8 @@ public:
 
     QString roomCode;
     QString roomLocation;
-    int seatNum;
+    int  seatNum;
+    bool needSignIn = false;
 };
 
 #endif // ROOM_H

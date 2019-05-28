@@ -7,7 +7,7 @@
 
 #include "Constants.h"
 
-#include "bean/Period.h"
+#include "bean/Unit.h"
 #include "bean/Site.h"
 #include "bean/Room.h"
 #include "bean/Student.h"
@@ -44,27 +44,30 @@ struct AiSignWidgetPrivate {
     Site findSite(const QString &siteCode) const; // 使用 siteCode 从 sites 里查找第一个有相同 siteCode 的 site
 
     // 摄像头
-    QCamera *camera;
-    QCameraViewfinder *cameraViewfinder;
+    QCamera             *camera;
+    QCameraViewfinder   *cameraViewfinder;
     QCameraImageCapture *cameraImageCapture;
 
-    // 考试信息: 考期、考点、考场、学生
-    QList<Period>  periods;  // 考期
+    // 考试信息: 考试单元、考点、考场、学生
+    QList<Unit>    units;    // 考试单元
     QList<Site>    sites;    // 考点、考点的成员变量里有考场
     QList<Student> students; // 学生
 
-    bool    signInWithFace; // 使用人脸识别签名
-    QString serverUrl;      // 服务器的 URL
-    qint64  timeDiff;       // 客户端和服务器的时间差，单位为毫秒
-    SignInMode signInMode;  // 签到模式
+    bool    signInWithFace;  // 使用人脸识别签名
+    QString serverUrl;       // 服务器的 URL
+    qint64  timeDiff;        // 客户端和服务器的时间差，单位为毫秒
+    SignInMode signInMode;   // 签到模式: 手动签到、刷身份证
 
-    CardReaderThread *readerThread; // 身份证刷卡器
+    CardReaderThread      *readerThread; // 身份证刷卡器
     QNetworkAccessManager *networkManager;
-    SignInStatusWidget *signInStatusWidget;
-    TopWindow *signInStatusTopWindow = nullptr;
+    SignInStatusWidget    *signInStatusWidget;
+    TopWindow             *signInStatusTopWindow = nullptr;
+
+    bool debug; // 是否 debug 模式
 };
 
 AiSignWidgetPrivate::AiSignWidgetPrivate() {
+    debug          = ConfigInstance.isDebug();
     serverUrl      = ConfigInstance.getServerUrl();
     signInWithFace = ConfigInstance.isSignInWithFace();
     networkManager = new QNetworkAccessManager();
@@ -220,7 +223,7 @@ void AiSignWidget::handleEvents() {
     });
 
     // [考试信息] 当 Period 变化时，取消 Room 的选择
-    connect(ui->periodComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), [this]() {
+    connect(ui->unitComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), [this]() {
         ui->roomComboBox->setCurrentIndex(0);
     });
 
@@ -316,7 +319,7 @@ void AiSignWidget::handleEvents() {
     connect(ui->shutdownPasswordButton, &QPushButton::clicked, [this] {
         QString url = d->serverUrl + Urls::CLOSE_PASSWORD;
 
-        HttpClient(url).debug(true).manager(d->networkManager).get([](const QString &jsonResponse) {
+        HttpClient(url).debug(d->debug).manager(d->networkManager).get([](const QString &jsonResponse) {
             Json json(jsonResponse.toUtf8());
             QMessageBox::information(nullptr, "关机密码", json.getString("data"));
             // MessageBox::message(QString("客户端关机密码: <font color=red>%1</font>").arg(json.getString("data").trimmed()));
@@ -353,7 +356,7 @@ void AiSignWidget::startCamera() {
     ui->cameraPlaceholderLabel->hide();
     d->camera->setViewfinder(d->cameraViewfinder);
 
-    connect(d->camera, &QCamera::stateChanged, [this] (QCamera::State state) {
+    connect(d->camera, &QCamera::stateChanged, [] (QCamera::State state) {
         qDebug() << "Camera State" << state;
     });
 
@@ -382,10 +385,10 @@ void AiSignWidget::startCamera() {
     layout->setAlignment(facePositionLabel, Qt::AlignCenter);
 }
 
-// 加载考试类型
+// 加载考试
 void AiSignWidget::loadExamTypes() {
-    QString url = d->serverUrl + Urls::EXAM_TYPE;
-    HttpClient(url).debug(false).manager(d->networkManager).get([this](const QString &jsonResponse) {
+    QString url = d->serverUrl + Urls::EXAM;
+    HttpClient(url).debug(d->debug).manager(d->networkManager).get([this](const QString &jsonResponse) {
         Json json(jsonResponse.toUtf8());
         QJsonArray exams = json.getJsonArray(".");
 
@@ -402,21 +405,21 @@ void AiSignWidget::loadExamTypes() {
     });
 }
 
-// 从服务器加载考期、考点、考场
+// 从服务器加载考试单元、考点、考场
 void AiSignWidget::loadPeriodUnitAndSiteAndRoom(const QString &examCode) {
     // http://192.168.10.85:8080/initializeRoom
     QString url = d->serverUrl + Urls::INITIALIZE_ROOM;
-    HttpClient(url).debug(false).manager(d->networkManager).param("examCode", examCode).get([this](const QString &jsonResponse) {
-        // 解析考期 Period
-        d->periods = ResponseUtil::responseToPeroids(jsonResponse);
-        ui->periodComboBox->clear();
-        ui->periodComboBox->addItem("请选择", "");
+    HttpClient(url).debug(d->debug).manager(d->networkManager).param("examCode", examCode).get([this](const QString &jsonResponse) {
+        // [1] 解析考试单元 unit
+        d->units = ResponseUtil::responseToUnits(jsonResponse);
+        ui->unitComboBox->clear();
+        ui->unitComboBox->addItem("请选择", "");
 
-        foreach (const Period &pu, d->periods) {
-            ui->periodComboBox->addItem(pu.period + "-" + pu.unit + " 单元", pu.periodCode);
+        foreach (const Unit &pu, d->units) {
+            ui->unitComboBox->addItem(pu.unit, pu.unit);
         }
 
-        // 解析考点 Site
+        // [2] 解析考点 Site，考点下由考场 Room
         d->sites = ResponseUtil::responseToSites(jsonResponse);
         ui->siteComboBox->clear();
         ui->siteComboBox->addItem("请选择", "");
@@ -455,29 +458,33 @@ void AiSignWidget::loadRoom(const QString &siteCode) {
 void AiSignWidget::loadStudents() {
     updateSignInStatus(QList<Student>()); // 清空登陆统计
 
+    QString examCode = ui->examTypeComboBox->currentData().toString();
+    QString unit     = ui->unitComboBox->currentData().toString();
     QString siteCode = ui->siteComboBox->currentData().toString();
     QString roomCode = ui->roomComboBox->currentData().toString();
-    QString periodCode = ui->periodComboBox->currentData().toString();
 
-    if (siteCode.isEmpty() || roomCode.isEmpty() || periodCode.isEmpty()) {
+    if (examCode.isEmpty() || siteCode.isEmpty() || roomCode.isEmpty() || unit.isEmpty()) {
         // showInfo("siteCode or roomCode or periodUnitCode cannot be empty", true);
         return;
     }
 
-    // http://192.168.10.95:8080/getRoomEnrollment?siteCode=0105013&roomCode=11&periodUnitCode=16090001
+    // https://jk.edu-edu.com/getRoomEnrollment?examCode=tqd_xm&unit=200&siteCode=tqd_xm01&roomCode=jk_01
     QString url = d->serverUrl + Urls::GET_ROOM_ENROLLMENT;
-    HttpClient(url).debug(true).manager(d->networkManager).param("siteCode", siteCode)
-            .param("roomCode", roomCode).param("periodUnitCode", periodCode)
+    HttpClient(url).debug(d->debug).manager(d->networkManager)
+            .param("examCode", examCode)
+            .param("unit", unit)
+            .param("siteCode", siteCode)
+            .param("roomCode", roomCode)
             .get([this](const QString &jsonResponse) {
         Json json(jsonResponse.toUtf8());
 
-        // 1 为发生错误
+        // [1] 错误: 为发生错误
         if (1 != json.getInt("status")) {
             showInfo(jsonResponse, true);
             return;
         }
 
-        // 显示学生信息
+        // [2] 显示学生信息
         d->students = ResponseUtil::responseToStudents(jsonResponse);
 
         updateSignInStatus(d->students);
@@ -489,7 +496,7 @@ void AiSignWidget::loadStudents() {
 void AiSignWidget::loadServerTime() {
     // timeDiff is client current time minus server current time.
     QString url = d->serverUrl + Urls::TIMESTAMP;
-    HttpClient(url).manager(d->networkManager).debug(true).get([this](const QString &response) {
+    HttpClient(url).manager(d->networkManager).debug(d->debug).get([this](const QString &response) {
         d->timeDiff = QDateTime::currentMSecsSinceEpoch() - response.toLongLong();
     });
 }
@@ -581,7 +588,7 @@ void AiSignWidget::showPerson(const Person &p) {
 // 获取签到的学生的信息, 如果 validateIdCard 为 true，则要先刷身份证
 SignInInfo AiSignWidget::getSignInInfo(bool validateIdCard) const {
     SignInInfo info;
-    info.periodCode = ui->periodComboBox->currentData().toString();
+    info.periodCode = ui->unitComboBox->currentData().toString();
     info.siteCode   = ui->siteComboBox->currentData().toString();
     info.roomCode   = ui->roomComboBox->currentData().toString();
     info.name       = ui->nameLabel->text();

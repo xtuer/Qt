@@ -55,6 +55,9 @@ public:
     ////////////////////////////////////////////////////////////////////////////
     QString getServerUrl() const;
 
+    // 是否调试模式
+    bool isDebug() const;
+
 private:
     QVariant getGuiValue(const  QString &groupName, const QString &name, const QVariant &def = QVariant());
     void     setGuiValue(const  QString &groupName, const QString &name, const QVariant &value);

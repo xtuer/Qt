@@ -468,7 +468,7 @@
                </sizepolicy>
               </property>
               <property name="text">
-               <string>考期:</string>
+               <string>单元:</string>
               </property>
               <property name="class" stdset="0">
                <string>Info</string>
@@ -486,7 +486,7 @@
              </widget>
             </item>
             <item row="1" column="1">
-             <widget class="QComboBox" name="periodComboBox"/>
+             <widget class="QComboBox" name="unitComboBox"/>
             </item>
             <item row="3" column="0">
              <widget class="QLabel" name="label_15">
@@ -537,7 +537,7 @@
                </sizepolicy>
               </property>
               <property name="text">
-               <string>类型:</string>
+               <string>考试:</string>
               </property>
               <property name="class" stdset="0">
                <string>Info</string>
