@@ -6,9 +6,15 @@
 #include <QDateTime>
 #include <QTimer>
 
+#include <QTableView>
+#include <QModelIndex>
+#include <QItemSelectionModel>
+
 MyWidget::MyWidget(QWidget *parent) : QWidget(parent), ui(new Ui::MyWidget) {
     initializeUi();
-//    handleEvents();
+    handleEvents();
+
+    ui->tableWidget->setCurrentCell(2, 0);
 }
 
 MyWidget::~MyWidget() {
@@ -18,15 +24,21 @@ MyWidget::~MyWidget() {
 
 void MyWidget::initializeUi() {
     ui->setupUi(this);
-    messageShower = new MessageShower(this);
-    messageShower->setGeometry(0, 0, 400, 200);
+    ui->tableWidget->hideRow(2);
 }
 
 void MyWidget::handleEvents() {
-    QTimer *timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, [this] {
-        messageShower->showMessage(QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss"));
+    QList<int> ns = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
+    QList<int> iv = { 0, 2, 5, 8 };
+
+    for (int n : iv) {
+        ns.removeOne(n);
+    }
+
+    qDebug() << ns << ns.first();
+
+    connect(ui->tableWidget, &QTableWidget::currentCellChanged, [this] (int row) {
+        qDebug() << row << ", " << ui->tableWidget->currentItem()->data(Qt::DisplayRole).toString();
     });
-    timer->start(100);
 }
 

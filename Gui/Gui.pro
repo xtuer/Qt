@@ -26,9 +26,8 @@ MOC_DIR     = $$output
 RCC_DIR     = $$output
 UI_DIR      = $$output
 
-include (/usr/local/qwt-6.1.3/features/qwt.prf)
-
 SOURCES += \
+    GradientColorPicker.cpp \
     main.cpp \
     Widget.cpp \
     Pandora.cpp \
@@ -57,6 +56,7 @@ FORMS += \
     DragAndDropTreeView.ui
 
 HEADERS += \
+    GradientColorPicker.h \
     Widget.h \
     Pandora.h \
     ImageWidget.h \
