@@ -166,7 +166,7 @@ void AiSignWidget::handleEvents() {
     // 切换考试类型后加载服务器考期、考点、考场
     connect(ui->examTypeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), [this]() {
         QString examCode = ui->examTypeComboBox->currentData().toString();
-        loadPeriodUnitAndSiteAndRoom(examCode);
+        loadExamUnitAndSiteAndRoom(examCode);
     });
 
     // [Camera] 点击拍照上传按钮进行拍照
@@ -406,7 +406,7 @@ void AiSignWidget::loadExamTypes() {
 }
 
 // 从服务器加载考试单元、考点、考场
-void AiSignWidget::loadPeriodUnitAndSiteAndRoom(const QString &examCode) {
+void AiSignWidget::loadExamUnitAndSiteAndRoom(const QString &examCode) {
     // http://192.168.10.85:8080/initializeRoom
     QString url = d->serverUrl + Urls::INITIALIZE_ROOM;
     HttpClient(url).debug(d->debug).manager(d->networkManager).param("examCode", examCode).get([this](const QString &jsonResponse) {

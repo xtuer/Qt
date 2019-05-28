@@ -37,7 +37,7 @@ private:
     void startCamera();       // 启动摄像头
 
     void loadExamTypes();                   // 加载考试
-    void loadPeriodUnitAndSiteAndRoom(const QString &examCode); // 加载服务器考试单元、考点、考场
+    void loadExamUnitAndSiteAndRoom(const QString &examCode); // 加载服务器考试单元、考点、考场
     void loadRoom(const QString &siteCode); // 加载考点下的考场
     void loadStudents();   // 加载学生信息
     void loadServerTime(); // 请求服务器的时间
