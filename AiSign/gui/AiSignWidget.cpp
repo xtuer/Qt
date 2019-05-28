@@ -139,7 +139,7 @@ void AiSignWidget::initialize() {
     updateSystemStatus(ui->examStatusLabel, false);
 
     // loadPeriodUnitAndSiteAndRoom(); // 加载服务器考期、考点、考场
-    loadExamTypes();     // 加载考试类型
+    loadExams();         // 加载考试
     loadServerTime();    // 加载服务器的时间
     startIdCardReader(); // 启动身份证刷卡器
 
@@ -163,7 +163,7 @@ void AiSignWidget::initialize() {
 
 // 信号槽事件处理
 void AiSignWidget::handleEvents() {
-    // 切换考试类型后加载服务器考期、考点、考场
+    // 切换考试后从服务器加载考试单元、考点、考场
     connect(ui->examTypeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), [this]() {
         QString examCode = ui->examTypeComboBox->currentData().toString();
         loadExamUnitAndSiteAndRoom(examCode);
@@ -264,7 +264,7 @@ void AiSignWidget::handleEvents() {
     });
 
     // [身份证刷卡器] 读取到身份证信息，Reader 线程
-    connect(d->readerThread, &CardReaderThread::personReady, [this](const Person &p) {
+    connect(d->readerThread, &CardReaderThread::personReady, this, [this](const Person &p) {
         // 显示和发送学生信息到服务器: 使用 invokeMethod() 解决不同线程问题，
         // 因为当前上下文环境属于 ReadThread，不属于 GUI 线程
         QMetaObject::invokeMethod(this, "updateSystemStatus",
@@ -274,7 +274,7 @@ void AiSignWidget::handleEvents() {
     });
 
     // [身份证刷卡器] 读卡线程信息，Reader 线程
-    connect(d->readerThread, &CardReaderThread::info, [this](int code, const QString &message) {
+    connect(d->readerThread, &CardReaderThread::info, this, [this](int code, const QString &message) {
         // qDebug() << "----------" << code << message;
         if (Constants::CODE_READ_READY == code) {
             updateSystemStatus(ui->idCardReaderStatusLabel, true);
@@ -315,7 +315,7 @@ void AiSignWidget::handleEvents() {
     // 更换考场后更新此考场的学生登陆状态
     connect(this, SIGNAL(studentsReady(QList<Student>)), d->signInStatusWidget, SLOT(setStudents(QList<Student>)));
 
-    // 申请
+    // 申请关机密码
     connect(ui->shutdownPasswordButton, &QPushButton::clicked, [this] {
         QString url = d->serverUrl + Urls::CLOSE_PASSWORD;
 
@@ -323,6 +323,8 @@ void AiSignWidget::handleEvents() {
             Json json(jsonResponse.toUtf8());
             QMessageBox::information(nullptr, "关机密码", json.getString("data"));
             // MessageBox::message(QString("客户端关机密码: <font color=red>%1</font>").arg(json.getString("data").trimmed()));
+        }, [this](const QString &error) {
+            showInfo(error, false);
         });
     });
 }
@@ -386,7 +388,7 @@ void AiSignWidget::startCamera() {
 }
 
 // 加载考试
-void AiSignWidget::loadExamTypes() {
+void AiSignWidget::loadExams() {
     QString url = d->serverUrl + Urls::EXAM;
     HttpClient(url).debug(d->debug).manager(d->networkManager).get([this](const QString &jsonResponse) {
         Json json(jsonResponse.toUtf8());
@@ -398,8 +400,6 @@ void AiSignWidget::loadExamTypes() {
 
             ui->examTypeComboBox->addItem(examName, examCode);
         }
-
-        // ui->examTypeComboBox->setCurrentIndex(-1);
     }, [this](const QString &error) {
         showInfo(error, true);
     });
@@ -456,7 +456,7 @@ void AiSignWidget::loadRoom(const QString &siteCode) {
 
 // 加载学生信息
 void AiSignWidget::loadStudents() {
-    updateSignInStatus(QList<Student>()); // 清空登陆统计
+    initializeSignInStatus(QList<Student>()); // 清空登陆统计
 
     QString examCode = ui->examTypeComboBox->currentData().toString();
     QString unit     = ui->unitComboBox->currentData().toString();
@@ -487,7 +487,7 @@ void AiSignWidget::loadStudents() {
         // [2] 显示学生信息
         d->students = ResponseUtil::responseToStudents(jsonResponse);
 
-        updateSignInStatus(d->students);
+        initializeSignInStatus(d->students);
     }, [this](const QString &error) {
         showInfo(error, true);
     });
@@ -501,8 +501,8 @@ void AiSignWidget::loadServerTime() {
     });
 }
 
-// 更新学生的签到信息
-void AiSignWidget::updateSignInStatus(const QList<Student> &students) {
+// 初始化学生的签到信息
+void AiSignWidget::initializeSignInStatus(const QList<Student> &students) {
     int totalStudentCount = students.size();
     int unsignInStudentCount = 0; // 未登陆人数
 

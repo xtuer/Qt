@@ -18,14 +18,14 @@ class AiSignWidget : public QWidget {
     Q_OBJECT
 
 public:
-    explicit AiSignWidget(QWidget *parent = 0);
+    explicit AiSignWidget(QWidget *parent = nullptr);
     ~AiSignWidget();
 
 public slots:
     void showInfo(const QString &info, bool ok = true) const; // 显示信息, ok 为 false 时以红色显示
-    void personReady(const Person &p); // 身份证信息读取成功
+    void personReady(const Person &p);                   // 身份证信息读取成功
     void updateSystemStatus(QWidget *w, bool ok = true); // 更新系统状态
-    void signInSuccess(const SignInInfo &info) const;   // 签到成功
+    void signInSuccess(const SignInInfo &info) const;    // 签到成功
 
 signals:
     void studentsReady(const QList<Student> &students);
@@ -36,13 +36,13 @@ private:
     void startIdCardReader(); // 启动身份证刷卡器
     void startCamera();       // 启动摄像头
 
-    void loadExamTypes();                   // 加载考试
-    void loadExamUnitAndSiteAndRoom(const QString &examCode); // 加载服务器考试单元、考点、考场
+    void loadExams();                       // 加载考试
+    void loadExamUnitAndSiteAndRoom(const QString &examCode); // 从服务器加载考试单元、考点、考场
     void loadRoom(const QString &siteCode); // 加载考点下的考场
-    void loadStudents();   // 加载学生信息
-    void loadServerTime(); // 请求服务器的时间
-    void updateSignInStatus(const QList<Student> &students); // 更新学生的签到信息
-    void showPerson(const Person &p); // 显示考生的身份证信息
+    void loadStudents();                    // 加载学生信息
+    void loadServerTime();                  // 请求服务器的时间
+    void initializeSignInStatus(const QList<Student> &students); // 初始化学生的签到信息
+    void showPerson(const Person &p);                            // 显示考生的身份证信息
 
     SignInInfo getSignInInfo(bool validateIdCard = true) const; // 获取签到的学生的信息
     QString getIdCardPicturePath(const SignInInfo &info) const; // 获取签到的学生的身份证照片路径
