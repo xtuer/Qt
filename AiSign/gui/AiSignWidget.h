@@ -36,7 +36,8 @@ private:
     void startIdCardReader(); // 启动身份证刷卡器
     void startCamera();       // 启动摄像头
 
-    void loadPeriodUnitAndSiteAndRoom();    // 加载服务器考期、考点、考场
+    void loadExamTypes();                   // 加载考试类型
+    void loadPeriodUnitAndSiteAndRoom(const QString &examCode); // 加载服务器考期、考点、考场
     void loadRoom(const QString &siteCode); // 加载考点下的考场
     void loadStudents();   // 加载学生信息
     void loadServerTime(); // 请求服务器的时间

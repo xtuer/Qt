@@ -65,7 +65,7 @@ struct AiSignWidgetPrivate {
 };
 
 AiSignWidgetPrivate::AiSignWidgetPrivate() {
-    serverUrl = ConfigInstance.getServerUrl();
+    serverUrl      = ConfigInstance.getServerUrl();
     signInWithFace = ConfigInstance.isSignInWithFace();
     networkManager = new QNetworkAccessManager();
     readerThread   = new CardReaderThread();
@@ -135,7 +135,8 @@ void AiSignWidget::initialize() {
     updateSystemStatus(ui->idCardReaderStatusLabel, false);
     updateSystemStatus(ui->examStatusLabel, false);
 
-    loadPeriodUnitAndSiteAndRoom(); // 加载服务器考期、考点、考场
+    // loadPeriodUnitAndSiteAndRoom(); // 加载服务器考期、考点、考场
+    loadExamTypes();     // 加载考试类型
     loadServerTime();    // 加载服务器的时间
     startIdCardReader(); // 启动身份证刷卡器
 
@@ -159,6 +160,12 @@ void AiSignWidget::initialize() {
 
 // 信号槽事件处理
 void AiSignWidget::handleEvents() {
+    // 切换考试类型后加载服务器考期、考点、考场
+    connect(ui->examTypeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), [this]() {
+        QString examCode = ui->examTypeComboBox->currentData().toString();
+        loadPeriodUnitAndSiteAndRoom(examCode);
+    });
+
     // [Camera] 点击拍照上传按钮进行拍照
     connect(ui->captureAndUploadButton, &QPushButton::clicked, [this] {
         d->signInMode = SignInMode::SIGN_IN_WRITTING;
@@ -375,11 +382,31 @@ void AiSignWidget::startCamera() {
     layout->setAlignment(facePositionLabel, Qt::AlignCenter);
 }
 
+// 加载考试类型
+void AiSignWidget::loadExamTypes() {
+    QString url = d->serverUrl + Urls::EXAM_TYPE;
+    HttpClient(url).debug(false).manager(d->networkManager).get([this](const QString &jsonResponse) {
+        Json json(jsonResponse.toUtf8());
+        QJsonArray exams = json.getJsonArray(".");
+
+        for (auto e = exams.constBegin(); e != exams.constEnd(); ++e) {
+            QString examName = e->toObject().value("examName").toString();
+            QString examCode = e->toObject().value("examCode").toString();
+
+            ui->examTypeComboBox->addItem(examName, examCode);
+        }
+
+        // ui->examTypeComboBox->setCurrentIndex(-1);
+    }, [this](const QString &error) {
+        showInfo(error, true);
+    });
+}
+
 // 从服务器加载考期、考点、考场
-void AiSignWidget::loadPeriodUnitAndSiteAndRoom() {
+void AiSignWidget::loadPeriodUnitAndSiteAndRoom(const QString &examCode) {
     // http://192.168.10.85:8080/initializeRoom
     QString url = d->serverUrl + Urls::INITIALIZE_ROOM;
-    HttpClient(url).debug(false).manager(d->networkManager).get([this](const QString &jsonResponse) {
+    HttpClient(url).debug(false).manager(d->networkManager).param("examCode", examCode).get([this](const QString &jsonResponse) {
         // 解析考期 Period
         d->periods = ResponseUtil::responseToPeroids(jsonResponse);
         ui->periodComboBox->clear();
