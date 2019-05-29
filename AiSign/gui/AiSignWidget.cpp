@@ -164,8 +164,8 @@ void AiSignWidget::initialize() {
 // 信号槽事件处理
 void AiSignWidget::handleEvents() {
     // 切换考试后从服务器加载考试单元、考点、考场
-    connect(ui->examTypeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), [this]() {
-        QString examCode = ui->examTypeComboBox->currentData().toString();
+    connect(ui->examComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), [this]() {
+        QString examCode = ui->examComboBox->currentData().toString();
         loadExamUnitAndSiteAndRoom(examCode);
     });
 
@@ -398,7 +398,7 @@ void AiSignWidget::loadExams() {
             QString examName = e->toObject().value("examName").toString();
             QString examCode = e->toObject().value("examCode").toString();
 
-            ui->examTypeComboBox->addItem(examName, examCode);
+            ui->examComboBox->addItem(examName, examCode);
         }
     }, [this](const QString &error) {
         showInfo(error, true);
@@ -458,7 +458,7 @@ void AiSignWidget::loadRoom(const QString &siteCode) {
 void AiSignWidget::loadStudents() {
     initializeSignInStatus(QList<Student>()); // 清空登陆统计
 
-    QString examCode = ui->examTypeComboBox->currentData().toString();
+    QString examCode = ui->examComboBox->currentData().toString();
     QString unit     = ui->unitComboBox->currentData().toString();
     QString siteCode = ui->siteComboBox->currentData().toString();
     QString roomCode = ui->roomComboBox->currentData().toString();
@@ -588,7 +588,8 @@ void AiSignWidget::showPerson(const Person &p) {
 // 获取签到的学生的信息, 如果 validateIdCard 为 true，则要先刷身份证
 SignInInfo AiSignWidget::getSignInInfo(bool validateIdCard) const {
     SignInInfo info;
-    info.periodCode = ui->unitComboBox->currentData().toString();
+    info.examCode   = ui->examComboBox->currentData().toString();
+    info.unit       = ui->unitComboBox->currentData().toString();
     info.siteCode   = ui->siteComboBox->currentData().toString();
     info.roomCode   = ui->roomComboBox->currentData().toString();
     info.name       = ui->nameLabel->text();
@@ -598,7 +599,13 @@ SignInInfo AiSignWidget::getSignInInfo(bool validateIdCard) const {
     info.facePicturePath = getFacePicturePath(info);
     info.writePicturePath  = getWritePicturePath(info);
 
-    if (info.periodCode.isEmpty()) {
+    if (info.examCode.isEmpty()) {
+        info.valid = false;
+        showInfo("请选择考试", false);
+        return info;
+    }
+
+    if (info.unit.isEmpty()) {
         info.valid = false;
         showInfo("请选择考期", false);
         return info;
@@ -628,7 +635,7 @@ SignInInfo AiSignWidget::getSignInInfo(bool validateIdCard) const {
 // 获取签到的学生的身份证照片路径
 QString AiSignWidget::getIdCardPicturePath(const SignInInfo &info) const {
     return QString("picture-idcard/%1-%2-%3-%4.jpg")
-            .arg(info.periodCode)
+            .arg(info.unit)
             .arg(info.siteCode)
             .arg(info.roomCode)
             .arg(info.idCardNo);
@@ -637,7 +644,7 @@ QString AiSignWidget::getIdCardPicturePath(const SignInInfo &info) const {
 // 获取签到的学生的摄像头照片路径
 QString AiSignWidget::getFacePicturePath(const SignInInfo &info) const {
     return QString("picture-face/%1-%2-%3-%4.jpg")
-            .arg(info.periodCode)
+            .arg(info.unit)
             .arg(info.siteCode)
             .arg(info.roomCode)
             .arg(info.idCardNo);
@@ -646,7 +653,7 @@ QString AiSignWidget::getFacePicturePath(const SignInInfo &info) const {
 // 获取签到的学生手写笔记照片路径
 QString AiSignWidget::getWritePicturePath(const SignInInfo &info) const {
     return QString("picture-write/%1-%2-%3-%4.jpg")
-            .arg(info.periodCode)
+            .arg(info.unit)
             .arg(info.siteCode)
             .arg(info.roomCode)
             .arg(info.idCardNo);

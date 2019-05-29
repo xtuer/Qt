@@ -11,7 +11,8 @@ class SignInInfo {
 public:
     SignInInfo();
 
-    QString periodCode; // 考期
+    QString examCode;   // 考试编码
+    QString unit;       // 考试单元
     QString siteCode;   // 考点
     QString roomCode;   // 考场
     QString examUid;    // 考籍号
