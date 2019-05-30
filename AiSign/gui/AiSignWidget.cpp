@@ -670,7 +670,11 @@ void AiSignWidget::signInSuccess(const SignInInfo &info) const {
     showInfo(QString("%1 签到成功").arg(info.name));
 
     d->signInStatusWidget->signInSuccess(info);
-    ui->signInStudentCountLabel->setText(QString::number(d->signInStatusWidget->signedStudentsCount()));
+
+    int signInCount = d->signInStatusWidget->signedStudentsCount();
+    int unsignInCount = d->students.count() - signInCount;
+    ui->signInStudentCountLabel->setText(QString::number(signInCount));
+    ui->unsignInStudentCountLabel->setText(QString::number(unsignInCount));
 }
 
 // 签到

@@ -22,7 +22,7 @@ QList<Student> ResponseUtil::responseToStudents(const QString &jsonResponse) {
 
         s.examUid        = studentJson.value("examUId").toString().trimmed();
         s.examineeName   = studentJson.value("examineeName").toString().trimmed();
-        s.idCardNo       = studentJson.value("idCardNo").toString().trimmed();
+        s.idCardNo       = studentJson.value("idCardNo").toString().trimmed().toUpper();
         s.subjectCode    = studentJson.value("subjectCode").toString().trimmed();
         s.subjectName    = studentJson.value("subjectName").toString().trimmed();
         s.siteCode       = studentJson.value("siteCode").toString().trimmed();

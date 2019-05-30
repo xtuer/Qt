@@ -160,7 +160,7 @@ void SignInStatusWidget::signInSuccess(const SignInInfo &info) {
                 }
             }
             break;
-        } else if (idCardNo.toLower() == info.idCardNo.toLower()) {
+        } else if (idCardNo == info.idCardNo) {
             QString toolTip = QString("姓名: %1<br>准考证号: %2<br>身份证号: %3<br>签到时间: %4")
                     .arg(signInStudent.examineeName).arg(signInStudent.examUid)
                     .arg(signInStudent.idCardNo).arg(signInStudent.signedAt);
@@ -172,7 +172,6 @@ void SignInStatusWidget::signInSuccess(const SignInInfo &info) {
             for (int i = 0; i < students.size(); i++) {
                 if (students[i].idCardNo == info.idCardNo) {
                     students[i].signedAt = info.signAt;
-                    qDebug() << "goooo";
                     break;
                 }
             }
