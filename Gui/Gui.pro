@@ -27,6 +27,8 @@ RCC_DIR     = $$output
 UI_DIR      = $$output
 
 SOURCES += \
+    AroundCirclesWidget.cpp \
+    ArrangeDevicesWidget.cpp \
     GradientColorPicker.cpp \
     main.cpp \
     Widget.cpp \
@@ -49,6 +51,8 @@ SOURCES += \
     Json.cpp
 
 FORMS += \
+    AroundCirclesWidget.ui \
+    ArrangeDevicesWidget.ui \
     ImageWidget.ui \
     Form.ui \
     MyWidget.ui \
@@ -56,6 +60,8 @@ FORMS += \
     DragAndDropTreeView.ui
 
 HEADERS += \
+    AroundCirclesWidget.h \
+    ArrangeDevicesWidget.h \
     GradientColorPicker.h \
     Widget.h \
     Pandora.h \
