@@ -139,7 +139,7 @@ void AiSignWidget::initialize() {
     updateSystemStatus(ui->examStatusLabel, false);
 
     // loadPeriodUnitAndSiteAndRoom(); // 加载服务器考期、考点、考场
-    loadExamTypes();     // 加载考试类型
+    loadExams();         // 加载考试
     loadServerTime();    // 加载服务器的时间
     startIdCardReader(); // 启动身份证刷卡器
 
@@ -163,10 +163,10 @@ void AiSignWidget::initialize() {
 
 // 信号槽事件处理
 void AiSignWidget::handleEvents() {
-    // 切换考试类型后加载服务器考期、考点、考场
-    connect(ui->examTypeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), [this]() {
-        QString examCode = ui->examTypeComboBox->currentData().toString();
-        loadPeriodUnitAndSiteAndRoom(examCode);
+    // 切换考试后从服务器加载考试单元、考点、考场
+    connect(ui->examComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), [this]() {
+        QString examCode = ui->examComboBox->currentData().toString();
+        loadExamUnitAndSiteAndRoom(examCode);
     });
 
     // [Camera] 点击拍照上传按钮进行拍照
@@ -264,7 +264,7 @@ void AiSignWidget::handleEvents() {
     });
 
     // [身份证刷卡器] 读取到身份证信息，Reader 线程
-    connect(d->readerThread, &CardReaderThread::personReady, [this](const Person &p) {
+    connect(d->readerThread, &CardReaderThread::personReady, this, [this](const Person &p) {
         // 显示和发送学生信息到服务器: 使用 invokeMethod() 解决不同线程问题，
         // 因为当前上下文环境属于 ReadThread，不属于 GUI 线程
         QMetaObject::invokeMethod(this, "updateSystemStatus",
@@ -274,7 +274,7 @@ void AiSignWidget::handleEvents() {
     });
 
     // [身份证刷卡器] 读卡线程信息，Reader 线程
-    connect(d->readerThread, &CardReaderThread::info, [this](int code, const QString &message) {
+    connect(d->readerThread, &CardReaderThread::info, this, [this](int code, const QString &message) {
         // qDebug() << "----------" << code << message;
         if (Constants::CODE_READ_READY == code) {
             updateSystemStatus(ui->idCardReaderStatusLabel, true);
@@ -315,7 +315,7 @@ void AiSignWidget::handleEvents() {
     // 更换考场后更新此考场的学生登陆状态
     connect(this, SIGNAL(studentsReady(QList<Student>)), d->signInStatusWidget, SLOT(setStudents(QList<Student>)));
 
-    // 申请
+    // 申请关机密码
     connect(ui->shutdownPasswordButton, &QPushButton::clicked, [this] {
         QString url = d->serverUrl + Urls::CLOSE_PASSWORD;
 
@@ -323,6 +323,8 @@ void AiSignWidget::handleEvents() {
             Json json(jsonResponse.toUtf8());
             QMessageBox::information(nullptr, "关机密码", json.getString("data"));
             // MessageBox::message(QString("客户端关机密码: <font color=red>%1</font>").arg(json.getString("data").trimmed()));
+        }, [this](const QString &error) {
+            showInfo(error, false);
         });
     });
 }
@@ -386,7 +388,7 @@ void AiSignWidget::startCamera() {
 }
 
 // 加载考试
-void AiSignWidget::loadExamTypes() {
+void AiSignWidget::loadExams() {
     QString url = d->serverUrl + Urls::EXAM;
     HttpClient(url).debug(d->debug).manager(d->networkManager).get([this](const QString &jsonResponse) {
         Json json(jsonResponse.toUtf8());
@@ -396,17 +398,15 @@ void AiSignWidget::loadExamTypes() {
             QString examName = e->toObject().value("examName").toString();
             QString examCode = e->toObject().value("examCode").toString();
 
-            ui->examTypeComboBox->addItem(examName, examCode);
+            ui->examComboBox->addItem(examName, examCode);
         }
-
-        // ui->examTypeComboBox->setCurrentIndex(-1);
     }, [this](const QString &error) {
         showInfo(error, true);
     });
 }
 
 // 从服务器加载考试单元、考点、考场
-void AiSignWidget::loadPeriodUnitAndSiteAndRoom(const QString &examCode) {
+void AiSignWidget::loadExamUnitAndSiteAndRoom(const QString &examCode) {
     // http://192.168.10.85:8080/initializeRoom
     QString url = d->serverUrl + Urls::INITIALIZE_ROOM;
     HttpClient(url).debug(d->debug).manager(d->networkManager).param("examCode", examCode).get([this](const QString &jsonResponse) {
@@ -456,9 +456,9 @@ void AiSignWidget::loadRoom(const QString &siteCode) {
 
 // 加载学生信息
 void AiSignWidget::loadStudents() {
-    updateSignInStatus(QList<Student>()); // 清空登陆统计
+    initializeSignInStatus(QList<Student>()); // 清空登陆统计
 
-    QString examCode = ui->examTypeComboBox->currentData().toString();
+    QString examCode = ui->examComboBox->currentData().toString();
     QString unit     = ui->unitComboBox->currentData().toString();
     QString siteCode = ui->siteComboBox->currentData().toString();
     QString roomCode = ui->roomComboBox->currentData().toString();
@@ -487,7 +487,7 @@ void AiSignWidget::loadStudents() {
         // [2] 显示学生信息
         d->students = ResponseUtil::responseToStudents(jsonResponse);
 
-        updateSignInStatus(d->students);
+        initializeSignInStatus(d->students);
     }, [this](const QString &error) {
         showInfo(error, true);
     });
@@ -501,8 +501,8 @@ void AiSignWidget::loadServerTime() {
     });
 }
 
-// 更新学生的签到信息
-void AiSignWidget::updateSignInStatus(const QList<Student> &students) {
+// 初始化学生的签到信息
+void AiSignWidget::initializeSignInStatus(const QList<Student> &students) {
     int totalStudentCount = students.size();
     int unsignInStudentCount = 0; // 未登陆人数
 
@@ -588,7 +588,8 @@ void AiSignWidget::showPerson(const Person &p) {
 // 获取签到的学生的信息, 如果 validateIdCard 为 true，则要先刷身份证
 SignInInfo AiSignWidget::getSignInInfo(bool validateIdCard) const {
     SignInInfo info;
-    info.periodCode = ui->unitComboBox->currentData().toString();
+    info.examCode   = ui->examComboBox->currentData().toString();
+    info.unit       = ui->unitComboBox->currentData().toString();
     info.siteCode   = ui->siteComboBox->currentData().toString();
     info.roomCode   = ui->roomComboBox->currentData().toString();
     info.name       = ui->nameLabel->text();
@@ -598,7 +599,13 @@ SignInInfo AiSignWidget::getSignInInfo(bool validateIdCard) const {
     info.facePicturePath = getFacePicturePath(info);
     info.writePicturePath  = getWritePicturePath(info);
 
-    if (info.periodCode.isEmpty()) {
+    if (info.examCode.isEmpty()) {
+        info.valid = false;
+        showInfo("请选择考试", false);
+        return info;
+    }
+
+    if (info.unit.isEmpty()) {
         info.valid = false;
         showInfo("请选择考期", false);
         return info;
@@ -628,7 +635,7 @@ SignInInfo AiSignWidget::getSignInInfo(bool validateIdCard) const {
 // 获取签到的学生的身份证照片路径
 QString AiSignWidget::getIdCardPicturePath(const SignInInfo &info) const {
     return QString("picture-idcard/%1-%2-%3-%4.jpg")
-            .arg(info.periodCode)
+            .arg(info.unit)
             .arg(info.siteCode)
             .arg(info.roomCode)
             .arg(info.idCardNo);
@@ -637,7 +644,7 @@ QString AiSignWidget::getIdCardPicturePath(const SignInInfo &info) const {
 // 获取签到的学生的摄像头照片路径
 QString AiSignWidget::getFacePicturePath(const SignInInfo &info) const {
     return QString("picture-face/%1-%2-%3-%4.jpg")
-            .arg(info.periodCode)
+            .arg(info.unit)
             .arg(info.siteCode)
             .arg(info.roomCode)
             .arg(info.idCardNo);
@@ -646,7 +653,7 @@ QString AiSignWidget::getFacePicturePath(const SignInInfo &info) const {
 // 获取签到的学生手写笔记照片路径
 QString AiSignWidget::getWritePicturePath(const SignInInfo &info) const {
     return QString("picture-write/%1-%2-%3-%4.jpg")
-            .arg(info.periodCode)
+            .arg(info.unit)
             .arg(info.siteCode)
             .arg(info.roomCode)
             .arg(info.idCardNo);
@@ -663,7 +670,11 @@ void AiSignWidget::signInSuccess(const SignInInfo &info) const {
     showInfo(QString("%1 签到成功").arg(info.name));
 
     d->signInStatusWidget->signInSuccess(info);
-    ui->signInStudentCountLabel->setText(QString::number(d->signInStatusWidget->signedStudentsCount()));
+
+    int signInCount = d->signInStatusWidget->signedStudentsCount();
+    int unsignInCount = d->students.count() - signInCount;
+    ui->signInStudentCountLabel->setText(QString::number(signInCount));
+    ui->unsignInStudentCountLabel->setText(QString::number(unsignInCount));
 }
 
 // 签到
