@@ -43,10 +43,12 @@ ArrangeDevicesWidget::ArrangeDevicesWidget(QWidget *parent) : QWidget(parent), u
     d = new ArrangeDevicesWidgetPrivate();
     layout()->replaceWidget(ui->placeHolderWidget, d->circlesWidget);
 
+    ui->devicesWidget->layout()->addItem(new QSpacerItem(20, 424, QSizePolicy::Minimum, QSizePolicy::Expanding));
     // 添加 16 个设备，用于测试
     for (int i = 1; i <= 16; ++i) {
         addDevice(QString("Device-%1").arg(i), d->colors[i]);
     }
+    ui->devicesWidget->layout()->addItem(new QSpacerItem(20, 424, QSizePolicy::Minimum, QSizePolicy::Expanding));
 
     this->setStyleSheet(QString(".DeviceLabel {border: 1px solid gray;}"));
 }
