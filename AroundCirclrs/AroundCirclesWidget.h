@@ -7,7 +7,11 @@
 class AroundCirclesWidgetPrivate;
 
 /**
- * 中心一个大圆，周围围绕 2 圈小圆的 Wiget
+ * 中心一个大圆，周围围绕 2 圈小圆的 Wiget，
+ *
+ * 支持拖放到小圆上时设置它的背景色:
+ *     拖拽的 type 为 DnD-DEVICE-CIRCLE
+ *     内容为字符串格式 deviceId,color，如 "device-1,#rrggbb"
  */
 class AroundCirclesWidget : public QWidget {
     Q_OBJECT
@@ -15,9 +19,6 @@ class AroundCirclesWidget : public QWidget {
 public:
     explicit AroundCirclesWidget(QWidget *parent = nullptr);
     ~AroundCirclesWidget() override;
-
-    // 设置 id 为传入的 id 的小圆的背景色
-    void setCircleColor(int id, const QColor bgcolor);
 
 protected:
     void paintEvent(QPaintEvent *event) override;

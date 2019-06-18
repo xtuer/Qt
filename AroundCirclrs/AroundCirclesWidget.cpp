@@ -52,11 +52,8 @@ class AroundCirclesWidgetPrivate {
      */
     Circle* findCircle(QPoint pos) const;
 
-    // 设置 id 为传入的 id 的小圆的背景色
-    void setCircleColor(int id, const QColor bgcolor);
-
     // 设置 circle 的小圆的背景色
-    void setCircleColor(Circle *circle, const QColor bgcolor);
+    void setCircleBgcolor(Circle *circle, const QColor bgcolor);
 
     // 清除名字为 name 的小圆的背景色，并且把它的名字设置为空
     void clearCircles(const QString &name);
@@ -64,7 +61,7 @@ class AroundCirclesWidgetPrivate {
     /**
      * 清除小圆的 hover 状态
      */
-    void clearCircleHover();
+    void clearCirclesHover();
 
     /**
      * 在 painter 中绘制小圆，matrix 为 painter 的变换矩阵
@@ -158,13 +155,6 @@ Circle *AroundCirclesWidgetPrivate::findCircle(QPoint pos) const {
     return found;
 }
 
-// 清除小圆的 hover 状态
-void AroundCirclesWidgetPrivate::clearCircleHover() {
-    for (Circle *circle : circles) {
-        circle->hover = false;
-    }
-}
-
 // 计算紧紧围绕半径为 r 的大圆的 n 个小圆的半径 (大圆和小圆相切，小圆之间相切)
 double AroundCirclesWidgetPrivate::aroundCircleRadius(double r, int n) const {
     // 圆的内切正 n 边型的边长为 2*r*sin(π/n)
@@ -173,18 +163,8 @@ double AroundCirclesWidgetPrivate::aroundCircleRadius(double r, int n) const {
     return (2*r*t) / (1-2*t);
 }
 
-// 设置 id 为传入的 id 的小圆的背景色
-void AroundCirclesWidgetPrivate::setCircleColor(int id, const QColor bgcolor) {
-    for (Circle *circle : circles) {
-        if (circle->id == id) {
-            circle->bgcolor = bgcolor.isValid() ? bgcolor: Qt::transparent;
-            break;
-        }
-    }
-}
-
 // 设置 circle 的小圆的背景色
-void AroundCirclesWidgetPrivate::setCircleColor(Circle *circle, const QColor bgcolor) {
+void AroundCirclesWidgetPrivate::setCircleBgcolor(Circle *circle, const QColor bgcolor) {
     circle->bgcolor = bgcolor.isValid() ? bgcolor: Qt::transparent;
 }
 
@@ -194,7 +174,15 @@ void AroundCirclesWidgetPrivate::clearCircles(const QString &name) {
         if (circle->name == name) {
             circle->bgcolor = Qt::transparent;
             circle->name    = "";
+            circle->hover   = false;
         }
+    }
+}
+
+// 清除小圆的 hover 状态
+void AroundCirclesWidgetPrivate::clearCirclesHover() {
+    for (Circle *circle : circles) {
+        circle->hover = false;
     }
 }
 
@@ -237,11 +225,6 @@ AroundCirclesWidget::~AroundCirclesWidget() {
     delete d;
 }
 
-// 设置 id 为传入的 id 的小圆的背景色
-void AroundCirclesWidget::setCircleColor(int id, const QColor bgcolor) {
-    d->setCircleColor(id, bgcolor);
-}
-
 void AroundCirclesWidget::paintEvent(QPaintEvent *) {
     // 1. 移动坐标原点到 widget 的中心
     // 2. 绘制中心的大圆
@@ -281,9 +264,10 @@ void AroundCirclesWidget::dragEnterEvent(QDragEnterEvent *event) {
 
 // 拖拽移动时，找到鼠标指向的圆，设置它的 hover 为 true
 void AroundCirclesWidget::dragMoveEvent(QDragMoveEvent *event) {
+    event->accept();
     QPoint pos = event->pos() - QPoint(width()/2, height()/2);
 
-    d->clearCircleHover();
+    d->clearCirclesHover();
 
     Circle *circle = d->findCircle(pos);
     if (nullptr != circle) {
@@ -301,7 +285,7 @@ void AroundCirclesWidget::dropEvent(QDropEvent *event) {
     Circle *circle = d->findCircle(pos);
 
     if (nullptr == circle) {
-        d->clearCircleHover();
+        d->clearCirclesHover();
         update();
         return;
     }
@@ -315,12 +299,12 @@ void AroundCirclesWidget::dropEvent(QDropEvent *event) {
         QString color = data.value(1);
 
         d->clearCircles(name);
-        d->setCircleColor(circle, QColor(color));
+        d->setCircleBgcolor(circle, QColor(color));
         circle->name = name;
-    }
 
-    d->clearCircleHover();
-    update();
+        d->clearCirclesHover();
+        update();
+    }
 }
 
 
