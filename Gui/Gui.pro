@@ -26,6 +26,8 @@ MOC_DIR     = $$output
 RCC_DIR     = $$output
 UI_DIR      = $$output
 
+INCLUDEPATH += include
+
 SOURCES += \
     AroundCirclesWidget.cpp \
     ArrangeDevicesWidget.cpp \

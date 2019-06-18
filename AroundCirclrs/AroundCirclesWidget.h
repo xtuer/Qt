@@ -2,9 +2,13 @@
 #define AROUNDCIRCLESWIDGET_H
 
 #include <QWidget>
-#include <QList>
 #include <QColor>
 
+class AroundCirclesWidgetPrivate;
+
+/**
+ * 中心一个大圆，周围围绕 2 圈小圆的 Wiget
+ */
 class AroundCirclesWidget : public QWidget {
     Q_OBJECT
 
@@ -12,28 +16,17 @@ public:
     explicit AroundCirclesWidget(QWidget *parent = nullptr);
     ~AroundCirclesWidget() override;
 
-    /**
-     * 计算紧紧围绕半径为 r 的大圆的 n 个小圆的半径 (大圆和小圆相切，小圆之间相切)
-     *
-     * @param r 大圆的半径
-     * @param n 小圆的个数
-     * @return 返回小圆的半径
-     */
-    double aroundCircleRadius(double r, int n) const;
-
-    // 获取第 sn 个小圆的颜色
-    QColor getColor(int sn) const;
-
-    // 设置第 sn 个小圆的颜色
-    void setColor(int sn, const QColor color);
+    // 设置 id 为传入的 id 的小圆的背景色
+    void setCircleColor(int id, const QColor bgcolor);
 
 protected:
-    void paintEvent(QPaintEvent *) override;
+    void paintEvent(QPaintEvent *event) override;
+    void dragEnterEvent(QDragEnterEvent *event) override;
+    void dragMoveEvent(QDragMoveEvent *event) override;
+    void dropEvent(QDropEvent *event) override;
 
 private:
-    int     n = 16;       // 大圆上第一圈小圆的个数
-    double cr = 100;      // 中心大圆的半径
-    QList<QColor> colors; // 每个小圆对应的颜色
+    AroundCirclesWidgetPrivate *d;
 };
 
 #endif // AROUNDCIRCLESWIDGET_H
