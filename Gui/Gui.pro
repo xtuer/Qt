@@ -29,8 +29,6 @@ UI_DIR      = $$output
 INCLUDEPATH += include
 
 SOURCES += \
-    AroundCirclesWidget.cpp \
-    ArrangeDevicesWidget.cpp \
     GradientColorPicker.cpp \
     main.cpp \
     Widget.cpp \
@@ -62,8 +60,6 @@ FORMS += \
     DragAndDropTreeView.ui
 
 HEADERS += \
-    AroundCirclesWidget.h \
-    ArrangeDevicesWidget.h \
     GradientColorPicker.h \
     Widget.h \
     Pandora.h \

@@ -1,20 +1,12 @@
 #include <QApplication>
 #include <QDebug>
-#include <inja/inja.hpp>
-
-using namespace inja;
-using json = nlohmann::json;
+#include "MyWidget.h"
 
 int main(int argc, char *argv[]) {
-    Q_UNUSED(argc)
-    Q_UNUSED(argv)
+    QApplication app(argc, argv);
 
-    json data;
-    data["name"] = "world";
-    data["showF0"] = true;
-    data["showF1"] = false;
+    MyWidget w;
+    w.show();
 
-    qDebug() << QString::fromStdString(render("{% if showF0 %} F0 {{name}} {% endif %}  --- {% if showF1 %} F1 {% endif %}", data)); // Returns std::string "Hello world"
-
-    return 0;
+    return app.exec();
 }

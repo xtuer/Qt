@@ -1,6 +1,7 @@
 #include "ArrangeDevicesWidget.h"
 #include "ui_ArrangeDevicesWidget.h"
 #include "AroundCirclesWidget.h"
+#include "AroundCirclesGraphicsView.h"
 
 #include <QDebug>
 #include <QLabel>
@@ -20,6 +21,7 @@ class ArrangeDevicesWidgetPrivate {
     QPoint startDragPos;
     QList<QString> colors;
     AroundCirclesWidget *circlesWidget = nullptr;
+    AroundCirclesGraphicsView *circlesView = nullptr;
 };
 
 ArrangeDevicesWidgetPrivate::ArrangeDevicesWidgetPrivate() {
@@ -32,6 +34,7 @@ ArrangeDevicesWidgetPrivate::ArrangeDevicesWidgetPrivate() {
     }
 
     circlesWidget = new AroundCirclesWidget();
+    circlesView = new AroundCirclesGraphicsView();
 }
 
 /*-----------------------------------------------------------------------------|
@@ -41,10 +44,14 @@ ArrangeDevicesWidget::ArrangeDevicesWidget(QWidget *parent) : QWidget(parent), u
     ui->setupUi(this);
 
     d = new ArrangeDevicesWidgetPrivate();
-    layout()->replaceWidget(ui->placeHolderWidget, d->circlesWidget);
+    // layout()->replaceWidget(ui->placeHolderWidget, d->circlesWidget);
+    layout()->replaceWidget(ui->placeHolderWidget, d->circlesView);
 
     ui->devicesWidget->layout()->addItem(new QSpacerItem(20, 424, QSizePolicy::Minimum, QSizePolicy::Expanding));
+
     // 添加 16 个设备，用于测试
+    // 提示: 拖拽设备到某个圆上后，圆的名字自动设置为设备的名字，
+    // 就可以调用 d->circlesView->setCircleBgcolor(deviceName, color) 设置圆的背景色了
     for (int i = 1; i <= 16; ++i) {
         addDevice(QString("Device-%1").arg(i), d->colors[i]);
     }
@@ -90,7 +97,7 @@ void ArrangeDevicesWidget::startDrag(QLabel *label) {
     QString color    = label->property("color").toString();
     QString deviceId = label->property("deviceId").toString();
     QString content  = QString("%1,%2").arg(deviceId).arg(color);
-    QString mimeType = "DnD-DEVICE-CIRCLE";
+    QString mimeType = "text/DnD-DEVICE-CIRCLE";
 
     QByteArray contentBytes = content.toUtf8();
     QMimeData *mimeData = new QMimeData();
@@ -102,8 +109,8 @@ void ArrangeDevicesWidget::startDrag(QLabel *label) {
     QPixmap pixmap = label->grab();
     drag->setPixmap(pixmap);
     QSize s = pixmap.size();
-    drag->setHotSpot(QPoint(s.width() / 2, s.height() / 2));
-    drag->exec(Qt::MoveAction); // Start drag
+    drag->setHotSpot(QPoint(s.width()/4, s.height()/4));
+    drag->exec(Qt::CopyAction); // Start drag
 }
 
 // 添加设备

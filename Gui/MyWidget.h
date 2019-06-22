@@ -5,7 +5,7 @@
 #include <QLabel>
 #include <QDebug>
 
-class MessageShower;
+class QThread;
 
 namespace Ui {
 class MyWidget;
@@ -14,23 +14,20 @@ class MyWidget;
 class MyWidget : public QWidget {
     Q_OBJECT
 
-    Q_PROPERTY(QString title READ title WRITE setTitle USER true)
-
 public:
-    explicit MyWidget(QWidget *parent = 0);
-    ~MyWidget();
+    explicit MyWidget(QWidget *parent = nullptr);
+    ~MyWidget() override;
 
-    QString title() const { return ""; }
-    void setTitle(const QString &title) {
-        qDebug() << "setTitle";
-    }
+protected:
+    void closeEvent(QCloseEvent *event) override;
+    void timerEvent(QTimerEvent *event) override;
 
 private:
     void initializeUi();
     void handleEvents();
 
     Ui::MyWidget *ui;
-    MessageShower *messageShower;
+    QThread *thread;
 };
 
 #endif // MYWIDGET_H
