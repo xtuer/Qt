@@ -109,7 +109,12 @@ void ArrangeDevicesWidget::startDrag(QLabel *label) {
     QPixmap pixmap = label->grab();
     drag->setPixmap(pixmap);
     QSize s = pixmap.size();
-    drag->setHotSpot(QPoint(s.width()/4, s.height()/4));
+    drag->setHotSpot(QPoint(s.width()/2, s.height()/2));
+
+#ifdef Q_OS_MAC
+    drag->setHotSpot(QPoint(s.width()/4, s.height()/4)); // Mac 下需要调整为四分之一处
+#endif
+
     drag->exec(Qt::CopyAction); // Start drag
 }
 
