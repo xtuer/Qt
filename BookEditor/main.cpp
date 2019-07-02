@@ -8,6 +8,7 @@
 #include <QApplication>
 #include <QTextCodec>
 #include <QDebug>
+#include <QDir>
 #include "gui/QualityWidget.h"
 static void initialize(); // 程序启动时进行初始化
 static void finalize();   // 程序结束时清理工作
@@ -62,6 +63,7 @@ int main(int argc, char *argv[]) {
 static void initialize() {
     // 使用 UTF-8 的运行时环境
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
+    QDir::setCurrent(QCoreApplication::applicationDirPath()); // 设置应用程序的工作目录 (Mac 下的 .app 需要设置)
 
     // 安装日志处理工具
     LogHandlerInstance.installMessageHandler();

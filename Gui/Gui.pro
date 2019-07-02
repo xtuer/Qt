@@ -29,6 +29,7 @@ UI_DIR      = $$output
 INCLUDEPATH += include
 
 SOURCES += \
+    AnimatedCheckBox.cpp \
     GradientColorPicker.cpp \
     main.cpp \
     Widget.cpp \
@@ -60,6 +61,7 @@ FORMS += \
     DragAndDropTreeView.ui
 
 HEADERS += \
+    AnimatedCheckBox.h \
     GradientColorPicker.h \
     Widget.h \
     Pandora.h \
