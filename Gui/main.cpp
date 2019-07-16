@@ -21,9 +21,5 @@ int main(int argc, char *argv[]) {
     w->resize(160, 80);
     w->show();
 
-    QObject::connect(button, &QPushButton::clicked, [=] {
-        checkbox->setChecked(!checkbox->isChecked());
-    });
-
     return app.exec();
 }

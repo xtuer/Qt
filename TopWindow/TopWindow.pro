@@ -5,19 +5,21 @@
 #-------------------------------------------------
 
 QT      += core gui
-
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET   = TopWindow
 TEMPLATE = app
 
-CONFIG  -= app_bundle
 DEFINES += QT_MESSAGELOGCONTEXT
 DEFINES += QT_DEPRECATED_WARNINGS
+
+ICON     = AppIcon.icns
+RC_ICONS = AppIcon.ico
 
 # Output directory
 CONFIG(debug, debug|release) {
     output = debug
+    TARGET = TopWindow_d
 }
 CONFIG(release, debug|release) {
     output = release

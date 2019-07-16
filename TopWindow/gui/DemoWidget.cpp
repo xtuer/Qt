@@ -16,16 +16,16 @@ DemoWidget::DemoWidget(QWidget *parent) : QWidget(parent), ui(new Ui::DemoWidget
     });
 
     // 简单消息对话框
-    connect(ui->simpleMessageButton, &QPushButton::clicked, [this] {
+    connect(ui->simpleMessageButton, &QPushButton::clicked, [] {
         MessageBox::message("花果山果汁科技信息技术有限公司\n法人是齐天大圣"); // 换行用 \n
     });
 
     // 复杂消息对话框
-    connect(ui->complexMessageButton, &QPushButton::clicked, [this] {
-        MessageBox::message("<b>公司</b>: 花果山果汁科技信息技术有限公司<br>"
-                            "<b>法人</b>: 齐天大圣<br>"
-                            "<b>版本</b>: Release 1.1.3<br>"
-                            "<center><img src=\":/image/top-window/logo.png\" width=64 height=64></center>", 350, 140);
+    connect(ui->complexMessageButton, &QPushButton::clicked, [] {
+        MessageBox::message(R"(<b>公司</b>: 花果山果汁科技信息技术有限公司<br>
+                            <b>法人</b>: 齐天大圣<br>
+                            <b>版本</b>: Release 1.1.3<br>
+                            <center><img src=":/img/top-window/logo.png" width=64 height=64></center>)", 350, 140);
     });
 
     // 阻塞模态对话框

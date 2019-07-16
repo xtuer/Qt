@@ -10,7 +10,7 @@ int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
 
     DemoWidget *demoWidget = new DemoWidget();
-    TopWindow window(demoWidget); //, {8,8,8,8}, {18, 18, 18, 18}, ":/image/top-window/colorful-border.png");
+    TopWindow window(demoWidget); //, {8,8,8,8}, {18, 18, 18, 18}, ":/img/top-window/colorful-border.png");
     window.resize(600, 500);
     window.show();
 
