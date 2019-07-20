@@ -5,16 +5,11 @@
 #include <QStringList>
 
 Config::Config() {
-    json = new Json("data/config.json", true); // 配置文件路径
+    json = new Json("config.json", true); // 配置文件路径
 }
 
 Config::~Config() {
-    destroy();
-}
-
-void Config::destroy() {
     delete json;
-    json = NULL;
 }
 
 QString Config::getDatabaseType() const {

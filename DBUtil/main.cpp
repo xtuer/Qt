@@ -7,19 +7,22 @@
 #include "util/Config.h"
 
 #include <QDebug>
+#include <QSqlError>
+#include <QPluginLoader>
 
 void useDBUtil();
 void useSqlFromFile();
 void useDao();
+void loadMySqlDriver();
 
 int main(int argc, char *argv[]) {
     Q_UNUSED(argc)
     Q_UNUSED(argv)
-    useDBUtil();
-//    useSqlFromFile();
-//    useDao();
 
-    Singleton<ConnectionPool>::getInstance().destroy(); // 销毁连接池，释放数据库连接
+//    loadMySqlDriver();
+//    useDBUtil();
+    useSqlFromFile();
+//    useDao();
 
     return 0;
 }
@@ -58,9 +61,10 @@ void useDBUtil() {
 
 void useSqlFromFile() {
     // 读取 namespace 为 User 下，id 为 findByUserId 的 SQL 语句
-    qDebug() << Singleton<Sqls>::getInstance().getSql("User", "findByUserId");
-    qDebug() << Singleton<Sqls>::getInstance().getSql("User", "findByUserId-1"); // 找不到这条 SQL 语句会有提示
-    qDebug() << DBUtil::selectMap(Singleton<Sqls>::getInstance().getSql("User", "findByUserId").arg(2));
+    qDebug() << Sqls::instance().getSql("User", "findByUserId");
+    qDebug() << Sqls::instance().getSql("User", "findByUserId");
+    qDebug() << Sqls::instance().getSql("User", "findByUserId-1"); // 找不到这条 SQL 语句会有提示
+    qDebug() << DBUtil::selectMap(Sqls::instance().getSql("User", "findByUserId").arg(2));
 }
 
 void useDao() {
@@ -77,4 +81,12 @@ void useDao() {
     foreach (const User &u, users) {
         qDebug() << u.toString();
     }
+}
+
+void loadMySqlDriver() {
+    QPluginLoader loader;
+    // MySQL 驱动插件的路径
+    loader.setFileName("/Users/Biao/Qt5.4.0/5.4/clang_64/plugins/sqldrivers/libqsqlmysql.dylib");
+    qDebug() << loader.load();
+    qDebug() << loader.errorString();
 }

@@ -31,6 +31,7 @@ INCLUDEPATH += include
 SOURCES += \
     AnimatedCheckBox.cpp \
     GradientColorPicker.cpp \
+    Thread.cpp \
     main.cpp \
     Widget.cpp \
     Pandora.cpp \
@@ -63,6 +64,7 @@ FORMS += \
 HEADERS += \
     AnimatedCheckBox.h \
     GradientColorPicker.h \
+    Thread.h \
     Widget.h \
     Pandora.h \
     ImageWidget.h \

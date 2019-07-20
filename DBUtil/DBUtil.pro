@@ -8,7 +8,7 @@ QT       += core gui xml sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = DBUtil
+TARGET   = DBUtil
 TEMPLATE = app
 CONFIG  -= app_bundle
 

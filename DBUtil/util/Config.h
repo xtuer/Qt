@@ -16,9 +16,8 @@ class Config {
 
 public:
     // 数据库信息
-    void destroy();
-    QString getDatabaseType() const;            // 数据库的类型, 如QPSQL, QSQLITE, QMYSQL
-    QString getDatabaseHost() const;            // 数据库主机的IP
+    QString getDatabaseType() const;            // 数据库的类型, 如 QPSQL, QSQLITE, QMYSQL
+    QString getDatabaseHost() const;            // 数据库主机的 IP
     QString getDatabaseName() const;            // 数据库名
     QString getDatabaseUsername() const;        // 登录数据库的用户名
     QString getDatabasePassword() const;        // 登录数据库的密码

@@ -46,7 +46,7 @@ private:
 };
 
 SqlsPrivate::SqlsPrivate(Sqls *context) : context(context) {
-    QStringList sqlFiles = Singleton<Config>::getInstance().getDatabaseSqlFiles();
+    QStringList sqlFiles = Config::instance().getDatabaseSqlFiles();
 
     foreach (QString fileName, sqlFiles) {
         qDebug() << QString("Loading SQL file: %1").arg(fileName);

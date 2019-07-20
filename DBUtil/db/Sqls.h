@@ -10,7 +10,7 @@ class SqlsPrivate;
 
 /**
  * 用于加载 SQL 语句，用法.
- * qDebug() << Singleton<Sqls>::getInstance().getSql("User", "findByUserId");
+ * qDebug() << Sqls::instance().getSql("User", "findByUserId");
  */
 class Sqls {
     SINGLETON(Sqls)

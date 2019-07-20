@@ -132,7 +132,7 @@ void DBUtil::debug(const QSqlQuery &query, const QVariantMap &params) {
 void DBUtil::executeSql(const QString &sql,
                         const QVariantMap &params,
                         std::function<void (QSqlQuery *query)> handleResult) {
-    QSqlDatabase db = Singleton<ConnectionPool>::getInstance().openConnection();
+    QSqlDatabase db = ConnectionPool::instance().openConnection();
     QSqlQuery query(db);
     query.prepare(sql);
     bindValues(&query, params);
@@ -142,5 +142,4 @@ void DBUtil::executeSql(const QString &sql,
     }
 
     debug(query, params);
-    Singleton<ConnectionPool>::getInstance().closeConnection(db);
 }

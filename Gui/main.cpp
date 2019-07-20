@@ -1,25 +1,17 @@
 #include <QApplication>
 #include <QDebug>
-
 #include <QPushButton>
-#include <QCheckBox>
-#include <QHBoxLayout>
-#include "Widget.h"
-#include "AnimatedCheckBox.h"
+#include "Thread.h"
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
 
-    Widget *w = new Widget();
-    AnimatedCheckBox *checkbox = new AnimatedCheckBox();
-    QPushButton *button = new QPushButton("Click");
+    QPushButton b("Button");
+    b.show();
 
-    QHBoxLayout *layout = new QHBoxLayout();
-    layout->addWidget(checkbox);
-//    layout->addWidget(button);
-    w->setLayout(layout);
-    w->resize(160, 80);
-    w->show();
+    QObject::connect(&b, &QPushButton::clicked, [&] {
+        b.hide();
+    });
 
     return app.exec();
 }

@@ -5,9 +5,7 @@
 
 class User {
 public:
-    User();
-
-    int id;
+    int id = 0;
     QString username;
     QString password;
     QString email;
