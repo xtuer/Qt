@@ -31,8 +31,10 @@ include(bean/bean.pri)
 include(dao/dao.pri)
 include(db/db.pri)
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    Thread.cpp
 
-HEADERS  +=
+HEADERS  += \
+    Thread.h
 
 FORMS    +=

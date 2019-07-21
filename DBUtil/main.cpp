@@ -5,26 +5,32 @@
 #include "db/DBUtil.h"
 #include "db/ConnectionPool.h"
 #include "util/Config.h"
+#include "Thread.h"
 
 #include <QDebug>
 #include <QSqlError>
 #include <QPluginLoader>
+#include <QApplication>
+#include <QPushButton>
 
 void useDBUtil();
 void useSqlFromFile();
 void useDao();
+void useThreads();
+void testOnBorrow();
 void loadMySqlDriver();
 
 int main(int argc, char *argv[]) {
-    Q_UNUSED(argc)
-    Q_UNUSED(argv)
+    QApplication app(argc, argv);
 
 //    loadMySqlDriver();
 //    useDBUtil();
-    useSqlFromFile();
+//    useSqlFromFile();
 //    useDao();
+    useThreads();
+//    testOnBorrow();
 
-    return 0;
+    return app.exec();
 }
 
 void useDBUtil() {
@@ -83,10 +89,34 @@ void useDao() {
     }
 }
 
+// 测试多线程使用数据库连接池
+void useThreads() {
+    for (int i = 0; i < 100; ++i) {
+        Thread *thread = new Thread();
+        thread->start();
+    }
+}
+
+// 测试自动重连数据库，可解决数据库崩溃，MySQL 6 个小时自动断开不活跃连接的问题
+void testOnBorrow() {
+    // 测试步骤:
+    // 1. 点击按钮访问数据库: 输出 2
+    // 2. 关闭数据库
+    // 3. 点击按钮访问数据库: 输出 database not open
+    // 4. 启动数据库
+    // 5. 点击按钮访问数据库: 输出 2
+    QPushButton *button = new QPushButton("On Borrow Test");
+    button->show();
+
+    QObject::connect(button, &QPushButton::clicked, [] {
+        qDebug() << DBUtil::selectInt("select id from user where username='Bob'");
+    });
+}
+
 void loadMySqlDriver() {
     QPluginLoader loader;
     // MySQL 驱动插件的路径
-    loader.setFileName("/Users/Biao/Qt5.4.0/5.4/clang_64/plugins/sqldrivers/libqsqlmysql.dylib");
+    loader.setFileName("/Users/Biao/Qt5.12.4/5.12.4/clang_64/plugins/sqldrivers/libqsqlmysql.dylib");
     qDebug() << loader.load();
     qDebug() << loader.errorString();
 }

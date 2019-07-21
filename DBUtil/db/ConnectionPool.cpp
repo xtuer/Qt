@@ -54,7 +54,7 @@ ConnectionPool::~ConnectionPool() {
 QSqlDatabase ConnectionPool::openConnection(const QString &connectionName) {
     // 1. 创建连接的全名: 基于线程的地址和传入进来的 connectionName，因为同一个线程可能申请创建多个数据库连接
     // 2. 如果连接已经存在，复用它，而不是重新创建
-    //    2.1 返回连接前访问数据库，如果连接断开，重新建立连接 (关闭数据库几分钟后再启动重新测试)
+    //    2.1 返回连接前访问数据库，如果连接断开，可以重新建立连接 (测试: 关闭数据库几分钟后再启动，再次访问数据库)
     // 3. 如果连接不存在，则创建连接
 
     // [1] 创建连接的全名: 基于线程的地址和传入进来的 connectionName，因为同一个线程可能申请创建多个数据库连接
@@ -66,13 +66,13 @@ QSqlDatabase ConnectionPool::openConnection(const QString &connectionName) {
         QSqlDatabase existingDb = QSqlDatabase::database(fullConnectionName);
 
         if (d->testOnBorrow) {
-            // [2.1] 返回连接前访问数据库，如果连接断开，重新建立连接 (关闭数据库几分钟后再启动重新测试)
-            qDebug() << QString("Test connection on borrow, execute: %1, for connection %2")
-                        .arg(d->testOnBorrowSql).arg(fullConnectionName);
+            // [2.1] 返回连接前访问数据库，如果连接断开，可以重新建立连接 (测试: 关闭数据库几分钟后再启动，再次访问数据库)
+            qDebug().noquote() << QString("Test connection on borrow, execute: %1, for connection %2")
+                                  .arg(d->testOnBorrowSql).arg(fullConnectionName);
             QSqlQuery query(d->testOnBorrowSql, existingDb);
 
             if (query.lastError().type() != QSqlError::NoError && !existingDb.open()) {
-                qDebug() << "Open datatabase error:" << existingDb.lastError().text();
+                qDebug().noquote() << "Open datatabase error:" << existingDb.lastError().text();
                 return QSqlDatabase();
             }
         }
@@ -84,6 +84,7 @@ QSqlDatabase ConnectionPool::openConnection(const QString &connectionName) {
             QObject::connect(QThread::currentThread(), &QThread::finished, qApp, [fullConnectionName] {
                 if (QSqlDatabase::contains(fullConnectionName)) {
                     QSqlDatabase::removeDatabase(fullConnectionName);
+                    qDebug().noquote() << QString("Connection deleted: %1").arg(fullConnectionName);
                 }
             });
         }
@@ -94,6 +95,8 @@ QSqlDatabase ConnectionPool::openConnection(const QString &connectionName) {
 
 // 创建数据库连接
 QSqlDatabase ConnectionPool::createConnection(const QString &connectionName) {
+    static int sn = 0;
+
     // 创建一个新的数据库连接
     QSqlDatabase db = QSqlDatabase::addDatabase(d->databaseType, connectionName);
     db.setHostName(d->hostName);
@@ -105,11 +108,12 @@ QSqlDatabase ConnectionPool::createConnection(const QString &connectionName) {
         db.setPort(d->port);
     }
 
-    if (!db.open()) {
-        qDebug() << "Open datatabase error:" << db.lastError().text();
+    if (db.open()) {
+        qDebug().noquote() << QString("Connection created: %1, sn: %2").arg(connectionName).arg(++sn);
+        return db;
+    } else {
+        qDebug().noquote() << "Create connection error:" << db.lastError().text();
         return QSqlDatabase();
     }
-
-    return db;
 }
 

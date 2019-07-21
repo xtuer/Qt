@@ -116,15 +116,15 @@ QList<QVariantMap > DBUtil::queryToMaps(QSqlQuery *query) {
 }
 
 void DBUtil::debug(const QSqlQuery &query, const QVariantMap &params) {
-    if (Singleton<Config>::getInstance().isDatabaseDebug()) {
+    if (Config::instance().isDatabaseDebug()) {
         if (query.lastError().type() != QSqlError::NoError) {
-            qDebug() << "    => SQL Error: " << query.lastError().text().trimmed();
+            qDebug().noquote() << "    => SQL Error: " << query.lastError().text().trimmed();
         }
 
-        qDebug() << "    => SQL Query:" << query.lastQuery();
+        qDebug().noquote() << "    => SQL Query:" << query.lastQuery();
 
         if (params.size() > 0) {
-            qDebug() << "    => SQL Params: " << params;
+            qDebug().noquote() << "    => SQL Params: " << params;
         }
     }
 }
