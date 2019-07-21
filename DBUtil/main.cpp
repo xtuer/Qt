@@ -8,7 +8,6 @@
 #include "Thread.h"
 
 #include <QDebug>
-#include <QSqlError>
 #include <QPluginLoader>
 #include <QApplication>
 #include <QPushButton>
@@ -26,8 +25,8 @@ int main(int argc, char *argv[]) {
 //    loadMySqlDriver();
 //    useDBUtil();
 //    useSqlFromFile();
-//    useDao();
-    useThreads();
+    useDao();
+//    useThreads();
 //    testOnBorrow();
 
     return app.exec();

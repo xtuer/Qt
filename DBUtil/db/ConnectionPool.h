@@ -2,9 +2,9 @@
 #define CONNECTIONPOOL_H
 
 #include <QString>
-#include "util/Singleton.h"
+#include <QtSql>
 
-// 使用 ConnectionPool::instance().openConnection() 获取连接
+#include "util/Singleton.h"
 
 /**
  * 实现一个简易的数据库连接池，简化数据库连接的获取和释放。连接使用完后不需要手动关闭，数据库连接池会在使用此连接的线程结束后自动关闭连接。
@@ -20,9 +20,7 @@
  *
  * 使用方法:
  * 1. 从数据库连接池里取得连接
- *    QSqlDatabase db = Singleton<ConnectionPool>::getInstance().openConnection();
- *    或者
- *    QSqlDatabase db = ConnectionPoolInstance.openConnection();
+ *    QSqlDatabase db = ConnectionPool::instance().openConnection();
  *
  * 2. 使用 db 访问数据库，如
  *    QSqlQuery query(db);

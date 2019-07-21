@@ -43,7 +43,7 @@ bool UserDao::update(const User& user) {
 User UserDao::mapToUser(const QVariantMap &rowMap) {
     User user;
 
-    user.id = rowMap.value("id", -1).toInt();
+    user.id       = rowMap.value("id", 0).toInt();
     user.username = rowMap.value("username").toString();
     user.password = rowMap.value("password").toString();
     user.email    = rowMap.value("email").toString();
