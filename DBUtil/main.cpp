@@ -22,12 +22,12 @@ void loadMySqlDriver();
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
 
-//    loadMySqlDriver();
-//    useDBUtil();
-//    useSqlFromFile();
+    //    loadMySqlDriver();
+    //    useDBUtil();
+    //    useSqlFromFile();
     useDao();
-//    useThreads();
-//    testOnBorrow();
+    //    useThreads();
+    //    testOnBorrow();
 
     return app.exec();
 }
@@ -93,6 +93,10 @@ void useThreads() {
     for (int i = 0; i < 100; ++i) {
         Thread *thread = new Thread();
         thread->start();
+
+        // 如果瞬间启动多个线程建立 MySQL 数据库连接，很可能会报异常 unable to allocate a MYSQL object
+        // 导致部分连接建立失败，于是等待 100 毫秒才启动下一个线程
+        QThread::msleep(100);
     }
 }
 
