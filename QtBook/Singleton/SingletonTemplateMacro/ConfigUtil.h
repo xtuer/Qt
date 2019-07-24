@@ -4,9 +4,7 @@
 #include "Singleton.h" // [1]
 #include <QString>
 
-#define ConfigUtilInstance Singleton<ConfigUtil>::getInstance()
-
-class Config {
+class ConfigUtil {
     SINGLETON(ConfigUtil) // [2]
 
 public:
