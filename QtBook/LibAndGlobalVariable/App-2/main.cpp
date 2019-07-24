@@ -8,13 +8,14 @@
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
 
-    QPushButton *button = new QPushButton("Access Global Variable");
+    QPushButton *button = new QPushButton("App-2: Access Global Variable");
     button->show();
 
-    QObject::connect(button, &QPushButton::clicked, [] {
+    QObject::connect(button, &QPushButton::clicked, [button] {
         qDebug() << &Config::instance();
-        qDebug() << ++Config::count;
-        qDebug() << ++g;
+        ++Config::count;
+        ++g;
+        button->setText(QString("App-2: count %1, g %2").arg(Config::count).arg(g));
     });
 
     Form form;

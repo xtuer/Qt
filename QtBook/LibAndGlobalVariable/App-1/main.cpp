@@ -6,13 +6,14 @@
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
 
-    QPushButton *button = new QPushButton("Access Global Variable");
+    QPushButton *button = new QPushButton("App-1: Access Global Variable");
     button->show();
 
-    QObject::connect(button, &QPushButton::clicked, [] {
+    QObject::connect(button, &QPushButton::clicked, [button] {
         qDebug() << &Config::instance();
-        qDebug() << ++Config::count;
-        qDebug() << ++g;
+        ++Config::count;
+        ++g;
+        button->setText(QString("App-1: count %1, g %2").arg(Config::count).arg(g));
     });
 
     return app.exec();

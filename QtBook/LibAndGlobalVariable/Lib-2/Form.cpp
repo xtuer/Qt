@@ -6,10 +6,11 @@
 Form::Form(QWidget *parent) : QWidget(parent), ui(new Ui::Form) {
     ui->setupUi(this);
 
-    connect(ui->pushButton, &QPushButton::clicked, [] {
+    connect(ui->pushButton, &QPushButton::clicked, [this] {
         qDebug() << &Config::instance();
-        qDebug() << ++Config::count;
-        qDebug() << ++g;
+        ++Config::count;
+        ++g;
+        ui->pushButton->setText(QString("App-2 (Lib2): count %1, g %2").arg(Config::count).arg(g));
     });
 }
 
