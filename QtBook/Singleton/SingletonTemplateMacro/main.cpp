@@ -5,9 +5,9 @@ int main(int argc, char *argv[]) {
     Q_UNUSED(argc)
     Q_UNUSED(argv)
 
-    qDebug() << Singleton<Config>::getInstance().getDatabaseName();
-    qDebug() << Singleton<Config>::getInstance().getDatabaseName();
-    qDebug() << ConfigUtilInstance.getDatabaseName();
+    qDebug() << Singleton<ConfigUtil>::getInstance().getDatabaseName();
+    qDebug() << Singleton<ConfigUtil>::getInstance().getDatabaseName();
+    qDebug() << ConfigUtil::instance().getDatabaseName();
 
     return 0;
 }

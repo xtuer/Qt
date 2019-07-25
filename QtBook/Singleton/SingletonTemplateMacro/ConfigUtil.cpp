@@ -1,14 +1,14 @@
 #include "ConfigUtil.h"
 #include <QDebug>
 
-Config::Config() {
+ConfigUtil::ConfigUtil() {
     qDebug() << "ConfigUtil()";
 }
 
-Config::~Config() {
+ConfigUtil::~ConfigUtil() {
     qDebug() << "~ConfigUtil()";
 }
 
-QString Config::getDatabaseName() const {
+QString ConfigUtil::getDatabaseName() const {
     return "Pirate";
 }

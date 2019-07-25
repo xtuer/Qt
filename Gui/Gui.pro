@@ -12,6 +12,8 @@ TEMPLATE = app
 ICON     = AppIcon.icns
 CONFIG  -= app_bundle
 
+DEFINES += GOO
+
 # Output directory
 CONFIG(debug, debug|release) {
     output = debug
