@@ -28,16 +28,18 @@ RCC_DIR     = $$output
 UI_DIR      = $$output
 
 SOURCES += \
+        ColourfulDeviceWidget.cpp \
+        ColourfulDevicesWidget.cpp \
         GradientColorPicker.cpp \
-        main.cpp \
-        ColourfulDeviceWidget.cpp
+        main.cpp
 
 HEADERS += \
         ColourfulDeviceWidget.h \
+        ColourfulDevicesWidget.h \
         GradientColorPicker.h
 
 FORMS += \
-        ColourfulDeviceWidget.ui
+    ColourfulDevicesWidget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

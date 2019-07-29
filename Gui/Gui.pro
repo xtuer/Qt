@@ -14,6 +14,10 @@ CONFIG  -= app_bundle
 
 DEFINES += GOO
 
+FOO = $(HOME)/Desktop
+
+message($$FOO)
+
 # Output directory
 CONFIG(debug, debug|release) {
     output = debug
