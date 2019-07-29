@@ -1,72 +1,83 @@
+#include "ColourfulDevicesWidget.h"
+#include "ui_ColourfulDevicesWidget.h"
 #include "ColourfulDeviceWidget.h"
-#include "ui_ColourfulDeviceWidget.h"
-#include "GradientColorPicker.h"
 
 #include <QDebug>
-#include <QPalette>
-#include <QRandomGenerator>
+#include <QGraphicsBlurEffect>
+#include <QGraphicsDropShadowEffect>
 
-ColourfulDeviceWidget::ColourfulDeviceWidget(QWidget *parent) : QWidget(parent), ui(new Ui::ColourfulDeviceWidget) {
+ColourfulDevicesWidget::ColourfulDevicesWidget(int columnCountOfDevice, QWidget *parent)
+    : QWidget(parent), ui(new Ui::ColourfulDevicesWidget), columnCountOfDevice(columnCountOfDevice) {
     initialize();
     handleEvents();
-    ui->comboBox->setCurrentIndex(0);
 }
 
-ColourfulDeviceWidget::~ColourfulDeviceWidget() {
+ColourfulDevicesWidget::~ColourfulDevicesWidget() {
     delete ui;
-    delete colorPicker;
 }
 
-void ColourfulDeviceWidget::initialize() {
-    ui->setupUi(this);
-    ui->comboBox->setCurrentIndex(-1);
-    this->layout()->setSizeConstraint(QLayout::SetFixedSize);
+void ColourfulDevicesWidget::createDevices(QList<QString> deviceNames) {
+    devices.clear();
+    emptyWidget(ui->devicesWidget);
 
-    colorPicker = new GradientColorPicker();
+    for (const QString &name : deviceNames) {
+        devices.append(new ColourfulDeviceWidget(name));
+    }
+
+    // 放置设备
+    placeDevices();
 }
 
-void ColourfulDeviceWidget::handleEvents() {
-    connect(ui->comboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), [this](int index) {
-        emptyWidget(ui->devicesWidget);
+void ColourfulDevicesWidget::setDeviceColor(const QString &deviceName, const QColor &color) {
+    QList<ColourfulDeviceWidget *> found = ui->devicesWidget->findChildren<ColourfulDeviceWidget *>(deviceName);
 
-        int rowCount = index == 0 ? 2 : 3;
-        int colCount = 6;
+    for (ColourfulDeviceWidget *dw : found) {
+        dw->setColor(color);
+    }
+}
 
-        QGridLayout *layout = new QGridLayout();
-        layout->setContentsMargins(0, 0, 0, 0);
-        layout->setSpacing(0);
+void ColourfulDevicesWidget::updateDevices() {
+    int len = devices.size();
 
-        for (int row = 0; row < rowCount; ++row) {
-            for (int col = 0; col < colCount; ++col) {
-                // TODO: 每个 label 对应一个设备，设备的数量和它的温度作为参数输入进来
-                // 获取温度的比例: (temperature-minTemperature)/(maxTemperature-minTemperature)
-                double temperature = QRandomGenerator::global()->bounded(200.0);
-                double temperatureFactor = (temperature - 0) / (200.0 - 0.0);
-                QLabel *label = new QLabel(QString("%1-%2<br>%3℃").arg(row+1).arg(col+1).arg(int(temperature)));
+    for (int i = 0; i < len; ++i) {
+        QColor startColor = i == 0 ? Qt::transparent : devices[i-1]->getColor();
+        QColor endColor   = (i == len-1) ? Qt::transparent : devices[i+1]->getColor();
+        devices[i]->setGradientColors(startColor, endColor);
+        devices[i]->update();
+    }
+}
 
-                // 每个比例值对应的颜色
-                QColor color = colorPicker->getColor(temperatureFactor);
+// 放置设备
+void ColourfulDevicesWidget::placeDevices() {
+    QGridLayout *layout = qobject_cast<QGridLayout*>(ui->devicesWidget->layout());
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(0);
 
-                // 设置背景色
-                QPalette palette = label->palette();
-                palette.setBrush(QPalette::Window, color);
-                label->setPalette(palette);
-                label->setAutoFillBackground(true);
+    int colCount = columnCountOfDevice;
+    int rowCount = (devices.size() - 1) / colCount + 1;
 
-                label->setAlignment(Qt::AlignCenter);
-                label->setMinimumSize(60, 60);
-                label->setMaximumSize(60, 60);
-                layout->addWidget(label, row, col);
+    for (int row = 0; row < rowCount; ++row) {
+        for (int col = 0; col < colCount; ++col) {
+            int i = row * colCount + col;
+
+            if (i < devices.size()) {
+                layout->addWidget(devices.at(i), row, col);
             }
         }
-
-        layout->setRowStretch(rowCount, 1);
-        ui->devicesWidget->setLayout(layout);
-    });
+    }
 }
 
-// 删除 widget 里面的所有子 widget 和 layout
-void ColourfulDeviceWidget::emptyWidget(QWidget *widget) {
+void ColourfulDevicesWidget::initialize() {
+    ui->setupUi(this);
+    this->layout()->setSizeConstraint(QLayout::SetFixedSize);
+}
+
+void ColourfulDevicesWidget::handleEvents() {
+
+}
+
+// 删除 widget 里面的所有子 widget，不会删除 layout
+void ColourfulDevicesWidget::emptyWidget(QWidget *widget) {
     QLayout *layout = widget->layout();
 
     if (layout) {
@@ -75,13 +86,10 @@ void ColourfulDeviceWidget::emptyWidget(QWidget *widget) {
         // The key point here is that the layout items are stored inside the layout in a stack
         while((item = layout->takeAt(0)) != nullptr) {
             if (item->widget()) {
-                layout->removeWidget(item->widget());
                 delete item->widget();
+            } else {
+                delete item;
             }
-
-            delete item;
         }
-
-        delete layout;
     }
 }
