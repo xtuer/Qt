@@ -11,6 +11,7 @@ class ColourfulDeviceWidget : public QWidget {
 
 public:
     ColourfulDeviceWidget(const QString &name, QWidget *parent = nullptr);
+    ~ColourfulDeviceWidget() override;
 
     // 获取设备的名字
     QString getName() const;

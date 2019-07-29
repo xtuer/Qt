@@ -9,8 +9,11 @@
 ColourfulDeviceWidget::ColourfulDeviceWidget(const QString &name, QWidget *parent) : QWidget(parent), name(name) {
     this->setObjectName(name);
     this->setProperty("class", QString("ColourfulDeviceWidget"));
-    this->setMinimumSize(100, 50);
+    this->setMinimumSize(100, 65);
     this->setAttribute(Qt::WA_StyledBackground, true);
+}
+
+ColourfulDeviceWidget::~ColourfulDeviceWidget() {
 }
 
 // 获取设备的名字
@@ -52,6 +55,6 @@ void ColourfulDeviceWidget::paintEvent(QPaintEvent *) {
     painter.setBrush(gradient);
     painter.drawRoundedRect(p, p, w-p-p, h-p-p, 4, 4);
 
-    painter.setPen(Qt::white);
+    painter.setPen(Qt::black);
     painter.drawText(0, 0, w, h, Qt::AlignCenter, name);
 }

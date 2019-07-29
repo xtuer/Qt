@@ -21,7 +21,7 @@ public:
     explicit ColourfulDevicesWidget(int columnCountOfDevice, QWidget *parent = nullptr);
     ~ColourfulDevicesWidget();
 
-    // 使用设备的名字初始化设备列表
+    // 使用设备的名字初始化设备列表，重复调用这个函数会删除已经创建的设备
     void createDevices(QList<QString> deviceNames);
 
     // 设置名字为 deviceName 的设备的颜色

@@ -16,10 +16,22 @@ ColourfulDevicesWidget::~ColourfulDevicesWidget() {
     delete ui;
 }
 
-void ColourfulDevicesWidget::createDevices(QList<QString> deviceNames) {
-    devices.clear();
-    emptyWidget(ui->devicesWidget);
+void ColourfulDevicesWidget::initialize() {
+    ui->setupUi(this);
+    this->layout()->setSizeConstraint(QLayout::SetFixedSize);
+}
 
+void ColourfulDevicesWidget::handleEvents() {
+
+}
+
+// 使用设备的名字初始化设备列表
+void ColourfulDevicesWidget::createDevices(QList<QString> deviceNames) {
+    // 清空设备 widgets
+    emptyWidget(ui->devicesWidget);
+    devices.clear();
+
+    // 创建设备
     for (const QString &name : deviceNames) {
         devices.append(new ColourfulDeviceWidget(name));
     }
@@ -28,20 +40,29 @@ void ColourfulDevicesWidget::createDevices(QList<QString> deviceNames) {
     placeDevices();
 }
 
+// 设置名字为 deviceName 的设备的颜色
 void ColourfulDevicesWidget::setDeviceColor(const QString &deviceName, const QColor &color) {
     QList<ColourfulDeviceWidget *> found = ui->devicesWidget->findChildren<ColourfulDeviceWidget *>(deviceName);
 
     for (ColourfulDeviceWidget *dw : found) {
         dw->setColor(color);
+
+        // 设置阴影效果
+        QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
+        effect->setOffset(0, 0);
+        effect->setBlurRadius(15);
+        effect->setColor(color.darker(130));
+        dw->setGraphicsEffect(effect);
     }
 }
 
+// 一次更新所有设备的颜色 (内部会处理设备之间的渐变色)
 void ColourfulDevicesWidget::updateDevices() {
     int len = devices.size();
 
     for (int i = 0; i < len; ++i) {
-        QColor startColor = i == 0 ? Qt::transparent : devices[i-1]->getColor();
-        QColor endColor   = (i == len-1) ? Qt::transparent : devices[i+1]->getColor();
+        QColor startColor = (i == 0) ?     devices[i]->getColor() : devices[i-1]->getColor();
+        QColor endColor   = (i == len-1) ? devices[i]->getColor() : devices[i+1]->getColor();
         devices[i]->setGradientColors(startColor, endColor);
         devices[i]->update();
     }
@@ -50,7 +71,7 @@ void ColourfulDevicesWidget::updateDevices() {
 // 放置设备
 void ColourfulDevicesWidget::placeDevices() {
     QGridLayout *layout = qobject_cast<QGridLayout*>(ui->devicesWidget->layout());
-    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setContentsMargins(5, 5, 5, 5);
     layout->setSpacing(0);
 
     int colCount = columnCountOfDevice;
@@ -65,15 +86,6 @@ void ColourfulDevicesWidget::placeDevices() {
             }
         }
     }
-}
-
-void ColourfulDevicesWidget::initialize() {
-    ui->setupUi(this);
-    this->layout()->setSizeConstraint(QLayout::SetFixedSize);
-}
-
-void ColourfulDevicesWidget::handleEvents() {
-
 }
 
 // 删除 widget 里面的所有子 widget，不会删除 layout
