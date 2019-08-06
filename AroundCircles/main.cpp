@@ -1,7 +1,7 @@
 #include <QApplication>
 #include <QDebug>
 #include "ArrangeDevicesWidget.h"
-#include "AroundCirclesGraphicsView.h"
+#include "AroundDevicesGraphicsView.h"
 
 #include <QGraphicsView>
 #include <QGraphicsScene>

@@ -1,7 +1,7 @@
 #include "ArrangeDevicesWidget.h"
 #include "ui_ArrangeDevicesWidget.h"
-#include "AroundCirclesWidget.h"
-#include "AroundCirclesGraphicsView.h"
+#include "AroundDevicesGraphicsView.h"
+#include "PixmapDevicesGraphicsView.h"
 
 #include <QDebug>
 #include <QLabel>
@@ -20,8 +20,8 @@ class ArrangeDevicesWidgetPrivate {
 
     QPoint startDragPos;
     QList<QString> colors;
-    AroundCirclesWidget *circlesWidget = nullptr;
-    AroundCirclesGraphicsView *circlesView = nullptr;
+    AroundDevicesGraphicsView *circleDevicesView = nullptr;
+    PixmapDevicesGraphicsView *pixmapDevicesView = nullptr;
 };
 
 ArrangeDevicesWidgetPrivate::ArrangeDevicesWidgetPrivate() {
@@ -33,8 +33,8 @@ ArrangeDevicesWidgetPrivate::ArrangeDevicesWidgetPrivate() {
         colors << QColor(r, g, b).name(); // 十六进制的颜色: #aabbed
     }
 
-    circlesWidget = new AroundCirclesWidget();
-    circlesView = new AroundCirclesGraphicsView();
+    circleDevicesView = new AroundDevicesGraphicsView();
+    pixmapDevicesView = new PixmapDevicesGraphicsView();
 }
 
 /*-----------------------------------------------------------------------------|
@@ -44,14 +44,14 @@ ArrangeDevicesWidget::ArrangeDevicesWidget(QWidget *parent) : QWidget(parent), u
     ui->setupUi(this);
 
     d = new ArrangeDevicesWidgetPrivate();
-    // layout()->replaceWidget(ui->placeHolderWidget, d->circlesWidget);
-    layout()->replaceWidget(ui->placeHolderWidget, d->circlesView);
+    // TODO: 替换一个 view
+    // layout()->replaceWidget(ui->placeHolderWidget, d->circleDevicesView);
+    layout()->replaceWidget(ui->placeHolderWidget, d->pixmapDevicesView);
 
+    // TODO：添加 16 个设备，用于测试
+    // 提示：拖拽设备到某个圆上后，圆的名字自动设置为设备的名字，
+    //      就可以调用 d->circlesView->setCircleBgcolor(deviceName, color) 设置圆的背景色了
     ui->devicesWidget->layout()->addItem(new QSpacerItem(20, 424, QSizePolicy::Minimum, QSizePolicy::Expanding));
-
-    // 添加 16 个设备，用于测试
-    // 提示: 拖拽设备到某个圆上后，圆的名字自动设置为设备的名字，
-    // 就可以调用 d->circlesView->setCircleBgcolor(deviceName, color) 设置圆的背景色了
     for (int i = 1; i <= 16; ++i) {
         addDevice(QString("Device-%1").arg(i), d->colors[i]);
     }

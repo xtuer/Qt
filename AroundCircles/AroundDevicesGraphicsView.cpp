@@ -1,5 +1,5 @@
-#include "AroundCirclesGraphicsView.h"
-#include "Circle.h"
+#include "AroundDevicesGraphicsView.h"
+#include "DeviceItems.h"
 
 #include <QDebug>
 #include <QtMath>
@@ -7,11 +7,12 @@
 #include <QGraphicsEllipseItem>
 #include <QGraphicsTextItem>
 
-class AroundCirclesGraphicsViewPrivate {
-    friend class AroundCirclesGraphicsView;
-
-    AroundCirclesGraphicsViewPrivate();
-    ~AroundCirclesGraphicsViewPrivate();
+/*-----------------------------------------------------------------------------|
+ |                      AroundDevicesGraphicsViewPrivate                       |
+ |----------------------------------------------------------------------------*/
+class AroundDevicesGraphicsViewPrivate {
+    AroundDevicesGraphicsViewPrivate();
+    ~AroundDevicesGraphicsViewPrivate();
 
     /**
      * 计算紧紧围绕半径为 r 的大圆的 n 个小圆的半径 (大圆和小圆相切，小圆之间相切)
@@ -20,29 +21,31 @@ class AroundCirclesGraphicsViewPrivate {
      * @param n 小圆的个数
      * @return 返回小圆的半径
      */
-    double aroundCircleRadius(double r, int n) const;
+    double calculateCircleDeviceRadius(double r, int n) const;
 
     /**
      * 创建绕大圆的小圆
      */
-    void buildAroundCircles();
+    void buildCircleDevices();
 
     QGraphicsScene *scene = nullptr;
     int n  = 16;  // 绕大圆的第一圈小圆的个数
     int cr = 100; // 中心大圆的半径
+
+    friend class AroundDevicesGraphicsView;
 };
 
-AroundCirclesGraphicsViewPrivate::AroundCirclesGraphicsViewPrivate() {
+AroundDevicesGraphicsViewPrivate::AroundDevicesGraphicsViewPrivate() {
     scene = new QGraphicsScene();
-    buildAroundCircles();
+    buildCircleDevices();
 }
 
-AroundCirclesGraphicsViewPrivate::~AroundCirclesGraphicsViewPrivate() {
+AroundDevicesGraphicsViewPrivate::~AroundDevicesGraphicsViewPrivate() {
     delete scene;
 }
 
 // 计算紧紧围绕半径为 r 的大圆的 n 个小圆的半径 (大圆和小圆相切，小圆之间相切)
-double AroundCirclesGraphicsViewPrivate::aroundCircleRadius(double r, int n) const {
+double AroundDevicesGraphicsViewPrivate::calculateCircleDeviceRadius(double r, int n) const {
     // 圆的内切正 n 边型的边长为 2*r*sin(π/n)
     // 小圆的半径为 x, 计算半径为 r+x 的圆的 2n 个内切正多边形的边长 b, b 等于 x
     double t = qSin(M_PI/2/n);
@@ -50,14 +53,14 @@ double AroundCirclesGraphicsViewPrivate::aroundCircleRadius(double r, int n) con
 }
 
 // 创建绕大圆的小圆
-void AroundCirclesGraphicsViewPrivate::buildAroundCircles() {
+void AroundDevicesGraphicsViewPrivate::buildCircleDevices() {
     // 1. 计算小圆的半径
     // 2. 创建第一圈绕大圆的小圆
     // 3. 创建第二圈绕大圆的小圆
     // 4. 创建大圆
 
     // [1] 计算小圆的半径
-    double sr = aroundCircleRadius(cr, n);
+    double sr = calculateCircleDeviceRadius(cr, n);
     int    sn = 1; // 小圆的序号，作为小圆的 id
 
     // [2] 创建第一圈绕大圆的小圆
@@ -69,7 +72,7 @@ void AroundCirclesGraphicsViewPrivate::buildAroundCircles() {
         transform.rotate(-360.0/n1*i);
         transform.translate(0, br1+15);
 
-        QGraphicsEllipseItem *item = new AroundCircle(QString::number(sn++), QRectF(-sr, -sr, 2*sr, 2*sr));
+        QGraphicsEllipseItem *item = new CircleDevice(QString::number(sn++), sr);
         item->setTransform(transform);
         scene->addItem(item);
     }
@@ -83,26 +86,29 @@ void AroundCirclesGraphicsViewPrivate::buildAroundCircles() {
         transform.rotate(-360.0/n2*i);
         transform.translate(0, br2+20);
 
-        QGraphicsEllipseItem *item = new AroundCircle(QString::number(sn++), QRectF(-sr, -sr, 2*sr, 2*sr));
+        QGraphicsEllipseItem *item = new CircleDevice(QString::number(sn++), sr);
         item->setTransform(transform);
         scene->addItem(item);
     }
 
     // [4] 创建大圆
-    double br = cr+8; // 中心大圆的半径: +8 调整效果
-    scene->addItem(new CenterCircle(16, cr, QRectF(-br, -br, 2*br, 2*br)));
+    int padding = 8; // padding 为 8 调整效果
+    scene->addItem(new DialPlate(16, cr, padding));
 }
 
-AroundCirclesGraphicsView::AroundCirclesGraphicsView(QWidget *parent)
-    : QGraphicsView(parent), d(new AroundCirclesGraphicsViewPrivate()) {
+/*-----------------------------------------------------------------------------|
+ |                          AroundDevicesGraphicsView                          |
+ |----------------------------------------------------------------------------*/
+AroundDevicesGraphicsView::AroundDevicesGraphicsView(QWidget *parent)
+    : QGraphicsView(parent), d(new AroundDevicesGraphicsViewPrivate()) {
     setScene(d->scene);
 }
 
-AroundCirclesGraphicsView::~AroundCirclesGraphicsView() {
+AroundDevicesGraphicsView::~AroundDevicesGraphicsView() {
     delete d;
 }
 
 // 设置名字为传入的 name 的圆的背景色，圆的名字在拖放时自动设置
-void AroundCirclesGraphicsView::setCircleBgcolor(const QString &name, const QString &bgcolor) {
-    AroundCircle::setAroundCirleBgcolor(scene(), name, bgcolor);
+void AroundDevicesGraphicsView::setCircleDeviceBgcolor(const QString &name, const QString &bgcolor) {
+    CircleDevice::setBgcolorByName(scene(), name, bgcolor);
 }

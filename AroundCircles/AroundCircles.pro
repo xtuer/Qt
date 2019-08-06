@@ -29,14 +29,14 @@ FORMS += \
     ArrangeDevicesWidget.ui
 
 HEADERS += \
-    AroundCirclesGraphicsView.h \
-    AroundCirclesWidget.h \
+    AroundDevicesGraphicsView.h \
     ArrangeDevicesWidget.h \
-    Circle.h
+    DeviceItems.h \
+    PixmapDevicesGraphicsView.h
 
 SOURCES += \
-    AroundCirclesGraphicsView.cpp \
-    AroundCirclesWidget.cpp \
+    AroundDevicesGraphicsView.cpp \
     ArrangeDevicesWidget.cpp \
-    Circle.cpp \
+    DeviceItems.cpp \
+    PixmapDevicesGraphicsView.cpp \
     main.cpp
