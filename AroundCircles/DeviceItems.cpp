@@ -147,17 +147,17 @@ void RectDevice::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     Q_UNUSED(widget)
 
     painter->setRenderHints(QPainter::Antialiasing);
+    QPen pen(Qt::black, 2);
 
     // 选中是使用虚线边框
     if (isSelected()) {
-        QPen pen = painter->pen();
         pen.setStyle(Qt::DashLine);
-        painter->setPen(pen);
     }
 
     // 绘制圆角矩形
+    painter->setPen(pen);
     painter->setBrush(bgcolor);
-    painter->drawRoundedRect(rect(), 4, 4);
+    painter->drawRoundedRect(rect(), 5, 5);
 
     // 绘制文本
     painter->setPen(Qt::black);
