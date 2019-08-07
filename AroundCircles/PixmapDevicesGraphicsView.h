@@ -15,8 +15,6 @@ public:
     ~PixmapDevicesGraphicsView() override;
 
 protected:
-    void dragEnterEvent(QDragEnterEvent *event) override;
-    void dropEvent(QDropEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
     void mouseDoubleClickEvent(QMouseEvent *event) override;
 

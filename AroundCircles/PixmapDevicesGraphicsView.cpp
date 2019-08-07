@@ -14,16 +14,54 @@
  |                             DeviceGraphicsScene                             |
  |----------------------------------------------------------------------------*/
 /**
- * 自定义 Scene，为了使得 Graphics View 能够接受拖放事件
+ * 自定义 Scene，为了接受拖放操作创建 device item
  */
 class DeviceGraphicsScene : public QGraphicsScene {
 protected:
+    void dragEnterEvent(QGraphicsSceneDragDropEvent *event) override;
     void dragMoveEvent(QGraphicsSceneDragDropEvent *event) override;
+    void dropEvent(QGraphicsSceneDragDropEvent *event) override;
 };
 
-// Scene 先接受拖拽，然后 view 才能处理 dropEvent
+// 拖拽进入时接受拖拽事件
+void DeviceGraphicsScene::dragEnterEvent(QGraphicsSceneDragDropEvent *event) {
+    if (event->mimeData()->hasFormat("text/DnD-DEVICE-CIRCLE")) {
+        event->accept();
+    } else {
+        event->ignore();
+    }
+}
+
+// 鼠标拖动时接受拖拽事件
+// 提示: 如果要在 view 中处理拖放事件，则需要 Scene 的 dragMoveEvent 中先接受拖拽事件，然后 view 中的 dropEvent 才能接收到拖放事件
 void DeviceGraphicsScene::dragMoveEvent(QGraphicsSceneDragDropEvent *event) {
-    event->accept();
+    if (event->mimeData()->hasFormat("text/DnD-DEVICE-CIRCLE")) {
+        event->accept();
+    } else {
+        event->ignore();
+    }
+}
+
+// 拖放时，创建 device item
+void DeviceGraphicsScene::dropEvent(QGraphicsSceneDragDropEvent *event) {
+    if (event->mimeData()->hasFormat("text/DnD-DEVICE-CIRCLE")) {
+        event->accept();
+
+        // 数据格式: name,color
+        QStringList data = QString::fromUtf8(event->mimeData()->data("text/DnD-DEVICE-CIRCLE")).split(",");
+        QString name  = data.value(0);
+        QString color = data.value(1);
+        int w = 80;
+        int h = 30;
+        QPointF pos = event->scenePos() - QPoint(w/2, h/2);
+        QRectF rect = QRectF(pos, QSize(w, h));
+
+        // 如果已经存在同名的 item，先删除掉它，然后添加新的
+        delete findDeviceItemByName(this, name);
+
+        // 添加新的 item
+        this->addItem(new RectDevice(name, name, color, rect));
+    }
 }
 
 /*-----------------------------------------------------------------------------|
@@ -88,40 +126,10 @@ void PixmapDevicesGraphicsViewPrivate::removeTip() {
 // 在图片上布点设备的 view，双击 view 选择背景图，拖放设备到 view 上创建设备的 item。
 PixmapDevicesGraphicsView::PixmapDevicesGraphicsView(QWidget *parent) : QGraphicsView(parent), d(new PixmapDevicesGraphicsViewPrivate) {
     setScene(d->scene);
-    setAcceptDrops(true);
 }
 
 PixmapDevicesGraphicsView::~PixmapDevicesGraphicsView() {
     delete d;
-}
-
-// 拖拽进入时接受拖拽事件
-void PixmapDevicesGraphicsView::dragEnterEvent(QDragEnterEvent *event) {
-    if (event->mimeData()->hasFormat("text/DnD-DEVICE-CIRCLE")) {
-        event->accept();
-    }
-}
-
-// 拖放时创建 device item
-void PixmapDevicesGraphicsView::dropEvent(QDropEvent *event) {
-    if (event->mimeData()->hasFormat("text/DnD-DEVICE-CIRCLE")) {
-        event->accept();
-
-        // 数据格式: name,color
-        QStringList data = QString::fromUtf8(event->mimeData()->data("text/DnD-DEVICE-CIRCLE")).split(",");
-        QString name  = data.value(0);
-        QString color = data.value(1);
-        int w = 80;
-        int h = 30;
-        QPointF pos = mapToScene(event->pos() - QPoint(w/2, h/2));
-        QRectF rect = QRectF(pos, QSize(w, h));
-
-        // 如果已经存在同名的 item，先删除掉它，然后添加新的
-        delete findDeviceItemByName(d->scene, name);
-
-        // 添加新的 item
-        d->scene->addItem(new RectDevice(name, name, color, rect));
-    }
 }
 
 // 窗口大小时修改 scene 和背景图的大小

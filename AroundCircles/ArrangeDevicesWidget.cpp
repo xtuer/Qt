@@ -40,22 +40,21 @@ ArrangeDevicesWidget::ArrangeDevicesWidget(int type, const QStringList &deviceNa
     : QWidget(parent), ui(new Ui::ArrangeDevicesWidget), d(new ArrangeDevicesWidgetPrivate) {
     ui->setupUi(this);
 
+    // 根据 type 确定布点类型
     if (1 == type) {
         layout()->replaceWidget(ui->placeHolderWidget, d->circleDevicesView);
     } else {
         layout()->replaceWidget(ui->placeHolderWidget, d->pixmapDevicesView);
     }
 
-    // TODO：添加 16 个设备，用于测试
-    // 提示：拖拽设备到某个圆上后，圆的名字自动设置为设备的名字，
-    //      就可以调用 d->circlesView->setCircleBgcolor(deviceName, color) 设置圆的背景色了
+    // 创建设备列表
     ui->devicesWidget->layout()->addItem(new QSpacerItem(20, 424, QSizePolicy::Minimum, QSizePolicy::Expanding));
     for (int i = 0; i < deviceNames.size(); ++i) {
         addDevice(deviceNames.at(i), colors[i%colors.size()]);
     }
     ui->devicesWidget->layout()->addItem(new QSpacerItem(20, 424, QSizePolicy::Minimum, QSizePolicy::Expanding));
 
-    this->setStyleSheet(QString(".DeviceLabel {border: 1px solid gray;}"));
+    this->setStyleSheet(QString(".DeviceLabel { border: 1px solid gray; }"));
 }
 
 ArrangeDevicesWidget::~ArrangeDevicesWidget() {
