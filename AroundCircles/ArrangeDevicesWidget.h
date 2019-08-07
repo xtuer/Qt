@@ -2,6 +2,7 @@
 #define ARRANGEDEVICESWIDGET_H
 
 #include <QWidget>
+#include <QList>
 
 class QLabel;
 class ArrangeDevicesWidgetPrivate;
@@ -14,7 +15,14 @@ class ArrangeDevicesWidget : public QWidget {
     Q_OBJECT
 
 public:
-    explicit ArrangeDevicesWidget(QWidget *parent = nullptr);
+    /**
+     * 创建布点的 widget，type 为 1 时创建显示 AroundDevicesGraphicsView，为其他值时显示 PixmapDevicesGraphicsView
+     *
+     * @param type        布点图的类型
+     * @param deviceNames 设备的名字
+     * @param parent      父 widget
+     */
+    explicit ArrangeDevicesWidget(int type, const QStringList &deviceNames, QWidget *parent = nullptr);
     ~ArrangeDevicesWidget() override;
 
 protected:

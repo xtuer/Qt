@@ -7,7 +7,7 @@
 class AroundDevicesGraphicsViewPrivate;
 
 /**
- * 此 View 的中间是一个大圆 (DialPlate)，围绕大圆放置圆形设备 (CircleDevice)
+ * 此 View 的中间是一个大圆 (DialPlate)，围绕大圆放置两圈圆形设备 (CircleDevice)
  */
 class AroundDevicesGraphicsView : public QGraphicsView {
 public:

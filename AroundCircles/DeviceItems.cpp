@@ -6,6 +6,19 @@
 #include <QGraphicsScene>
 #include <QGraphicsSceneDragDropEvent>
 
+// 查找 scene 中名字为传入的 name 的 item
+DeviceItem *findDeviceItemByName(QGraphicsScene *scene, const QString &name) {
+    for (QGraphicsItem *item : scene->items()) {
+        DeviceItem *device = dynamic_cast<DeviceItem *>(item);
+
+        if (nullptr != device && device->getName() == name) {
+            return device;
+        }
+    }
+
+    return nullptr;
+}
+
 /*-----------------------------------------------------------------------------|
  |                                  DialPlate                                  |
  |----------------------------------------------------------------------------*/
@@ -34,53 +47,59 @@ void DialPlate::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
 
 /*-----------------------------------------------------------------------------|
- |                                CircleDevice                                 |
+ |                                 DeviceItem                                  |
  |----------------------------------------------------------------------------*/
-CircleDevice::CircleDevice(const QString &value, double radius, QGraphicsItem *parent)
-    : QGraphicsEllipseItem(QRectF(-radius, -radius, radius+radius, radius+radius), parent), value(value) {
-    setAcceptDrops(true);
-    setAcceptHoverEvents(true);
-}
+DeviceItem::~DeviceItem() {}
 
 // 设置背景色
-void CircleDevice::setBgcolor(const QString &bgcolor) {
+void DeviceItem::setBgcolor(const QString &bgcolor) {
     QColor temp(bgcolor);
     this->bgcolor = temp.isValid() ? temp : Qt::transparent;
-    update();
 }
 
 // 设置 scene 中名字为 name 的 CircleDevice 的 item 的背景色
-void CircleDevice::setBgcolorByName(QGraphicsScene *scene, const QString &name, const QString &bgcolor) {
-    for (QGraphicsItem *item : scene->items()) {
-        if (int(ItemType::CIRCLE_DEVICE) == item->type()) {
-            CircleDevice *circle = dynamic_cast<CircleDevice *>(item);
+void DeviceItem::setBgcolorByName(QGraphicsScene *scene, const QString &name, const QString &bgcolor) {
+    DeviceItem *item = findDeviceItemByName(scene, name);
 
-            if (name == circle->getName()) {
-                circle->setBgcolor(bgcolor);
-            }
-        }
+    if (nullptr != item) {
+        item->setBgcolor(bgcolor);
+        item->doUpdate();
     }
 }
 
 // 重置背景色和名字
-void CircleDevice::reset() {
+void DeviceItem::reset() {
     name    = "";
     bgcolor = Qt::transparent;
-    update();
 }
 
 // 重置 scene 中名字为 name 的圆的名字和背景色
-void CircleDevice::resetByName(QGraphicsScene *scene, const QString &name) {
-    // 重置同名圆的状态
-    for (QGraphicsItem *item : scene->items()) {
-        if (int(ItemType::CIRCLE_DEVICE) == item->type()) {
-            CircleDevice *circle = dynamic_cast<CircleDevice *>(item);
+void DeviceItem::resetByName(QGraphicsScene *scene, const QString &name) {
+    DeviceItem *item = findDeviceItemByName(scene, name);
 
-            if (name == circle->name) {
-                circle->reset();
-            }
-        }
+    if (nullptr != item) {
+        item->reset();
+        item->doUpdate();
     }
+}
+
+void DeviceItem::doUpdate() {
+    QGraphicsItem *item = dynamic_cast<QGraphicsItem *>(this);
+
+    if (nullptr != item) {
+        item->update();
+    }
+}
+
+/*-----------------------------------------------------------------------------|
+ |                                CircleDevice                                 |
+ |----------------------------------------------------------------------------*/
+CircleDevice::CircleDevice(const QString &name, const QString &value, double radius, QGraphicsItem *parent)
+    : QGraphicsEllipseItem(QRectF(-radius, -radius, radius+radius, radius+radius), parent) {
+    setAcceptDrops(true);
+    setAcceptHoverEvents(true);
+    this->name  = name;
+    this->value = value;
 }
 
 // 鼠标进入和离开、拖拽进入和离开时高亮圆
@@ -113,7 +132,7 @@ void CircleDevice::dropEvent(QGraphicsSceneDragDropEvent *event) {
         QStringList data = QString::fromUtf8(event->mimeData()->data("text/DnD-DEVICE-CIRCLE")).split(",");
         QString name = data.value(0);
 
-        CircleDevice::resetByName(scene(), name);
+        DeviceItem::resetByName(scene(), name);
         this->name = name;
         this->setBgcolor(data.value(1));
     }
@@ -137,9 +156,12 @@ void CircleDevice::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 /*-----------------------------------------------------------------------------|
  |                                 RectDevice                                  |
  |----------------------------------------------------------------------------*/
-RectDevice::RectDevice(const QString &name, const QString &value, const QString &bgcolor, const QRectF &rect, QGraphicsItem *parent)
-    : QGraphicsRectItem(rect, parent), name(name), value(value), bgcolor(bgcolor) {
+RectDevice::RectDevice(const QString &name, const QString &value, const QString &bgcolor,
+                       const QRectF &rect, QGraphicsItem *parent) : QGraphicsRectItem(rect, parent) {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsSelectable);
+    this->name = name;
+    this->value = value;
+    this->bgcolor = bgcolor;
 }
 
 void RectDevice::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
@@ -147,7 +169,7 @@ void RectDevice::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     Q_UNUSED(widget)
 
     painter->setRenderHints(QPainter::Antialiasing);
-    QPen pen(Qt::black, 2);
+    QPen pen(QColor("#555"), 2);
 
     // 选中是使用虚线边框
     if (isSelected()) {

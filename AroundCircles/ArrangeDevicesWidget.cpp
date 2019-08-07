@@ -8,7 +8,12 @@
 #include <QMouseEvent>
 #include <QMimeData>
 #include <QDrag>
-#include <QRandomGenerator>
+
+// 默认定义的 16 种颜色
+static QList<QString> colors = {
+    "#00FFCC", "#00FFFF", "#00CCCC", "#00CCFF", "#00FF99", "#CCCC33", "#99CCFF", "#CCFF66",
+    "#CCFFCC", "#FF99FF", "#FF9900", "#FF6600", "#FF9999", "#FFFF99", "#DDDDDD", "#FF9900",
+};
 
 /*-----------------------------------------------------------------------------|
  |                         ArrangeDevicesWidgetPrivate                         |
@@ -19,20 +24,11 @@ class ArrangeDevicesWidgetPrivate {
     ArrangeDevicesWidgetPrivate();
 
     QPoint startDragPos;
-    QList<QString> colors;
     AroundDevicesGraphicsView *circleDevicesView = nullptr;
     PixmapDevicesGraphicsView *pixmapDevicesView = nullptr;
 };
 
 ArrangeDevicesWidgetPrivate::ArrangeDevicesWidgetPrivate() {
-    // 随机生成颜色，可以是指定的
-    for (int i = 0; i < 100; ++i) {
-        int r = QRandomGenerator::global()->bounded(256);
-        int g = QRandomGenerator::global()->bounded(256);
-        int b = QRandomGenerator::global()->bounded(256);
-        colors << QColor(r, g, b).name(); // 十六进制的颜色: #aabbed
-    }
-
     circleDevicesView = new AroundDevicesGraphicsView();
     pixmapDevicesView = new PixmapDevicesGraphicsView();
 }
@@ -40,20 +36,22 @@ ArrangeDevicesWidgetPrivate::ArrangeDevicesWidgetPrivate() {
 /*-----------------------------------------------------------------------------|
  |                            ArrangeDevicesWidget                             |
  |----------------------------------------------------------------------------*/
-ArrangeDevicesWidget::ArrangeDevicesWidget(QWidget *parent) : QWidget(parent), ui(new Ui::ArrangeDevicesWidget) {
+ArrangeDevicesWidget::ArrangeDevicesWidget(int type, const QStringList &deviceNames, QWidget *parent)
+    : QWidget(parent), ui(new Ui::ArrangeDevicesWidget), d(new ArrangeDevicesWidgetPrivate) {
     ui->setupUi(this);
 
-    d = new ArrangeDevicesWidgetPrivate();
-    // TODO: 替换一个 view
-    // layout()->replaceWidget(ui->placeHolderWidget, d->circleDevicesView);
-    layout()->replaceWidget(ui->placeHolderWidget, d->pixmapDevicesView);
+    if (1 == type) {
+        layout()->replaceWidget(ui->placeHolderWidget, d->circleDevicesView);
+    } else {
+        layout()->replaceWidget(ui->placeHolderWidget, d->pixmapDevicesView);
+    }
 
     // TODO：添加 16 个设备，用于测试
     // 提示：拖拽设备到某个圆上后，圆的名字自动设置为设备的名字，
     //      就可以调用 d->circlesView->setCircleBgcolor(deviceName, color) 设置圆的背景色了
     ui->devicesWidget->layout()->addItem(new QSpacerItem(20, 424, QSizePolicy::Minimum, QSizePolicy::Expanding));
-    for (int i = 1; i <= 16; ++i) {
-        addDevice(QString("Device-%1").arg(i), d->colors[i]);
+    for (int i = 0; i < deviceNames.size(); ++i) {
+        addDevice(deviceNames.at(i), colors[i%colors.size()]);
     }
     ui->devicesWidget->layout()->addItem(new QSpacerItem(20, 424, QSizePolicy::Minimum, QSizePolicy::Expanding));
 
@@ -124,7 +122,7 @@ void ArrangeDevicesWidget::addDevice(const QString name, const QString color) {
     label->setProperty("class", "DeviceLabel");
     label->setProperty("color", color);
     label->setProperty("deviceId", name);
-    label->setStyleSheet(QString("background: %1").arg(color));
+    label->setStyleSheet(QString("background: %1; border-radius: 3px; padding: 3px").arg(color));
     label->installEventFilter(this);
 
     ui->devicesWidget->layout()->addWidget(label);

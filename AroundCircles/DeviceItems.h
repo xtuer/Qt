@@ -4,6 +4,17 @@
 #include <QGraphicsScene>
 #include <QGraphicsEllipseItem>
 
+class DeviceItem;
+
+/**
+ * 查找 scene 中名字为传入的 name 的 item
+ *
+ * @param scene 场景
+ * @param name  名字
+ * @return 返回查找到的 item，如果没有找到则返回 nullptr
+ */
+DeviceItem* findDeviceItemByName(QGraphicsScene *scene, const QString &name);
+
 /*-----------------------------------------------------------------------------|
  |                                  ItemType                                   |
  |----------------------------------------------------------------------------*/
@@ -47,23 +58,15 @@ private:
     double radius; // 中心大圆的半径
 };
 
-
 /*-----------------------------------------------------------------------------|
- |                                CircleDevice                                 |
+ |                                 DeviceItem                                  |
  |----------------------------------------------------------------------------*/
 /**
- * 圆形设备，每个设备可以设置:
- *     name : 用于查找
- *     value: 显示在圆上
+ * 设备 item 的基类
  */
-class CircleDevice : public QGraphicsEllipseItem {
+class DeviceItem {
 public:
-    CircleDevice(const QString &value, double radius, QGraphicsItem *parent = nullptr);
-
-    /**
-     * 返回 item 类型
-     */
-    int type() const override { return int(ItemType::CIRCLE_DEVICE); }
+    virtual ~DeviceItem();
 
     /**
      * 返回设备的名字
@@ -99,6 +102,29 @@ public:
      */
     static void resetByName(QGraphicsScene *scene, const QString &name);
 
+    void doUpdate();
+
+protected:
+    bool    hover = false;
+    QString name;
+    QString value;
+    QColor  bgcolor = Qt::transparent;
+};
+
+/*-----------------------------------------------------------------------------|
+ |                                CircleDevice                                 |
+ |----------------------------------------------------------------------------*/
+/**
+ * 圆形设备，每个设备可以设置:
+ *     name   : 名字，用于查找
+ *     value  : 显示在圆上
+ *     bgcolor: 背景色
+ */
+class CircleDevice : public DeviceItem, public QGraphicsEllipseItem {
+public:
+    CircleDevice(const QString &name, const QString &value, double radius, QGraphicsItem *parent = nullptr);
+
+    // 绘制 item
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = Q_NULLPTR) override;
 
 protected:
@@ -107,12 +133,6 @@ protected:
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event) override;
     void dragLeaveEvent(QGraphicsSceneDragDropEvent *event) override;
     void dropEvent(QGraphicsSceneDragDropEvent *event) override;
-
-private:
-    bool    hover = false;
-    QString name;
-    QString value;
-    QColor  bgcolor = Qt::transparent;
 };
 
 
@@ -120,18 +140,22 @@ private:
  |                                 RectDevice                                  |
  |----------------------------------------------------------------------------*/
 /**
- * 矩形设备
+ * 矩形设备，每个设备可以设置:
+ *     name   : 名字，用于查找
+ *     value  : 显示在圆上
+ *     bgcolor: 背景色
  */
-class RectDevice: public QGraphicsRectItem {
+class RectDevice: public DeviceItem, public QGraphicsRectItem {
 public:
     RectDevice(const QString &name, const QString &value, const QString &bgcolor, const QRectF &rect, QGraphicsItem *parent = nullptr);
 
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = Q_NULLPTR) override;
+    /**
+     * 返回 item 类型
+     */
+    int type() const override { return int(ItemType::RECT_DEVICE); }
 
-private:
-    QString name;
-    QString value;
-    QColor  bgcolor = Qt::transparent;
+    // 绘制 item
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = Q_NULLPTR) override;
 };
 
 #endif // DEVICE_ITEMS_H

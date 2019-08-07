@@ -72,7 +72,7 @@ void AroundDevicesGraphicsViewPrivate::buildCircleDevices() {
         transform.rotate(-360.0/n1*i);
         transform.translate(0, br1+15);
 
-        QGraphicsEllipseItem *item = new CircleDevice(QString::number(sn++), sr);
+        QGraphicsEllipseItem *item = new CircleDevice("", QString::number(sn++), sr);
         item->setTransform(transform);
         scene->addItem(item);
     }
@@ -86,7 +86,7 @@ void AroundDevicesGraphicsViewPrivate::buildCircleDevices() {
         transform.rotate(-360.0/n2*i);
         transform.translate(0, br2+20);
 
-        QGraphicsEllipseItem *item = new CircleDevice(QString::number(sn++), sr);
+        QGraphicsEllipseItem *item = new CircleDevice("", QString::number(sn++), sr);
         item->setTransform(transform);
         scene->addItem(item);
     }
@@ -99,8 +99,7 @@ void AroundDevicesGraphicsViewPrivate::buildCircleDevices() {
 /*-----------------------------------------------------------------------------|
  |                          AroundDevicesGraphicsView                          |
  |----------------------------------------------------------------------------*/
-AroundDevicesGraphicsView::AroundDevicesGraphicsView(QWidget *parent)
-    : QGraphicsView(parent), d(new AroundDevicesGraphicsViewPrivate()) {
+AroundDevicesGraphicsView::AroundDevicesGraphicsView(QWidget *parent) : QGraphicsView(parent), d(new AroundDevicesGraphicsViewPrivate()) {
     setScene(d->scene);
 }
 
