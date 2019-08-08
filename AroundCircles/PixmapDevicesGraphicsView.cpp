@@ -18,19 +18,9 @@
  */
 class DeviceGraphicsScene : public QGraphicsScene {
 protected:
-    void dragEnterEvent(QGraphicsSceneDragDropEvent *event) override;
     void dragMoveEvent(QGraphicsSceneDragDropEvent *event) override;
     void dropEvent(QGraphicsSceneDragDropEvent *event) override;
 };
-
-// 拖拽进入时接受拖拽事件
-void DeviceGraphicsScene::dragEnterEvent(QGraphicsSceneDragDropEvent *event) {
-    if (event->mimeData()->hasFormat("text/DnD-DEVICE-CIRCLE")) {
-        event->accept();
-    } else {
-        event->ignore();
-    }
-}
 
 // 鼠标拖动时接受拖拽事件
 // 提示: 如果要在 view 中处理拖放事件，则需要 Scene 的 dragMoveEvent 中先接受拖拽事件，然后 view 中的 dropEvent 才能接收到拖放事件
@@ -38,7 +28,7 @@ void DeviceGraphicsScene::dragMoveEvent(QGraphicsSceneDragDropEvent *event) {
     if (event->mimeData()->hasFormat("text/DnD-DEVICE-CIRCLE")) {
         event->accept();
     } else {
-        event->ignore();
+        QGraphicsScene::dragMoveEvent(event);
     }
 }
 
@@ -137,7 +127,7 @@ void PixmapDevicesGraphicsView::resizeEvent(QResizeEvent *event) {
     int w = event->size().width();
     int h = event->size().height();
 
-    setSceneRect(0, 0, w, h);             // Scene 的大小为 View 的大小
+    setSceneRect(0, 0, w, h);             // Scene 的大小为 View 的大小，左上角为 scene 的原点
     d->scalePixmapAndCenterInScene(w, h); // 缩放图片，在 scene 中居中显示
 }
 

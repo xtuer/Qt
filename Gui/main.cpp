@@ -4,49 +4,28 @@
 #include <QThread>
 #include "Thread.h"
 
-class BaseA {
+class A {
 public:
-    void update() {
-        qDebug() << "BaseA::update()";
-    }
+    int a = 2;
 };
 
-class BaseB {
-public:
-    virtual ~BaseB();
+class B : virtual public A {
 
-     void update() {
-        qDebug() << "BaseB::update()";
-    }
 };
 
-BaseB::~BaseB() {}
+class C : virtual public A {
 
-class Child : public BaseA, public BaseB {
-public:
-    ~Child() override;
-
-    void update() {
-        qDebug() << "Child::update()";
-        BaseA::update();
-    }
 };
 
-Child::~Child() {}
+class D : public B, public C {
 
-int main(int argc, char *argv[]) {
-    BaseA *child1 = new Child();
-    child1->update();
+};
 
-    BaseB *child2 = new Child();
-    child2->update();
 
-//    QApplication app(argc, argv);
+int main(int argc, char** argv) {
+    D d;
 
-//    Thread thread;
-//    thread.start();
+    qDebug() << d.a;
 
-//    qDebug() << "Main: " << QThread::currentThread();
-
-//    return app.exec();
+    return 0;
 }
