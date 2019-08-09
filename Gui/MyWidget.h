@@ -27,7 +27,6 @@ private:
     void handleEvents();
 
     Ui::MyWidget *ui;
-    QThread *thread;
 };
 
 #endif // MYWIDGET_H

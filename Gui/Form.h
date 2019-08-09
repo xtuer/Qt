@@ -13,9 +13,6 @@ class Form : public QWidget {
 public:
     Form(QWidget *parent = 0);
 
-protected:
-    void paintEvent(QPaintEvent *event) override;
-
 private:
     Ui::Form *ui;
     QStandardItemModel *model;

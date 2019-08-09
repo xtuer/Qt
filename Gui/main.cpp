@@ -3,29 +3,14 @@
 #include <QPushButton>
 #include <QThread>
 #include "Thread.h"
-
-class A {
-public:
-    int a = 2;
-};
-
-class B : virtual public A {
-
-};
-
-class C : virtual public A {
-
-};
-
-class D : public B, public C {
-
-};
-
+#include "MyWidget.h"
+#include <QRandomGenerator>
 
 int main(int argc, char** argv) {
-    D d;
+    QApplication app(argc, argv);
 
-    qDebug() << d.a;
+    MyWidget w;
+    w.show();
 
-    return 0;
+    return app.exec();
 }

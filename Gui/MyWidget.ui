@@ -6,40 +6,17 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>479</width>
-    <height>334</height>
+    <width>412</width>
+    <height>258</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MyWidget</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QLabel {
-min-height: 30px;
-max-height: 30px;
-border-width: 0 0 0 30px;
-border-image: url(/Users/Biao/Temp/Qt/AiSign/AiSign/image/common/brightness-auto.png) 0 0 0 128;
-}
-
-QCheckBox::indicator {
-	border-width: 0 0 0 0px;
-    border-image: url(/Users/Biao/Temp/Qt/AiSign/AiSign/image/common/brightness-auto.png) 0 0 0 0;
-}
-
-QCheckBox::indicator:checked {
-	border-width: 0 0 0 0px;
-    border-image: url(/Users/Biao/Temp/Qt/AiSign/AiSign/image/common/brightness-auto-2.png) 0 0 0 0;
-}
-
-QPushButton {
-	border-width: 0;
-    border-image: url(/Users/Biao/Desktop/button.png) 0 240 0 0;
-}
-
-QPushButton:hover {
-    border-image: url(/Users/Biao/Desktop/button.png) 0 180 0 60;
-}</string>
+   <string notr="true"/>
   </property>
+  <layout class="QGridLayout" name="gridLayout"/>
  </widget>
  <resources/>
  <connections/>

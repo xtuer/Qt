@@ -12,7 +12,3 @@
 Form::Form(QWidget *parent) : QWidget(parent), ui(new Ui::Form) {
     ui->setupUi(this);
 }
-
-void Form::paintEvent(QPaintEvent *event) {
-
-}
