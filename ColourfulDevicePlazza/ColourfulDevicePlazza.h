@@ -28,14 +28,14 @@ public:
      *
      * @param text 坐标的文本
      */
-    void setPositiveCoordinatesText(const QString &text);
+    void setPositiveCoordinates(const QString &text);
 
     /**
      * 设置左下角 negative 的坐标
      *
      * @param text 坐标的文本
      */
-    void setNegativeCoordinatesText(const QString &text);
+    void setNegativeCoordinates(const QString &text);
 
 private:
     void initialize();    // 初始化

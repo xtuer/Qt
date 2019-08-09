@@ -28,7 +28,6 @@ ColourfulCircle::ColourfulCircle(const QString &name, QWidget *parent) : QLabel(
     setObjectName(name);
     setAttribute(Qt::WA_StyledBackground, true);
     setProperty("class", "RoundLabel");
-    setMinimumSize(40, 40);
 }
 
 ColourfulCircle::~ColourfulCircle() {
@@ -74,11 +73,11 @@ void ColourfulDevicePlazza::setDeviceBackground(const QString &deviceName, const
     }
 }
 
-void ColourfulDevicePlazza::setPositiveCoordinatesText(const QString &text) {
+void ColourfulDevicePlazza::setPositiveCoordinates(const QString &text) {
     ui->positiveLabel->setText(text);
 }
 
-void ColourfulDevicePlazza::setNegativeCoordinatesText(const QString &text) {
+void ColourfulDevicePlazza::setNegativeCoordinates(const QString &text) {
     ui->negativeLabel->setText(text);
 }
 
@@ -88,6 +87,10 @@ void ColourfulDevicePlazza::initialize() {
     setStyleSheet(R"(
                   #devicesWidget { background: white; border: 1px solid #ddd; border-radius: 4px; }
                   #devicesWidget QLabel { qproperty-alignment: AlignCenter }
+                  #devicesWidget .RoundLabel {
+                      min-width : 40px;
+                      min-height: 40px;
+                  }
     )");
 
     createDevices();

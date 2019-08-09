@@ -9,8 +9,8 @@ int main(int argc, char *argv[]) {
     w.show();
 
     // 设置左下角的坐标信息
-    w.setPositiveCoordinatesText("Positive H1 A1");
-    w.setNegativeCoordinatesText("Negative D10 E12");
+    w.setPositiveCoordinates("H1 A1");
+    w.setNegativeCoordinates("D10 E12");
 
     // 设置中间设备对应圆的背景
     int rows = 8;
