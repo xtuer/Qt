@@ -36,11 +36,14 @@ UI_DIR      = $$output
 SOURCES += \
         Callout.cpp \
         CalloutChartWidget.cpp \
+        Widget.cpp \
         main.cpp
 
 HEADERS += \
         Callout.h \
-        CalloutChartWidget.h
+        CalloutChartWidget.h \
+        Widget.h
 
 FORMS += \
-    CalloutChartWidget.ui
+    CalloutChartWidget.ui \
+    Widget.ui

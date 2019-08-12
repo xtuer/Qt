@@ -1,5 +1,5 @@
-#ifndef WIDGET_H
-#define WIDGET_H
+#ifndef CALLOUTCHARTWIDGET_H
+#define CALLOUTCHARTWIDGET_H
 
 #include <QWidget>
 #include <QGraphicsView>
@@ -38,4 +38,4 @@ private:
     Callout *callout;
 };
 
-#endif // WIDGET_H
+#endif // CALLOUTCHARTWIDGET_H
