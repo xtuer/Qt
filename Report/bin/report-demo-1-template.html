@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>报告模板</title>
+
+    <style>
+        body {
+            font-family: "Microsoft YaHei", Helvetica, Arial, sans-serif;
+        }
+        h2 {
+            text-align: center;
+        }
+        img {
+            margin: 0 auto;
+            max-width: 500px;
+            display: block;
+        }
+
+        .block {
+            margin-bottom: 30px;
+        }
+        .block .title {
+            font-weight: bold;
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .block .row {
+            display: flex;
+        }
+        .block .row span:first-child {
+            flex: 1;
+            text-align: right;
+        }
+        .block .row span:last-child {
+            flex: 1;
+            text-align: left;
+        }
+        .block .row span:nth-child(2) {
+            padding-left: 3px;
+            padding-right: 10px;
+        }
+
+        table {
+            border-collapse: collapse; /* 最重要: 去掉 td, th 之间的间隔 */
+            table-layout: fixed;       /* td 平分空间，td 中设置的 width 将无效 */
+            margin: 0 auto;
+        }
+        table tr, table td {
+            padding: 2px 20px;
+            vertical-align: middle;
+        }
+        table td.flag {
+            width: 20px;
+            height: 18px;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <img src="logo.png">
+
+    <h2>{{ title }}</h2>
+
+    {% for block in blocks %}
+        <div class="block">
+            <div class="title">{{ block.title }}</div>
+
+            <!-- 1: 行数据 -->
+            {% if block.type == 1 %}
+                {% for row in block.rows %}
+                    <div class="row">
+                        <span>{{ row.name }}</span>
+                        <span>:</span>
+                        <span>{{ row.value }}</span>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <!-- 2: 图片 -->
+            {% if block.type == 2 %}
+                <img src="{{ block.imageSrc }}">
+            {% endif %}
+
+            <!-- 3: 图表 - 设备数据 -->
+            {% if block.type == 3 %}
+                <table>
+                    <tr>
+                        <th>{{ block.headers.0 }}</th>
+                        <th>{{ block.headers.1 }}</th>
+                        <th>{{ block.headers.2 }}</th>
+                        <th>{{ block.headers.3 }}</th>
+                        <th>{{ block.headers.4 }}</th>
+                    </tr>
+
+                    {% for row in block.rows %}
+                    <tr>
+                        <td class="flag" style="background: {{ row.0 }}"></td>
+                        <td>{{ row.1 }}</td>
+                        <td>{{ row.2 }}</td>
+                        <td>{{ row.3 }}</td>
+                        <td>{{ row.4 }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+</body>
+
+</html>

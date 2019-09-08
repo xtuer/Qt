@@ -14,21 +14,11 @@
    <string>CalloutChartWidget</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="1" column="3">
-    <spacer name="horizontalSpacer_2">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>216</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
+   <item row="0" column="0" colspan="5">
+    <widget class="QWidget" name="placeholderWidget" native="true"/>
    </item>
-   <item row="1" column="0">
-    <spacer name="horizontalSpacer">
+   <item row="1" column="4">
+    <spacer name="horizontalSpacer_2">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -53,13 +43,30 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="0" colspan="4">
-    <widget class="QWidget" name="placeholderWidget" native="true"/>
-   </item>
    <item row="1" column="2">
     <widget class="QPushButton" name="zoomInButton">
      <property name="text">
       <string>放大</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>216</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="3">
+    <widget class="QPushButton" name="outputButton">
+     <property name="text">
+      <string>输出 Callouts</string>
      </property>
     </widget>
    </item>

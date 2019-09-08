@@ -7,7 +7,7 @@
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
-    QWidget *w = new Widget(nullptr);
+    QWidget *w = new CalloutChartWidget(nullptr);
     w->show();
 
     return a.exec();

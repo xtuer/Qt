@@ -4,11 +4,11 @@
 #
 #-------------------------------------------------
 
-QT       += core gui charts
+QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET   = Ano
+TARGET   = Report
 TEMPLATE = app
 
 CONFIG  += c++11
@@ -35,17 +35,4 @@ UI_DIR      = $$output
 
 INCLUDEPATH += lib
 
-SOURCES += \
-        Callout.cpp \
-        CalloutChartWidget.cpp \
-        Widget.cpp \
-        main.cpp
-
-HEADERS += \
-        Callout.h \
-        CalloutChartWidget.h \
-        Widget.h
-
-FORMS += \
-    CalloutChartWidget.ui \
-    Widget.ui
+SOURCES += main.cpp
