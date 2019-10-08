@@ -3,3 +3,55 @@
 *.pro.user.*
 *.autosave
 !*.dll
+
+.tags
+.gitkeep
+dump.rdb
+
+### iView ###
+!template-vue-app/build/
+template-web-gradle/src/main/webapp/WEB-INF/page
+template-web-gradle/src/main/webapp/WEB-INF/static
+node_modules/
+page-vue/
+
+### Gradle ###
+build/
+.gradle/
+
+### LOG ###
+*.log
+log.txt
+logs/
+
+### Mac OS ###
+.DS_Store
+
+### Maven ###
+target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+*.iws
+*.iml
+*.ipr
+.idea/
+out/
+
+### Eclipse ###
+.settings/
+.classpath
+.project
+
+### NetBeans ###
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
