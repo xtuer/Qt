@@ -1,0 +1,55 @@
+{
+    "chapters": [
+        {
+            "code": "01",
+            "title": "1　四则运算"
+        },
+        {
+            "code": "02",
+            "title": "2　观察物体（二）"
+        },
+        {
+            "code": "03",
+            "title": "3　运算定律"
+        },
+        {
+            "code": "04",
+            "title": "4　小数的意义和性质"
+        },
+        {
+            "code": "05",
+            "title": "5　三角形"
+        },
+        {
+            "code": "06",
+            "title": "6　小数的加法和减法"
+        },
+        {
+            "code": "07",
+            "title": "7　图形的运动（二）"
+        },
+        {
+            "children": [
+                {
+                    "code": "08-01",
+                    "title": "营养午餐"
+                }
+            ],
+            "code": "08",
+            "title": "8　平均数与条形统计图"
+        },
+        {
+            "code": "09",
+            "title": "9　数学广角──鸡兔同笼"
+        },
+        {
+            "code": "10",
+            "title": "10　总复习"
+        }
+    ],
+    "code": "xx_sx_bbb_0402",
+    "cover": "http://dzkbw.com/books/rjb/shuxue/xs4x_new/Cover.jpg",
+    "subject": "数学",
+    "title": "四年级 下册",
+    "version": "部编版"
+}

@@ -1,0 +1,33 @@
+{
+    "chapters": [
+        {
+            "code": "01",
+            "title": "Unit 1  My classroom"
+        },
+        {
+            "code": "02",
+            "title": "Unit 2  My schoolbag"
+        },
+        {
+            "code": "03",
+            "title": "Unit 3　My friends"
+        },
+        {
+            "code": "04",
+            "title": "Unit 4　My home"
+        },
+        {
+            "code": "05",
+            "title": "Unit 5　Dinner's ready"
+        },
+        {
+            "code": "06",
+            "title": "Unit 6  Meet my family!"
+        }
+    ],
+    "code": "xx_yy_bbb_0401",
+    "cover": "http://dzkbw.com/books/rjb/yingyu/peps4s/Cover.jpg",
+    "subject": "英语",
+    "title": "四年级 上册",
+    "version": "部编版(PEP)"
+}

@@ -12,7 +12,7 @@
                 }
             ],
             "code": "01",
-            "title": "第1章　遗传因子的发现"
+            "title": "第1章 遗传因子的发现"
         },
         {
             "children": [
@@ -40,7 +40,7 @@
                 }
             ],
             "code": "02",
-            "title": "第2章　基因和染色体的关系"
+            "title": "第2章 基因和染色体的关系"
         },
         {
             "children": [
@@ -66,7 +66,7 @@
                 }
             ],
             "code": "03",
-            "title": "第3章　基因的本质"
+            "title": "第3章 基因的本质"
         },
         {
             "children": [
@@ -88,7 +88,7 @@
                 }
             ],
             "code": "04",
-            "title": "第4章　基因的表达"
+            "title": "第4章 基因的表达"
         },
         {
             "children": [
@@ -110,7 +110,7 @@
                 }
             ],
             "code": "05",
-            "title": "第5章　基因突变及其他变异"
+            "title": "第5章 基因突变及其他变异"
         },
         {
             "children": [
@@ -132,7 +132,7 @@
                 }
             ],
             "code": "06",
-            "title": "第6章　从杂交育种到基因工程"
+            "title": "第6章 从杂交育种到基因工程"
         },
         {
             "children": [
@@ -168,11 +168,11 @@
                 }
             ],
             "code": "07",
-            "title": "第7章　现代生物进化理论"
+            "title": "第7章 现代生物进化理论"
         }
     ],
     "code": "gz_sw_rjb_bx02",
-    "cover": "",
+    "cover": "http://dzkbw.com/books/rjb/shengwu/xgbx2/Cover.jpg",
     "subject": "生物",
     "title": "必修2",
     "version": "人教版"

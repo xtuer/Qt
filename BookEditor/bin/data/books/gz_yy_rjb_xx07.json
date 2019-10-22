@@ -1,0 +1,29 @@
+{
+    "chapters": [
+        {
+            "code": "01",
+            "title": "Unit 1　Living well"
+        },
+        {
+            "code": "02",
+            "title": "Unit 2　Robots"
+        },
+        {
+            "code": "03",
+            "title": "Unit 3　Under the sea"
+        },
+        {
+            "code": "04",
+            "title": "Unit 4　Sharing"
+        },
+        {
+            "code": "05",
+            "title": "Unit 5　Travelling abroad"
+        }
+    ],
+    "code": "gz_yy_rjb_xx07",
+    "cover": "http://dzkbw.com/books/rjb/yingyu/xgxx7/Cover.jpg",
+    "subject": "英语",
+    "title": "选修7",
+    "version": "人教版"
+}

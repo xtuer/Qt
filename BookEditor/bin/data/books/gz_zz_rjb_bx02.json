@@ -44,7 +44,7 @@
                 }
             ],
             "code": "01",
-            "title": "第一单元　公民的政治生活"
+            "title": "第一单元 公民的政治生活"
         },
         {
             "children": [
@@ -74,7 +74,7 @@
                         }
                     ],
                     "code": "02-02",
-                    "title": "第四课　我国政府受人民的监督"
+                    "title": "第四课  我国政府受人民的监督"
                 },
                 {
                     "code": "02-03",
@@ -82,7 +82,7 @@
                 }
             ],
             "code": "02",
-            "title": "第二单元　为人民服务的政府"
+            "title": "第二单元 为人民服务的政府"
         },
         {
             "children": [
@@ -142,7 +142,7 @@
                 }
             ],
             "code": "03",
-            "title": "第三单元　发展社会主义民主政治"
+            "title": "第三单元 发展社会主义民主政治"
         },
         {
             "children": [
@@ -184,12 +184,12 @@
                 }
             ],
             "code": "04",
-            "title": "第四单元　当代国际社会"
+            "title": "第四单元 当代国际社会"
         }
     ],
     "code": "gz_zz_rjb_bx02",
     "cover": "http://dzkbw.com/books/rjb/zhengzhi/xgbx2/Cover.jpg",
-    "subject": "政治",
+    "subject": "政治（思想政治）",
     "title": "必修2",
     "version": "人教版"
 }

@@ -1,0 +1,51 @@
+{
+    "chapters": [
+        {
+            "children": [
+                {
+                    "code": "01-01",
+                    "title": "1亿有多大"
+                }
+            ],
+            "code": "01",
+            "title": "1 大数的认识  "
+        },
+        {
+            "code": "02",
+            "title": "2　公顷和平方千米"
+        },
+        {
+            "code": "03",
+            "title": "3　角的度量"
+        },
+        {
+            "code": "04",
+            "title": "4　三位数乘两位数"
+        },
+        {
+            "code": "05",
+            "title": "5　平行四边形和梯形"
+        },
+        {
+            "code": "06",
+            "title": "6　除数是两位数的除法"
+        },
+        {
+            "code": "07",
+            "title": "7　条形统计图"
+        },
+        {
+            "code": "08",
+            "title": "8　数学广角──优化"
+        },
+        {
+            "code": "09",
+            "title": "9　总复习"
+        }
+    ],
+    "code": "xx_sx_bbb_0401",
+    "cover": "http://dzkbw.com/books/rjb/shuxue/xs4s/Cover.jpg",
+    "subject": "数学",
+    "title": "四年级 上册",
+    "version": "部编版"
+}

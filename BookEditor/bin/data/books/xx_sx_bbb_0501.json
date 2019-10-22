@@ -1,0 +1,47 @@
+{
+    "chapters": [
+        {
+            "code": "01",
+            "title": "1　小数乘法  "
+        },
+        {
+            "code": "02",
+            "title": "2　位置"
+        },
+        {
+            "code": "03",
+            "title": "3　小数除法"
+        },
+        {
+            "children": [
+                {
+                    "code": "04-01",
+                    "title": " 掷一掷"
+                }
+            ],
+            "code": "04",
+            "title": "4　可能性"
+        },
+        {
+            "code": "05",
+            "title": "5　简易方程"
+        },
+        {
+            "code": "06",
+            "title": "6　多边形的面积"
+        },
+        {
+            "code": "07",
+            "title": "7　数学广角──植树问题"
+        },
+        {
+            "code": "08",
+            "title": "8　总复习"
+        }
+    ],
+    "code": "xx_sx_bbb_0501",
+    "cover": "http://dzkbw.com/books/rjb/shuxue/xs5s/Cover.jpg",
+    "subject": "数学",
+    "title": "五年级 上册",
+    "version": "部编版"
+}

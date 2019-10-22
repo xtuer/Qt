@@ -1,0 +1,53 @@
+{
+    "chapters": [
+        {
+            "code": "01",
+            "title": "Uint 1  Hello!"
+        },
+        {
+            "code": "02",
+            "title": "Unit 2  Colours!"
+        },
+        {
+            "code": "03",
+            "title": "Unit 3  Look at me!"
+        },
+        {
+            "code": "04",
+            "title": "Recycle 1"
+        },
+        {
+            "code": "05",
+            "title": "Unit 4  We love animals"
+        },
+        {
+            "code": "06",
+            "title": "Unit 5  Let's eat !"
+        },
+        {
+            "code": "07",
+            "title": "Unit 6  Happy birthday!"
+        },
+        {
+            "code": "08",
+            "title": "Recucle 2"
+        },
+        {
+            "code": "09",
+            "title": "Words in esch unit"
+        },
+        {
+            "code": "10",
+            "title": "Vocabulary"
+        },
+        {
+            "code": "11",
+            "title": "Useful expressions"
+        }
+    ],
+    "code": "xx_yy_bbb_0301",
+    "cover": "http://dzkbw.com/books/rjb/yingyu/peps3s/Cover.jpg",
+    "subject": "英语",
+    "title": "三年级 上册",
+    "version": "部编版(PEP)"
+}

@@ -1,0 +1,41 @@
+{
+    "chapters": [
+        {
+            "code": "01",
+            "title": "Unit 1:People around us"
+        },
+        {
+            "code": "02",
+            "title": "Unit 2:Travelling around the world"
+        },
+        {
+            "code": "03",
+            "title": "Unit 3:Our animal friends"
+        },
+        {
+            "code": "04",
+            "title": "Unit 4:Save the trees"
+        },
+        {
+            "code": "05",
+            "title": "Unit 5:Water"
+        },
+        {
+            "code": "06",
+            "title": "Unit 6:Electricity"
+        },
+        {
+            "code": "07",
+            "title": "Unit 7:Poems"
+        },
+        {
+            "code": "08",
+            "title": "Unit 8:From hobby to career"
+        }
+    ],
+    "code": "cz_yy_hjb_0702",
+    "cover": "http://dzkbw.com/books/hjb/yingyu/xc7x/Cover.jp",
+    "subject": "英语",
+    "title": "七年级 下册",
+    "version": "沪教版"
+}

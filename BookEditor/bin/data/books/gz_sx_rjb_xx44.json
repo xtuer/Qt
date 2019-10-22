@@ -1,0 +1,53 @@
+{
+    "chapters": [
+        {
+            "children": [
+                {
+                    "code": "01-01",
+                    "title": "一　平面直角坐标系"
+                },
+                {
+                    "code": "01-02",
+                    "title": "二　极坐标系"
+                },
+                {
+                    "code": "01-03",
+                    "title": "三　简单曲线的极坐标方程"
+                },
+                {
+                    "code": "01-04",
+                    "title": "四　柱坐标系与球坐标系简介"
+                }
+            ],
+            "code": "01",
+            "title": "第一讲　坐标系"
+        },
+        {
+            "children": [
+                {
+                    "code": "02-01",
+                    "title": "一　曲线的参数方程"
+                },
+                {
+                    "code": "02-02",
+                    "title": "二　圆锥曲线的参数方程"
+                },
+                {
+                    "code": "02-03",
+                    "title": "三　直线的参数方程"
+                },
+                {
+                    "code": "02-04",
+                    "title": "四　渐开线与摆线"
+                }
+            ],
+            "code": "02",
+            "title": "第二讲　参数方程"
+        }
+    ],
+    "code": "gz_sx_rjb_xx44",
+    "cover": "http://dzkbw.com/books/rjb/shuxue/xgxx44/Cover.jpg",
+    "subject": "数学",
+    "title": "选修4-4",
+    "version": "人教版"
+}

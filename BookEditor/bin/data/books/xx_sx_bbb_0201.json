@@ -1,0 +1,51 @@
+{
+    "chapters": [
+        {
+            "code": "01",
+            "title": "1　长度单位 "
+        },
+        {
+            "code": "02",
+            "title": "2　100以内的加法（二）"
+        },
+        {
+            "code": "03",
+            "title": "3　角的初步认识"
+        },
+        {
+            "code": "04",
+            "title": "4　表内乘法（一）"
+        },
+        {
+            "code": "05",
+            "title": "5　观察物体（一）"
+        },
+        {
+            "children": [
+                {
+                    "code": "06-01",
+                    "title": "量一量，比一比"
+                }
+            ],
+            "code": "06",
+            "title": "6　表内乘法（二）"
+        },
+        {
+            "code": "07",
+            "title": "7　认识时间"
+        },
+        {
+            "code": "08",
+            "title": "8　数学广角　搭配（一）"
+        },
+        {
+            "code": "09",
+            "title": "9　总复习"
+        }
+    ],
+    "code": "xx_sx_bbb_0201",
+    "cover": "http://dzkbw.com/books/rjb/shuxue/xs2s/Cover.jpg",
+    "subject": "数学",
+    "title": "二年级 上册",
+    "version": "部编版"
+}

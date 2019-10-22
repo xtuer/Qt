@@ -1,0 +1,33 @@
+{
+    "chapters": [
+        {
+            "code": "01",
+            "title": "Unit 1  Welcome to my new home!"
+        },
+        {
+            "code": "02",
+            "title": "Unit 2  There are forty students in our class."
+        },
+        {
+            "code": "03",
+            "title": "Unit 3  What subject do you like best?"
+        },
+        {
+            "code": "04",
+            "title": "Unit 4  There are seven days in a week."
+        },
+        {
+            "code": "05",
+            "title": "Unit 5  What will you do this weekend?"
+        },
+        {
+            "code": "06",
+            "title": "Unit 6  Would you like to take a trip?"
+        }
+    ],
+    "code": "xx_yy_bbbjt_0402",
+    "cover": "http://dzkbw.com/books/rjb/yingyu/jt4x/Cover.jpg",
+    "subject": "英语",
+    "title": "四年级 下册",
+    "version": "部编版（精通）"
+}

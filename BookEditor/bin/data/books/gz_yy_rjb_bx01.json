@@ -1,58 +1,24 @@
 {
     "chapters": [
         {
-            "children": [
-                {
-                    "code": "01-01",
-                    "title": "Unit 1 Friendship"
-                },
-                {
-                    "code": "01-02",
-                    "title": "Unit 2 English around the world"
-                },
-                {
-                    "code": "01-03",
-                    "title": "Unit 3 Tracel journal"
-                },
-                {
-                    "code": "01-04",
-                    "title": "Unit 4 Earthquakes"
-                },
-                {
-                    "code": "01-05",
-                    "title": "Unit 5 Nelson Mandela - a modern hero"
-                },
-                {
-                    "code": "01-12",
-                    "title": "Appendices"
-                },
-                {
-                    "code": "01-13",
-                    "title": "Notes to the texts"
-                },
-                {
-                    "code": "01-14",
-                    "title": "Grammar"
-                },
-                {
-                    "code": "01-15",
-                    "title": "Words and expressions in each unit"
-                },
-                {
-                    "code": "01-16",
-                    "title": "Vocabulary"
-                },
-                {
-                    "code": "01-17",
-                    "title": "Irregular verbs"
-                },
-                {
-                    "code": "01-18",
-                    "title": "Changes in international phonetic symbols for English"
-                }
-            ],
             "code": "01",
-            "title": "CONTENTS"
+            "title": "Unit 1  Friendship"
+        },
+        {
+            "code": "02",
+            "title": "Unit 2  English around the world"
+        },
+        {
+            "code": "03",
+            "title": "Unit 3  Tracel journal"
+        },
+        {
+            "code": "04",
+            "title": "Unit 4  Earthquakes"
+        },
+        {
+            "code": "05",
+            "title": "Unit 5  Nelson Mandela - a modern hero"
         }
     ],
     "code": "gz_yy_rjb_bx01",

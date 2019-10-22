@@ -1,0 +1,49 @@
+{
+    "chapters": [
+        {
+            "code": "01",
+            "title": "概论"
+        },
+        {
+            "code": "02",
+            "title": "第一单元　索福克勒斯与《俄狄浦斯王》"
+        },
+        {
+            "code": "03",
+            "title": "第二单元　莎士比亚与《罗密欧与朱丽叶》"
+        },
+        {
+            "code": "04",
+            "title": "第三单元　汤显祖与《牡丹亭》"
+        },
+        {
+            "code": "05",
+            "title": "第四单元　莫里哀与《伪君子》"
+        },
+        {
+            "code": "06",
+            "title": "第五单元　易卜生与《玩偶之家》"
+        },
+        {
+            "code": "07",
+            "title": "第六单元　契诃夫与《三姐妹》"
+        },
+        {
+            "code": "08",
+            "title": "第七单元　曹禺与《北京人》"
+        },
+        {
+            "code": "09",
+            "title": "第八单元　老舍与《茶馆》"
+        },
+        {
+            "code": "10",
+            "title": "第九单元　贝克特与《等待戈多》"
+        }
+    ],
+    "code": "gz_yw_rjb_zwxjmzxs",
+    "cover": "http://dzkbw.com/books/rjb/yuwen/xgzwxjmzxs/Cover.jpg",
+    "subject": "语文",
+    "title": "中外戏剧作品欣赏",
+    "version": "人教版"
+}

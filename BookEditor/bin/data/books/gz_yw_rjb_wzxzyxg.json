@@ -1,0 +1,81 @@
+{
+    "chapters": [
+        {
+            "children": [
+                {
+                    "code": "01-01",
+                    "title": "第一节　写出自己的个性"
+                },
+                {
+                    "code": "01-02",
+                    "title": "第二节　联想与想象"
+                },
+                {
+                    "code": "01-03",
+                    "title": "第三节　学会沟通"
+                }
+            ],
+            "code": "01",
+            "title": "第一章　写作的多样性与独特性 "
+        },
+        {
+            "children": [
+                {
+                    "code": "02-01",
+                    "title": "第一节　从素材到写作内容"
+                },
+                {
+                    "code": "02-02",
+                    "title": "第二节　材料的有机转化"
+                },
+                {
+                    "code": "02-03",
+                    "title": "第三节　材料的压缩与扩展"
+                }
+            ],
+            "code": "02",
+            "title": "第二章　材料的使用与处理"
+        },
+        {
+            "children": [
+                {
+                    "code": "03-01",
+                    "title": "第一节　捕捉“动情点”"
+                },
+                {
+                    "code": "03-02",
+                    "title": "第二节　理性思维的深化"
+                },
+                {
+                    "code": "03-03",
+                    "title": "第三节　培养创新意识"
+                }
+            ],
+            "code": "03",
+            "title": "第三章　认识的深化与成篇"
+        },
+        {
+            "children": [
+                {
+                    "code": "04-01",
+                    "title": "第一节　整体的调整"
+                },
+                {
+                    "code": "04-02",
+                    "title": "第二节　局部的完整"
+                },
+                {
+                    "code": "04-03",
+                    "title": "第三节　语言的锤炼"
+                }
+            ],
+            "code": "04",
+            "title": "第四章　文章的修改与完善"
+        }
+    ],
+    "code": "gz_yw_rjb_wzxzyxg",
+    "cover": "http://dzkbw.com/books/rjb/yuwen/xgwzxzyxg/Cover.jpg",
+    "subject": "语文",
+    "title": "文章写作与修改",
+    "version": "人教版"
+}

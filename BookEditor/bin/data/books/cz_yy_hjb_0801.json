@@ -1,0 +1,41 @@
+{
+    "chapters": [
+        {
+            "code": "01",
+            "title": "Unit 1:Encyclopaedias"
+        },
+        {
+            "code": "02",
+            "title": "Unit 2:Numbers"
+        },
+        {
+            "code": "03",
+            "title": "Unit 3:Computers"
+        },
+        {
+            "code": "04",
+            "title": "Unit 4:Inventions"
+        },
+        {
+            "code": "05",
+            "title": "Unit 5:Educational exchanges"
+        },
+        {
+            "code": "06",
+            "title": "Unit 6:Ancient stories"
+        },
+        {
+            "code": "07",
+            "title": "Unit 7:Memory"
+        },
+        {
+            "code": "08",
+            "title": "Unit 8:English week"
+        }
+    ],
+    "code": "cz_yy_hjb_0801",
+    "cover": "http://dzkbw.com/books/hjb/yingyu/xc8s/Cover.jpg",
+    "subject": "英语",
+    "title": "八年级 上册",
+    "version": "沪教版"
+}

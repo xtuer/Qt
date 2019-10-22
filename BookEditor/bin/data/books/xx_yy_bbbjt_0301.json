@@ -1,0 +1,33 @@
+{
+    "chapters": [
+        {
+            "code": "01",
+            "title": "Unit 1  Hello!I'm Monkey."
+        },
+        {
+            "code": "02",
+            "title": "Unit 2  This is my pencil."
+        },
+        {
+            "code": "03",
+            "title": "Unit 3  Look at my nose."
+        },
+        {
+            "code": "04",
+            "title": "Unit 4  I have a ball."
+        },
+        {
+            "code": "05",
+            "title": "Unit 5  What colour is it?"
+        },
+        {
+            "code": "06",
+            "title": "Unit 6  I like hamburgers."
+        }
+    ],
+    "code": "xx_yy_bbbjt_0301",
+    "cover": "http://dzkbw.com/books/rjb/yingyu/jt3s/Cover.jpg",
+    "subject": "英语",
+    "title": "三年级 上册",
+    "version": "部编版（精通）"
+}

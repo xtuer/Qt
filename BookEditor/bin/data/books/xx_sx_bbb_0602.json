@@ -1,0 +1,67 @@
+{
+    "chapters": [
+        {
+            "code": "01",
+            "title": "1　负数"
+        },
+        {
+            "children": [
+                {
+                    "code": "02-01",
+                    "title": "生活与百分数"
+                }
+            ],
+            "code": "02",
+            "title": "2　百分数（二）"
+        },
+        {
+            "code": "03",
+            "title": "3　圆柱与圆锥"
+        },
+        {
+            "children": [
+                {
+                    "code": "04-01",
+                    "title": "自行车里的数学"
+                }
+            ],
+            "code": "04",
+            "title": "4　比例"
+        },
+        {
+            "code": "05",
+            "title": "5　数学广角──鸽巢问题"
+        },
+        {
+            "children": [
+                {
+                    "code": "06-01",
+                    "title": "1.数与代数"
+                },
+                {
+                    "code": "06-02",
+                    "title": "2.图形与几何"
+                },
+                {
+                    "code": "06-03",
+                    "title": "3.统计与概率"
+                },
+                {
+                    "code": "06-04",
+                    "title": "4.数学思考"
+                },
+                {
+                    "code": "06-05",
+                    "title": "5.综合与实践"
+                }
+            ],
+            "code": "06",
+            "title": "6　整理和复习"
+        }
+    ],
+    "code": "xx_sx_bbb_0602",
+    "cover": "http://dzkbw.com/books/rjb/shuxue/xs6x_new/Cover.jpg",
+    "subject": "数学",
+    "title": "六年级 下册",
+    "version": "部编版"
+}

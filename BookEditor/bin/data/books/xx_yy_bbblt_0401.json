@@ -1,0 +1,57 @@
+{
+    "chapters": [
+        {
+            "code": "01",
+            "title": "Unit 1  Clothes"
+        },
+        {
+            "code": "02",
+            "title": "Unit 2  Food"
+        },
+        {
+            "code": "03",
+            "title": "Unit 3  Shopping"
+        },
+        {
+            "code": "04",
+            "title": "Recycle it! 1"
+        },
+        {
+            "code": "05",
+            "title": "Unit 4  At school"
+        },
+        {
+            "code": "06",
+            "title": "Unit 5  After school"
+        },
+        {
+            "code": "07",
+            "title": "Unit 6  Back home"
+        },
+        {
+            "code": "08",
+            "title": "Recycle it! 2"
+        },
+        {
+            "code": "09",
+            "title": "Culture 1  Chinese National Day"
+        },
+        {
+            "code": "10",
+            "title": "Culture 2  The fourth of July"
+        },
+        {
+            "code": "11",
+            "title": "Culture 3  Halloween"
+        },
+        {
+            "code": "12",
+            "title": "Culture 4  Hanukkah / Christmas"
+        }
+    ],
+    "code": "xx_yy_bbblt_0401",
+    "cover": "http://dzkbw.com/books/rjb/yingyu/lts4s/Cover.jpg",
+    "subject": "英语",
+    "title": "四年级 上册",
+    "version": "灵通"
+}

@@ -1,0 +1,29 @@
+{
+    "chapters": [
+        {
+            "code": "01",
+            "title": "Unit 1　Art"
+        },
+        {
+            "code": "02",
+            "title": "Unit 2　Poems"
+        },
+        {
+            "code": "03",
+            "title": "Unit 3　A healthy life"
+        },
+        {
+            "code": "04",
+            "title": "Unit 4　Global warming"
+        },
+        {
+            "code": "05",
+            "title": "Unit 5 　The power of nature"
+        }
+    ],
+    "code": "gz_yy_rjb_xx06",
+    "cover": "http://dzkbw.com/books/rjb/yingyu/xgxx6/Cover.jpg",
+    "subject": "英语",
+    "title": "选修6",
+    "version": "人教版"
+}

@@ -1,0 +1,33 @@
+{
+    "chapters": [
+        {
+            "code": "01",
+            "title": "Unit 1  What's he like?"
+        },
+        {
+            "code": "02",
+            "title": "Unit 2  My week"
+        },
+        {
+            "code": "03",
+            "title": "Unit 3  What would you like?"
+        },
+        {
+            "code": "04",
+            "title": "Unit 4　What can you do?"
+        },
+        {
+            "code": "05",
+            "title": "Unit 5　There is a big bed　"
+        },
+        {
+            "code": "06",
+            "title": "Unit 6　In a nature park"
+        }
+    ],
+    "code": "xx_yy_bbb_0501",
+    "cover": "http://dzkbw.com/books/rjb/yingyu/peps5s/Cover.jpg",
+    "subject": "英语",
+    "title": "五年级 上册",
+    "version": "部编版(PEP)"
+}

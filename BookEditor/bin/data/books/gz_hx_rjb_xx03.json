@@ -1,0 +1,63 @@
+{
+    "chapters": [
+        {
+            "children": [
+                {
+                    "code": "01-01",
+                    "title": "第一节  原子结构"
+                },
+                {
+                    "code": "01-02",
+                    "title": "第二节  原子结构与元素的性质"
+                }
+            ],
+            "code": "01",
+            "title": "第一章 原子结构与性质"
+        },
+        {
+            "children": [
+                {
+                    "code": "02-01",
+                    "title": "第一节  共价键"
+                },
+                {
+                    "code": "02-02",
+                    "title": "第二节  分子的立体结构"
+                },
+                {
+                    "code": "02-03",
+                    "title": "第三节  分子的性质"
+                }
+            ],
+            "code": "02",
+            "title": "第二章 分子结构与性质"
+        },
+        {
+            "children": [
+                {
+                    "code": "03-01",
+                    "title": "第一节  晶体的常识"
+                },
+                {
+                    "code": "03-02",
+                    "title": "第二节  分子晶体与原子晶体"
+                },
+                {
+                    "code": "03-03",
+                    "title": "第三节  金属晶体"
+                },
+                {
+                    "code": "03-04",
+                    "title": "第四节  离子晶体"
+                }
+            ],
+            "code": "03",
+            "title": "第三章 晶体结构与性质"
+        }
+    ],
+    "code": "gz_hx_rjb_xx03",
+    "cover": "http://dzkbw.com/books/rjb/huaxue/xgxx3/Cover.jpg",
+    "subject": "化学",
+    "title": "选修3",
+    "version": "人教版"
+}

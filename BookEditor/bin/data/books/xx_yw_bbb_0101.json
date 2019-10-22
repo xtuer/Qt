@@ -1,0 +1,235 @@
+{
+    "chapters": [
+        {
+            "children": [
+                {
+                    "code": "01-01",
+                    "title": "1  天地人"
+                },
+                {
+                    "code": "01-02",
+                    "title": "2  金木水火土"
+                },
+                {
+                    "code": "01-03",
+                    "title": "3  口耳目"
+                },
+                {
+                    "code": "01-04",
+                    "title": "4  日月水火"
+                },
+                {
+                    "code": "01-05",
+                    "title": "5  对韵歌"
+                },
+                {
+                    "code": "01-06",
+                    "title": "口语交际：我说你做"
+                },
+                {
+                    "code": "01-07",
+                    "title": "语文园地一"
+                },
+                {
+                    "code": "01-08",
+                    "title": "快乐读书吧"
+                }
+            ],
+            "code": "01",
+            "title": "识字（一）"
+        },
+        {
+            "children": [
+                {
+                    "code": "02-01",
+                    "title": "1  a o e"
+                },
+                {
+                    "code": "02-02",
+                    "title": "2  i u ü y w"
+                },
+                {
+                    "code": "02-03",
+                    "title": "3  b p m f"
+                },
+                {
+                    "code": "02-04",
+                    "title": "4  d t n l"
+                },
+                {
+                    "code": "02-05",
+                    "title": "5  g k h"
+                },
+                {
+                    "code": "02-06",
+                    "title": "6  j q x"
+                },
+                {
+                    "code": "02-07",
+                    "title": "7  z c s"
+                },
+                {
+                    "code": "02-08",
+                    "title": "8  zh ch sh r"
+                },
+                {
+                    "code": "02-09",
+                    "title": "语文园地二"
+                },
+                {
+                    "code": "02-10",
+                    "title": "9  ai ei ui"
+                },
+                {
+                    "code": "02-12",
+                    "title": "10  ao ou iu"
+                },
+                {
+                    "code": "02-11",
+                    "title": "11  ie üe er"
+                },
+                {
+                    "code": "02-13",
+                    "title": "12  an en in un ün"
+                },
+                {
+                    "code": "02-14",
+                    "title": "13  ang eng ing ong"
+                },
+                {
+                    "code": "02-15",
+                    "title": "语文园地三"
+                }
+            ],
+            "code": "02",
+            "title": "汉语拼音"
+        },
+        {
+            "children": [
+                {
+                    "code": "03-01",
+                    "title": "1  秋天"
+                },
+                {
+                    "code": "03-02",
+                    "title": "2  小小的船"
+                },
+                {
+                    "code": "03-03",
+                    "title": "3  江南"
+                },
+                {
+                    "code": "03-04",
+                    "title": "4  四季"
+                },
+                {
+                    "code": "03-05",
+                    "title": "语文园地四"
+                }
+            ],
+            "code": "03",
+            "title": "课文 1"
+        },
+        {
+            "children": [
+                {
+                    "code": "04-01",
+                    "title": "6  画"
+                },
+                {
+                    "code": "04-02",
+                    "title": "7  大小多少"
+                },
+                {
+                    "code": "04-03",
+                    "title": "8  小书包"
+                },
+                {
+                    "code": "04-04",
+                    "title": "9  日月明"
+                },
+                {
+                    "code": "04-05",
+                    "title": "10  升国旗"
+                },
+                {
+                    "code": "04-06",
+                    "title": "语文园地五"
+                }
+            ],
+            "code": "04",
+            "title": "识字（二）"
+        },
+        {
+            "children": [
+                {
+                    "code": "05-01",
+                    "title": "5  影子"
+                },
+                {
+                    "code": "05-02",
+                    "title": "6  比尾巴"
+                },
+                {
+                    "code": "05-03",
+                    "title": "7  青蛙写诗"
+                },
+                {
+                    "code": "05-04",
+                    "title": "8  雨点儿"
+                },
+                {
+                    "code": "05-05",
+                    "title": "语文园地六"
+                }
+            ],
+            "code": "05",
+            "title": "课文 2"
+        },
+        {
+            "children": [
+                {
+                    "code": "06-01",
+                    "title": "9  明天要远足"
+                },
+                {
+                    "code": "06-02",
+                    "title": "10  大还是小"
+                },
+                {
+                    "code": "06-03",
+                    "title": "11  项链"
+                },
+                {
+                    "code": "06-04",
+                    "title": "语文园地七"
+                }
+            ],
+            "code": "06",
+            "title": "课文 3"
+        },
+        {
+            "children": [
+                {
+                    "code": "07-01",
+                    "title": "12  雪地里的小画家"
+                },
+                {
+                    "code": "07-02",
+                    "title": "13  乌鸦喝水"
+                },
+                {
+                    "code": "07-03",
+                    "title": "14  小蜗牛"
+                }
+            ],
+            "code": "07",
+            "title": "课文 4"
+        }
+    ],
+    "code": "xx_yw_bbb_0101",
+    "cover": "http://dzkbw.com/books/rjb/yuwen/xs1s_2016/Cover.jpg",
+    "subject": "语文",
+    "title": "一年级 上册",
+    "version": "部编版"
+}

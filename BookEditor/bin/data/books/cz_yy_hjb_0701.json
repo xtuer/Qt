@@ -1,0 +1,41 @@
+{
+    "chapters": [
+        {
+            "code": "01",
+            "title": "Unit 1:Making friends"
+        },
+        {
+            "code": "02",
+            "title": "Unit 2:Daily life"
+        },
+        {
+            "code": "03",
+            "title": "Unit 3:The earth"
+        },
+        {
+            "code": "04",
+            "title": "Unit 4:Seasons"
+        },
+        {
+            "code": "05",
+            "title": "Unit 5:Visiting the moon"
+        },
+        {
+            "code": "06",
+            "title": "Unit 6:Travelling around Asia"
+        },
+        {
+            "code": "07",
+            "title": "Unit 7:School clubs"
+        },
+        {
+            "code": "08",
+            "title": "Unit 8:Collecting things"
+        }
+    ],
+    "code": "cz_yy_hjb_0701",
+    "cover": "http://dzkbw.com/books/hjb/yingyu/xc7s/Cover.jpg",
+    "subject": "英语",
+    "title": "七年级 上册",
+    "version": "沪教版"
+}

@@ -1,0 +1,57 @@
+{
+    "chapters": [
+        {
+            "code": "01",
+            "title": "Unit 1  Me"
+        },
+        {
+            "code": "02",
+            "title": "Unit 2  My family"
+        },
+        {
+            "code": "03",
+            "title": "Unit 3  My friends"
+        },
+        {
+            "code": "04",
+            "title": "Recycle it! 1"
+        },
+        {
+            "code": "05",
+            "title": "Unit 4  Food and drinks"
+        },
+        {
+            "code": "06",
+            "title": "Unit 5  Clothes"
+        },
+        {
+            "code": "07",
+            "title": "Unit 6  My home"
+        },
+        {
+            "code": "08",
+            "title": "Recycle it! 2"
+        },
+        {
+            "code": "09",
+            "title": "Culture 1  Happy birthday"
+        },
+        {
+            "code": "10",
+            "title": "Culture 2  At the Fair"
+        },
+        {
+            "code": "11",
+            "title": "Culture 3  Happy Halloween"
+        },
+        {
+            "code": "12",
+            "title": "Culture 4  Merry Christmas"
+        }
+    ],
+    "code": "xx_yy_bbblt_0301",
+    "cover": "http://dzkbw.com/books/rjb/yingyu/lts3s/Cover.jpg",
+    "subject": "英语",
+    "title": "三年级 上册",
+    "version": "灵通"
+}

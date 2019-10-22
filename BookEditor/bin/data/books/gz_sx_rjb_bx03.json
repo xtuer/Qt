@@ -1,0 +1,63 @@
+{
+    "chapters": [
+        {
+            "children": [
+                {
+                    "code": "01-01",
+                    "title": "1.1　算法与程序框图 "
+                },
+                {
+                    "code": "01-02",
+                    "title": "1.2　基本算法语句"
+                },
+                {
+                    "code": "01-03",
+                    "title": "1.3　算法案例 "
+                }
+            ],
+            "code": "01",
+            "title": "第一章 算法初步 "
+        },
+        {
+            "children": [
+                {
+                    "code": "02-01",
+                    "title": "2.1　随机抽样 "
+                },
+                {
+                    "code": "02-02",
+                    "title": "2.2　用样本估计总体 "
+                },
+                {
+                    "code": "02-03",
+                    "title": "2.3　变量间的相关关系"
+                }
+            ],
+            "code": "02",
+            "title": "第二章 统计 "
+        },
+        {
+            "children": [
+                {
+                    "code": "03-01",
+                    "title": "3.1　随机事件的概率 "
+                },
+                {
+                    "code": "03-02",
+                    "title": "3.2　古典概型"
+                },
+                {
+                    "code": "03-03",
+                    "title": "3.3　几何概型 "
+                }
+            ],
+            "code": "03",
+            "title": "第三章 概率 "
+        }
+    ],
+    "code": "gz_sx_rjb_bx03",
+    "cover": "http://dzkbw.com/books/rjb/shuxue/xgbx3/Cover.jpg",
+    "subject": "数学",
+    "title": "必修3",
+    "version": "人教版"
+}

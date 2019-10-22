@@ -1,0 +1,37 @@
+{
+    "chapters": [
+        {
+            "code": "01",
+            "title": "Unit 1:Wise men in history"
+        },
+        {
+            "code": "02",
+            "title": "Unit 2:Great minds"
+        },
+        {
+            "code": "03",
+            "title": "Unit 3:Family life"
+        },
+        {
+            "code": "04",
+            "title": "Unit 4:Problems and advice"
+        },
+        {
+            "code": "05",
+            "title": "Unit 5:Action!"
+        },
+        {
+            "code": "06",
+            "title": "Unit 6:Healthy diet"
+        },
+        {
+            "code": "07",
+            "title": "Unit 7:The Adventures of Tom Sawyer"
+        }
+    ],
+    "code": "cz_yy_hjb_0901",
+    "cover": "http://dzkbw.com/books/hjb/yingyu/xc9s/Cover.jpg",
+    "subject": "英语",
+    "title": "九年级 上册",
+    "version": "沪教版"
+}

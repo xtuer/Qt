@@ -1,0 +1,55 @@
+{
+    "chapters": [
+        {
+            "code": "01",
+            "title": "1　数据收集整理  "
+        },
+        {
+            "code": "02",
+            "title": "2　表内除法（一）"
+        },
+        {
+            "code": "03",
+            "title": "3　图形的运动（一）"
+        },
+        {
+            "code": "04",
+            "title": "4　表内除法（二）"
+        },
+        {
+            "code": "05",
+            "title": "5　混合运算"
+        },
+        {
+            "children": [
+                {
+                    "code": "06-01",
+                    "title": "小小设计师"
+                }
+            ],
+            "code": "06",
+            "title": "6　有余数的除法"
+        },
+        {
+            "code": "07",
+            "title": "7　万以内数的认识"
+        },
+        {
+            "code": "08",
+            "title": "8　克和千克"
+        },
+        {
+            "code": "09",
+            "title": "9　数学广角──推理"
+        },
+        {
+            "code": "10",
+            "title": "10　总复习"
+        }
+    ],
+    "code": "xx_sx_bbb_0202",
+    "cover": "http://dzkbw.com/books/rjb/shuxue/xs2x/Cover.jpg",
+    "subject": "数学",
+    "title": "二年级 下册",
+    "version": "部编版"
+}

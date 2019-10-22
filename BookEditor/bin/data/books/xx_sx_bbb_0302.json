@@ -1,0 +1,57 @@
+{
+    "chapters": [
+        {
+            "code": "01",
+            "title": "1　位置与方向（一）"
+        },
+        {
+            "code": "02",
+            "title": "2　除数是一位数的除法"
+        },
+        {
+            "code": "03",
+            "title": "3　复式统计表"
+        },
+        {
+            "code": "04",
+            "title": "4　两位数乘两位数"
+        },
+        {
+            "code": "05",
+            "title": "5　面积"
+        },
+        {
+            "children": [
+                {
+                    "code": "06-01",
+                    "title": " 制作活动日历"
+                }
+            ],
+            "code": "06",
+            "title": "6　年、月、日"
+        },
+        {
+            "code": "08",
+            "title": "7　小数的初步认识"
+        },
+        {
+            "children": [
+                {
+                    "code": "09-01",
+                    "title": "我们的校园"
+                }
+            ],
+            "code": "09",
+            "title": "8　数学广角──搭配（二）"
+        },
+        {
+            "code": "11",
+            "title": "9　总复习"
+        }
+    ],
+    "code": "xx_sx_bbb_0302",
+    "cover": "http://dzkbw.com/books/rjb/shuxue/xs3x_new/Cover.jpg",
+    "subject": "数学",
+    "title": "三年级 下册",
+    "version": "部编版"
+}

@@ -16,14 +16,99 @@
                                     "code": "gz_yw_rjb_bx02",
                                     "cover": "http://dzkbw.com/books/rjb/yuwen/xgbx2/Cover.gif",
                                     "title": "必修2"
+                                },
+                                {
+                                    "code": "gz_yw_rjb_bx03",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/xgbx3/Cover.jpg",
+                                    "title": "必修3"
+                                },
+                                {
+                                    "code": "gz_yw_rjb_bx04",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/xgbx4/Cover.jpg",
+                                    "title": "必修4"
+                                },
+                                {
+                                    "code": "gz_yw_rjb_bx05",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/xgbx5/Cover.jpg",
+                                    "title": "必修5"
+                                },
+                                {
+                                    "code": "gz_yw_rjb_wgsgswxs",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/xgwgsgsw/Cover.jpg",
+                                    "title": "外国诗歌散文欣赏"
+                                },
+                                {
+                                    "code": "gz_yw_rjb_zggdsgswxs",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/xgzggdsgswxs/Cover.jpg",
+                                    "title": "中国古代诗歌散文欣赏"
+                                },
+                                {
+                                    "code": "gz_yw_rjb_wzxzyxg",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/xgwzxzyxg/Cover.jpg",
+                                    "title": "文章写作与修改"
+                                },
+                                {
+                                    "code": "gz_yw_rjb_xqzzxd",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/xgxqzzxd/Cover.jpg",
+                                    "title": "先秦诸子选读"
+                                },
+                                {
+                                    "code": "gz_yw_rjb_xwydysj",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/xgxwyd/Cover.jpg",
+                                    "title": "新闻阅读与实践"
+                                },
+                                {
+                                    "code": "gz_yw_rjb_yjybl",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/xgyjbl/Cover.jpg",
+                                    "title": "演讲与辩论"
+                                },
+                                {
+                                    "code": "gz_yw_rjb_ysmzxs",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/xgysmzxs/Cover.jpg",
+                                    "title": "影视名作欣赏"
+                                },
+                                {
+                                    "code": "gz_yw_rjb_wyywzyy",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/xgyywzyy/Cover.jpg",
+                                    "title": "语言文字应用"
+                                },
+                                {
+                                    "code": "gz_yw_rjb_wgxsxs",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/xgwgxsxs/Cover.jpg",
+                                    "title": "外国小说欣赏"
+                                },
+                                {
+                                    "code": "gz_yw_rjb_zgmswh",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/xgzgmswh/Cover.jpg",
+                                    "title": "中国民俗文化"
+                                },
+                                {
+                                    "code": "gz_yw_rjb_zgxdsgswxs",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/xgzgxdsgswxs/Cover.jpg",
+                                    "title": "中国现代诗歌散文欣赏"
+                                },
+                                {
+                                    "code": "gz_yw_rjb_zgwhjdyd",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/xgwhjd/Cover.jpg",
+                                    "title": "中国文化经典研读"
+                                },
+                                {
+                                    "code": "gz_yw_rjb_zgxsxs",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/xgzgxsx/Cover.jpg",
+                                    "title": "中国小说欣赏"
+                                },
+                                {
+                                    "code": "gz_yw_rjb_zwjzzpxd",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/xgzwzjzpxd/Cover.jpg",
+                                    "title": "中外传记作品选读"
+                                },
+                                {
+                                    "code": "gz_yw_rjb_zwxjmzxs",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/xgzwxjmzxs/Cover.jpg",
+                                    "title": "中外戏剧作品欣赏"
                                 }
                             ],
                             "title": "人教版"
-                        },
-                        {
-                            "books": [
-                            ],
-                            "title": "语文版"
                         }
                     ]
                 },
@@ -41,6 +126,181 @@
                                     "code": "gz_sx_rjb_bx02",
                                     "cover": "http://dzkbw.com/books/rjb/shuxue/xgbx2/Cover.jpg",
                                     "title": "必修2"
+                                },
+                                {
+                                    "code": "gz_sx_rjb_bx03",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgbx3/Cover.jpg",
+                                    "title": "必修3"
+                                },
+                                {
+                                    "code": "gz_sx_rjb_bx04",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgbx4/Cover.jpg",
+                                    "title": "必修4 "
+                                },
+                                {
+                                    "code": "gz_sx_rjb_bx05",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgbx5/Cover.jpg",
+                                    "title": "必修5"
+                                },
+                                {
+                                    "code": "gz_sx_rjb_bx01B",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgbbx1/Cover.jpg",
+                                    "title": "必修1B"
+                                },
+                                {
+                                    "code": "gz_sx_rjb_bx02B",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgbbx2/Cover.jpg",
+                                    "title": "必修2B"
+                                },
+                                {
+                                    "code": "gz_sx_rjb_bx03B",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgbbx3/Cover.jpg",
+                                    "title": "必修3B"
+                                },
+                                {
+                                    "code": "gz_sx_rjb_bx04B",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgbbx4/Cover.jpg",
+                                    "title": "必修4B"
+                                },
+                                {
+                                    "code": "gz_sx_rjb_bx05B",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgbbx5/Cover.jpg",
+                                    "title": "必修5B"
+                                },
+                                {
+                                    "code": "gz_sx_rjb_xx11",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgxx11/Cover.jpg",
+                                    "title": "选修1-1"
+                                },
+                                {
+                                    "code": "gz_sx_rjb_xx12",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgxx12/Cover.jpg",
+                                    "title": "选修1-2"
+                                },
+                                {
+                                    "code": "gz_sx_rjb_xx12B",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgbxx12/Cover.jpg",
+                                    "title": "选修1-2B"
+                                },
+                                {
+                                    "code": "gz_sx_rjb_xx21",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgxx21/Cover.jpg",
+                                    "title": "选修2-1"
+                                },
+                                {
+                                    "code": "gz_sx_rjb_xx22",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgxx22/Cover.jpg",
+                                    "title": "选修2-2"
+                                },
+                                {
+                                    "code": "gz_sx_rjb_xx22B",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgbxx22/Cover.jpg",
+                                    "title": "选修2-2B"
+                                },
+                                {
+                                    "code": "gz_sx_rjb_xx23",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgxx23/Cover.jpg",
+                                    "title": "选修2-3"
+                                },
+                                {
+                                    "code": "gz_sx_rjb_bx23B",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgbxx23/Cover.jpg",
+                                    "title": "选修2-3B"
+                                },
+                                {
+                                    "code": "gz_sx_rjb_xx31",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgxx31/Cover.jpg",
+                                    "title": "选修3-1"
+                                },
+                                {
+                                    "code": "gz_sx_rjb_bx31B",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgbxx31/Cover.jpg",
+                                    "title": "选修3-1B"
+                                },
+                                {
+                                    "code": "gz_sx_rjb_xx33",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgxx33/Cover.jpg",
+                                    "title": "选修3-3"
+                                },
+                                {
+                                    "code": "gz_sx_rjb_xx33B",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgbxx33/Cover.jpg",
+                                    "title": "选修3-3B"
+                                },
+                                {
+                                    "code": "gz_sx_rjb_xx34",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgxx34/Cover.jpg",
+                                    "title": "选修3-4"
+                                },
+                                {
+                                    "code": "gz_sx_rjb_xx34B",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgxx34/Cover.jpg",
+                                    "title": "选修3-4B"
+                                },
+                                {
+                                    "code": "gz_sx_rjb_xx41",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgxx41/Cover.jpg",
+                                    "title": "选修4-1"
+                                },
+                                {
+                                    "code": "gz_sx_rjb_bx41B",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgbxx41/Cover.jpg",
+                                    "title": "选修4-1B"
+                                },
+                                {
+                                    "code": "gz_sx_rjb_xx42",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgxx42/Cover.jpg",
+                                    "title": "选修4-2"
+                                },
+                                {
+                                    "code": "gz_sx_rjb_xx42b",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgxx42/Cover.jpg",
+                                    "title": "选修4-2B"
+                                },
+                                {
+                                    "code": "gz_sx_rjb_xx44",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgxx44/Cover.jpg",
+                                    "title": "选修4-4"
+                                },
+                                {
+                                    "code": "gz_sx_rjb_bx44B",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgbx44/Cover.jpg",
+                                    "title": "选修4-4B"
+                                },
+                                {
+                                    "code": "gz_sx_rjb_xx45",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgxx45/Cover.jpg",
+                                    "title": "选修4-5"
+                                },
+                                {
+                                    "code": "gz_sx_rjb_xx46",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgxx46/Cover.jpg",
+                                    "title": "选修4-6"
+                                },
+                                {
+                                    "code": "gz_sx_rjb_xx46b",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgbx46/Cover.jpg",
+                                    "title": "选修4-6B"
+                                },
+                                {
+                                    "code": "gz_sx_rjb_xx47",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgxx47/Cover.jpg",
+                                    "title": "选修4-7"
+                                },
+                                {
+                                    "code": "gz_sx_rjb_xx47B",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgbx47/Cover.jpg",
+                                    "title": "选修4-7B"
+                                },
+                                {
+                                    "code": "gz_sx_rjb_xx49",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgxx49/Cover.jpg",
+                                    "title": "选修4-9"
+                                },
+                                {
+                                    "code": "gz_sx_rjb_xx49B",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xgbx49/Cover.jpg",
+                                    "title": "选修4-9B"
                                 }
                             ],
                             "title": "人教版"
@@ -61,6 +321,51 @@
                                     "code": "gz_yy_rjb_bx02",
                                     "cover": "http://dzkbw.com/books/rjb/yingyu/xgbx2/Cover.jpg",
                                     "title": "必修2"
+                                },
+                                {
+                                    "code": "gz_yy_rjb_bx03",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/xgbx3/Cover.jpg",
+                                    "title": "必修3"
+                                },
+                                {
+                                    "code": "gz_yy_rjb_bx04",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/xgbx4/Cover.jpg",
+                                    "title": "必修4"
+                                },
+                                {
+                                    "code": "gz_yy_rjb_bx05",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/xgbx5/Cover.jpg",
+                                    "title": "必修5"
+                                },
+                                {
+                                    "code": "gz_yy_rjb_xx06",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/xgxx6/Cover.jpg",
+                                    "title": "选修6"
+                                },
+                                {
+                                    "code": "gz_yy_rjb_xx07",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/xgxx7/Cover.jpg",
+                                    "title": "选修7"
+                                },
+                                {
+                                    "code": "gz_yy_rjb_xx08",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/xgxx8/Cover.jpg",
+                                    "title": "选修8"
+                                },
+                                {
+                                    "code": "gz_yy_rjb_xx09",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/xgxx9/Cover.jpg",
+                                    "title": "选修9"
+                                },
+                                {
+                                    "code": "gz_yy_rjb_xx10",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/xgxx10/Cover.jpg",
+                                    "title": "选修10"
+                                },
+                                {
+                                    "code": "gz_yy_rjb_xx11",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/xgxx11/Cover.jpg",
+                                    "title": "选修11"
                                 }
                             ],
                             "title": "人教版"
@@ -81,6 +386,56 @@
                                     "code": "gz_wl_rjb_bx02",
                                     "cover": "http://dzkbw.com/books/rjb/wuli/xgbx2/Cover.jpg",
                                     "title": "必修2"
+                                },
+                                {
+                                    "code": "gz_wl_rjb_xx11",
+                                    "cover": "http://dzkbw.com/books/rjb/wuli/xgxx11/Cover.jpg",
+                                    "title": "选修1-1（文科）"
+                                },
+                                {
+                                    "code": "gz_wl_rjb_xx12",
+                                    "cover": "http://dzkbw.com/books/rjb/wuli/xgxx12/Cover.jpg",
+                                    "title": "选修1-2（文科）"
+                                },
+                                {
+                                    "code": "gz_wl_rjb_xx21",
+                                    "cover": "http://dzkbw.com/books/rjb/wuli/xgxx21/Cover.jpg",
+                                    "title": "选修2-1（职高）"
+                                },
+                                {
+                                    "code": "gz_wl_rjb_xx22",
+                                    "cover": "http://dzkbw.com/books/rjb/wuli/xgxx22/Cover.jpg",
+                                    "title": "选修2-2（职高）"
+                                },
+                                {
+                                    "code": "gz_wl_rjb_xx23",
+                                    "cover": "http://dzkbw.com/books/rjb/wuli/xgxx23/Cover.jpg",
+                                    "title": "选修2-3（职高）"
+                                },
+                                {
+                                    "code": "gz_wl_rjb_xx31",
+                                    "cover": "http://dzkbw.com/books/rjb/wuli/xgxx31/Cover.jpg",
+                                    "title": "选修3-1（理科）"
+                                },
+                                {
+                                    "code": "gz_wl_rjb_xx32",
+                                    "cover": "http://dzkbw.com/books/rjb/wuli/xgxx32/Cover.jpg",
+                                    "title": "选修3-2（理科）"
+                                },
+                                {
+                                    "code": "gz_wl_rjb_xx33",
+                                    "cover": "http://dzkbw.com/books/rjb/wuli/xgxx33/Cover.jpg",
+                                    "title": "选修3-3（理科）"
+                                },
+                                {
+                                    "code": "gz_wl_rjb_xx34",
+                                    "cover": "http://dzkbw.com/books/rjb/wuli/xgxx34/Cover.jpg",
+                                    "title": "选修3-4（理科）"
+                                },
+                                {
+                                    "code": "gz_wl_rjb_xx35",
+                                    "cover": "http://dzkbw.com/books/rjb/wuli/xgxx35/Cover.jpg",
+                                    "title": "选修3-5（理科）"
                                 }
                             ],
                             "title": "人教版"
@@ -101,6 +456,36 @@
                                     "code": "gz_hx_rjb_bx02",
                                     "cover": "http://dzkbw.com/books/rjb/huaxue/xgbx2/Cover.jpg",
                                     "title": "必修2"
+                                },
+                                {
+                                    "code": "gz_hx_rjb_xx01",
+                                    "cover": "http://dzkbw.com/books/rjb/huaxue/xgxx1/Cover.jpg",
+                                    "title": "选修1"
+                                },
+                                {
+                                    "code": "gz_hx_rjb_xx02",
+                                    "cover": "http://dzkbw.com/books/rjb/huaxue/xgxx2/Cover.jpg",
+                                    "title": "选修2"
+                                },
+                                {
+                                    "code": "gz_hx_rjb_xx03",
+                                    "cover": "http://dzkbw.com/books/rjb/huaxue/xgxx3/Cover.jpg",
+                                    "title": "选修3"
+                                },
+                                {
+                                    "code": "gz_hx_rjb_xx04",
+                                    "cover": "http://dzkbw.com/books/rjb/huaxue/xgxx4/Cover.jpg",
+                                    "title": "选修4"
+                                },
+                                {
+                                    "code": "gz_hx_rjb_xx05",
+                                    "cover": "http://dzkbw.com/books/rjb/huaxue/xgxx5/Cover.jpg",
+                                    "title": "选修5"
+                                },
+                                {
+                                    "code": "gz_hx_rjb_xx06",
+                                    "cover": "http://dzkbw.com/books/rjb/huaxue/xgxx6/Cover.jpg",
+                                    "title": "选修6"
                                 }
                             ],
                             "title": "人教版"
@@ -119,8 +504,28 @@
                                 },
                                 {
                                     "code": "gz_sw_rjb_bx02",
-                                    "cover": "",
+                                    "cover": "http://dzkbw.com/books/rjb/shengwu/xgbx2/Cover.jpg",
                                     "title": "必修2"
+                                },
+                                {
+                                    "code": "gz_sw_rjb_bx03",
+                                    "cover": "http://dzkbw.com/books/rjb/shengwu/xgbx3/Cover.jpg",
+                                    "title": "必修3"
+                                },
+                                {
+                                    "code": "gz_sw_rjb_xx01",
+                                    "cover": "http://dzkbw.com/books/rjb/shengwu/xgxx1/Cover.jpg",
+                                    "title": "选修1"
+                                },
+                                {
+                                    "code": "gz_sw_rjb_xx02",
+                                    "cover": "http://dzkbw.com/books/rjb/shengwu/xgxx2/Cover.jpg",
+                                    "title": "选修2"
+                                },
+                                {
+                                    "code": "gz_sw_rjb_xx03",
+                                    "cover": "http://dzkbw.com/books/rjb/shengwu/xgxx3/Cover.jpg",
+                                    "title": "选修3"
                                 }
                             ],
                             "title": "人教版"
@@ -141,9 +546,84 @@
                                     "code": "gz_zz_rjb_bx02",
                                     "cover": "http://dzkbw.com/books/rjb/zhengzhi/xgbx2/Cover.jpg",
                                     "title": "必修2"
+                                },
+                                {
+                                    "code": "gz_zz_rjb_bx03",
+                                    "cover": "http://dzkbw.com/books/rjb/zhengzhi/xgbx3/Cover.jpg",
+                                    "title": "必修3"
+                                },
+                                {
+                                    "code": "gz_zz_rjb_xx01",
+                                    "cover": "http://dzkbw.com/books/rjb/zhengzhi/xgxx1/Cover.jpg",
+                                    "title": "选修1"
+                                },
+                                {
+                                    "code": "gz_zz_rjb_xx02",
+                                    "cover": "http://dzkbw.com/books/rjb/zhengzhi/xgxx2/Cover.jpg",
+                                    "title": "选修2"
+                                },
+                                {
+                                    "code": "gz_zz_rjb_xx03",
+                                    "cover": "http://dzkbw.com/books/rjb/zhengzhi/xgxx3/Cover.jpg",
+                                    "title": "选修3"
+                                },
+                                {
+                                    "code": "gz_zz_rjb_xx04",
+                                    "cover": "http://dzkbw.com/books/rjb/zhengzhi/xgxx4/Cover.jpg",
+                                    "title": "选修4"
+                                },
+                                {
+                                    "code": "gz_zz_rjb_xx05",
+                                    "cover": "http://dzkbw.com/books/rjb/zhengzhi/xgxx5/Cover.jpg",
+                                    "title": "选修5 "
+                                },
+                                {
+                                    "code": "gz_zz_rjb_xx06",
+                                    "cover": "http://dzkbw.com/books/rjb/zhengzhi/xgxx6/Cover.jpg",
+                                    "title": "选修6"
                                 }
                             ],
                             "title": "人教版"
+                        },
+                        {
+                            "books": [
+                                {
+                                    "code": "gz_zz_hjb_01",
+                                    "cover": "http://dzkbw.com/books/hjb/zhengzhi/10s/Cover.JPG",
+                                    "title": "高一 上册"
+                                }
+                            ],
+                            "title": "沪教版"
+                        },
+                        {
+                            "books": [
+                                {
+                                    "code": "gz_zz_rjbjb_0101",
+                                    "cover": "http://dzkbw.com/books/rjb/zhengzhi/pg10s/Cover.jpg",
+                                    "title": "高一 上册"
+                                },
+                                {
+                                    "code": "gz_zz_rjbjb_0102",
+                                    "cover": "http://dzkbw.com/books/rjb/zhengzhi/pg10x/Cover.jpg",
+                                    "title": "高一 下册"
+                                },
+                                {
+                                    "code": "gz_zz_rjbjb_0201",
+                                    "cover": "http://dzkbw.com/books/rjb/zhengzhi/pg11s/Cover.jpg",
+                                    "title": "高二 上册"
+                                },
+                                {
+                                    "code": "gz_zz_rjbjb_0202",
+                                    "cover": "http://dzkbw.com/books/rjb/zhengzhi/pg11x/Cover.jpg",
+                                    "title": "高二 下册"
+                                },
+                                {
+                                    "code": "gz_zz_rjbjb_03",
+                                    "cover": "http://dzkbw.com/books/rjb/zhengzhi/pg12q/Cover.jpg",
+                                    "title": "高三 全一册"
+                                }
+                            ],
+                            "title": "人教版旧版"
                         }
                     ]
                 },
@@ -160,7 +640,42 @@
                                 {
                                     "code": "gz_ls_rjb_bx02",
                                     "cover": "http://dzkbw.com/books/rjb/lishi/xgbx2/Cover.jpg",
-                                    "title": "必须2"
+                                    "title": "必修2"
+                                },
+                                {
+                                    "code": "gz_ls_rjb_bx03",
+                                    "cover": "http://dzkbw.com/books/rjb/lishi/xgbx3/Cover.jpg",
+                                    "title": "必修3"
+                                },
+                                {
+                                    "code": "gz_ls_rjb_xx01",
+                                    "cover": "http://dzkbw.com/books/rjb/lishi/xgxx1/Cover.jpg",
+                                    "title": "选修1"
+                                },
+                                {
+                                    "code": "gz_ls_rjb_xx02",
+                                    "cover": "http://dzkbw.com/books/rjb/lishi/xgxx2/Cover.jpg",
+                                    "title": "选修2"
+                                },
+                                {
+                                    "code": "gz_ls_rjb_xx03",
+                                    "cover": "http://dzkbw.com/books/rjb/lishi/xgxx3/Cover.jpg",
+                                    "title": "选修3"
+                                },
+                                {
+                                    "code": "gz_ls_rjb_xx04",
+                                    "cover": "http://dzkbw.com/books/rjb/lishi/xgxx4/Cover.jpg",
+                                    "title": "选修4"
+                                },
+                                {
+                                    "code": "gz_ls_rjb_xx05",
+                                    "cover": "http://dzkbw.com/books/rjb/lishi/xgxx5/Cover.jpg",
+                                    "title": "选修5"
+                                },
+                                {
+                                    "code": "gz_ls_rjb_xx06",
+                                    "cover": "http://dzkbw.com/books/rjb/lishi/xgxx6/Cover.jpg",
+                                    "title": "选修6"
                                 }
                             ],
                             "title": "人教版"
@@ -181,9 +696,94 @@
                                     "code": "gz_dl_rjb_bx02",
                                     "cover": "http://dzkbw.com/books/rjb/dili/xgbx2/Cover.jpg",
                                     "title": "必修2"
+                                },
+                                {
+                                    "code": "gz_dl_rjb_bx03",
+                                    "cover": "http://dzkbw.com/books/rjb/dili/xgbx3/Cover.jpg",
+                                    "title": "必修3"
+                                },
+                                {
+                                    "code": "gz_dl_rjb_xx01",
+                                    "cover": "http://dzkbw.com/books/rjb/dili/xgxx1/Cover.gif",
+                                    "title": "选修1"
+                                },
+                                {
+                                    "code": "gz_dl_rjb_xx02",
+                                    "cover": "http://dzkbw.com/books/rjb/dili/xgxx2/Cover.gif",
+                                    "title": "选修2"
+                                },
+                                {
+                                    "code": "gz_dl_rjb_xx03",
+                                    "cover": "http://dzkbw.com/books/rjb/dili/xgxx3/Cover.gif",
+                                    "title": "选修3"
+                                },
+                                {
+                                    "code": "gz_dl_rjb_xx04",
+                                    "cover": "http://dzkbw.com/books/rjb/dili/xgxx4/Cover.jpg",
+                                    "title": "选修4"
+                                },
+                                {
+                                    "code": "gz_dl_rjb_xx05",
+                                    "cover": "http://dzkbw.com/books/rjb/dili/xgxx5/Cover.jpg",
+                                    "title": "选修5"
+                                },
+                                {
+                                    "code": "gz_dl_rjb_xx06",
+                                    "cover": "http://dzkbw.com/books/rjb/dili/xgxx6/Cover.jpg",
+                                    "title": "选修6"
+                                },
+                                {
+                                    "code": "gz_dl_rjb_xx07",
+                                    "cover": "http://dzkbw.com/books/rjb/dili/xgxx7/Cover.jpg",
+                                    "title": "选修7"
                                 }
                             ],
                             "title": "人教版"
+                        },
+                        {
+                            "books": [
+                                {
+                                    "code": "gz_dl_ljb_bx01",
+                                    "cover": "http://dzkbw.com/books/ljb/dili/bx1/cover.jpg",
+                                    "title": "必修1"
+                                },
+                                {
+                                    "code": "gz_dl_ljb_bx02",
+                                    "cover": "http://dzkbw.com/books/ljb/dili/bx2/cover.jpg",
+                                    "title": "必修2"
+                                },
+                                {
+                                    "code": "gz_dl_ljb_bx03",
+                                    "cover": "http://dzkbw.com/books/ljb/dili/bx3/cover.jpg",
+                                    "title": "必修3"
+                                }
+                            ],
+                            "title": "鲁教版"
+                        },
+                        {
+                            "books": [
+                                {
+                                    "code": "gz_dl_rjbjb_bx0101",
+                                    "cover": "http://dzkbw.com/books/rjb/dili/pgbxs/Cover.jpg",
+                                    "title": "高一 必修上"
+                                },
+                                {
+                                    "code": "gz_dl_rjbjb_bx0102",
+                                    "cover": "http://dzkbw.com/books/rjb/dili/pgbxx/Cover.gif",
+                                    "title": "高一 必修下"
+                                },
+                                {
+                                    "code": "gz_dl_rjbjb_xx01",
+                                    "cover": "http://dzkbw.com/books/rjb/dili/pgxx1/Cover.jpg",
+                                    "title": "高二 选修1"
+                                },
+                                {
+                                    "code": "gz_dl_rjbjb_xx02",
+                                    "cover": "http://dzkbw.com/books/rjb/dili/pgxx2/Cover.jpg",
+                                    "title": "高二 选修2"
+                                }
+                            ],
+                            "title": "人教版旧版"
                         }
                     ]
                 }
@@ -195,46 +795,641 @@
                 {
                     "title": "语文",
                     "versions": [
+                        {
+                            "books": [
+                                {
+                                    "code": "cz_yw_bbb_0701",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/7s_2016/Cover.jpg",
+                                    "title": "七年级 上册"
+                                },
+                                {
+                                    "code": "cz_yw_bbb_0702",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/7x_2016/Cover.jpg",
+                                    "title": "七年级 下册"
+                                },
+                                {
+                                    "code": "cz_yw_bbb_0801",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/8s_2017/Cover.jpg",
+                                    "title": "八年级 上册"
+                                },
+                                {
+                                    "code": "cz_yw_bbb_0802",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/pc8x/Cover.jpg",
+                                    "title": "八年级 下册"
+                                },
+                                {
+                                    "code": "cz_yw_bbb_0901",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/pc9s/Cover.gif",
+                                    "title": "九年级 上册"
+                                },
+                                {
+                                    "code": "cz_yw_bbb_0902",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/pc9x/Cover.jpg",
+                                    "title": "九年级 下册"
+                                }
+                            ],
+                            "title": "部编版"
+                        },
+                        {
+                            "books": [
+                                {
+                                    "code": "cz_yw_rjbjb_0701",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/pc7s/Cover.jpg",
+                                    "title": "七年级 上册"
+                                },
+                                {
+                                    "code": "cz_yw_rjbjb_0702",
+                                    "cover": "",
+                                    "title": "七年级 下册"
+                                },
+                                {
+                                    "code": "cz_yw_rjbjb_0801",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/pc8s/Cover.jpg",
+                                    "title": "八年级 上册"
+                                },
+                                {
+                                    "code": "cz_yw_rjbjb_0802",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/pc8x/Cover.jpg",
+                                    "title": "八年级 下册"
+                                },
+                                {
+                                    "code": "cz_yw_rjbjb_0901",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/pc9s/Cover.gif",
+                                    "title": "九年级 上册"
+                                },
+                                {
+                                    "code": "cz_yw_rjbjb_0902",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/pc9x/Cover.jpg",
+                                    "title": "九年级 下册"
+                                }
+                            ],
+                            "title": "人教版旧版"
+                        }
                     ]
                 },
                 {
                     "title": "数学",
                     "versions": [
+                        {
+                            "books": [
+                                {
+                                    "code": "cz_sx_bbb_0701",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xc7s/Cover.jpg",
+                                    "title": "七年级 上册"
+                                },
+                                {
+                                    "code": "cz_sx_bbb_0702",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xc7x/Cover.jpg",
+                                    "title": "七年级 下册"
+                                },
+                                {
+                                    "code": "cz_sx_bbb_0801",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xc8s/Cover.jpg",
+                                    "title": "八年级 上册"
+                                },
+                                {
+                                    "code": "cz_sx_bbb_0802",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xc8x/Cover.jpg",
+                                    "title": "八年级 下册"
+                                },
+                                {
+                                    "code": "cz_sx_bbb_0901",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xc9s/Cover.jpg",
+                                    "title": "九年级 上册"
+                                },
+                                {
+                                    "code": "cz_sx_bbb_0902",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xc9x/Cover.gif",
+                                    "title": "九年级 下册"
+                                }
+                            ],
+                            "title": "部编版"
+                        }
                     ]
                 },
                 {
                     "title": "英语",
                     "versions": [
+                        {
+                            "books": [
+                                {
+                                    "code": "cz_yy_rab_0701",
+                                    "cover": "http://dzkbw.com/books/renai/yingyu/7s/Cover.jpg",
+                                    "title": "七年级 上册"
+                                },
+                                {
+                                    "code": "cz_yy_rab_0702",
+                                    "cover": "http://dzkbw.com/books/renai/yingyu/7x/Cover.jpg",
+                                    "title": "七年级 下册"
+                                },
+                                {
+                                    "code": "cz_yy_rab_0801",
+                                    "cover": "http://dzkbw.com/books/renai/yingyu/8s/Cover.jpg",
+                                    "title": "八年级 上册"
+                                },
+                                {
+                                    "code": "cz_yy_rab_0802",
+                                    "cover": "http://dzkbw.com/books/renai/yingyu/8x/Cover.jpg",
+                                    "title": "八年级 下册"
+                                },
+                                {
+                                    "code": "cz_yy_rab_0901",
+                                    "cover": "http://dzkbw.com/books/renai/yingyu/9s/Cover.jpg",
+                                    "title": "九年级 上册"
+                                },
+                                {
+                                    "code": "cz_yy_rab_0902",
+                                    "cover": "http://dzkbw.com/books/renai/yingyu/9x/Cover.jpg",
+                                    "title": "九年级 下册"
+                                }
+                            ],
+                            "title": "仁爱版"
+                        },
+                        {
+                            "books": [
+                                {
+                                    "code": "cz_yy_bbb_0701",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/xc7s/Cover.jpg",
+                                    "title": "七年级 上册"
+                                },
+                                {
+                                    "code": "cz_yy_bbb_0702",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/xc7x/Cover.jpg",
+                                    "title": "七年级 下册"
+                                },
+                                {
+                                    "code": "cz_yy_bbb_0801",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/xc8s/Cover.jpg",
+                                    "title": "八年级 上册"
+                                },
+                                {
+                                    "code": "cz_yy_bbb_0802",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/xc8x/Cover.jpg",
+                                    "title": "八年级 下册"
+                                },
+                                {
+                                    "code": "cz_yy_bbb_0902",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/xc9q/Cover.jpg",
+                                    "title": "九年级 全一册"
+                                }
+                            ],
+                            "title": "部编版"
+                        },
+                        {
+                            "books": [
+                                {
+                                    "code": "cz_yy_hjb_0701",
+                                    "cover": "http://dzkbw.com/books/hjb/yingyu/xc7s/Cover.jpg",
+                                    "title": "七年级 上册"
+                                },
+                                {
+                                    "code": "cz_yy_hjb_0702",
+                                    "cover": "http://dzkbw.com/books/hjb/yingyu/xc7x/Cover.jp",
+                                    "title": "七年级 下册"
+                                },
+                                {
+                                    "code": "cz_yy_hjb_0801",
+                                    "cover": "http://dzkbw.com/books/hjb/yingyu/xc8s/Cover.jpg",
+                                    "title": "八年级 上册"
+                                },
+                                {
+                                    "code": "cz_yy_hjb_0802",
+                                    "cover": "http://dzkbw.com/books/hjb/yingyu/xc8x/Cover.jpg",
+                                    "title": "八年级 下册"
+                                },
+                                {
+                                    "code": "cz_yy_hjb_0901",
+                                    "cover": "http://dzkbw.com/books/hjb/yingyu/xc9s/Cover.jpg",
+                                    "title": "九年级 上册"
+                                },
+                                {
+                                    "code": "cz_yy_hjb_0902",
+                                    "cover": "http://dzkbw.com/books/hjb/yingyu/xc9x/Cover.jpg",
+                                    "title": "九年级 下册"
+                                }
+                            ],
+                            "title": "沪教版"
+                        },
+                        {
+                            "books": [
+                            ],
+                            "title": "北师大版"
+                        },
+                        {
+                            "books": [
+                            ],
+                            "title": "鲁教版"
+                        }
                     ]
                 },
                 {
                     "title": "物理",
                     "versions": [
+                        {
+                            "books": [
+                            ],
+                            "title": "人教版 旧版"
+                        },
+                        {
+                            "books": [
+                                {
+                                    "code": "cz_wl_bbb_0801",
+                                    "cover": "http://dzkbw.com/books/rjb/wuli/xc8s/Cover.jpg",
+                                    "title": "八年级 上册"
+                                },
+                                {
+                                    "code": "cz_wl_bbb_0802",
+                                    "cover": "http://dzkbw.com/books/rjb/wuli/xc8x/Cover.jpg",
+                                    "title": "八年级 下册"
+                                },
+                                {
+                                    "code": "cz_wl_bbb_09",
+                                    "cover": "http://dzkbw.com/books/rjb/wuli/xc9q/Cover.jpg",
+                                    "title": "九年级"
+                                }
+                            ],
+                            "title": "部编版"
+                        },
+                        {
+                            "books": [
+                            ],
+                            "title": "苏教版"
+                        },
+                        {
+                            "books": [
+                            ],
+                            "title": "北师大版"
+                        },
+                        {
+                            "books": [
+                                {
+                                    "code": "cz_wl_hkb_08",
+                                    "cover": "http://dzkbw.com/books/hkb/wuli/xc8q/Cover.png",
+                                    "title": "八年级"
+                                },
+                                {
+                                    "code": "cz_wl_hkb_09",
+                                    "cover": "http://dzkbw.com/books/hkb/wuli/xc9q/Cover.png",
+                                    "title": "九年级"
+                                }
+                            ],
+                            "title": "沪科版"
+                        },
+                        {
+                            "books": [
+                                {
+                                    "code": "cz_wl_hjb_0801",
+                                    "cover": "http://dzkbw.com/books/hjb/wuli/8s/Cover.JPG",
+                                    "title": "八年级 上册"
+                                },
+                                {
+                                    "code": "cz_wl_hjb_0802",
+                                    "cover": "http://dzkbw.com/books/hjb/wuli/8x/Cover.JPG",
+                                    "title": "八年级 下册"
+                                },
+                                {
+                                    "code": "cz_wl_hjb_0901",
+                                    "cover": "http://dzkbw.com/books/hjb/wuli/9s/Cover.JPG",
+                                    "title": "九年级 上册"
+                                },
+                                {
+                                    "code": "cz_wl_hjb_0902",
+                                    "cover": "http://dzkbw.com/books/hjb/wuli/9x/Cover.JPG",
+                                    "title": "九年级 下册"
+                                }
+                            ],
+                            "title": "沪教版"
+                        }
                     ]
                 },
                 {
                     "title": "化学",
                     "versions": [
+                        {
+                            "books": [
+                                {
+                                    "code": "cz_hx_bbb_0901",
+                                    "cover": "http://dzkbw.com/books/rjb/huaxue/xc9s/Cover.jpg",
+                                    "title": "九年级 上册"
+                                },
+                                {
+                                    "code": "cz_hx_bbb_0902",
+                                    "cover": "http://dzkbw.com/books/rjb/huaxue/xc9x/Cover.jpg",
+                                    "title": "九年级 下册"
+                                }
+                            ],
+                            "title": "部编版"
+                        },
+                        {
+                            "books": [
+                                {
+                                    "code": "cz_hx_hjb_0901",
+                                    "cover": "http://dzkbw.com/books/rjb/huaxue/xc9s/Cover.jpg",
+                                    "title": "九年级 上册"
+                                },
+                                {
+                                    "code": "cz_hx_hjb_0902",
+                                    "cover": "http://dzkbw.com/books/hjb/huaxue/xc9x/Cover.jpg",
+                                    "title": "九年级 下册"
+                                }
+                            ],
+                            "title": "沪教版"
+                        },
+                        {
+                            "books": [
+                                {
+                                    "code": "cz_hx_ljb_0901",
+                                    "cover": "http://dzkbw.com/books/ljb/huaxue/xc9s/Cover.jpg",
+                                    "title": "九年级 上册"
+                                },
+                                {
+                                    "code": "cz_hx_ljb_0902",
+                                    "cover": "http://dzkbw.com/books/ljb/huaxue/xc9s/Cover.jpg",
+                                    "title": "九年级 下册"
+                                }
+                            ],
+                            "title": "鲁教版"
+                        },
+                        {
+                            "books": [
+                                {
+                                    "code": "cz_hx_kyb_0901",
+                                    "cover": "http://dzkbw.com/books/kyb/huaxue/xc9s/Cover.jpg",
+                                    "title": "九年级 上册"
+                                },
+                                {
+                                    "code": "cz_hx_kyb_0902",
+                                    "cover": "http://dzkbw.com/books/kyb/huaxue/xc9x/Cover.jpg",
+                                    "title": "九年级 下册"
+                                }
+                            ],
+                            "title": "科粤版"
+                        }
                     ]
                 },
                 {
                     "title": "生物",
                     "versions": [
+                        {
+                            "books": [
+                                {
+                                    "code": "cz_sw_bbb_0701",
+                                    "cover": "http://dzkbw.com/books/rjb/shengwu/xc7s/Cover.jpg",
+                                    "title": "七年级 上册"
+                                },
+                                {
+                                    "code": "cz_sw_bbb_0702",
+                                    "cover": "http://dzkbw.com/books/rjb/shengwu/xc7x/Cover.jpg",
+                                    "title": "七年级 下册"
+                                },
+                                {
+                                    "code": "cz_sw_bbb_0801",
+                                    "cover": "http://dzkbw.com/books/rjb/shengwu/xc8s/Cover.jpg",
+                                    "title": "八年级 上册"
+                                },
+                                {
+                                    "code": "cz_sw_bbb_0802",
+                                    "cover": "http://dzkbw.com/books/rjb/shengwu/xc8x/Cover.jpg",
+                                    "title": "八年级 下册"
+                                }
+                            ],
+                            "title": "部编版"
+                        },
+                        {
+                            "books": [
+                                {
+                                    "code": "",
+                                    "cover": "",
+                                    "title": "七年级 上册"
+                                },
+                                {
+                                    "code": "",
+                                    "cover": "",
+                                    "title": "七年级 下册"
+                                },
+                                {
+                                    "code": "",
+                                    "cover": "",
+                                    "title": "八年级 上册"
+                                },
+                                {
+                                    "code": "",
+                                    "cover": "",
+                                    "title": "八年级 下册"
+                                }
+                            ],
+                            "title": "苏教版"
+                        },
+                        {
+                            "books": [
+                            ],
+                            "title": "北师大版"
+                        }
                     ]
                 },
                 {
                     "title": "政治",
                     "versions": [
+                        {
+                            "books": [
+                                {
+                                    "code": "cz_zz_bbb_0701",
+                                    "cover": "",
+                                    "title": "七年级 上册"
+                                },
+                                {
+                                    "code": "cz_zz_bbb_0702",
+                                    "cover": "",
+                                    "title": "七年级 下册"
+                                },
+                                {
+                                    "code": "cz_zz_bbb_0801",
+                                    "cover": "",
+                                    "title": "八年级 上册"
+                                },
+                                {
+                                    "code": "cz_zz_bbb_0802",
+                                    "cover": "",
+                                    "title": "八年级 下册"
+                                },
+                                {
+                                    "code": "cz_zz_bbb_0901",
+                                    "cover": "",
+                                    "title": "九年级 上册"
+                                },
+                                {
+                                    "code": "cz_zz_bbb_0902",
+                                    "cover": "",
+                                    "title": "九年级 下册"
+                                }
+                            ],
+                            "title": "部编版（道德与法治）"
+                        },
+                        {
+                            "books": [
+                            ],
+                            "title": "北师大版"
+                        },
+                        {
+                            "books": [
+                                {
+                                    "code": "cz_zz_hjb_0701",
+                                    "cover": "",
+                                    "title": "七年级 上册"
+                                },
+                                {
+                                    "code": "cz_zz_hjb_0702",
+                                    "cover": "http://dzkbw.com/books/rjb/zhengzhi/xc7x/Cover.jpg",
+                                    "title": "七年级 下册"
+                                },
+                                {
+                                    "code": "cz_zz_hjb_0801",
+                                    "cover": "http://dzkbw.com/books/hjb/zhengzhi/8s/Cover.JPG",
+                                    "title": "八年级 上册"
+                                },
+                                {
+                                    "code": "cz_zz_hjb_0802",
+                                    "cover": "",
+                                    "title": "八年级 下册"
+                                }
+                            ],
+                            "title": "沪教版"
+                        },
+                        {
+                            "books": [
+                                {
+                                    "code": "cz_zz_rjb_0701",
+                                    "cover": "http://dzkbw.com/books/rjb/zhengzhi/xc7s/Cover.jpg",
+                                    "title": "七年级 上册"
+                                },
+                                {
+                                    "code": "cz_zz_rjb_0702",
+                                    "cover": "http://dzkbw.com/books/rjb/zhengzhi/xc7x/Cover.jpg",
+                                    "title": "七年级 下册"
+                                },
+                                {
+                                    "code": "cz_zz_rjb_0801",
+                                    "cover": "http://dzkbw.com/books/rjb/zhengzhi/xc8s/Cover.jpg",
+                                    "title": "八年级 上册"
+                                },
+                                {
+                                    "code": "cz_zz_rjb_0802",
+                                    "cover": "http://dzkbw.com/books/rjb/zhengzhi/xc8x/Cover.jpg",
+                                    "title": "八年级 下册"
+                                },
+                                {
+                                    "code": "cz_zz_rjb_09",
+                                    "cover": "http://dzkbw.com/books/rjb/zhengzhi/xc9q/Cover.jpg",
+                                    "title": "九年级 全一册"
+                                }
+                            ],
+                            "title": "人教版"
+                        }
                     ]
                 },
                 {
                     "title": "历史",
                     "versions": [
+                        {
+                            "books": [
+                                {
+                                    "code": "cz_ls_bbb_0701",
+                                    "cover": "http://dzkbw.com/books/rjb/lishi/7s_2016/Cover.jpg",
+                                    "title": "七年级 上册"
+                                },
+                                {
+                                    "code": "cz_ls_bbb_0702",
+                                    "cover": "http://dzkbw.com/books/rjb/lishi/7x_2016/Cover.jpg",
+                                    "title": "七年级 下册"
+                                },
+                                {
+                                    "code": "cz_ls_bbb_0801",
+                                    "cover": "",
+                                    "title": "八年级 上册"
+                                },
+                                {
+                                    "code": "cz_ls_bbb_0802",
+                                    "cover": "",
+                                    "title": "八年级 下册"
+                                },
+                                {
+                                    "code": "cz_ls_bbb_0901",
+                                    "cover": "",
+                                    "title": "九年级 上册"
+                                },
+                                {
+                                    "code": "cz_ls_bbb_0902",
+                                    "cover": "",
+                                    "title": "九年级 下册"
+                                }
+                            ],
+                            "title": "部编版"
+                        },
+                        {
+                            "books": [
+                            ],
+                            "title": "北师大版"
+                        },
+                        {
+                            "books": [
+                            ],
+                            "title": "人教版"
+                        }
                     ]
                 },
                 {
                     "title": "地理",
                     "versions": [
+                        {
+                            "books": [
+                                {
+                                    "code": "cz_dl_bbb_0701",
+                                    "cover": "http://dzkbw.com/books/rjb/dili/xc7s/Cover.jpg",
+                                    "title": "七年级 上册"
+                                },
+                                {
+                                    "code": "cz_dl_bbb_0702",
+                                    "cover": "http://dzkbw.com/books/rjb/dili/xc7x/Cover.jpg",
+                                    "title": "七年级 下册"
+                                },
+                                {
+                                    "code": "cz_dl_bbb_0801",
+                                    "cover": "http://dzkbw.com/books/rjb/dili/xc8s/Cover.jpg",
+                                    "title": "八年级 上册"
+                                },
+                                {
+                                    "code": "cz_dl_bbb_0802",
+                                    "cover": "http://dzkbw.com/books/rjb/dili/xc8x/Cover.jpg",
+                                    "title": "八年级 下册"
+                                }
+                            ],
+                            "title": "部编版"
+                        },
+                        {
+                            "books": [
+                                {
+                                    "code": "cz_dl_hjb_0601",
+                                    "cover": "http://dzkbw.com/books/hjb/dili/6s/Cover.JPG",
+                                    "title": "六年级 上册"
+                                },
+                                {
+                                    "code": "cz_dl_hjb_0602",
+                                    "cover": "http://dzkbw.com/books/hjb/dili/6x/Cover.JPG",
+                                    "title": "六年级 下册"
+                                },
+                                {
+                                    "code": "cz_dl_hjb_0701",
+                                    "cover": "http://dzkbw.com/books/hjb/dili/7s/Cover.JPG",
+                                    "title": "七年级 上册"
+                                },
+                                {
+                                    "code": "cz_dl_hjb_0702",
+                                    "cover": "http://dzkbw.com/books/hjb/dili/7x/Cover.JPG",
+                                    "title": "七年级 下册"
+                                }
+                            ],
+                            "title": "沪教版"
+                        }
                     ]
                 }
             ],
@@ -245,16 +1440,581 @@
                 {
                     "title": "语文",
                     "versions": [
+                        {
+                            "books": [
+                                {
+                                    "code": "xx_yw_rjbjb_0101",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/xs1s/Cover.jpg",
+                                    "title": "一年级 上册"
+                                },
+                                {
+                                    "code": "xx_yw_rjbjb_0102",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/xs1x/Cover.jpg",
+                                    "title": "一年级 下册"
+                                },
+                                {
+                                    "code": "xx_yw_rjbjb_0201",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/xs2s/Cover.jpg",
+                                    "title": "二年级 上册"
+                                },
+                                {
+                                    "code": "xx_yw_rjbjb_0202",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/xs2x/Cover.jpg",
+                                    "title": "二年级 下册"
+                                },
+                                {
+                                    "code": "xx_yw_rjbjb_0301",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/xs3s/Cover.jpg",
+                                    "title": "三年级 上册"
+                                },
+                                {
+                                    "code": "xx_yw_rjbjb_0302",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/xs3x/Cover.jpg",
+                                    "title": "三年级 下册"
+                                },
+                                {
+                                    "code": "xx_yw_rjbjb_0401",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/xs4s/Cover.gif",
+                                    "title": "四年级 上册"
+                                },
+                                {
+                                    "code": "xx_yw_rjbjb_0402",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/xs4x/Cover.jpg",
+                                    "title": "四年级 下册"
+                                },
+                                {
+                                    "code": "xx_yw_rjbjb_0501",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/xs5s/Cover.jpg",
+                                    "title": "五年级 上册"
+                                },
+                                {
+                                    "code": "xx_yw_rjbjb_0502",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/xs5x/Cover.jpg",
+                                    "title": "五年级 下册"
+                                },
+                                {
+                                    "code": "xx_yw_rjbjb_0601",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/xs6s/Cover.jpg",
+                                    "title": "六年级 上册"
+                                },
+                                {
+                                    "code": "xx_yw_rjbjb_0602",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/xs6x/Cover.jpg",
+                                    "title": "六年级 下册"
+                                }
+                            ],
+                            "title": "人教版旧版"
+                        },
+                        {
+                            "books": [
+                                {
+                                    "code": "xx_yw_bbb_0101",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/xs1s_2016/Cover.jpg",
+                                    "title": "一年级 上册"
+                                },
+                                {
+                                    "code": "xx_yw_bbb_0102",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/xs1x_2017/Cover.jpg",
+                                    "title": "一年级 下册"
+                                },
+                                {
+                                    "code": "xx_yw_bbb_0201",
+                                    "cover": "http://dzkbw.com/books/rjb/yuwen/xs2s_2017/Cover.jpg",
+                                    "title": "二年级 上册"
+                                },
+                                {
+                                    "code": "xx_yw_bbb_0202",
+                                    "cover": "",
+                                    "title": "二年级 下册"
+                                },
+                                {
+                                    "code": "xx_yw_bbb_0301",
+                                    "cover": "",
+                                    "title": "三年级 上册"
+                                },
+                                {
+                                    "code": "xx_yw_bbb_0302",
+                                    "cover": "",
+                                    "title": "三年级 下册"
+                                },
+                                {
+                                    "code": "",
+                                    "cover": "",
+                                    "title": "四年级 上册"
+                                },
+                                {
+                                    "code": "",
+                                    "cover": "",
+                                    "title": "四年级 下册"
+                                },
+                                {
+                                    "code": "",
+                                    "cover": "",
+                                    "title": "五年级 上册"
+                                },
+                                {
+                                    "code": "",
+                                    "cover": "",
+                                    "title": "五年级 下册"
+                                }
+                            ],
+                            "title": "部编版"
+                        },
+                        {
+                            "books": [
+                            ],
+                            "title": "苏教版"
+                        },
+                        {
+                            "books": [
+                            ],
+                            "title": "北师大版"
+                        },
+                        {
+                            "books": [
+                                {
+                                    "code": "",
+                                    "cover": "",
+                                    "title": "一年级 上册"
+                                },
+                                {
+                                    "code": "",
+                                    "cover": "",
+                                    "title": "一年级 下册"
+                                },
+                                {
+                                    "code": "",
+                                    "cover": "",
+                                    "title": "二年级 上册"
+                                },
+                                {
+                                    "code": "",
+                                    "cover": "",
+                                    "title": "二年级 下册"
+                                },
+                                {
+                                    "code": "",
+                                    "cover": "",
+                                    "title": "三年级 上册"
+                                },
+                                {
+                                    "code": "",
+                                    "cover": "",
+                                    "title": "三年级 下册"
+                                },
+                                {
+                                    "code": "",
+                                    "cover": "",
+                                    "title": "四年级 上册"
+                                },
+                                {
+                                    "code": "",
+                                    "cover": "",
+                                    "title": "四年级 下册"
+                                },
+                                {
+                                    "code": "",
+                                    "cover": "",
+                                    "title": "五年级 上册"
+                                },
+                                {
+                                    "code": "",
+                                    "cover": "",
+                                    "title": "五年级 下册"
+                                },
+                                {
+                                    "code": "",
+                                    "cover": "",
+                                    "title": "六年级 上册"
+                                },
+                                {
+                                    "code": "",
+                                    "cover": "",
+                                    "title": "六年级 下册"
+                                }
+                            ],
+                            "title": "沪教版"
+                        }
                     ]
                 },
                 {
                     "title": "数学",
                     "versions": [
+                        {
+                            "books": [
+                                {
+                                    "code": "xx_sx_bbb_0101",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xs1s/Cover.jpg",
+                                    "title": "一年级 上册"
+                                },
+                                {
+                                    "code": "xx_sx_bbb_0102",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xs1x/Cover.jpg",
+                                    "title": "一年级 下册"
+                                },
+                                {
+                                    "code": "xx_sx_bbb_0201",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xs2s/Cover.jpg",
+                                    "title": "二年级 上册"
+                                },
+                                {
+                                    "code": "xx_sx_bbb_0202",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xs2x/Cover.jpg",
+                                    "title": "二年级 下册"
+                                },
+                                {
+                                    "code": "xx_sx_bbb_0301",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xs3s/Cover.jpg",
+                                    "title": "三年级 上册"
+                                },
+                                {
+                                    "code": "xx_sx_bbb_0302",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xs3x_new/Cover.jpg",
+                                    "title": "三年级 下册"
+                                },
+                                {
+                                    "code": "xx_sx_bbb_0401",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xs4s/Cover.jpg",
+                                    "title": "四年级 上册"
+                                },
+                                {
+                                    "code": "xx_sx_bbb_0402",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xs4x_new/Cover.jpg",
+                                    "title": "四年级 下册"
+                                },
+                                {
+                                    "code": "xx_sx_bbb_0501",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xs5s/Cover.jpg",
+                                    "title": "五年级 上册"
+                                },
+                                {
+                                    "code": "xx_sx_bbb_0502",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xs5x_new/Cover.jpg",
+                                    "title": "五年级 下册"
+                                },
+                                {
+                                    "code": "xx_sx_bbb_0601",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xs6s/Cover.jpg",
+                                    "title": "六年级 上册"
+                                },
+                                {
+                                    "code": "xx_sx_bbb_0602",
+                                    "cover": "http://dzkbw.com/books/rjb/shuxue/xs6x_new/Cover.jpg",
+                                    "title": "六年级 下册"
+                                }
+                            ],
+                            "title": "部编版"
+                        },
+                        {
+                            "books": [
+                            ],
+                            "title": "苏教版"
+                        },
+                        {
+                            "books": [
+                            ],
+                            "title": "北师大版"
+                        }
                     ]
                 },
                 {
                     "title": "英语",
                     "versions": [
+                        {
+                            "books": [
+                                {
+                                    "code": "xx_yy_bbb_0301",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/peps3s/Cover.jpg",
+                                    "title": "三年级 上册"
+                                },
+                                {
+                                    "code": "xx_yy_bbb_0302",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/peps3x/Cover.jpg",
+                                    "title": "三年级 下册"
+                                },
+                                {
+                                    "code": "xx_yy_bbb_0401",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/peps4s/Cover.jpg",
+                                    "title": "四年级 上册"
+                                },
+                                {
+                                    "code": "xx_yy_bbb_0402",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/peps4x/Cover.jpg",
+                                    "title": "四年级 下册"
+                                },
+                                {
+                                    "code": "xx_yy_bbb_0501",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/peps5s/Cover.jpg",
+                                    "title": "五年级 上册"
+                                },
+                                {
+                                    "code": "xx_yy_bbb_0502",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/peps5x/Cover.jpg",
+                                    "title": "五年级 下册"
+                                },
+                                {
+                                    "code": "xx_yy_bbb_0601",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/peps6s/Cover.jpg",
+                                    "title": "六年级 上册"
+                                },
+                                {
+                                    "code": "xx_yy_bbb_0602",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/peps6x/Cover.jpg",
+                                    "title": "六年级 下册"
+                                }
+                            ],
+                            "title": "部编版(PEP)"
+                        },
+                        {
+                            "books": [
+                                {
+                                    "code": "",
+                                    "cover": "",
+                                    "title": "三年级 上册"
+                                },
+                                {
+                                    "code": "xx_yy_yyb_0302",
+                                    "cover": "",
+                                    "title": "三年级 下册"
+                                },
+                                {
+                                    "code": "",
+                                    "cover": "",
+                                    "title": "四年级 上册"
+                                },
+                                {
+                                    "code": "xx_yy_yyb_0402",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/peps4x/Cover.jpg",
+                                    "title": "四年级 下册"
+                                },
+                                {
+                                    "code": "",
+                                    "cover": "",
+                                    "title": "五年级 上册"
+                                },
+                                {
+                                    "code": "",
+                                    "cover": "",
+                                    "title": "五年级 下册"
+                                }
+                            ],
+                            "title": "外研版"
+                        },
+                        {
+                            "books": [
+                                {
+                                    "code": "xx_yy_bbbjt_0301",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/jt3s/Cover.jpg",
+                                    "title": "三年级 上册"
+                                },
+                                {
+                                    "code": "xx_yy_bbbjt_0302",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/jt3x/Cover.jpg",
+                                    "title": "三年级 下册"
+                                },
+                                {
+                                    "code": "xx_yy_bbbjt_0401",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/jt4s/Cover.jpg",
+                                    "title": "四年级 上册"
+                                },
+                                {
+                                    "code": "xx_yy_bbbjt_0402",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/jt4x/Cover.jpg",
+                                    "title": "四年级 下册"
+                                },
+                                {
+                                    "code": "xx_yy_bbbjt_0501",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/jt5s/Cover.jpg",
+                                    "title": "五年级 上册"
+                                },
+                                {
+                                    "code": "xx_yy_bbbjt_0502",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/jt5x/Cover.jpg",
+                                    "title": "五年级 下册"
+                                },
+                                {
+                                    "code": "xx_yy_bbbjt_0601",
+                                    "cover": "",
+                                    "title": "六年级 上册"
+                                },
+                                {
+                                    "code": "xx_yy_bbbjt_0602",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/jt6x/Cover.jpg",
+                                    "title": "六年级 下册"
+                                }
+                            ],
+                            "title": "部编版（精通）"
+                        },
+                        {
+                            "books": [
+                                {
+                                    "code": "xx_yy_bbblt_0301",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/lts3s/Cover.jpg",
+                                    "title": "三年级 上册"
+                                },
+                                {
+                                    "code": "xx_yy_bbblt_0302",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/lts3x/Cover.jpg",
+                                    "title": "三年级 下册"
+                                },
+                                {
+                                    "code": "xx_yy_bbblt_0401",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/lts4s/Cover.jpg",
+                                    "title": "四年级 上册"
+                                },
+                                {
+                                    "code": "xx_yy_bbblt_0402",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/lts4x/Cover.jpg",
+                                    "title": "四年级 下册"
+                                }
+                            ],
+                            "title": "部编版（灵通)"
+                        },
+                        {
+                            "books": [
+                                {
+                                    "code": "xx_yy_bbbxqd_0101",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/xqds1s/Cover.jpg",
+                                    "title": "一年级 上册"
+                                },
+                                {
+                                    "code": "xx_yy_bbbxqd_0102",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/xqds1x/Cover.jpg",
+                                    "title": "一年级 下册"
+                                },
+                                {
+                                    "code": "xx_yy_bbbxqd_0201",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/xqds2s/Cover.jpg",
+                                    "title": "二年级 上册"
+                                },
+                                {
+                                    "code": "xx_yy_bbbxqd_0202",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/xqds2x/Cover.jpg",
+                                    "title": "二年级 下册"
+                                },
+                                {
+                                    "code": "xx_yy_bbbxqd_0301",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/xqds3s_new/Cover.jpg",
+                                    "title": "三年级 上册"
+                                },
+                                {
+                                    "code": "xx_yy_bbbxqd_0302",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/xqds3x_new/Cover.jpg",
+                                    "title": "三年级 下册"
+                                },
+                                {
+                                    "code": "xx_yy_bbbxqd_0401",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/xqds4s_new/Cover.jpg",
+                                    "title": "四年级 上册"
+                                },
+                                {
+                                    "code": "xx_yy_bbbxqd_0402",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/xqds4x_new/Cover.jpg",
+                                    "title": "四年级 下册"
+                                },
+                                {
+                                    "code": "xx_yy_bbbxqd_0501",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/xqds5s_new/Cover.jpg",
+                                    "title": "五年级 上册"
+                                },
+                                {
+                                    "code": "xx_yy_bbbxqd_0502",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/xqds5x_new/Cover.jpg",
+                                    "title": "五年级 下册"
+                                },
+                                {
+                                    "code": "xx_yy_bbbxqd_0601",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/xqds6s_new/Cover.jpg",
+                                    "title": "六年级 上册"
+                                },
+                                {
+                                    "code": "xx_yy_bbbxqd_0602",
+                                    "cover": "http://dzkbw.com/books/rjb/yingyu/xqds6x_new/Cover.jpg",
+                                    "title": "六年级 下册"
+                                }
+                            ],
+                            "title": "部编版（新起点）"
+                        },
+                        {
+                            "books": [
+                            ],
+                            "title": "新派"
+                        },
+                        {
+                            "books": [
+                            ],
+                            "title": "牛津小学英语"
+                        }
+                    ]
+                },
+                {
+                    "title": "科学",
+                    "versions": [
+                        {
+                            "books": [
+                            ],
+                            "title": "沪教版"
+                        }
+                    ]
+                },
+                {
+                    "title": "品德与社会",
+                    "versions": [
+                        {
+                            "books": [
+                                {
+                                    "code": "xx_ps_hjb_0101",
+                                    "cover": "",
+                                    "title": "一年级 上册"
+                                },
+                                {
+                                    "code": "xx_ps_hjb_0102",
+                                    "cover": "http://dzkbw.com/books/hjb/zhengzhi/1x/Cover.JPG",
+                                    "title": "一年级 下册"
+                                },
+                                {
+                                    "code": "xx_ps_hjb_0201",
+                                    "cover": "http://dzkbw.com/books/hjb/zhengzhi/2s/Cover.JPG",
+                                    "title": "二年级 上册"
+                                },
+                                {
+                                    "code": "xx_ps_hjb_0202",
+                                    "cover": "http://dzkbw.com/books/hjb/zhengzhi/2x/Cover.JPG",
+                                    "title": "二年级 下册"
+                                },
+                                {
+                                    "code": "xx_ps_hjb_0301",
+                                    "cover": "http://dzkbw.com/books/hjb/zhengzhi/3s/Cover.JPG",
+                                    "title": "三年级 上册"
+                                },
+                                {
+                                    "code": "xx_ps_hjb_0302",
+                                    "cover": "http://dzkbw.com/books/hjb/zhengzhi/4s/Cover.JPG",
+                                    "title": "三年级 下册"
+                                },
+                                {
+                                    "code": "xx_ps_hjb_0401",
+                                    "cover": "http://dzkbw.com/books/hjb/zhengzhi/4s/Cover.JPG",
+                                    "title": "四年级 上册"
+                                },
+                                {
+                                    "code": "xx_ps_hjb_0402",
+                                    "cover": "http://dzkbw.com/books/hjb/zhengzhi/4x/Cover.JPG",
+                                    "title": "四年级 下册"
+                                },
+                                {
+                                    "code": "xx_ps_hjb_0501",
+                                    "cover": "http://dzkbw.com/books/hjb/zhengzhi/5s/Cover.JPG",
+                                    "title": "五年级 上册"
+                                },
+                                {
+                                    "code": "xx_ps_hjb_0502",
+                                    "cover": "http://dzkbw.com/books/hjb/zhengzhi/5x/Cover.JPG",
+                                    "title": "五年级 下册"
+                                }
+                            ],
+                            "title": "沪教版"
+                        }
                     ]
                 }
             ],

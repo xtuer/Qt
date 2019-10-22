@@ -1,0 +1,57 @@
+{
+    "chapters": [
+        {
+            "code": "01",
+            "title": "1　分数乘法  "
+        },
+        {
+            "code": "02",
+            "title": "2　位置与方向（二）"
+        },
+        {
+            "code": "03",
+            "title": "3　分数除法"
+        },
+        {
+            "code": "04",
+            "title": "4　比"
+        },
+        {
+            "children": [
+                {
+                    "code": "05-01",
+                    "title": "确定起跑线"
+                }
+            ],
+            "code": "05",
+            "title": "5　圆"
+        },
+        {
+            "code": "06",
+            "title": "6　百分数（一）"
+        },
+        {
+            "children": [
+                {
+                    "code": "07-01",
+                    "title": "节约用水"
+                }
+            ],
+            "code": "07",
+            "title": "7  扇形统计图"
+        },
+        {
+            "code": "08",
+            "title": "8　数学广角──数与形"
+        },
+        {
+            "code": "09",
+            "title": "9　总复习"
+        }
+    ],
+    "code": "xx_sx_bbb_0601",
+    "cover": "http://dzkbw.com/books/rjb/shuxue/xs6s/Cover.jpg",
+    "subject": "数学",
+    "title": "六年级 上册",
+    "version": "部编版"
+}

@@ -1,0 +1,65 @@
+{
+    "chapters": [
+        {
+            "children": [
+                {
+                    "code": "01-01",
+                    "title": "1.1　回归分析的基本思想及其初步应用"
+                },
+                {
+                    "code": "01-02",
+                    "title": "1.2　独立性检验的基本思想及其初步应用"
+                }
+            ],
+            "code": "01",
+            "title": "第一章 统计案例 "
+        },
+        {
+            "children": [
+                {
+                    "code": "02-01",
+                    "title": "2.1　合情推理与演绎推理 "
+                },
+                {
+                    "code": "02-02",
+                    "title": "2.2　直接证明与间接证明 "
+                }
+            ],
+            "code": "02",
+            "title": "第二章 推理与证明"
+        },
+        {
+            "children": [
+                {
+                    "code": "03-01",
+                    "title": "3.1　数系的扩充和复数的概念"
+                },
+                {
+                    "code": "03-02",
+                    "title": "3.2　复数代数形式的四则运算 "
+                }
+            ],
+            "code": "03",
+            "title": "第三章 数系的扩充与复数的引入 "
+        },
+        {
+            "children": [
+                {
+                    "code": "04-01",
+                    "title": "4.1　流程图"
+                },
+                {
+                    "code": "04-02",
+                    "title": "4.2　结构图 "
+                }
+            ],
+            "code": "04",
+            "title": "第四章　框图 "
+        }
+    ],
+    "code": "gz_sx_rjb_xx12",
+    "cover": "http://dzkbw.com/books/rjb/shuxue/xgxx12/Cover.jpg",
+    "subject": "数学",
+    "title": "选修1-2",
+    "version": "人教版"
+}

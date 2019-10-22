@@ -1,0 +1,61 @@
+{
+    "chapters": [
+        {
+            "code": "01",
+            "title": "Starter"
+        },
+        {
+            "code": "02",
+            "title": "Unit 1  School"
+        },
+        {
+            "code": "03",
+            "title": "Unit 2  Face"
+        },
+        {
+            "code": "04",
+            "title": "Unit 3  Animals"
+        },
+        {
+            "code": "05",
+            "title": "Revision 1"
+        },
+        {
+            "code": "06",
+            "title": "Unit 4  Numbers"
+        },
+        {
+            "code": "07",
+            "title": "Unit 5  Colours"
+        },
+        {
+            "code": "08",
+            "title": "Unit 6  Fruit"
+        },
+        {
+            "code": "09",
+            "title": "Revision 2"
+        },
+        {
+            "code": "10",
+            "title": "附录一 歌谣和歌曲"
+        },
+        {
+            "code": "11",
+            "title": "附录二 单元词汇表"
+        },
+        {
+            "code": "12",
+            "title": "附录三 总词汇表"
+        },
+        {
+            "code": "13",
+            "title": "附录四 常用语表"
+        }
+    ],
+    "code": "xx_yy_bbbxqd_0101",
+    "cover": "http://dzkbw.com/books/rjb/yingyu/xqds1s/Cover.jpg",
+    "subject": "英语",
+    "title": "一年级 上册",
+    "version": "部编版（新起点）"
+}

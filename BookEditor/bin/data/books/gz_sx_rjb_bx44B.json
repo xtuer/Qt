@@ -1,0 +1,45 @@
+{
+    "chapters": [
+        {
+            "children": [
+                {
+                    "code": "01-01",
+                    "title": "1.1　直角坐标系，平面上的伸缩变换"
+                },
+                {
+                    "code": "01-02",
+                    "title": "1.2　极坐标系"
+                }
+            ],
+            "code": "01",
+            "title": "第一章　坐标系"
+        },
+        {
+            "children": [
+                {
+                    "code": "02-01",
+                    "title": "2.1　曲线的参数方程"
+                },
+                {
+                    "code": "02-02",
+                    "title": "2.2　直线和圆的参数方程"
+                },
+                {
+                    "code": "02-03",
+                    "title": "2.3　圆锥曲线的参数方程"
+                },
+                {
+                    "code": "02-04",
+                    "title": "2.4　一些常见曲线的参数方程"
+                }
+            ],
+            "code": "02",
+            "title": "第二章　参数方程"
+        }
+    ],
+    "code": "gz_sx_rjb_bx44B",
+    "cover": "http://dzkbw.com/books/rjb/shuxue/xgbx44/Cover.jpg",
+    "subject": "数学",
+    "title": "选修4-4B",
+    "version": "人教版"
+}

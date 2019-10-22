@@ -1,0 +1,29 @@
+{
+    "chapters": [
+        {
+            "code": "01",
+            "title": "Unit 1  Nothing Ventured, nothing gained"
+        },
+        {
+            "code": "02",
+            "title": "Unit 2  King Lear"
+        },
+        {
+            "code": "03",
+            "title": "Unit 3  Fairness for all"
+        },
+        {
+            "code": "04",
+            "title": "Unit 4  Learning efficiently"
+        },
+        {
+            "code": "05",
+            "title": "Unit 5  Enjoying novels"
+        }
+    ],
+    "code": "gz_yy_rjb_xx10",
+    "cover": "http://dzkbw.com/books/rjb/yingyu/xgxx10/Cover.jpg",
+    "subject": "英语",
+    "title": "选修10",
+    "version": "人教版"
+}

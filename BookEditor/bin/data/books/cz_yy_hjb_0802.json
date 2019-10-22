@@ -1,0 +1,37 @@
+{
+    "chapters": [
+        {
+            "code": "01",
+            "title": "Unit 1:Helping those in need"
+        },
+        {
+            "code": "02",
+            "title": "Unit 2:Body Language"
+        },
+        {
+            "code": "03",
+            "title": "Unit 3:Traditional skills"
+        },
+        {
+            "code": "04",
+            "title": "Unit 4:Cartoons and comic strips"
+        },
+        {
+            "code": "05",
+            "title": "Unit 5:Save the endangered animals"
+        },
+        {
+            "code": "06",
+            "title": "Unit 6:Pets"
+        },
+        {
+            "code": "07",
+            "title": "Unit 7:The unknown world"
+        }
+    ],
+    "code": "cz_yy_hjb_0802",
+    "cover": "http://dzkbw.com/books/hjb/yingyu/xc8x/Cover.jpg",
+    "subject": "英语",
+    "title": "八年级 下册",
+    "version": "沪教版"
+}

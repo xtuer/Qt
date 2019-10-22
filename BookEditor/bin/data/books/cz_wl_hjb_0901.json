@@ -1,0 +1,61 @@
+{
+    "chapters": [
+        {
+            "children": [
+                {
+                    "code": "01-01",
+                    "title": "6.1  密度"
+                },
+                {
+                    "code": "01-02",
+                    "title": "6.2  阿基米德原理"
+                },
+                {
+                    "code": "01-03",
+                    "title": "6.3  压强"
+                },
+                {
+                    "code": "01-04",
+                    "title": "6.4  液体对压强的传递"
+                },
+                {
+                    "code": "01-05",
+                    "title": "6.5  液体内部的压强"
+                },
+                {
+                    "code": "01-06",
+                    "title": "6.6  大气压强"
+                }
+            ],
+            "code": "01",
+            "title": "第6章 压力与压强"
+        },
+        {
+            "children": [
+                {
+                    "code": "02-01",
+                    "title": "7.1  温度与温标"
+                },
+                {
+                    "code": "02-02",
+                    "title": "7.2  热量 比热容"
+                },
+                {
+                    "code": "02-03",
+                    "title": "7.3  内能"
+                },
+                {
+                    "code": "02-04",
+                    "title": "7.4  热机"
+                }
+            ],
+            "code": "02",
+            "title": "第7章 热与能"
+        }
+    ],
+    "code": "cz_wl_hjb_0901",
+    "cover": "http://dzkbw.com/books/hjb/wuli/9s/Cover.JPG",
+    "subject": "物理",
+    "title": "九年级 上册",
+    "version": "沪教版"
+}

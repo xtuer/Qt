@@ -1,0 +1,47 @@
+{
+    "chapters": [
+        {
+            "code": "01",
+            "title": "1　认识图形（二） "
+        },
+        {
+            "code": "02",
+            "title": "2　20以内的退位减法"
+        },
+        {
+            "code": "03",
+            "title": "3　分类与整理 "
+        },
+        {
+            "children": [
+                {
+                    "code": "04-01",
+                    "title": "摆一摆，想一想 "
+                }
+            ],
+            "code": "04",
+            "title": "4　100以内数的认识 "
+        },
+        {
+            "code": "05",
+            "title": "5　认识人民币 "
+        },
+        {
+            "code": "06",
+            "title": "6　100以内的加法和减法（一） "
+        },
+        {
+            "code": "07",
+            "title": "7　找规律 "
+        },
+        {
+            "code": "08",
+            "title": "8　总复习  "
+        }
+    ],
+    "code": "xx_sx_bbb_0102",
+    "cover": "http://dzkbw.com/books/rjb/shuxue/xs1x/Cover.jpg",
+    "subject": "数学",
+    "title": "一年级 下册",
+    "version": "部编版"
+}

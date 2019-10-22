@@ -1,0 +1,101 @@
+{
+    "chapters": [
+        {
+            "children": [
+                {
+                    "code": "01-01",
+                    "title": "1 Good morning!"
+                },
+                {
+                    "code": "01-02",
+                    "title": "2 What's this in English?"
+                },
+                {
+                    "code": "01-03",
+                    "title": "3 What color is it?"
+                }
+            ],
+            "code": "01",
+            "title": "Starter Units"
+        },
+        {
+            "children": [
+                {
+                    "code": "02-01",
+                    "title": "1 My name's Gina."
+                },
+                {
+                    "code": "02-02",
+                    "title": "2 Is this your pencil?\n"
+                },
+                {
+                    "code": "02-03",
+                    "title": "3 This is my sister."
+                },
+                {
+                    "code": "02-04",
+                    "title": "4 Where's my schoolbag?"
+                },
+                {
+                    "code": "02-05",
+                    "title": "5 Do you have a soccer ball?"
+                },
+                {
+                    "code": "02-06",
+                    "title": "6 Do you like bananas?"
+                },
+                {
+                    "code": "02-07",
+                    "title": "7 How much are these socks?"
+                },
+                {
+                    "code": "02-08",
+                    "title": "8 When is your birthday?"
+                },
+                {
+                    "code": "02-09",
+                    "title": "9 Do you want to go to a movie."
+                },
+                {
+                    "code": "02-10",
+                    "title": "10 Can you play the guitar."
+                },
+                {
+                    "code": "02-11",
+                    "title": "11 What time do you go to school?"
+                },
+                {
+                    "code": "02-12",
+                    "title": "12 My favorite subject is science"
+                },
+                {
+                    "code": "02-13",
+                    "title": "Tapescripts"
+                },
+                {
+                    "code": "02-14",
+                    "title": "Phonetics"
+                }
+            ],
+            "code": "02",
+            "title": "Units"
+        },
+        {
+            "code": "03",
+            "title": "Grammar"
+        },
+        {
+            "code": "04",
+            "title": "Words and Expressions in Each Unit"
+        },
+        {
+            "code": "05",
+            "title": "Vocabulary Index"
+        }
+    ],
+    "code": "cz_yy_bbb_0701",
+    "cover": "http://dzkbw.com/books/rjb/yingyu/xc7s/Cover.jpg",
+    "subject": "英语",
+    "title": "七年级 上册",
+    "version": "部编版"
+}

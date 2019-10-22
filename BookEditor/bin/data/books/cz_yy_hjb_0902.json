@@ -1,0 +1,33 @@
+{
+    "chapters": [
+        {
+            "code": "01",
+            "title": "Unit 1:Great explorations"
+        },
+        {
+            "code": "02",
+            "title": "Unit 2:Culture shock"
+        },
+        {
+            "code": "03",
+            "title": "Unit 3:The environment"
+        },
+        {
+            "code": "04",
+            "title": "Unit 4:Natural disasters"
+        },
+        {
+            "code": "05",
+            "title": "Unit 5:Sport"
+        },
+        {
+            "code": "06",
+            "title": "Unit 6:Caring for your health"
+        }
+    ],
+    "code": "cz_yy_hjb_0902",
+    "cover": "http://dzkbw.com/books/hjb/yingyu/xc9x/Cover.jpg",
+    "subject": "英语",
+    "title": "九年级 下册",
+    "version": "沪教版"
+}

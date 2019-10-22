@@ -1,0 +1,89 @@
+{
+    "chapters": [
+        {
+            "children": [
+                {
+                    "code": "01-01",
+                    "title": "1  国土辽阔"
+                },
+                {
+                    "code": "01-02",
+                    "title": "2  黄河长江"
+                },
+                {
+                    "code": "01-03",
+                    "title": "3  江山多娇"
+                },
+                {
+                    "code": "01-04",
+                    "title": "4  乡音乡情"
+                }
+            ],
+            "code": "01",
+            "title": "第1单元 九州方圆"
+        },
+        {
+            "children": [
+                {
+                    "code": "02-01",
+                    "title": "5  人口与资源"
+                },
+                {
+                    "code": "02-02",
+                    "title": "6  减卡救树"
+                },
+                {
+                    "code": "02-03",
+                    "title": "7  希望在教育"
+                }
+            ],
+            "code": "02",
+            "title": "第2单元 物华天宝"
+        },
+        {
+            "children": [
+                {
+                    "code": "03-01",
+                    "title": "8  愚公移山"
+                },
+                {
+                    "code": "03-02",
+                    "title": "9  大禹治水"
+                },
+                {
+                    "code": "03-03",
+                    "title": "10  前卫之歌"
+                }
+            ],
+            "code": "03",
+            "title": "第3单元 人地和谐"
+        },
+        {
+            "children": [
+                {
+                    "code": "04-01",
+                    "title": "11  多民族大家庭"
+                },
+                {
+                    "code": "04-02",
+                    "title": "12  泼水节与那达慕"
+                },
+                {
+                    "code": "04-03",
+                    "title": "13  海峡两岸骨肉亲"
+                },
+                {
+                    "code": "04-04",
+                    "title": "14  海外赤子心"
+                }
+            ],
+            "code": "04",
+            "title": "第4单元 中华一家"
+        }
+    ],
+    "code": "xx_ps_hjb_0401",
+    "cover": "http://dzkbw.com/books/hjb/zhengzhi/4s/Cover.JPG",
+    "subject": "品德与社会",
+    "title": "四年级 上册",
+    "version": "沪教版"
+}

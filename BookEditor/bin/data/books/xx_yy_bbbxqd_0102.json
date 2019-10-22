@@ -1,0 +1,33 @@
+{
+    "chapters": [
+        {
+            "code": "01",
+            "title": "Unit 1  Classroom"
+        },
+        {
+            "code": "02",
+            "title": "Unit 2  Room"
+        },
+        {
+            "code": "03",
+            "title": "Unit 3  Toys"
+        },
+        {
+            "code": "04",
+            "title": "Unit 4  Food"
+        },
+        {
+            "code": "05",
+            "title": "Unit 5  Drink"
+        },
+        {
+            "code": "06",
+            "title": "Unit 6  Clothes"
+        }
+    ],
+    "code": "xx_yy_bbbxqd_0102",
+    "cover": "http://dzkbw.com/books/rjb/yingyu/xqds1x/Cover.jpg",
+    "subject": "英语",
+    "title": "一年级 下册",
+    "version": "部编版（新起点）"
+}

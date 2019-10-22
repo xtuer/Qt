@@ -1,0 +1,51 @@
+{
+    "chapters": [
+        {
+            "code": "01",
+            "title": "1  时、分、秒"
+        },
+        {
+            "code": "02",
+            "title": "2　万以内的加法和减法（一）"
+        },
+        {
+            "code": "03",
+            "title": "3　测量"
+        },
+        {
+            "code": "04",
+            "title": "4　万以内的加法和减法（二）"
+        },
+        {
+            "code": "05",
+            "title": "5　倍的认识"
+        },
+        {
+            "children": [
+                {
+                    "code": "06-01",
+                    "title": "数字编码"
+                }
+            ],
+            "code": "06",
+            "title": "6　多位数乘一位数"
+        },
+        {
+            "code": "07",
+            "title": "7　长方形和正方形"
+        },
+        {
+            "code": "08",
+            "title": "8　分数的初步认识"
+        },
+        {
+            "code": "09",
+            "title": "9　数学广角──集合"
+        }
+    ],
+    "code": "xx_sx_bbb_0301",
+    "cover": "http://dzkbw.com/books/rjb/shuxue/xs3s/Cover.jpg",
+    "subject": "数学",
+    "title": "三年级 上册",
+    "version": "部编版"
+}

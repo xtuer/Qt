@@ -1,0 +1,55 @@
+{
+    "chapters": [
+        {
+            "code": "01",
+            "title": ""
+        },
+        {
+            "code": "02",
+            "title": "1  准备课 "
+        },
+        {
+            "code": "03",
+            "title": "2  位置 "
+        },
+        {
+            "code": "04",
+            "title": "3  1~5的认识和加减法 "
+        },
+        {
+            "code": "05",
+            "title": "4  认识图形（一） "
+        },
+        {
+            "code": "06",
+            "title": "5  6~10的认识和加减法 "
+        },
+        {
+            "children": [
+                {
+                    "code": "07-01",
+                    "title": "数字乐园 "
+                }
+            ],
+            "code": "07",
+            "title": "6  11~20各数的认识"
+        },
+        {
+            "code": "08",
+            "title": "7  认识钟表 "
+        },
+        {
+            "code": "09",
+            "title": "8  20以内的进位加法 "
+        },
+        {
+            "code": "10",
+            "title": "9  总复习  "
+        }
+    ],
+    "code": "xx_sx_bbb_0101",
+    "cover": "http://dzkbw.com/books/rjb/shuxue/xs1s/Cover.jpg",
+    "subject": "数学",
+    "title": "一年级 上册",
+    "version": "部编版"
+}

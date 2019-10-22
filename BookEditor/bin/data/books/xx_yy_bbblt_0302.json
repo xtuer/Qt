@@ -1,0 +1,57 @@
+{
+    "chapters": [
+        {
+            "code": "01",
+            "title": "Unit 1  My classroom"
+        },
+        {
+            "code": "02",
+            "title": "Unit 2  On the playground"
+        },
+        {
+            "code": "03",
+            "title": "Unit 3  Art class"
+        },
+        {
+            "code": "04",
+            "title": "Recycle it! 1"
+        },
+        {
+            "code": "05",
+            "title": "Unit 4  How we are"
+        },
+        {
+            "code": "06",
+            "title": "Unit 5  My family"
+        },
+        {
+            "code": "07",
+            "title": "Unit 6  My friend"
+        },
+        {
+            "code": "08",
+            "title": "Recycle it! 2"
+        },
+        {
+            "code": "09",
+            "title": "Culture 1  Happy birthday"
+        },
+        {
+            "code": "10",
+            "title": "Culture 2  Mother's Day / Father's Day"
+        },
+        {
+            "code": "11",
+            "title": "Culture 3  Children's Day / Teacher's Day"
+        },
+        {
+            "code": "12",
+            "title": "Culture 4  Christmas"
+        }
+    ],
+    "code": "xx_yy_bbblt_0302",
+    "cover": "http://dzkbw.com/books/rjb/yingyu/lts3x/Cover.jpg",
+    "subject": "英语",
+    "title": "三年级 下册",
+    "version": "灵通"
+}

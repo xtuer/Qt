@@ -1,0 +1,61 @@
+{
+    "chapters": [
+        {
+            "children": [
+                {
+                    "code": "01-01",
+                    "title": "4.1  机械运动"
+                },
+                {
+                    "code": "01-02",
+                    "title": "4.2  匀速直线运动"
+                },
+                {
+                    "code": "01-03",
+                    "title": "4.3  变速直线运动"
+                },
+                {
+                    "code": "01-04",
+                    "title": "4.4  力 力的图示"
+                },
+                {
+                    "code": "01-05",
+                    "title": "4.5  重力 力的平衡"
+                },
+                {
+                    "code": "01-06",
+                    "title": "4.6  惯性 惯性定律"
+                }
+            ],
+            "code": "01",
+            "title": "第4章 运动和力"
+        },
+        {
+            "children": [
+                {
+                    "code": "02-01",
+                    "title": "5.1  机械功"
+                },
+                {
+                    "code": "02-02",
+                    "title": "5.2  机械能"
+                },
+                {
+                    "code": "02-03",
+                    "title": "5.3  简单机械"
+                },
+                {
+                    "code": "02-04",
+                    "title": "5.4  功的原理"
+                }
+            ],
+            "code": "02",
+            "title": "第5章 功和机械"
+        }
+    ],
+    "code": "cz_wl_hjb_0802",
+    "cover": "http://dzkbw.com/books/hjb/wuli/8x/Cover.JPG",
+    "subject": "物理",
+    "title": "八年级 下册",
+    "version": "沪教版"
+}

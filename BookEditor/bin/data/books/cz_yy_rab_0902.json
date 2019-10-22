@@ -1,0 +1,69 @@
+{
+    "chapters": [
+        {
+            "children": [
+                {
+                    "code": "01-01",
+                    "title": "Topic 1:China attracts millions of tourists from all over the Word."
+                },
+                {
+                    "code": "01-02",
+                    "title": "Topic 2:He is really the pride of China."
+                },
+                {
+                    "code": "01-03",
+                    "title": "Topic 3:Now it is a symbol of England."
+                }
+            ],
+            "code": "01",
+            "title": "Unit 5  China and the world"
+        },
+        {
+            "code": "02",
+            "title": "Review of Unit 5"
+        },
+        {
+            "children": [
+                {
+                    "code": "03-01",
+                    "title": "Topic 1:I would rather watch sports shows than those ones."
+                },
+                {
+                    "code": "03-02",
+                    "title": "Topic 2:Who is your favorite character in literature?"
+                },
+                {
+                    "code": "03-03",
+                    "title": "Topic 3:I will remember our friendship forever"
+                }
+            ],
+            "code": "03",
+            "title": "Unit 6  Entertainment and Friendship"
+        },
+        {
+            "code": "04",
+            "title": "Review of Units 5-6"
+        },
+        {
+            "code": "05",
+            "title": "课文注释"
+        },
+        {
+            "code": "06",
+            "title": "语法大全"
+        },
+        {
+            "code": "07",
+            "title": "单词表"
+        },
+        {
+            "code": "08",
+            "title": "常用短语和习惯搭配"
+        }
+    ],
+    "code": "cz_yy_rab_0902",
+    "cover": "http://dzkbw.com/books/renai/yingyu/9x/Cover.jpg",
+    "subject": "英语",
+    "title": "九年级 下册",
+    "version": "仁爱版"
+}

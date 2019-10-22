@@ -1,0 +1,41 @@
+{
+    "chapters": [
+        {
+            "code": "01",
+            "title": "第一讲　风险型决策"
+        },
+        {
+            "code": "02",
+            "title": "第二讲 最大可能法"
+        },
+        {
+            "code": "03",
+            "title": "第三讲　期望值法"
+        },
+        {
+            "code": "04",
+            "title": "第四讲　决策树"
+        },
+        {
+            "code": "05",
+            "title": "第五讲　灵敏度分析"
+        },
+        {
+            "code": "06",
+            "title": "第六讲　马尔可夫型决策"
+        },
+        {
+            "code": "07",
+            "title": "附录Ⅰ　矩阵"
+        },
+        {
+            "code": "08",
+            "title": "附录Ⅱ　部分中英文词汇对照表"
+        }
+    ],
+    "code": "gz_sx_rjb_xx49B",
+    "cover": "http://dzkbw.com/books/rjb/shuxue/xgbx49/Cover.jpg",
+    "subject": "数学",
+    "title": "选修4-9B",
+    "version": "人教版"
+}

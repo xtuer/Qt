@@ -1,0 +1,39 @@
+{
+    "chapters": [
+        {
+            "children": [
+                {
+                    "code": "01-01",
+                    "title": "8.1  欧姆定律"
+                },
+                {
+                    "code": "01-02",
+                    "title": "8.2  串联、并联电路"
+                },
+                {
+                    "code": "01-03",
+                    "title": "8.3  电功、电功率"
+                },
+                {
+                    "code": "01-04",
+                    "title": "8.4  电能的获得和输送"
+                },
+                {
+                    "code": "01-05",
+                    "title": "8.5  磁场"
+                },
+                {
+                    "code": "01-06",
+                    "title": "8.6  无线电波和无线电通信"
+                }
+            ],
+            "code": "01",
+            "title": "第8章 电与磁"
+        }
+    ],
+    "code": "cz_wl_hjb_0902",
+    "cover": "http://dzkbw.com/books/hjb/wuli/9x/Cover.JPG",
+    "subject": "物理",
+    "title": "九年级 下册",
+    "version": "沪教版"
+}
