@@ -274,6 +274,10 @@ void MainWidget::handleEvents() {
         ManualSignDialog dialog(this);
 
         if (QDialog::Accepted == dialog.exec()) {
+            qint64  time = QDateTime::currentMSecsSinceEpoch() / 1000 + d->deltaTimeBetweenClientAndServer;
+            QByteArray token = (dialog.getExamNum() + QString::number(time) + "mainexam201704cdcard").toUtf8();
+            token = Util::md5(Util::md5(token));
+
             QString schoolId = ui->schoolsComboBox->currentData().toString();
 
             HttpClient(d->manualSignUrl).debug(d->debug).manager(d->networkManager)
@@ -281,6 +285,8 @@ void MainWidget::handleEvents() {
                     .param("name", dialog.getName())
                     .param("exam_num", dialog.getExamNum())
                     .param("sign_code", dialog.getSignCode())
+                    .param("time", QString::number(time))
+                    .param("token", token)
                     .post([=](const QString &response) {
                 qDebug() << response;
                 showInfo(response);
