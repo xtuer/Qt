@@ -6,6 +6,7 @@
 #include <QPixmap>
 #include <QPainter>
 #include <QMouseEvent>
+#include <QRubberBand>
 
 /*-----------------------------------------------------------------------------|
  |                              MagicWindowPrivate                             |

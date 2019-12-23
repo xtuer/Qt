@@ -1,5 +1,6 @@
-﻿#include "MainWidget.h"
+#include "MainWidget.h"
 #include "ui_MainWidget.h"
+#include "ManualSignDialog.h"
 #include "LoginStatusWidget.h"
 #include "FramelessWindow.h"
 #include "Constants.h"
@@ -47,6 +48,8 @@ public:
         loginUrl = ConfigUtilInstance.getLoginUrl();
         cameraUrl = ConfigUtilInstance.getCameraUrl();
         timeServiceUrl = ConfigUtilInstance.getTimeServiceUrl();
+        schoolUrl = ConfigUtilInstance.getSchoolUrl();
+        manualSignUrl = ConfigUtilInstance.getManualSignUrl();
         deltaTimeBetweenClientAndServer = 100000000;
 
         loginDetailsButton = new QPushButton("详情");
@@ -72,7 +75,9 @@ public:
             qDebug() << "Camera error: " << error;
         });
 
-        camera->start(); // 启动摄像头
+        // New Request: 去掉摄像头
+        // camera->start(); // 启动摄像头
+        widget->ui->cameraWidget->hide();
     }
 
     ~MainWidgetPrivate() {
@@ -124,6 +129,8 @@ public:
     QString loginUrl;
     QString cameraUrl;
     QString timeServiceUrl;
+    QString schoolUrl;
+    QString manualSignUrl;
     QNetworkAccessManager *networkManager;
     QPushButton *loginDetailsButton;
 
@@ -152,6 +159,27 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::MainWidget
     HttpClient(d->timeServiceUrl).debug(d->debug).manager(d->networkManager).get([=](const QString &time) {
         qDebug() << QString("Server Time: %1").arg(time);
         d->deltaTimeBetweenClientAndServer = time.toLongLong() - QDateTime::currentMSecsSinceEpoch() / 1000;
+    }, [=](const QString &error) {
+        qDebug() << error;
+        showInfo(error, true);
+    });
+
+    // 请求学校
+    HttpClient(d->schoolUrl).debug(d->debug).manager(d->networkManager).get([=] (const QString &response) {
+        JsonReader json(response.toUtf8());
+
+        if (json.getBool("success")) {
+            QJsonArray schools = json.getJsonValue("data").toArray();
+            for (QJsonArray::const_iterator iter = schools.constBegin(); iter != schools.constEnd(); ++iter) {
+                QJsonObject school = iter->toObject();
+                QString schoolId   = school.value("SCHOOL_ID").toString();
+                QString schoolName = school.value("SCHOOL_NAME").toString();
+
+                ui->schoolsComboBox->addItem(schoolName, schoolId);
+            }
+        } else {
+            showInfo("没有学校", true);
+        }
     }, [=](const QString &error) {
         qDebug() << error;
         showInfo(error, true);
@@ -240,6 +268,28 @@ void MainWidget::handleEvents() {
             qDebug() << error;
         });
     });
+
+    // 手动签到
+    connect(ui->manualSigninButton, &QPushButton::clicked, [this] {
+        ManualSignDialog dialog(this);
+
+        if (QDialog::Accepted == dialog.exec()) {
+            QString schoolId = ui->schoolsComboBox->currentData().toString();
+
+            HttpClient(d->manualSignUrl).debug(d->debug).manager(d->networkManager)
+                    .param("school_id", schoolId)
+                    .param("name", dialog.getName())
+                    .param("exam_num", dialog.getExamNum())
+                    .param("sign_code", dialog.getSignCode())
+                    .post([=](const QString &response) {
+                qDebug() << response;
+                showInfo(response);
+            }, [=](const QString &error) {
+                qDebug() << error;
+                showInfo(error, true);
+            });
+        }
+    });
 }
 
 void MainWidget::showInfo(const QString &info, bool error) {
@@ -296,6 +346,7 @@ void MainWidget::login(const Person &p) {
             .param("address", p.address).param("institution", p.police)
             .param("check_time", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"))
             .param("point_code", pointCode).param("point_name", pointName)
+            .param("sort", QString::number(0))
             .param("type", QString::number(type))
             .param("time", QString::number(time))
             .param("token", token).upload(studentPicture, [=](const QString &response) {

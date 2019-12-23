@@ -1,4 +1,4 @@
-﻿#include <QDebug>
+#include <QDebug>
 #include <QTextCodec>
 #include <QApplication>
 
@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
 //    window->setResizable(false);
 //    window->show();
     MagicWindow *window = new MagicWindow(w, QMargins(1, 1, 1, 1), QMargins(3, 3, 3, 3), ":/img/solid.png", true);
-    window->resize(520, 500);
+    window->resize(430, 500);
     window->setResizable(false);
     window->setTitle("");
     window->setTitleBarButtonsVisible(false, false, true);

@@ -1,4 +1,4 @@
-﻿#include "ConfigUtil.h"
+#include "ConfigUtil.h"
 #include "JsonReader.h"
 
 #include <QDebug>
@@ -111,6 +111,14 @@ QString ConfigUtil::getCameraUrl() const {
 
 QString ConfigUtil::getTimeServiceUrl() const {
     return config->getString("timeServiceUrl");
+}
+
+QString ConfigUtil::getSchoolUrl() const {
+    return config->getString("schoolUrl");
+}
+
+QString ConfigUtil::getManualSignUrl() const {
+    return config->getString("manualSign");
 }
 
 bool ConfigUtil::isDebug() const {
