@@ -322,6 +322,7 @@ void MainWidget::showPerson(const Person &p) {
 }
 
 void MainWidget::login(const Person &p) {
+    QString schoolId = ui->schoolsComboBox->currentData().toString();
     QString birthday = Util::formatDateISO(p.birthday);
     QString startTime = Util::formatDateISO(p.validStart);
     QString endTime = Util::formatDateISO(p.validEnd);
@@ -340,6 +341,7 @@ void MainWidget::login(const Person &p) {
     QFile::copy("person.bmp", studentPicture);
 
     HttpClient(d->loginUrl).debug(d->debug).manager(d->networkManager)
+            .param("school_id", schoolId)
             .param("name", p.name).param("cardnum", p.cardId)
             .param("sex", p.gender).param("nation", p.nationality)
             .param("birth", birthday).param("start_time", startTime).param("end_time", endTime)
