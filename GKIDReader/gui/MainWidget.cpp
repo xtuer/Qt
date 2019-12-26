@@ -346,6 +346,8 @@ void MainWidget::login(const Person &p) {
     QString studentPicture = QString("student-id-picture/%1.bmp").arg(p.cardId);
     QFile::copy("person.bmp", studentPicture);
 
+    QString studentPictureBase64 = Util::imageToBase64String(studentPicture);
+
     HttpClient(d->loginUrl).debug(d->debug).manager(d->networkManager)
             .param("school_id", schoolId)
             .param("name", p.name).param("cardnum", p.cardId)
@@ -356,8 +358,9 @@ void MainWidget::login(const Person &p) {
             .param("point_code", pointCode).param("point_name", pointName)
             .param("sort", QString::number(0))
             .param("type", QString::number(type))
+            .param("base64-file", studentPictureBase64)
             .param("time", QString::number(time))
-            .param("token", token).upload(studentPicture, [=](const QString &response) {
+            .param("token", token).post([=](const QString &response) {
         qDebug() << response;
         showInfo(response);
     }, [=](const QString &error) {

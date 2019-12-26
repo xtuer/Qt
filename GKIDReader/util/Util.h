@@ -20,6 +20,15 @@ public:
 
     // 注册自定义类型
     static void registerTypes();
+
+    /**
+     * 把图片转为 Base64 的字符串
+     *
+     * @param imagePath 图片文件的路径
+     * @param error 错误标志，转换失败则 *error 为 true，否则为 false
+     * @return 返回图片的 base64 的字符串表示
+     */
+    static QString imageToBase64String(const QString &imagePath, bool *error = nullptr);
 };
 
 #endif // UTIL_H
