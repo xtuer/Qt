@@ -166,7 +166,9 @@ void AiSignWidget::handleEvents() {
     // 切换考试后从服务器加载考试单元、考点、考场
     connect(ui->examComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), [this]() {
         QString examCode = ui->examComboBox->currentData().toString();
-        loadExamUnitAndSiteAndRoom(examCode);
+        // loadExamUnitAndSiteAndRoom(examCode);
+        loadUnits(examCode);
+        loadSites(examCode);
     });
 
     // [Camera] 点击拍照上传按钮进行拍照
@@ -229,8 +231,10 @@ void AiSignWidget::handleEvents() {
 
     // [考试信息] 当 Site 变化时，重行初始化 Room 信息
     connect(ui->siteComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), [this](int index) {
+        QString examCode = ui->examComboBox->itemData(ui->examComboBox->currentIndex()).toString();
         QString siteCode = ui->siteComboBox->itemData(index).toString();
-        loadRoom(siteCode);
+
+        loadRooms(examCode, siteCode);
     });
 
     // [考试信息] 当 Room 变化时，加载学生的签到信息
@@ -405,6 +409,91 @@ void AiSignWidget::loadExams() {
     });
 }
 
+// 加载考试下的单元
+void AiSignWidget::loadUnits(const QString &examCode) {
+    if (examCode.isEmpty()) { return; }
+
+    QString url = d->serverUrl + Urls::EXAM_UNITS;
+    HttpClient(url).debug(d->debug).manager(d->networkManager).param("examCode", examCode).get([this](const QString &jsonResponse) {
+        Json json(jsonResponse.toUtf8());
+        QJsonArray units = json.getJsonArray("");
+
+        ui->unitComboBox->clear();
+        ui->unitComboBox->addItem("请选择", "");
+
+        for (QJsonArray::const_iterator iter = units.constBegin(); iter != units.constEnd(); ++iter) {
+            QJsonObject unit = iter->toObject();
+            ui->unitComboBox->addItem(unit.value("unit").toString(), unit.value("unit").toString());
+        }
+    }, [this](const QString &error) {
+        showInfo(error, true);
+    });
+}
+
+// 加载考点
+void AiSignWidget::loadSites(const QString &examCode) {
+    if (examCode.isEmpty()) { return; }
+
+    QString url = d->serverUrl + Urls::EXAM_SITES;
+    HttpClient(url).debug(d->debug).manager(d->networkManager).param("examCode", examCode).get([this](const QString &jsonResponse) {
+        Json json(jsonResponse.toUtf8());
+        QJsonArray sites = json.getJsonArray("");
+
+        ui->siteComboBox->clear();
+        ui->siteComboBox->addItem("请选择", "");
+
+        for (QJsonArray::const_iterator iter = sites.constBegin(); iter != sites.constEnd(); ++iter) {
+            QJsonObject site = iter->toObject();
+            ui->siteComboBox->addItem(site.value("siteName").toString(), site.value("siteCode").toString());
+        }
+
+        updateSystemStatus(ui->examStatusLabel, true);
+    }, [this](const QString &error) {
+        showInfo(error, true);
+    });
+}
+
+// 加载考点下的考场
+void AiSignWidget::loadRooms(const QString &examCode, const QString &siteCode) {
+    if (examCode.isEmpty() || siteCode.isEmpty()) { return; }
+
+    QString url = d->serverUrl + Urls::EXAM_ROOMS;
+    HttpClient(url).debug(d->debug).manager(d->networkManager)
+            .param("examCode", examCode)
+            .param("siteCode", siteCode).get([this](const QString &jsonResponse) {
+        Json json(jsonResponse.toUtf8());
+        QJsonArray rooms = json.getJsonArray("");
+
+        ui->roomComboBox->clear();
+        ui->roomComboBox->addItem("请选择", "");
+
+        for (QJsonArray::const_iterator iter = rooms.constBegin(); iter != rooms.constEnd(); ++iter) {
+            QJsonObject room = iter->toObject();
+            ui->roomComboBox->addItem(room.value("roomCode").toString(), room.value("roomCode").toString());
+        }
+
+        ui->roomComboBox->addItem("机动", "x");
+    }, [this](const QString &error) {
+        showInfo(error, true);
+    });
+
+//    Site s = d->findSite(siteCode);
+
+//    ui->roomComboBox->clear();
+//    ui->roomComboBox->addItem("请选择", "");
+
+
+//    foreach (const Room &room, s.rooms) {
+//        ui->roomComboBox->addItem(room.roomCode, room.roomCode);
+//    }
+
+//    if (s.rooms.size() > 0) {
+//        ui->roomComboBox->addItem("机动", "x");
+//    }
+
+// updateLoginStatistics(QList<Student>());
+}
+
 // 从服务器加载考试单元、考点、考场
 void AiSignWidget::loadExamUnitAndSiteAndRoom(const QString &examCode) {
     // http://192.168.10.85:8080/initializeRoom
@@ -435,23 +524,6 @@ void AiSignWidget::loadExamUnitAndSiteAndRoom(const QString &examCode) {
     }, [this](const QString &error) {
         showInfo(error, true);
     });
-}
-
-// 加载考点下的考场
-void AiSignWidget::loadRoom(const QString &siteCode) {
-    Site s = d->findSite(siteCode);
-
-    ui->roomComboBox->clear();
-    ui->roomComboBox->addItem("请选择", "");
-//    updateLoginStatistics(QList<Student>());
-
-    foreach (const Room &room, s.rooms) {
-        ui->roomComboBox->addItem(room.roomCode, room.roomCode);
-    }
-
-    if (s.rooms.size() > 0) {
-        ui->roomComboBox->addItem("机动", "x");
-    }
 }
 
 // 加载学生信息

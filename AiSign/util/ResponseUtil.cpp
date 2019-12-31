@@ -14,7 +14,7 @@
 QList<Student> ResponseUtil::responseToStudents(const QString &jsonResponse) {
     QList<Student> students;
     Json json(jsonResponse.toUtf8());
-    QJsonArray studentJsonList = json.getJsonValue("roomEnrollmentList").toArray();
+    QJsonArray studentJsonList = json.getJsonValue("examineeSignInList").toArray();
 
     for (int i = 0; i < studentJsonList.size(); ++i) {
         QJsonObject studentJson = studentJsonList.at(i).toObject();
@@ -29,7 +29,7 @@ QList<Student> ResponseUtil::responseToStudents(const QString &jsonResponse) {
         s.siteName       = studentJson.value("siteName").toString().trimmed();
         s.roomCode       = studentJson.value("roomCode").toString().trimmed();
         s.seatCode       = studentJson.value("seatCode").toString().trimmed();
-        s.periodUnitCode = studentJson.value("periodUnitCode").toString().trimmed();
+        s.unit           = studentJson.value("unit").toString().trimmed();
         s.signedAt       = studentJson.value("signedAt").toString().trimmed();
 
         students << s;

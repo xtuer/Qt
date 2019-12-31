@@ -36,11 +36,15 @@ private:
     void startIdCardReader(); // 启动身份证刷卡器
     void startCamera();       // 启动摄像头
 
-    void loadExams();                       // 加载考试
-    void loadExamUnitAndSiteAndRoom(const QString &examCode); // 从服务器加载考试单元、考点、考场
-    void loadRoom(const QString &siteCode); // 加载考点下的考场
-    void loadStudents();                    // 加载学生信息
-    void loadServerTime();                  // 请求服务器的时间
+    void loadExams(); // [1] 加载考试
+    void loadUnits(const QString &examCode); // [2] 加载考试单元
+    void loadSites(const QString &examCode); // [2] 加载考点
+    void loadRooms(const QString &examCode, const QString &siteCode); // [3] 加载考点下的考场
+
+    void loadExamUnitAndSiteAndRoom(const QString &examCode); // @Deprecated: 从服务器加载考试单元、考点、考场
+
+    void loadStudents();   // 加载学生信息
+    void loadServerTime(); // 请求服务器的时间
     void initializeSignInStatus(const QList<Student> &students); // 初始化学生的签到信息
     void showPerson(const Person &p);                            // 显示考生的身份证信息
 

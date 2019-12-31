@@ -8,7 +8,10 @@ namespace Constants {
 }
 
 namespace Urls {
-    const QString EXAM                = "/getExamForSignIn";
+    const QString EXAM                = "/getExamForSignIn";   // 考试
+    const QString EXAM_UNITS          = "/findUnitsForSignIn"; // 考试单元
+    const QString EXAM_SITES          = "/getSitesForSignIn";  // 考点
+    const QString EXAM_ROOMS          = "/findRoomsForSignIn"; // 考场
     const QString SIGN_IN             = "/signIn";
     const QString SIGN_IN_WITH_FACE   = "/signInWithFace";
     const QString SIGN_IN_MANUAL      = "/invigilatorSignIn";
