@@ -541,7 +541,7 @@ void AiSignWidget::loadStudents() {
     }
 
     // https://jk.edu-edu.com/getRoomEnrollment?examCode=tqd_xm&unit=200&siteCode=tqd_xm01&roomCode=jk_01
-    QString url = d->serverUrl + Urls::GET_ROOM_ENROLLMENT;
+    QString url = d->serverUrl + Urls::ROOM_ENROLLMENTS;
     HttpClient(url).debug(d->debug).manager(d->networkManager)
             .param("examCode", examCode)
             .param("unit", unit)

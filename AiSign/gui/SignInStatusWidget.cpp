@@ -114,9 +114,9 @@ void SignInStatusWidget::setStudents(const QList<Student> &students) {
     foreach (const Student &student, this->students) {
         QIcon icon = student.signedAt.isEmpty() ? offlineIcon : onlineIcon;
         QString text = QString("%1\n%2").arg(student.seatCode).arg(student.examineeName);
-        QString toolTip = QString("姓名: %1<br>准考证号: %2<br>身份证号: %3<br>签到时间: %4")
+        QString toolTip = QString("姓名: %1<br>准考证号: %2<br>身份证号: %3<br>科目编码: %4<br>签到时间: %5")
                 .arg(student.examineeName).arg(student.examUid)
-                .arg(student.idCardNo).arg(student.signedAt);
+                .arg(student.idCardNo).arg(student.subjectCode).arg(student.signedAt);
         QStandardItem *item = new QStandardItem(icon, text);
 
         item->setData(student.examineeName, ROLE_NAME); // 名字

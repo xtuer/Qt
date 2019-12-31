@@ -13,11 +13,12 @@ namespace Urls {
     extern const QString EXAM_UNITS;
     extern const QString EXAM_SITES;
     extern const QString EXAM_ROOMS;
+    extern const QString ROOM_ENROLLMENTS;
+
     extern const QString SIGN_IN;
     extern const QString SIGN_IN_WITH_FACE;
     extern const QString SIGN_IN_MANUAL;
     extern const QString INITIALIZE_ROOM;
-    extern const QString GET_ROOM_ENROLLMENT;
     extern const QString TIMESTAMP;
     extern const QString UPLOAD_PHOTO;
     extern const QString CLOSE_PASSWORD;
