@@ -156,7 +156,7 @@ void SignInStatusWidget::signInSuccess(const SignInInfo &info) {
             for (int i = 0; i < students.size(); i++) {
                 if (students[i].examUid == info.examUid) {
                     students[i].signedAt = info.signAt;
-                    break;
+                    // break;
                 }
             }
             break;
@@ -172,7 +172,7 @@ void SignInStatusWidget::signInSuccess(const SignInInfo &info) {
             for (int i = 0; i < students.size(); i++) {
                 if (students[i].idCardNo == info.idCardNo) {
                     students[i].signedAt = info.signAt;
-                    break;
+                    // break;
                 }
             }
             break;
