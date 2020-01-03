@@ -411,6 +411,8 @@ void AiSignWidget::loadExams() {
 
 // 加载考试下的单元
 void AiSignWidget::loadUnits(const QString &examCode) {
+    ui->unitComboBox->clear();
+
     if (examCode.isEmpty()) { return; }
 
     QString url = d->serverUrl + Urls::EXAM_UNITS;
@@ -418,12 +420,12 @@ void AiSignWidget::loadUnits(const QString &examCode) {
         Json json(jsonResponse.toUtf8());
         QJsonArray units = json.getJsonArray("");
 
-        ui->unitComboBox->clear();
         ui->unitComboBox->addItem("请选择", "");
 
         for (QJsonArray::const_iterator iter = units.constBegin(); iter != units.constEnd(); ++iter) {
             QJsonObject unit = iter->toObject();
-            ui->unitComboBox->addItem(unit.value("unit").toString(), unit.value("unit").toString());
+            QString unitName = unit.value("unit").toString();
+            ui->unitComboBox->addItem(unitName, unitName);
         }
     }, [this](const QString &error) {
         showInfo(error, true);
@@ -432,6 +434,8 @@ void AiSignWidget::loadUnits(const QString &examCode) {
 
 // 加载考点
 void AiSignWidget::loadSites(const QString &examCode) {
+    ui->siteComboBox->clear();
+
     if (examCode.isEmpty()) { return; }
 
     QString url = d->serverUrl + Urls::EXAM_SITES;
@@ -439,12 +443,13 @@ void AiSignWidget::loadSites(const QString &examCode) {
         Json json(jsonResponse.toUtf8());
         QJsonArray sites = json.getJsonArray("");
 
-        ui->siteComboBox->clear();
         ui->siteComboBox->addItem("请选择", "");
 
         for (QJsonArray::const_iterator iter = sites.constBegin(); iter != sites.constEnd(); ++iter) {
             QJsonObject site = iter->toObject();
-            ui->siteComboBox->addItem(site.value("siteName").toString(), site.value("siteCode").toString());
+            QString siteName = site.value("siteName").toString();
+            QString siteCode = site.value("siteCode").toString();
+            ui->siteComboBox->addItem(siteName, siteCode);
         }
 
         updateSystemStatus(ui->examStatusLabel, true);
@@ -455,6 +460,8 @@ void AiSignWidget::loadSites(const QString &examCode) {
 
 // 加载考点下的考场
 void AiSignWidget::loadRooms(const QString &examCode, const QString &siteCode) {
+    ui->roomComboBox->clear();
+
     if (examCode.isEmpty() || siteCode.isEmpty()) { return; }
 
     QString url = d->serverUrl + Urls::EXAM_ROOMS;
@@ -464,12 +471,12 @@ void AiSignWidget::loadRooms(const QString &examCode, const QString &siteCode) {
         Json json(jsonResponse.toUtf8());
         QJsonArray rooms = json.getJsonArray("");
 
-        ui->roomComboBox->clear();
         ui->roomComboBox->addItem("请选择", "");
 
         for (QJsonArray::const_iterator iter = rooms.constBegin(); iter != rooms.constEnd(); ++iter) {
             QJsonObject room = iter->toObject();
-            ui->roomComboBox->addItem(room.value("roomCode").toString(), room.value("roomCode").toString());
+            QString roomCode = room.value("roomCode").toString();
+            ui->roomComboBox->addItem(roomCode, roomCode);
         }
 
         ui->roomComboBox->addItem("机动", "x");
@@ -668,8 +675,10 @@ SignInInfo AiSignWidget::getSignInInfo(bool validateIdCard) const {
     info.idCardNo   = ui->idCardNoLabel->text();
     info.signAt     = QString::number(QDateTime::currentMSecsSinceEpoch() - d->timeDiff);
     info.idCardPicturePath = getIdCardPicturePath(info);
-    info.facePicturePath = getFacePicturePath(info);
+    info.facePicturePath   = getFacePicturePath(info);
     info.writePicturePath  = getWritePicturePath(info);
+
+    qDebug() << "-----: " << info.unit << info.roomCode;
 
     if (info.examCode.isEmpty()) {
         info.valid = false;
@@ -679,7 +688,7 @@ SignInInfo AiSignWidget::getSignInInfo(bool validateIdCard) const {
 
     if (info.unit.isEmpty()) {
         info.valid = false;
-        showInfo("请选择考期", false);
+        showInfo("请选择单元", false);
         return info;
     }
 
