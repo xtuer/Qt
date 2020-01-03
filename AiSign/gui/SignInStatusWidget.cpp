@@ -159,7 +159,7 @@ void SignInStatusWidget::signInSuccess(const SignInInfo &info) {
                     // break;
                 }
             }
-            break;
+            // break;
         } else if (idCardNo == info.idCardNo) {
             QString toolTip = QString("姓名: %1<br>准考证号: %2<br>身份证号: %3<br>签到时间: %4")
                     .arg(signInStudent.examineeName).arg(signInStudent.examUid)
@@ -175,7 +175,7 @@ void SignInStatusWidget::signInSuccess(const SignInInfo &info) {
                     // break;
                 }
             }
-            break;
+            // break;
         }
     }
 }
