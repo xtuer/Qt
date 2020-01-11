@@ -105,9 +105,9 @@ void SignInStatusWidget::setStudents(const QList<Student> &students) {
     this->students = students;
 
     // 按座位排序
-    std::sort(this->students.begin(), this->students.end(), [](const Student &a, const Student &b) -> bool {
-        return a.seatCode < b.seatCode;
-    });
+//    std::sort(this->students.begin(), this->students.end(), [](const Student &a, const Student &b) -> bool {
+//        return a.seatCode < b.seatCode;
+//    });
 
     model->clear();
 
