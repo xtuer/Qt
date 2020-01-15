@@ -13,6 +13,7 @@
 #include <QClipboard>
 #include <QApplication>
 #include <algorithm>
+#include <QDateTime>
 
 static const int ROLE_NAME       = Qt::UserRole + 1;
 static const int ROLE_TOOL_TIP   = Qt::UserRole + 2;
@@ -137,6 +138,9 @@ void SignInStatusWidget::signInSuccess(const SignInInfo &info) {
     // 学生不存在则返回
     if (signInStudent.examUid.isEmpty()) { return; }
 
+    QDateTime signAt = QDateTime::fromMSecsSinceEpoch(info.signAt.toLongLong());
+    QString signAtString = signAt.toString("yyyy-MM-dd HH:mm:ss");
+
     int count = model->rowCount();
     for (int i = 0; i < count; ++i) {
         QStandardItem *item = model->item(i, 0);
@@ -145,9 +149,9 @@ void SignInStatusWidget::signInSuccess(const SignInInfo &info) {
 
         // 找到签到成功学生的 item，设置其 icon 为在线状态 icon，并更新签到时间到 tool tip
         if (SignInMode::SIGN_IN_MANUALLY == info.signInMode && examUid == info.examUid) {
-            QString toolTip = QString("姓名: %1<br>准考证号: %2<br>身份证号: %3<br>签到时间: %4")
+            QString toolTip = QString("姓名: %1<br>准考证号: %2<br>身份证号: %3<br>科目编码: %4<br>签到时间: %5")
                     .arg(signInStudent.examineeName).arg(signInStudent.examUid)
-                    .arg(signInStudent.idCardNo).arg(signInStudent.signedAt);
+                    .arg(signInStudent.idCardNo).arg(signInStudent.subjectCode).arg(signAtString);
 
             item->setData(toolTip, ROLE_TOOL_TIP); // 提示信息
             item->setIcon(onlineIcon);
@@ -161,9 +165,9 @@ void SignInStatusWidget::signInSuccess(const SignInInfo &info) {
             }
             // break;
         } else if (idCardNo == info.idCardNo) {
-            QString toolTip = QString("姓名: %1<br>准考证号: %2<br>身份证号: %3<br>签到时间: %4")
+            QString toolTip = QString("姓名: %1<br>准考证号: %2<br>身份证号: %3<br>科目编码: %4<br>签到时间: %5")
                     .arg(signInStudent.examineeName).arg(signInStudent.examUid)
-                    .arg(signInStudent.idCardNo).arg(signInStudent.signedAt);
+                    .arg(signInStudent.idCardNo).arg(signInStudent.subjectCode).arg(signAtString);
 
             item->setData(toolTip, ROLE_TOOL_TIP); // 提示信息
             item->setIcon(onlineIcon);
