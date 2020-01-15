@@ -109,8 +109,52 @@ void Config::restoreWindowGeometry(const QString &groupName, QWidget *window) {
     window->resize(getGuiValue(groupName, "size", QSize(600, 400)).toSize());
 }
 
-QString Config::getServerUrl() const {
-    return config->getString("serverUrl");
+QString Config::getUrlOfExams() const {
+    return getUrl("exams");
+}
+
+QString Config::getUrlOfUnits() const {
+    return getUrl("units");
+}
+
+QString Config::getUrlOfSites() const {
+    return getUrl("sites");
+}
+
+QString Config::getUrlOfRooms() const {
+    return getUrl("rooms");
+}
+
+QString Config::getUrlOfEnrollments() const {
+    return getUrl("enrollments");
+}
+
+QString Config::getUrlOfSignInCard() const {
+    return getUrl("sign_in_card");
+}
+
+QString Config::getUrlOfSignInFace() const {
+    return getUrl("sign_in_face");
+}
+
+QString Config::getUrlOfSignInManual() const {
+    return getUrl("sign_in_manual");
+}
+
+QString Config::getUrlOfServerTime() const {
+    return getUrl("server_time");
+}
+
+QString Config::getUrlOfUploadPhoto() const {
+    return getUrl("upload_photo");
+}
+
+QString Config::getUrlOfClientClosePassword() const {
+    return getUrl("client_close_password");
+}
+
+QString Config::getUrl(const QString &name) const {
+    return config->getString("urls.server") + config->getString(QString("urls.%1").arg(name));
 }
 
 // 是否调试模式

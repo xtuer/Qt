@@ -1,6 +1,20 @@
 {
-    "serverUrl": "https://jk.edu-edu.com",
+    "urls": {
+        "server": "https://jk.edu-edu.com",
+        "exams": "/getExamForSignIn",
+        "units": "/findUnitsForSignIn",
+        "sites": "/getSitesForSignIn",
+        "rooms": "/findRoomsForSignIn",
+        "enrollments": "/getRoomEnrollment",
+        "sign_in_card": "/signIn",
+        "sign_in_face": "/signInWithFace",
+        "sign_in_manual": "/invigilatorSignIn",
+        "server_time": "/timestamp",
+        "upload_photo": "/uploadPhoto",
+        "client_close_password": "/getClientClosePassword"
+    },
     "signInWithFace": true,
+    "debug": true,
     "database": {
         "debug": true,
         "type": "QMYSQL",
@@ -29,9 +43,9 @@
         "resources/qss/login.qss",
         "resources/qss/TopWindow.qss"
     ],
-	"font_files": [
-		"font/云书法手书罗西硬笔行楷.ttf"
-	],
+    "font_files": [
+        "font/云书法手书罗西硬笔行楷.ttf"
+    ],
     "ui": {
         "padding": 5,
         "spacing": 5

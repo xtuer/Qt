@@ -54,7 +54,6 @@ struct AiSignWidgetPrivate {
     QList<Student> students; // 学生
 
     bool    signInWithFace;  // 使用人脸识别签名
-    QString serverUrl;       // 服务器的 URL
     qint64  timeDiff;        // 客户端和服务器的时间差，单位为毫秒
     SignInMode signInMode;   // 签到模式: 手动签到、刷身份证
 
@@ -68,7 +67,6 @@ struct AiSignWidgetPrivate {
 
 AiSignWidgetPrivate::AiSignWidgetPrivate() {
     debug          = ConfigInstance.isDebug();
-    serverUrl      = ConfigInstance.getServerUrl();
     signInWithFace = ConfigInstance.isSignInWithFace();
     networkManager = new QNetworkAccessManager();
     readerThread   = new CardReaderThread();
@@ -264,7 +262,7 @@ void AiSignWidget::handleEvents() {
         info.password = dlg.getPassword();
 
         // 人工签到
-        SignInService::signInManually(d->serverUrl + Urls::SIGN_IN_MANUAL, info, this, d->networkManager);
+        SignInService::signInManually(ConfigInstance.getUrlOfSignInManual(), info, this, d->networkManager);
     });
 
     // [身份证刷卡器] 读取到身份证信息，Reader 线程
@@ -321,7 +319,7 @@ void AiSignWidget::handleEvents() {
 
     // 申请关机密码
     connect(ui->shutdownPasswordButton, &QPushButton::clicked, [this] {
-        QString url = d->serverUrl + Urls::CLOSE_PASSWORD;
+        QString url = ConfigInstance.getUrlOfClientClosePassword();
 
         HttpClient(url).debug(d->debug).manager(d->networkManager).get([](const QString &jsonResponse) {
             Json json(jsonResponse.toUtf8());
@@ -393,7 +391,7 @@ void AiSignWidget::startCamera() {
 
 // 加载考试
 void AiSignWidget::loadExams() {
-    QString url = d->serverUrl + Urls::EXAM;
+    QString url = ConfigInstance.getUrlOfExams();
     HttpClient(url).debug(d->debug).manager(d->networkManager).get([this](const QString &jsonResponse) {
         Json json(jsonResponse.toUtf8());
         QJsonArray exams = json.getJsonArray(".");
@@ -415,7 +413,7 @@ void AiSignWidget::loadUnits(const QString &examCode) {
 
     if (examCode.isEmpty()) { return; }
 
-    QString url = d->serverUrl + Urls::EXAM_UNITS;
+    QString url = ConfigInstance.getUrlOfUnits();
     HttpClient(url).debug(d->debug).manager(d->networkManager).param("examCode", examCode).get([this](const QString &jsonResponse) {
         Json json(jsonResponse.toUtf8());
         QJsonArray units = json.getJsonArray("");
@@ -438,7 +436,7 @@ void AiSignWidget::loadSites(const QString &examCode) {
 
     if (examCode.isEmpty()) { return; }
 
-    QString url = d->serverUrl + Urls::EXAM_SITES;
+    QString url = ConfigInstance.getUrlOfSites();
     HttpClient(url).debug(d->debug).manager(d->networkManager).param("examCode", examCode).get([this](const QString &jsonResponse) {
         Json json(jsonResponse.toUtf8());
         QJsonArray sites = json.getJsonArray("");
@@ -464,7 +462,7 @@ void AiSignWidget::loadRooms(const QString &examCode, const QString &siteCode) {
 
     if (examCode.isEmpty() || siteCode.isEmpty()) { return; }
 
-    QString url = d->serverUrl + Urls::EXAM_ROOMS;
+    QString url = ConfigInstance.getUrlOfRooms();
     HttpClient(url).debug(d->debug).manager(d->networkManager)
             .param("examCode", examCode)
             .param("siteCode", siteCode).get([this](const QString &jsonResponse) {
@@ -504,7 +502,7 @@ void AiSignWidget::loadRooms(const QString &examCode, const QString &siteCode) {
 // 从服务器加载考试单元、考点、考场
 void AiSignWidget::loadExamUnitAndSiteAndRoom(const QString &examCode) {
     // http://192.168.10.85:8080/initializeRoom
-    QString url = d->serverUrl + Urls::INITIALIZE_ROOM;
+    QString url = "deprecated"; // d->serverUrl + Urls::INITIALIZE_ROOM;
     HttpClient(url).debug(d->debug).manager(d->networkManager).param("examCode", examCode).get([this](const QString &jsonResponse) {
         // [1] 解析考试单元 unit
         d->units = ResponseUtil::responseToUnits(jsonResponse);
@@ -548,7 +546,7 @@ void AiSignWidget::loadStudents() {
     }
 
     // https://jk.edu-edu.com/getRoomEnrollment?examCode=tqd_xm&unit=200&siteCode=tqd_xm01&roomCode=jk_01
-    QString url = d->serverUrl + Urls::ROOM_ENROLLMENTS;
+    QString url = ConfigInstance.getUrlOfEnrollments();
     HttpClient(url).debug(d->debug).manager(d->networkManager)
             .param("examCode", examCode)
             .param("unit", unit)
@@ -574,7 +572,7 @@ void AiSignWidget::loadStudents() {
 
 void AiSignWidget::loadServerTime() {
     // timeDiff is client current time minus server current time.
-    QString url = d->serverUrl + Urls::TIMESTAMP;
+    QString url = ConfigInstance.getUrlOfServerTime();
     HttpClient(url).manager(d->networkManager).debug(d->debug).get([this](const QString &response) {
         d->timeDiff = QDateTime::currentMSecsSinceEpoch() - response.toLongLong();
     });
@@ -761,9 +759,9 @@ void AiSignWidget::signInSuccess(const SignInInfo &info) const {
 // 签到
 void AiSignWidget::signIn(const SignInInfo &info) const {
     if (SignInMode::SIGN_IN_SIMPLE == info.signInMode) {
-        SignInService::signInSimple(d->serverUrl + Urls::SIGN_IN, info, this, d->networkManager);
+        SignInService::signInSimple(ConfigInstance.getUrlOfSignInCard(), info, this, d->networkManager);
     } else if (SignInMode::SIGN_IN_WITH_FACE == info.signInMode) {
-        SignInService::signInWithFace(d->serverUrl + Urls::SIGN_IN_WITH_FACE, info, this, d->networkManager);
+        SignInService::signInWithFace(ConfigInstance.getUrlOfSignInFace(), info, this, d->networkManager);
     } else if (SignInMode::SIGN_IN_WRITTING == info.signInMode) {
         // TODO: 上传手写笔迹
     }

@@ -51,9 +51,21 @@ public:
     void restoreWindowGeometry(const QString &groupName, QWidget *window); // 恢复窗口的位置和大小
 
     ////////////////////////////////////////////////////////////////////////////
-    /// 其它
+    /// URLs
     ////////////////////////////////////////////////////////////////////////////
-    QString getServerUrl() const;
+    QString getUrlOfExams() const;        // 考试
+    QString getUrlOfUnits() const;        // 考试单元
+    QString getUrlOfSites() const;        // 考点
+    QString getUrlOfRooms() const;        // 考场
+    QString getUrlOfEnrollments() const;  // 考生
+    QString getUrlOfSignInCard() const;   // 身份签到
+    QString getUrlOfSignInFace() const;   // 身份证 + 人脸识别签到
+    QString getUrlOfSignInManual() const; // 手动签到
+    QString getUrlOfServerTime() const;   // 服务器当前时间
+    QString getUrlOfUploadPhoto() const;  // 上传摄像头照片
+    QString getUrlOfClientClosePassword() const; // 关闭客户端密码
+
+    QString getUrl(const QString &name) const; // 获取配置文件中 urls 下的 url
 
     // 是否调试模式
     bool isDebug() const;
