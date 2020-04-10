@@ -3,11 +3,12 @@
 
 #include <QApplication>
 #include <QDebug>
+#include <QByteArray>
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
-    QWidget *w = new CalloutChartWidget(nullptr);
+    QWidget *w = new Widget();
     w->show();
 
     return a.exec();
