@@ -28,8 +28,12 @@ int main(int argc, char **argv) {
 //    w3.show();
 
     // [4] 布点模式四: 16 个布点占位
-    ArrangeDevicesWidget w4(4, deviceNames);
-    w4.show();
+//    ArrangeDevicesWidget w4(4, deviceNames);
+//    w4.show();
+
+    // [5] 布点模式五: 有 3 个矩形区域的布点图
+    ArrangeDevicesWidget w5(5, deviceNames);
+    w5.show();
 
     return app.exec();
 }

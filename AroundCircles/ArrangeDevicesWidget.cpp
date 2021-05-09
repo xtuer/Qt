@@ -4,6 +4,7 @@
 #include "PixmapDevicesGraphicsView.h"
 #include "RectDevicesGraphicsView.h"
 #include "Rect16DevicesGraphicsView.h"
+#include "Rect3BlocksDevicesGraphicsView.h"
 
 #include <QDebug>
 #include <QLabel>
@@ -30,6 +31,7 @@ class ArrangeDevicesWidgetPrivate {
     PixmapDevicesGraphicsView *pixmapDevicesView = nullptr;
     RectDevicesGraphicsView *rectDevicesView = nullptr;
     Rect16DevicesGraphicsView *rect16DevicesView = nullptr;
+    Rect3BlocksDevicesGraphicsView *rect3BlocksDevicesGraphicsView = nullptr;
 };
 
 ArrangeDevicesWidgetPrivate::ArrangeDevicesWidgetPrivate() {
@@ -57,6 +59,9 @@ ArrangeDevicesWidget::ArrangeDevicesWidget(int type, const QStringList &deviceNa
     } else if (4 == type) {
         d->rect16DevicesView = new Rect16DevicesGraphicsView();
         layout()->replaceWidget(ui->placeHolderWidget, d->rect16DevicesView);
+    } else if (5 == type) {
+        d->rect3BlocksDevicesGraphicsView = new Rect3BlocksDevicesGraphicsView();
+        layout()->replaceWidget(ui->placeHolderWidget, d->rect3BlocksDevicesGraphicsView);
     }
 
     // 创建设备列表

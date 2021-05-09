@@ -99,7 +99,7 @@ void Rect16DevicesGraphicsViewPrivate::newDevice(int sn, double x, double y) {
  |                            Rect16DevicesGraphicsView                        |
  |----------------------------------------------------------------------------*/
 Rect16DevicesGraphicsView::Rect16DevicesGraphicsView(QWidget *parent) :
-    QGraphicsView(parent), d(new Rect16DevicesGraphicsViewPrivate()){
+    QGraphicsView(parent), d(new Rect16DevicesGraphicsViewPrivate()) {
     setScene(d->scene);
 }
 
