@@ -25,6 +25,14 @@ public:
     explicit ArrangeDevicesWidget(int type, const QStringList &deviceNames, QWidget *parent = nullptr);
     ~ArrangeDevicesWidget() override;
 
+    /**
+     * @brief 初始化布点图类型 3 (矩形布点图)
+     *
+     * @param horizontalCount 水平方向布点个数
+     * @param verticalCount   垂直方向布点个数
+     */
+    void initMode3(int horizontalCount, int verticalCount);
+
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
 

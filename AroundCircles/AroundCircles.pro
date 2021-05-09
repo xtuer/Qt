@@ -32,11 +32,17 @@ HEADERS += \
     AroundDevicesGraphicsView.h \
     ArrangeDevicesWidget.h \
     DeviceItems.h \
-    PixmapDevicesGraphicsView.h
+    PixmapDevicesGraphicsView.h \
+    Rect16DevicesGraphicsView.h \
+    Rect3BlocksDevicesGraphicsView.h \
+    RectDevicesGraphicsView.h
 
 SOURCES += \
     AroundDevicesGraphicsView.cpp \
     ArrangeDevicesWidget.cpp \
     DeviceItems.cpp \
     PixmapDevicesGraphicsView.cpp \
+    Rect16DevicesGraphicsView.cpp \
+    Rect3BlocksDevicesGraphicsView.cpp \
+    RectDevicesGraphicsView.cpp \
     main.cpp

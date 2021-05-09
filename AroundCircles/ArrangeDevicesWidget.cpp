@@ -2,6 +2,8 @@
 #include "ui_ArrangeDevicesWidget.h"
 #include "AroundDevicesGraphicsView.h"
 #include "PixmapDevicesGraphicsView.h"
+#include "RectDevicesGraphicsView.h"
+#include "Rect16DevicesGraphicsView.h"
 
 #include <QDebug>
 #include <QLabel>
@@ -26,11 +28,14 @@ class ArrangeDevicesWidgetPrivate {
     QPoint startDragPos;
     AroundDevicesGraphicsView *circleDevicesView = nullptr;
     PixmapDevicesGraphicsView *pixmapDevicesView = nullptr;
+    RectDevicesGraphicsView *rectDevicesView = nullptr;
+    Rect16DevicesGraphicsView *rect16DevicesView = nullptr;
 };
 
 ArrangeDevicesWidgetPrivate::ArrangeDevicesWidgetPrivate() {
-    circleDevicesView = new AroundDevicesGraphicsView();
-    pixmapDevicesView = new PixmapDevicesGraphicsView();
+//    circleDevicesView = new AroundDevicesGraphicsView();
+//    pixmapDevicesView = new PixmapDevicesGraphicsView();
+    // rectDevicesView = new RectDevicesGraphicsView();
 }
 
 /*-----------------------------------------------------------------------------|
@@ -42,9 +47,16 @@ ArrangeDevicesWidget::ArrangeDevicesWidget(int type, const QStringList &deviceNa
 
     // 根据 type 确定布点类型
     if (1 == type) {
+        d->circleDevicesView = new AroundDevicesGraphicsView();
         layout()->replaceWidget(ui->placeHolderWidget, d->circleDevicesView);
-    } else {
+    } else if (2 == type) {
+        d->pixmapDevicesView = new PixmapDevicesGraphicsView();
         layout()->replaceWidget(ui->placeHolderWidget, d->pixmapDevicesView);
+    } else if (3 == type) {
+
+    } else if (4 == type) {
+        d->rect16DevicesView = new Rect16DevicesGraphicsView();
+        layout()->replaceWidget(ui->placeHolderWidget, d->rect16DevicesView);
     }
 
     // 创建设备列表
@@ -60,6 +72,12 @@ ArrangeDevicesWidget::ArrangeDevicesWidget(int type, const QStringList &deviceNa
 ArrangeDevicesWidget::~ArrangeDevicesWidget() {
     delete ui;
     delete d;
+}
+
+// 初始化布点图类型 3 (矩形布点图)
+void ArrangeDevicesWidget::initMode3(int horizontalCount, int verticalCount) {
+    d->rectDevicesView = new RectDevicesGraphicsView(horizontalCount, verticalCount);
+    layout()->replaceWidget(ui->placeHolderWidget, d->rectDevicesView);
 }
 
 bool ArrangeDevicesWidget::eventFilter(QObject *watched, QEvent *event) {
