@@ -81,13 +81,29 @@ public:
     void setBgcolor(const QString &bgcolor);
 
     /**
-     * 设置 scene 中名字为 name 的 CircleDevice 的 item 的背景色
+     * 设置显示的值
+     *
+     * @param 值
+     */
+    void setValue(const QString &value);
+
+    /**
+     * 设置 scene 中名字为 name 的 DeviceItem 的 item 的背景色
      *
      * @param scene   场景
      * @param name    名字
      * @param bgcolor 背景色
      */
     static void setBgcolorByName(QGraphicsScene *scene, const QString &name, const QString &bgcolor);
+
+    /**
+     * 设置 scene 中名字为 name 的 DeviceItem 的 item 显示的值
+     *
+     * @param scene 场景
+     * @param name  名字
+     * @param value 值
+     */
+    static void setValueByName(QGraphicsScene *scene, const QString &name, const QString &value);
 
     /**
      * 重置背景色和名字
@@ -109,6 +125,7 @@ protected:
     QString name;
     QString value;
     QColor  bgcolor = Qt::transparent;
+    bool    valueChangable = true; // 显示的值是否可变
 };
 
 /*-----------------------------------------------------------------------------|
@@ -122,7 +139,7 @@ protected:
  */
 class CircleDevice : public DeviceItem, public QGraphicsEllipseItem {
 public:
-    CircleDevice(const QString &name, const QString &value, double radius, QGraphicsItem *parent = nullptr);
+    CircleDevice(const QString &name, const QString &value, double radius, bool valueChangable = true, QGraphicsItem *parent = nullptr);
 
     // 绘制 item
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = Q_NULLPTR) override;

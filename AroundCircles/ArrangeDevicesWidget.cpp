@@ -4,7 +4,9 @@
 #include "PixmapDevicesGraphicsView.h"
 #include "RectDevicesGraphicsView.h"
 #include "Rect16DevicesGraphicsView.h"
+#include "Rect16DevicesGraphicsView_v1.h"
 #include "Rect3BlocksDevicesGraphicsView.h"
+#include "DeviceItems.h"
 
 #include <QDebug>
 #include <QLabel>
@@ -27,11 +29,12 @@ class ArrangeDevicesWidgetPrivate {
     ArrangeDevicesWidgetPrivate();
 
     QPoint startDragPos;
-    AroundDevicesGraphicsView *circleDevicesView = nullptr;
-    PixmapDevicesGraphicsView *pixmapDevicesView = nullptr;
-    RectDevicesGraphicsView *rectDevicesView = nullptr;
-    Rect16DevicesGraphicsView *rect16DevicesView = nullptr;
-    Rect3BlocksDevicesGraphicsView *rect3BlocksDevicesGraphicsView = nullptr;
+//    AroundDevicesGraphicsView *circleDevicesView = nullptr;
+//    PixmapDevicesGraphicsView *pixmapDevicesView = nullptr;
+//    RectDevicesGraphicsView *rectDevicesView = nullptr;
+//    Rect16DevicesGraphicsView *rect16DevicesView = nullptr;
+//    Rect3BlocksDevicesGraphicsView *rect3BlocksDevicesGraphicsView = nullptr;
+    QGraphicsView *graphicsView = nullptr;
 };
 
 ArrangeDevicesWidgetPrivate::ArrangeDevicesWidgetPrivate() {
@@ -49,19 +52,22 @@ ArrangeDevicesWidget::ArrangeDevicesWidget(int type, const QStringList &deviceNa
 
     // 根据 type 确定布点类型
     if (1 == type) {
-        d->circleDevicesView = new AroundDevicesGraphicsView();
-        layout()->replaceWidget(ui->placeHolderWidget, d->circleDevicesView);
+        d->graphicsView = new AroundDevicesGraphicsView();
+        layout()->replaceWidget(ui->placeHolderWidget, d->graphicsView);
     } else if (2 == type) {
-        d->pixmapDevicesView = new PixmapDevicesGraphicsView();
-        layout()->replaceWidget(ui->placeHolderWidget, d->pixmapDevicesView);
+        d->graphicsView = new PixmapDevicesGraphicsView();
+        layout()->replaceWidget(ui->placeHolderWidget, d->graphicsView);
     } else if (3 == type) {
 
     } else if (4 == type) {
-        d->rect16DevicesView = new Rect16DevicesGraphicsView();
-        layout()->replaceWidget(ui->placeHolderWidget, d->rect16DevicesView);
+        d->graphicsView = new Rect16DevicesGraphicsView();
+        layout()->replaceWidget(ui->placeHolderWidget, d->graphicsView);
     } else if (5 == type) {
-        d->rect3BlocksDevicesGraphicsView = new Rect3BlocksDevicesGraphicsView();
-        layout()->replaceWidget(ui->placeHolderWidget, d->rect3BlocksDevicesGraphicsView);
+        d->graphicsView = new Rect3BlocksDevicesGraphicsView();
+        layout()->replaceWidget(ui->placeHolderWidget, d->graphicsView);
+    } else if (6 == type) {
+        d->graphicsView = new Rect16DevicesGraphicsView_v1();
+        layout()->replaceWidget(ui->placeHolderWidget, d->graphicsView);
     }
 
     // 创建设备列表
@@ -72,6 +78,11 @@ ArrangeDevicesWidget::ArrangeDevicesWidget(int type, const QStringList &deviceNa
     ui->devicesWidget->layout()->addItem(new QSpacerItem(20, 424, QSizePolicy::Minimum, QSizePolicy::Expanding));
 
     this->setStyleSheet(QString(".DeviceLabel { border: 1px solid gray; }"));
+
+    // 点击按钮修改设备显示的值
+    connect(this->ui->changeDeviceValueButton, &QPushButton::clicked, [this] {
+        DeviceItem::setValueByName(d->graphicsView->scene(), "Device-1", "1");
+    });
 }
 
 ArrangeDevicesWidget::~ArrangeDevicesWidget() {
@@ -81,8 +92,8 @@ ArrangeDevicesWidget::~ArrangeDevicesWidget() {
 
 // 初始化布点图类型 3 (矩形布点图)
 void ArrangeDevicesWidget::initMode3(int horizontalCount, int verticalCount) {
-    d->rectDevicesView = new RectDevicesGraphicsView(horizontalCount, verticalCount);
-    layout()->replaceWidget(ui->placeHolderWidget, d->rectDevicesView);
+    d->graphicsView = new RectDevicesGraphicsView(horizontalCount, verticalCount);
+    layout()->replaceWidget(ui->placeHolderWidget, d->graphicsView);
 }
 
 bool ArrangeDevicesWidget::eventFilter(QObject *watched, QEvent *event) {

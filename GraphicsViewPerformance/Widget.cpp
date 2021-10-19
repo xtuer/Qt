@@ -14,7 +14,7 @@ Widget::Widget(QWidget *parent) : QGraphicsView(parent) {
     QGraphicsItem   *item = NULL;
 
     // 创建 rowCount * colCount 个 items
-    const int rowCount = 100;
+    const int rowCount = 200;
     const int colCount = 1000;
     for (int row = 0; row < rowCount; row += 1) {
         for (int col = 0; col < colCount; col += 1) {

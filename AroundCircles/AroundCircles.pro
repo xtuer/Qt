@@ -34,6 +34,7 @@ HEADERS += \
     DeviceItems.h \
     PixmapDevicesGraphicsView.h \
     Rect16DevicesGraphicsView.h \
+    Rect16DevicesGraphicsView_v1.h \
     Rect3BlocksDevicesGraphicsView.h \
     RectDevicesGraphicsView.h
 
@@ -43,6 +44,7 @@ SOURCES += \
     DeviceItems.cpp \
     PixmapDevicesGraphicsView.cpp \
     Rect16DevicesGraphicsView.cpp \
+    Rect16DevicesGraphicsView_v1.cpp \
     Rect3BlocksDevicesGraphicsView.cpp \
     RectDevicesGraphicsView.cpp \
     main.cpp

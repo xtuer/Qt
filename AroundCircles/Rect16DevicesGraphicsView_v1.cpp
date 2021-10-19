@@ -1,15 +1,15 @@
-#include "Rect16DevicesGraphicsView.h"
+#include "Rect16DevicesGraphicsView_v1.h"
 #include "DeviceItems.h"
 
 #include <QTransform>
 #include <QGraphicsRectItem>
 
 /*-----------------------------------------------------------------------------|
- |                        Rect16DevicesGraphicsViewPrivate                     |
+ |                        Rect16DevicesGraphicsViewPrivate_v1                     |
  |----------------------------------------------------------------------------*/
-class Rect16DevicesGraphicsViewPrivate {
-    Rect16DevicesGraphicsViewPrivate();
-    ~Rect16DevicesGraphicsViewPrivate();
+class Rect16DevicesGraphicsViewPrivate_v1 {
+    Rect16DevicesGraphicsViewPrivate_v1();
+    ~Rect16DevicesGraphicsViewPrivate_v1();
 
     /**
      * 构建布点图
@@ -30,21 +30,21 @@ class Rect16DevicesGraphicsViewPrivate {
     int height = 400; // 布点范围的高
     int radius = 25;  // 小圆的半径
 
-    friend class Rect16DevicesGraphicsView;
+    friend class Rect16DevicesGraphicsView_v1;
 };
 
-Rect16DevicesGraphicsViewPrivate::Rect16DevicesGraphicsViewPrivate() {
+Rect16DevicesGraphicsViewPrivate_v1::Rect16DevicesGraphicsViewPrivate_v1() {
     scene = new QGraphicsScene();
     buildCircleDevices();
 }
 
-Rect16DevicesGraphicsViewPrivate::~Rect16DevicesGraphicsViewPrivate() {
+Rect16DevicesGraphicsViewPrivate_v1::~Rect16DevicesGraphicsViewPrivate_v1() {
     delete scene;
 }
 
-/*
+
 // 创建矩形中的小圆
-void Rect16DevicesGraphicsViewPrivate::buildCircleDevices() {
+void Rect16DevicesGraphicsViewPrivate_v1::buildCircleDevices() {
     // 外边框
     QGraphicsRectItem *frame = new QGraphicsRectItem(-width/2, -height/2, width, height);
     scene->addItem(frame);
@@ -86,32 +86,9 @@ void Rect16DevicesGraphicsViewPrivate::buildCircleDevices() {
     newDevice(14, x5, y1);
     newDevice(15, x5, y2);
     newDevice(16, x5, y3);
-}*/
-
-// 创建矩形中的小圆
-void Rect16DevicesGraphicsViewPrivate::buildCircleDevices() {
-    int row = 8;
-    int col = 4;
-    double gap = width / col;
-    double radius = height / row / 2;
-    double startX = -width / 2 + gap / 2;
-    double x = startX, y = -height / 2 + radius;
-
-    for (int r = 0; r < row; r++) {
-        for (int c = 0; c < col; c++, x += gap) {
-            newDevice(x, y, radius);
-        }
-
-        x = startX;
-        y += radius*2;
-    }
-
-    // 外边框
-    QGraphicsRectItem *frame = new QGraphicsRectItem(-width/2, -height/2, width, height);
-    scene->addItem(frame);
 }
 
-void Rect16DevicesGraphicsViewPrivate::newDevice(double x, double y, double radius) {
+void Rect16DevicesGraphicsViewPrivate_v1::newDevice(double x, double y, double radius) {
     QTransform transform;
     transform.translate(x, y);
 
@@ -120,7 +97,7 @@ void Rect16DevicesGraphicsViewPrivate::newDevice(double x, double y, double radi
     scene->addItem(item);
 }
 
-void Rect16DevicesGraphicsViewPrivate::newDevice(int sn, double x, double y) {
+void Rect16DevicesGraphicsViewPrivate_v1::newDevice(int sn, double x, double y) {
     QTransform transform;
     transform.translate(x, y);
 
@@ -130,13 +107,13 @@ void Rect16DevicesGraphicsViewPrivate::newDevice(int sn, double x, double y) {
 }
 
 /*-----------------------------------------------------------------------------|
- |                            Rect16DevicesGraphicsView                        |
+ |                            Rect16DevicesGraphicsView_v1                        |
  |----------------------------------------------------------------------------*/
-Rect16DevicesGraphicsView::Rect16DevicesGraphicsView(QWidget *parent) :
-    QGraphicsView(parent), d(new Rect16DevicesGraphicsViewPrivate()) {
+Rect16DevicesGraphicsView_v1::Rect16DevicesGraphicsView_v1(QWidget *parent) :
+    QGraphicsView(parent), d(new Rect16DevicesGraphicsViewPrivate_v1()) {
     setScene(d->scene);
 }
 
-Rect16DevicesGraphicsView::~Rect16DevicesGraphicsView() {
+Rect16DevicesGraphicsView_v1::~Rect16DevicesGraphicsView_v1() {
     delete d;
 }

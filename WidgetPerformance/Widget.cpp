@@ -5,7 +5,7 @@
 #include <QDebug>
 
 Widget::Widget(QWidget *parent) : QWidget(parent) {
-    const int     buttonsCount = 1000; // 按钮的数量
+    const int     buttonsCount = 2000; // 按钮的数量
     QGridLayout *buttonsLayout = new QGridLayout();
 
     for (int i = 0; i < buttonsCount; ++i) {
