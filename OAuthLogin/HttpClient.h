@@ -5,10 +5,10 @@
 #include <QMap>
 #include <QVariant>
 #include <QStringList>
-#include <QNetworkReply>
-#include <QNetworkRequest>
-#include <QNetworkAccessManager>
 
+class QNetworkReply;
+class QNetworkRequest;
+class QNetworkAccessManager;
 class HttpClientPrivate;
 
 /**

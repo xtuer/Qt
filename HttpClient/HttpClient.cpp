@@ -6,6 +6,9 @@
 #include <QUrlQuery>
 #include <QHttpPart>
 #include <QHttpMultiPart>
+#include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QNetworkAccessManager>
 
 /*-----------------------------------------------------------------------------|
  |                              HttpClientPrivate                              |

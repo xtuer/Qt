@@ -15,12 +15,15 @@ SOURCES += \
     Widget.cpp
 
 HEADERS += \
+    Config.h \
     HttpClient.h \
     Json.h \
     Widget.h
 
 FORMS += \
     Widget.ui
+
+include(bean/bean.pri)
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
