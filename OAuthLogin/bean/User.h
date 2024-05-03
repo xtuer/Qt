@@ -5,6 +5,7 @@
 #include <QString>
 #include <QDebug>
 #include <QDate>
+#include <QStringList>
 
 class User {
 public:
@@ -33,7 +34,9 @@ public:
     QString creator;   // 操作员
     QDate   expiredAt; // 有效期
     bool    enabled = true; // 是否可用
-    Permission permission;   // 权限
+    Permission permission;  // 权限
+    QStringList devices;    // 用户的设备
+    bool deviceEnabled;     // 是否启用设备
 };
 
 #endif // USER_H

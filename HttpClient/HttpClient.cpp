@@ -431,7 +431,7 @@ QNetworkRequest HttpClientPrivate::createRequest(HttpClientPrivate *d, HttpClien
 QString HttpClientPrivate::readReply(QNetworkReply *reply, const QString &charset) {
     QTextStream in(reply);
     QString result;
-    in.setCodec(charset.toUtf8());
+    // in.setCodec(charset.toUtf8()); // TODO: 设置编码
 
     while (!in.atEnd()) {
         result += in.readLine();

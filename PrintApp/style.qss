@@ -1,0 +1,110 @@
+.CentralWidget {
+    background-color: #717070;
+}
+
+QLabel, QCheckBox {
+    font-size: 18px;
+    color: #222;
+}
+
+QLineEdit, QSpinBox, QComboBox, QDateEdit {
+    border: 2px solid #595757;
+    background-color: #363434;
+    color: #DDD;
+    height: 34px;
+    font-size: 18px;
+    padding-left: 10px;
+}
+
+.PrintButton {
+    border: 4px solid #595757;
+    background-color: #51AB6D;
+    color: #EEE;
+    font-size: 30px;
+}
+.PrintButton:hover {
+    border-color: #494747;
+}
+
+.QrCodeLabel {
+    width : 120px;
+    height: 120px;
+    background-color: white;
+    border-radius: 4px;
+}
+
+/* QComboBox */
+QComboBox::drop-down, QDateEdit::drop-down {
+    subcontrol-origin: border;
+    subcontrol-position: right center;
+    width: 16px;
+    height: 100%;
+    border: 2px solid #595757;
+    padding: 4px;
+    image: url(/Users/biao/Desktop/chevron_down.png);
+}
+QComboBox::drop-down:hover, QDateEdit::drop-down:hover {
+    image: url(/Users/biao/Desktop/chevron_down_dark.png);
+}
+
+/* QSpinBox */
+QSpinBox::down-button, QSpinBox::up-button {
+    subcontrol-origin: border;
+    width: 16px;
+    height: 100%;
+    border: 2px solid #595757;
+    padding: 4px;
+}
+QSpinBox::up-arrow, QSpinBox::down-arrow {
+    subcontrol-origin: content;
+    subcontrol-position: center center;
+    width: 16px;
+}
+QSpinBox::up-arrow {
+    image: url(/Users/biao/Desktop/chevron_up.png);
+}
+QSpinBox::down-arrow {
+    image: url(/Users/biao/Desktop/chevron_down.png);
+}
+QSpinBox::up-arrow:hover {
+    image: url(/Users/biao/Desktop/chevron_up_dark.png);
+}
+QSpinBox::down-arrow:hover {
+    image: url(/Users/biao/Desktop/chevron_down_dark.png);
+}
+QSpinBox::up-button {
+    subcontrol-position: center right;
+}
+QSpinBox::down-button {
+    subcontrol-position: center left;
+}
+
+.PrintCountSpinBox {
+    font-size: 60px;
+    color: red;
+    border: 4px solid #595757;
+}
+.PrintCountSpinBox::up-button, .PrintCountSpinBox::down-button {
+    height: 50%;
+    border: 4px solid transparent;
+    border-left: 4px solid #595757;
+}
+.PrintCountSpinBox::up-button {
+    subcontrol-position: top right;
+    border-bottom: 4px solid #595757;
+    top: 3px;
+}
+.PrintCountSpinBox::down-button {
+    subcontrol-position: bottom right;
+    border-top: 4px solid #595757;
+    bottom: 3px;
+}
+
+.CopyrightLabel {
+    font-size: 12px;
+    /* padding-bottom: 1px; */
+}
+.BrandLabel {
+    border-width: 60px 0 0 0;
+    border-image: url(/Users/biao/Desktop/nordonbio.png) 0 0 0 0 stretch stretch;
+}

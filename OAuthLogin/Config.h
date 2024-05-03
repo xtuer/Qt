@@ -11,12 +11,12 @@ const QString serverUrl = "http://localhost:8080"; // 线上环境: "http://118.
 /**
  * 机构的应用 ID，OAuth 登录使用（可放配置文件）
  */
-const QString appId = "865143164502025";
+const QString appId = "1653608449189";
 
 /**
  * 机构的应用 Key，OAuth 登录使用（可放配置文件）
  */
-const QString appKey = "e9ad8064af517f74e8e726f86cc2a896";
+const QString appKey = "01632b2e68882bf8bdb154f16d500b3b";
 
 /**
  * 登录地址

@@ -10,9 +10,11 @@ bool User::isValid() const {
 }
 
 QDebug operator<<(QDebug stream, const User &user) {
-    stream.noquote() << QString("ID: %1, Username: %2, Password: %3, OrgId: %4, Permission: ")
+    stream.noquote() << QString("ID: %1, Username: %2, Password: %3, OrgId: %4")
                         .arg(user.id).arg(user.username).arg(user.password).arg(user.orgId)
-                     << user.permission.getPermissions()
+                     << QString(", Permission: ") << user.permission.getPermissions()
+                     << QString(", DeviceEnabled: ") << user.deviceEnabled
+                     << QString(", Devices: ") << user.devices
                      << QString("\nAuthToken: %1").arg(user.authToken);
     return stream;
 }

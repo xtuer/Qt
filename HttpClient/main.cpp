@@ -7,6 +7,19 @@
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
+    HttpClient("http://localhost:8080/form/upload/org/file")
+            .debug(true)
+            .header("auth-token", "eyJhcHBJZCI6Inh4eHgiLCJleHBpcmVkQXQiOiIxNjY3MjA4MjgyOTgwIiwibmlja25hbWUiOiLns7vnu5_nrqHnkIblkZgiLCJvcmdJZCI6IjEiLCJyb2xlcyI6IltcIlJPTEVfQURNSU5fU1lTVEVNXCJdIiwic2lnbmVkQXQiOiIxNjY0NjE2MjgyOTgwIiwidXNlcklkIjoiMSIsInVzZXJuYW1lIjoiYWRtaW4ifQ**.20daaa377eb1dec6b626c1078862a4d8")
+            .success([](const QString &response) {
+        qDebug() << response;
+    }).upload(QString("/Users/Biao/Pictures/pexels-mikhail-nilov-6964129.jpg"));
+
+    return a.exec();
+}
+/*
+int main(int argc, char *argv[]) {
+    QApplication a(argc, argv);
+
     // 在代码块里执行网络访问，是为了测试 HttpClient 对象在被析构后，网络访问的回调函数仍然能正常执行
     {
         QString url("http://localhost:8080/api/rest");
@@ -72,4 +85,4 @@ int main(int argc, char *argv[]) {
     }
 
     return a.exec();
-}
+}*/

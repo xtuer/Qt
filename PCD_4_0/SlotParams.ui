@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SlotParams</class>
+ <widget class="QWidget" name="SlotParams">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>680</width>
+    <height>227</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <item row="0" column="1" colspan="3">
+    <widget class="QLineEdit" name="lineEdit_5">
+     <property name="class" stdset="0">
+      <string>TopLineEdit</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="4" colspan="2">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="printButton">
+       <property name="text">
+        <string>打印</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="backButton">
+       <property name="text">
+        <string>返回</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="0" column="5">
+    <widget class="QLineEdit" name="lineEdit_10">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="class" stdset="0">
+      <string>TopLineEdit</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="3">
+    <widget class="QLineEdit" name="lineEdit_7"/>
+   </item>
+   <item row="2" column="1">
+    <widget class="QLineEdit" name="lineEdit_2"/>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>灭菌锅次</string>
+     </property>
+     <property name="class" stdset="0">
+      <string>LeftLabel</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="4" rowspan="2" colspan="2">
+    <widget class="QTextEdit" name="textEdit">
+     <property name="placeholderText">
+      <string>备注</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="3">
+    <widget class="QLineEdit" name="lineEdit_6"/>
+   </item>
+   <item row="1" column="1">
+    <widget class="QLineEdit" name="lineEdit"/>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="label_5">
+     <property name="text">
+      <string>维持时间</string>
+     </property>
+     <property name="class" stdset="0">
+      <string>LeftLabel</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="label_4">
+     <property name="text">
+      <string>灭菌温度</string>
+     </property>
+     <property name="class" stdset="0">
+      <string>LeftLabel</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="2">
+    <widget class="QLabel" name="label_8">
+     <property name="text">
+      <string>芽孢 Z 值</string>
+     </property>
+     <property name="class" stdset="0">
+      <string>MiddleLabel</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>医疗机构</string>
+     </property>
+     <property name="class" stdset="0">
+      <string>TopLeftLabel</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="3">
+    <widget class="QLineEdit" name="lineEdit_8"/>
+   </item>
+   <item row="4" column="3">
+    <widget class="QLineEdit" name="lineEdit_9"/>
+   </item>
+   <item row="4" column="2">
+    <widget class="QLabel" name="label_9">
+     <property name="text">
+      <string>SAL 水平</string>
+     </property>
+     <property name="class" stdset="0">
+      <string>MiddleLabel</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="4">
+    <widget class="QLabel" name="label_11">
+     <property name="text">
+      <string>操  作 人</string>
+     </property>
+     <property name="class" stdset="0">
+      <string>MiddleLabel</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="4">
+    <widget class="QLabel" name="label_10">
+     <property name="text">
+      <string>使用科室</string>
+     </property>
+     <property name="class" stdset="0">
+      <string>MiddleLabel</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="2">
+    <widget class="QLabel" name="label_7">
+     <property name="text">
+      <string>芽孢 D 值</string>
+     </property>
+     <property name="class" stdset="0">
+      <string>MiddleLabel</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="4">
+    <widget class="QLabel" name="label_12">
+     <property name="text">
+      <string>确  认 人</string>
+     </property>
+     <property name="class" stdset="0">
+      <string>MiddleLabel</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QLineEdit" name="lineEdit_4"/>
+   </item>
+   <item row="2" column="5">
+    <widget class="QLineEdit" name="lineEdit_12">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="2">
+    <widget class="QLabel" name="label_6">
+     <property name="text">
+      <string>芽孢菌量</string>
+     </property>
+     <property name="class" stdset="0">
+      <string>MiddleLabel</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>灭菌器号</string>
+     </property>
+     <property name="class" stdset="0">
+      <string>LeftLabel</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="5">
+    <widget class="QLineEdit" name="lineEdit_11">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0" colspan="4">
+    <widget class="QLabel" name="infoLabel">
+     <property name="text">
+      <string>时间: 240418 23:28 生物监测结果: 合格</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QLineEdit" name="lineEdit_3"/>
+   </item>
+   <item row="5" column="4">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

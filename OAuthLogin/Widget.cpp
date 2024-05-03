@@ -59,6 +59,13 @@ Widget::Widget(QWidget *parent)
                         loginUser.username = json.getString("data.username");
                         loginUser.orgId = json.getString("data.orgId");
                         loginUser.permission = Permission(PermissionFlags(json.getInt("data.permission")));
+                        loginUser.deviceEnabled = json.getBool("data.deviceEnabled");
+                        loginUser.devices = QStringList();
+
+                        // 获取用户设备
+                        for (QString device : json.getString("data.devices").split(',', Qt::SkipEmptyParts)) {
+                            loginUser.devices << device.trimmed();
+                        }
 
                         // 保存登录成功的 token，后面访问服务器都需要这个 token，不再使用用户名密码
                         loginUser.authToken = json.getString("data.authToken");
