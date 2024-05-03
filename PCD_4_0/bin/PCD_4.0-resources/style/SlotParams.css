@@ -1,0 +1,60 @@
+.SlotParams {
+    /* background-color: red; */
+    padding: 20px;
+}
+.SlotParams QLineEdit {
+    min-height: 53px;
+    max-height: 53px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    font-size: 26px;
+    color: #444;
+    padding-left: 4px;
+    padding-right: 4px;
+    border: 1px solid #ddd;
+}
+
+.SlotParams QTextEdit {
+    margin-top: 2px;
+    margin-bottom: 2px;
+    margin-left: 8px;
+    background-color: white;
+    font-size: 26px;
+    color: #444;
+    border: 1px solid #ddd;
+}
+.SlotParams .TopLineEdit {
+    margin-top: 0px;
+}
+
+.SlotParams QLabel {
+    font-size: 26px;
+    color: #444;
+}
+
+.SlotParams .LeftLabel {
+    margin-right: 8px;
+    qproperty-alignment: AlignCenter;
+}
+.SlotParams .MiddleLabel {
+    margin-left: 8px;
+    margin-right: 8px;
+    qproperty-alignment: AlignCenter;
+}
+
+.SlotParams #printButton, .SlotParams #backButton {
+    font-size: 26px;
+    height: 60px;
+    margin-left: 10px;
+    qproperty-flat: true;
+}
+
+.SlotParams #printButton:hover, .SlotParams #backButton:hover {
+    color: white;
+}
+
+.SlotParams #infoLabel {
+    color: white;
+    background-color: #E60013;
+    padding-left: 10px;
+}

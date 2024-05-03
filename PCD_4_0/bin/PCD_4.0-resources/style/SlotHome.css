@@ -1,0 +1,47 @@
+
+/* 底部 3 个按钮 */
+.SlotHome .HomeBottomButton {
+    font-size: 26px;
+    icon-size: 104px 85px;
+    border-width: 0;
+    background-color: transparent;
+}
+
+/* 底部 3 个按钮: 编辑灭菌参数 */
+.SlotHome #editSterilizationParamsButton {
+    qproperty-icon: url(PCD_4.0-resources/img/07-editSterilizationParamsButton.png);
+}
+/* 底部 3 个按钮: 查看本次结果 */
+.SlotHome #currentResultButton {
+    qproperty-icon: url(PCD_4.0-resources/img/07-currentResultButton.png);
+}
+/* 底部 3 个按钮: 查看历史结果 */
+.SlotHome #historyResultButton {
+    qproperty-icon: url(PCD_4.0-resources/img/07-historyResultButton.png);
+}
+
+/* 状态: 开始/停止检测按钮 */
+.SlotHome #monitorButton {
+    width: 186px;
+    height: 126px;
+    border: 1px solid black;
+    background-color: red;
+    border-width: 0px 0px 0px 0px;
+    border-image: url(PCD_4.0-resources/img/07-monitor-button-start.png);
+    qproperty-text: "";
+}
+
+/* 状态: Label */
+.SlotHome #statusWidget QLabel {
+    font-size: 26px;
+    font-weight: normal;
+    color: #666;
+}
+
+/* 状态: 错误时的 Label */
+.SlotHome #statusWidget[error=true] #currentStateLabel {
+    color: #F30000;
+}
+.SlotHome #statusWidget[error=true] #monitorButton {
+    border-image: url(PCD_4.0-resources/img/07-monitor-button-stop.png);
+}

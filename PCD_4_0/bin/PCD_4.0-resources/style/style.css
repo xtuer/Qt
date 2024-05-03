@@ -1,0 +1,70 @@
+#toolbarWidget {
+    background-color: white;
+}
+
+#timeLabel {
+    background-color: white;
+    font-size: 40px;
+    font-weight: bold;
+    qproperty-alignment: AlignCenter;
+}
+
+#CentralWidget #stackedWidget {
+    background-color: #DCDDDD;
+}
+
+/*============================================================================
+                                Slot buttons 样式
+============================================================================*/
+.SlotButton {
+	margin-right: 10px;
+    width: 193px;
+    min-height: 100px;
+    max-height: 100px;
+    background-color: #666;
+    border-width: 0;
+    border-width: 0px 0px 0px 0px;
+    qproperty-text: "";
+}
+
+/* slot1Btn */
+#slot1Btn[state="red"][checked=true]     { border-image: url(PCD_4.0-resources/img/02-slot1-red-light.png);}
+#slot1Btn[state="red"][checked=false]    { border-image: url(PCD_4.0-resources/img/02-slot1-red-dark.png);}
+#slot1Btn[state="green"][checked=true]   { border-image: url(PCD_4.0-resources/img/02-slot1-green-light.png);}
+#slot1Btn[state="green"][checked=false]  { border-image: url(PCD_4.0-resources/img/02-slot1-green-dark.png);}
+#slot1Btn[state="yellow"][checked=true]  { border-image: url(PCD_4.0-resources/img/02-slot1-yellow-light.png);}
+#slot1Btn[state="yellow"][checked=false] { border-image: url(PCD_4.0-resources/img/02-slot1-yellow-dark.png);}
+
+/* slot2Btn */
+#slot2Btn[state="red"][checked=true]     { border-image: url(PCD_4.0-resources/img/02-slot2-red-light.png);}
+#slot2Btn[state="red"][checked=false]    { border-image: url(PCD_4.0-resources/img/02-slot2-red-dark.png);}
+#slot2Btn[state="green"][checked=true]   { border-image: url(PCD_4.0-resources/img/02-slot2-green-light.png);}
+#slot2Btn[state="green"][checked=false]  { border-image: url(PCD_4.0-resources/img/02-slot2-green-dark.png);}
+#slot2Btn[state="yellow"][checked=true]  { border-image: url(PCD_4.0-resources/img/02-slot2-yellow-light.png);}
+#slot2Btn[state="yellow"][checked=false] { border-image: url(PCD_4.0-resources/img/02-slot2-yellow-dark.png);}
+
+/* slot3Btn */
+#slot3Btn[state="red"][checked=true]     { border-image: url(PCD_4.0-resources/img/02-slot3-red-light.png);}
+#slot3Btn[state="red"][checked=false]    { border-image: url(PCD_4.0-resources/img/02-slot3-red-dark.png);}
+#slot3Btn[state="green"][checked=true]   { border-image: url(PCD_4.0-resources/img/02-slot3-green-light.png);}
+#slot3Btn[state="green"][checked=false]  { border-image: url(PCD_4.0-resources/img/02-slot3-green-dark.png);}
+#slot3Btn[state="yellow"][checked=true]  { border-image: url(PCD_4.0-resources/img/02-slot3-yellow-light.png);}
+#slot3Btn[state="yellow"][checked=false] { border-image: url(PCD_4.0-resources/img/02-slot3-yellow-dark.png);}
+
+/* slot4Btn */
+#slot4Btn[state="red"][checked=true]     { border-image: url(PCD_4.0-resources/img/02-slot4-red-light.png);}
+#slot4Btn[state="red"][checked=false]    { border-image: url(PCD_4.0-resources/img/02-slot4-red-dark.png);}
+#slot4Btn[state="green"][checked=true]   { border-image: url(PCD_4.0-resources/img/02-slot4-green-light.png);}
+#slot4Btn[state="green"][checked=false]  { border-image: url(PCD_4.0-resources/img/02-slot4-green-dark.png);}
+#slot4Btn[state="yellow"][checked=true]  { border-image: url(PCD_4.0-resources/img/02-slot4-yellow-light.png);}
+#slot4Btn[state="yellow"][checked=false] { border-image: url(PCD_4.0-resources/img/02-slot4-yellow-dark.png);}
+
+/* 主页里底部的按钮 */
+#statusWidget {
+    background-color: white;
+}
+
+#SlotNavigator {
+    padding: 47px;
+    background-color: blue;
+}

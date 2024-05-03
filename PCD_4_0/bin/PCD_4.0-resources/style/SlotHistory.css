@@ -1,0 +1,64 @@
+.SlotHistory {
+    /* background-color: red; */
+}
+
+.SlotHistory QPushButton {
+    qproperty-flat: true;
+    font-size: 26px;
+    height: 40px;
+    border: 0px solid blue;
+    qproperty-text: "";
+}
+
+/* 返回按钮 */
+.SlotHistory #backButton {
+    width: 100px;
+    qproperty-text: "返回";
+}
+.SlotHistory #backButton:hover {
+    color: white;
+}
+
+/* 翻页按钮 */
+.SlotHistory #prev1PageButton, .SlotHistory #prev10PageButton,
+.SlotHistory #next1PageButton, .SlotHistory #next10PageButton {
+    width: 68px;
+    height: 40px;
+    margin-right: 20px;
+}
+.SlotHistory #prev1PageButton  { border-image: url(PCD_4.0-resources/img/07-prev1PageButton.png); }
+.SlotHistory #next1PageButton  { border-image: url(PCD_4.0-resources/img/07-next1PageButton.png); }
+.SlotHistory #prev10PageButton { border-image: url(PCD_4.0-resources/img/07-prev10PageButton.png); }
+.SlotHistory #next10PageButton { border-image: url(PCD_4.0-resources/img/07-next10PageButton.png); }
+
+/* 表格 */
+.SlotHistory #tableView {
+    min-height: 340px;
+    border: 0px solid red;
+    background: #DCDDDD;
+    font-size: 16px;
+}
+
+/* 奇数行的颜色 */
+.SlotHistory QTableView::item:alternate {
+    background: #DCDDDD;
+}
+
+/* 水平表头的样式 */
+.SlotHistory QHeaderView::section:horizontal {
+    background: #DCDDDD;
+    border: 0px solid red;
+    font-size: 20px;
+    height: 56px;
+    /* background-color: red; */
+}
+
+/* 单元格的样式 */
+.SlotHistory QTableView::item {
+    color: #333;
+    border: 0px solid red;
+    background-color: white;
+}
+.SlotHistory QTableView::item:selected {
+    color: #333;
+}

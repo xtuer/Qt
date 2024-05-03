@@ -1,0 +1,144 @@
+按钮******************************************
+
+编辑灭菌参数
+Edit Parameters
+
+查看本次监测结果
+Recent Results
+
+查看历史结果
+Past Results
+
+
+指示物状态界面*************************************
+
+当前状态: 指示物处于休息中
+Current Status: Digital biological indicator is resting ...
+
+当前状态：指示物已经被激活，正处于监测中...
+The Digital biological indicator has been activated and is monitoring the surrounding situation ...
+
+已用：480锅次
+Used Times: 480 cycles 
+
+可用：20锅次   Service Life: 20 cycles
+
+注意：如果是数字1： 1 cycle 把s去掉
+
+指示物号：DBI Serial Number:
+
+
+报警信息界面**************************************
+
+注意：指示物未激活，无法正常工作，本次监测结果无效，请将指示物放回阅读孔，激活后再用
+Warning ！！！
+The digital biological indicator is not activated and can not function properly. 
+The monitoring results are invalid. 
+Please put the digital biological indicator back into the reading hole, activate it, and then use it again 
+
+我知道了
+ok   
+
+编辑灭菌参数界面*****************************
+医疗机构
+Hospital
+
+科室
+Dept.
+
+灭菌器号
+Sterilizer No.
+
+灭菌锅次号
+Cycle No.
+
+灭菌温度
+Ster. TEMP
+
+维持时间
+Maintained for
+
+芽孢菌量
+Bacillus Count
+
+芽孢D值
+D Value
+
+芽孢Z值
+Z Value
+
+SAL水平
+SAL
+
+操作人
+Operator
+
+确认人
+Confirmed
+
+备注
+Note
+
+返回
+Back
+
+查看本次结果界面***************************
+
+时间
+Time
+
+生物监测结果
+BI Monitoring Results
+
+合格
+PASS
+
+不合格
+Failed
+
+打印
+Print
+
+返回
+Back
+
+
+历史记录界面*****************************
+
+日期时间
+Time
+
+灭菌器号
+Sterilizer No.
+
+灭菌锅次号
+Cycle No.
+
+灭菌温度
+Ster. TEMP
+
+维持时间
+Maintained for
+
+监测结果
+Results
+
+返回
+Back
+
+颜色CMYK号*****************************
+
+深灰
+C=0 M=0 Y=0 K=80
+
+浅灰
+C=0 M=0 Y=0 K=20
+
+红灯和报警提示红色底
+C=0 M=100 Y=100 K=0
+
+绿灯
+C=75 M=0 Y=100 K=0
+
+黄灯和报警提示黄色文字
+C=0 M=0 Y=100 K=0
